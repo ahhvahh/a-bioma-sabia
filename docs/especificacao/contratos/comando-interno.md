@@ -175,4 +175,4 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - `job` contém `job_id`;
 - `error` contém `code`, `message` e `retryable`;
 - referências de mídia de entrada e saída usam `media_id` conforme CTR-0006;
-- permanecem `BLOCKED` limite máximo, validação de `content_type` e retenção do BLOB antes de `refined`.
+- permanece `BLOCKED` apenas a regra normativa de `content_type` antes de `refined`; retenção do payload é tratada por CTR-0006/FLW-0008 e o limite fracionado pertence a CTR-0009.
