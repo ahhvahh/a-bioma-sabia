@@ -22,8 +22,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - mídia de entrada e saída é referenciada por `media_id`;
   - o Core não recebe BLOB nem caminho de filesystem.
 - Informação ausente:
-  - regra normativa para `content_type`;
-  - política de retenção do BLOB após entrega.
+  - regra normativa para `content_type`.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -59,6 +58,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - depois da abertura, cada chunk contém apenas `media_id`, `sequence_id` e BLOB;
   - a primeira sequência esperada é `1`;
   - chunks são persistidos imediatamente e `next_sequence_id` só avança após commit;
+  - os metadados fracionados incluem `total_bytes`;
+  - `received_bytes` é atualizado a cada chunk;
+  - `completed` ocorre automaticamente quando `received_bytes == total_bytes`;
+  - chunk que ultrapassaria `total_bytes` é recusado;
+  - `streamed_bytes` contabiliza os bytes consumidos na tentativa de envio;
+  - payload/chunks permanecem preservados até confirmação remota para permitir retry;
   - sequência pulada retorna `sequence_gap` com `expected_sequence_id`;
   - sequência já recebida retorna `sequence_already_received` sem nova persistência;
   - o Telegram recebe um único arquivo lógico; chunks não são mensagens independentes;
@@ -68,15 +73,16 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - o serviço apenas valida a existência do `request_id` antes de persistir;
   - o BLOB e sua transmissão são persistidos antes do ACK;
   - ACK retorna `media_id`;
+  - limpeza de payload entregue ocorre somente sem transmissões `pending` ou `transmitting`;
+  - limpeza é elegível quando a fila fica ociosa ou após 1 hora desde a última limpeza, mas é adiada se houver transmissão ativa;
+  - a limpeza remove BLOB/chunks entregues e preserva metadados de rastreabilidade;
   - transmissões `pending | transmitting` são recuperáveis após restart;
   - nenhuma dependência de `/tmp` permanece no contrato de mídia.
 - Informação ausente:
   - framing/protocolo concreto do canal de controle CTR-0005;
   - caminhos finais dos sockets simples e fracionado;
   - ownership, grupo e modo de acesso dos sockets;
-  - indicador de completude/último chunk;
-  - limite total do arquivo lógico fracionado;
-  - política de retenção do conteúdo após entrega;
+  - limite máximo permitido para `total_bytes` do arquivo lógico fracionado;
   - regra para determinar/validar `content_type`;
   - schema final da configuração `processors`.
 - Dependências afetadas:
@@ -192,7 +198,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
-- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o segundo socket abre um `media_id` persistente e recebe chunks de até 5 MB com sequência estrita. O MVP não deduplica uploads integrais.
+- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o segundo socket abre um `media_id` persistente, recebe chunks de até 5 MB com sequência estrita e determina completude por `total_bytes`. FLW-0008 define limpeza segura somente com fila de transmissão ociosa.
 
 ## Condição para liberar o MVP
 
