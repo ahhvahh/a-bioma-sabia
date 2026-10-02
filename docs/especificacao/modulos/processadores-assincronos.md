@@ -13,7 +13,9 @@ Registrar processadores assíncronos e adaptar scripts, aplicações e serviços
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
 - [CTR-0002 — Execução de script](../contratos/execucao-script.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
+- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 
 ## Responsabilidades
 
@@ -22,10 +24,11 @@ Registrar processadores assíncronos e adaptar scripts, aplicações e serviços
 - gerar/adotar o `request_id` da requisição;
 - selecionar o mecanismo de transporte cadastrado;
 - enviar comando e argumentos ao processador;
-- receber eventos `loading`, `content` e `finally`;
+- receber eventos de controle `loading` e `finally`;
 - normalizar mecanismos concretos para CTR-0005;
 - encaminhar progresso ao subsistema de jobs;
-- validar referências `content` e encaminhar os arquivos por streaming ao pipeline de resposta;
+- manter o canal de controle separado da ingestão de mídia;
+- permitir que processadores publiquem mídia pelo socket CTR-0008 usando o mesmo `request_id`;
 - entregar a mensagem `finally` ao pipeline de resposta;
 - impedir que endereço, executável ou socket arbitrário venha do usuário remoto.
 
@@ -53,17 +56,17 @@ Estado de requisição, job, progresso relevante, resultado final e entrega pert
 - nenhuma mensagem Telegram vira caminho, socket ou executável;
 - detalhes do mecanismo concreto ficam dentro do Processor Transport;
 - binários não trafegam no protocolo de controle e nunca são enviados para logs;
-- `content.path` só pode referenciar arquivo dentro de `/tmp/sabia/media/<request_id>/`;
+- mídia produzida é enviada exclusivamente pelo socket de ingestão e persistida antes do ACK;
 - um `request_id` não pode ser reaproveitado por outra execução.
 
 ## Critérios de aceite
 
 - Bash, aplicação e socket service podem ser cadastrados sem alterar o Command Router;
-- eventos são normalizados para `loading | content | finally`;
+- eventos de controle são normalizados para `loading | finally`;
 - progresso preserva `request_id`;
-- múltiplos arquivos usam múltiplos eventos `content`;
-- arquivos são transmitidos por streaming e `finally` contém apenas a mensagem final;
-- contrato permanece `refinement` enquanto framing, mídia e limites estiverem abertos.
+- vários arquivos podem ser publicados por CTR-0008 usando o mesmo `request_id`;
+- `finally` contém somente a mensagem final;
+- contrato permanece `refinement` enquanto o framing do canal de controle estiver aberto.
 
 ## Implementação relacionada
 
