@@ -12,6 +12,7 @@ Definir o contrato local usado por scripts, aplicações e serviços para enviar
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
 - [CTR-0006 — Mídia persistida](midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](ingestao-midia-fracionada.md)
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 
 ## Tipo
@@ -59,13 +60,13 @@ Regras:
 
 ## Limite de tamanho
 
-O MVP aceita no máximo **100 MB decimais**, equivalentes a `100000000` bytes, por upload.
+O canal simples aceita no máximo **20 MB decimais**, equivalentes a `20000000` bytes, por upload.
 
 O limite se aplica ao campo `data` de uma única mensagem MessagePack.
 
 Conteúdo que exceda esse valor deve ser recusado com `media_too_large` antes de iniciar a persistência do BLOB.
 
-Upload segmentado/chunked não faz parte da versão `1` do contrato.
+Arquivos maiores devem usar CTR-0009, em socket separado, com chunks persistidos.
 
 ## Persistência e atomicidade
 
@@ -74,7 +75,7 @@ Antes de confirmar o upload, o Sabiá deve:
 1. validar a estrutura MessagePack;
 2. validar a versão;
 3. consultar o estado operacional e localizar a requisição por `request_id`;
-4. rejeitar o upload com `media_too_large` se `data` exceder `100000000` bytes;
+4. rejeitar o upload com `media_too_large` se `data` exceder `20000000` bytes;
 5. inserir metadados e BLOB da mídia no SQLite;
 6. criar a transmissão pendente correlacionada ao cliente/destino da requisição;
 7. confirmar a transação.
@@ -131,9 +132,8 @@ Receptores devem rejeitar versões desconhecidas em vez de interpretar parcialme
 
 Antes de `refined` ainda precisam ser definidos:
 
-- caminho normativo ou parâmetro final do socket;
-- ownership, grupo e modo de acesso do socket;
-- se uma versão futura deverá suportar upload segmentado para conteúdos acima de 100 MB.
+- caminho normativo do socket simples;
+- ownership, grupo e modo de acesso do socket simples.
 
 ## Critérios de aceite
 
@@ -145,4 +145,4 @@ Antes de `refined` ainda precisam ser definidos:
 - restart após ACK não perde o conteúdo persistido;
 - nenhum caminho de filesystem é aceito no payload;
 - binário não aparece em logs;
-- `data` com mais de `100000000` bytes é recusado antes da persistência.
+- `data` com mais de `20000000` bytes é recusado antes da persistência.
