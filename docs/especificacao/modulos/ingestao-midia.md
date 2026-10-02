@@ -16,6 +16,7 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
+- [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/limpeza-midia.md)
 
 ## Responsabilidades
 
@@ -34,7 +35,8 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - devolver ACK somente após commit;
 - fornecer `media_id` à fila de entrega;
 - impedir que binários sejam registrados em logs;
-- recuperar transmissões pendentes sem filesystem temporário.
+- recuperar transmissões pendentes sem filesystem temporário;
+- executar limpeza de payloads entregues conforme FLW-0008 somente quando não houver transmissões `pending` ou `transmitting`.
 
 ## Entradas
 
@@ -74,7 +76,7 @@ SQLite armazena metadados, BLOB integral ou chunks ordenados. A transmissão ref
 - restart mantém conteúdo confirmado;
 - payload integral acima de 20 MB é rejeitado com `media_too_large` e deve usar o canal fracionado;
 - chunk acima de 5 MB é rejeitado com `chunk_too_large`;
-- contrato permanece em `refinement` enquanto completude/limite total do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
+- contrato permanece em `refinement` enquanto limite total do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
 
 ## Implementação relacionada
 
