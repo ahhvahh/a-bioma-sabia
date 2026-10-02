@@ -22,7 +22,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - mídia de entrada e saída é referenciada por `media_id`;
   - o Core não recebe BLOB nem caminho de filesystem.
 - Informação ausente:
-  - limite máximo de mídia;
   - regra normativa para `content_type`;
   - política de retenção do BLOB após entrega.
 - Dependências afetadas:
@@ -57,13 +56,13 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - o serviço apenas valida a existência do `request_id` antes de persistir;
   - o BLOB e sua transmissão são persistidos antes do ACK;
   - ACK retorna `media_id`;
+  - cada upload é limitado a `100000000` bytes (100 MB); conteúdos maiores retornam `media_too_large` antes da persistência;
   - transmissões `pending | transmitting` são recuperáveis após restart;
   - nenhuma dependência de `/tmp` permanece no contrato de mídia.
 - Informação ausente:
   - framing/protocolo concreto do canal de controle CTR-0005;
   - caminho final do Unix socket de mídia;
   - ownership, grupo e modo de acesso do socket;
-  - limite máximo de payload MessagePack/BLOB;
   - política de retenção do BLOB após entrega;
   - regra para determinar/validar `content_type`;
   - schema final da configuração `processors`.
@@ -180,7 +179,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
-- ADR-0012 + CTR-0006/CTR-0007: mídia é persistida como BLOB, referenciada por `media_id` e transmissões sobrevivem a restart sem depender de `/tmp`. O MVP não realiza deduplicação de uploads.
+- ADR-0012 + CTR-0006/CTR-0007/CTR-0008: mídia é persistida como BLOB, referenciada por `media_id`, transmissões sobrevivem a restart sem depender de `/tmp`, uploads não são deduplicados e o limite por arquivo é 100 MB.
 
 ## Condição para liberar o MVP
 
