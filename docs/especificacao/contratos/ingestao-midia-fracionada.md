@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Definir o segundo canal local de ingestão de mídia para arquivos maiores que o limite do CTR-0008, usando uma mídia lógica criada previamente no banco e chunks sequenciais persistidos individualmente.
+Definir o segundo canal local de ingestão de mídia por chunks sequenciais persistidos individualmente. O canal pode receber arquivos de qualquer tamanho permitido pelo contrato; para arquivos acima do limite de CTR-0008, seu uso é obrigatório.
 
 ## Dependências
 
@@ -33,7 +33,7 @@ O mesmo socket aceita dois formatos de mensagem MessagePack:
 
 ## Abertura da mídia
 
-Antes de enviar chunks, o produtor envia os metadados do arquivo.
+Antes de enviar chunks, o produtor envia os metadados do arquivo. Não existe tamanho mínimo para escolher este canal.
 
 Objeto MessagePack:
 
@@ -205,6 +205,7 @@ Antes de `refined`, ainda precisam ser definidos:
 ## Critérios de aceite
 
 - metadados criam um `media_id` persistente antes do primeiro chunk;
+- arquivos menores ou iguais a 20 MB também podem usar este contrato;
 - arquivos com mesmo nome podem possuir `media_id` diferentes;
 - cada chunk possui no máximo 5 MB;
 - sequência inicia em 1 e é estritamente crescente;
