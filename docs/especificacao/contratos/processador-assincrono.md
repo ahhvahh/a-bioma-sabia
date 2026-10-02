@@ -13,6 +13,7 @@ Definir o protocolo interno comum entre o Sabiá e processadores assíncronos re
 - [CTR-0001 — Comando interno](comando-interno.md)
 - [CTR-0003 — Job](job.md)
 - [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
+- [CTR-0006 — Mídia temporária por requisição](midia-temporaria.md)
 
 ## Tipo
 
@@ -35,8 +36,9 @@ O processador não gera nem substitui o `request_id`.
 Cada evento contém obrigatoriamente:
 
 - `request_id: string`;
-- `status: loading | finally`;
-- `message: string`.
+- `status: loading | content | finally`.
+
+`message` é obrigatório em `loading` e `finally`. Em `content`, o payload é o objeto de mídia definido em CTR-0006.
 
 ### loading
 
@@ -49,6 +51,23 @@ Regras:
 - não altera o `request_id`;
 - a mensagem pode ser encaminhada ao cliente correlacionado.
 
+### content
+
+`content` anuncia um arquivo produzido pelo processador.
+
+O objeto contém:
+
+- `request_id: string`;
+- `status: content`;
+- `content.name: string`;
+- `content.path: string`.
+
+Cada evento referencia um único arquivo. Uma requisição pode publicar zero ou mais eventos `content`.
+
+O arquivo precisa estar dentro de `/tmp/sabia/media/<request_id>/` e segue CTR-0006.
+
+`content` não encerra o job.
+
 ### finally
 
 `finally` representa a finalização semântica da requisição.
@@ -57,13 +76,9 @@ O objeto final contém:
 
 - `request_id: string`;
 - `status: finally`;
-- `message: string`;
-- `file_type: string | null`;
-- `binary: bytes | null`.
+- `message: string`.
 
-Quando não houver arquivo, `file_type` e `binary` são nulos.
-
-Quando houver arquivo, ambos precisam estar presentes.
+`finally` não transporta arquivo nem conteúdo binário.
 
 Após um `finally` válido ser aceito, a requisição é terminal e novos eventos para o mesmo `request_id` não podem alterar seu resultado.
 
@@ -73,21 +88,25 @@ O `request_id` é a correlação entre comando, job, processador, mensagens de p
 
 `loading` representa progresso do job em execução, mas não cria novo estado terminal em CTR-0003.
 
-`finally` permite concluir o processamento do job e preparar sua resposta para entrega.
+`content` representa conteúdo de saída e pode ocorrer várias vezes sem concluir o job.
+
+`finally` permite concluir o processamento do job e preparar a mensagem final para entrega.
 
 ## Saída para o cliente
 
 Mensagens `loading` podem ser convertidas pelo adaptador em atualização ao cliente Telegram correspondente.
 
-O evento `finally` deve produzir uma resposta final persistida. Quando houver `binary`, a camada de transporte de mídia deve convertê-lo em resultado `file` de CTR-0001 e enviá-lo pelo adaptador correspondente.
+Eventos `content` são validados conforme CTR-0006 e o arquivo é transmitido por streaming ao cliente correlacionado.
+
+O evento `finally` deve produzir a mensagem final persistida.
 
 ## Erros
 
 Condições de erro incluem:
 
 - `unknown_request` — `request_id` não corresponde a execução ativa;
-- `invalid_status` — status diferente de `loading` ou `finally`;
-- `invalid_final_payload` — somente um de `file_type` ou `binary` foi informado;
+- `invalid_status` — status diferente de `loading`, `content` ou `finally`;
+- `invalid_content_payload` — objeto `content` ausente ou inválido;
 - `processor_timeout` — nenhum `finally` foi recebido dentro do limite operacional;
 - `transport_failure` — falha no mecanismo concreto entre Sabiá e processador.
 
@@ -97,8 +116,9 @@ Condições de erro incluem:
 - eventos não podem acessar diretamente o adaptador Telegram;
 - toda correlação usa `request_id`;
 - `loading` não finaliza processamento;
+- `content` não finaliza processamento e pode ocorrer múltiplas vezes;
 - `finally` é terminal;
-- resultado binário não deve ser escrito em logs;
+- conteúdo binário não faz parte do protocolo de controle e não deve ser escrito em logs;
 - stdout/stderr de CTR-0002 não substituem este protocolo assíncrono.
 
 ## Compatibilidade
@@ -110,10 +130,10 @@ Scripts, aplicações e serviços/socket podem usar mecanismos concretos diferen
 Ainda precisam ser definidos antes de `refined`:
 
 - representação/framing das mensagens para cada transporte concreto;
-- semântica normativa de `file_type` — MIME type, extensão, enumeração ou combinação;
-- limite máximo do `binary`;
-- estratégia para binários grandes, especialmente vídeo;
-- objeto de mídia de entrada e sua relação com `attachments` de CTR-0001.
+- framing das mensagens para cada transporte concreto;
+- política de limpeza/recovery de mídia temporária de CTR-0006;
+- determinação normativa do tipo de mídia;
+- limites máximos de arquivo.
 
 ## Critérios de aceite
 
@@ -121,7 +141,8 @@ Ainda precisam ser definidos antes de `refined`:
 - todo evento devolve o mesmo `request_id`;
 - `loading` pode ser encaminhado ao Telegram sem encerrar o job;
 - `finally` encerra semanticamente o processamento;
-- `finally` sem arquivo aceita `file_type = null` e `binary = null`;
-- `finally` com arquivo exige tipo e conteúdo binário;
+- `content` referencia exatamente um arquivo por evento;
+- múltiplos arquivos usam múltiplos eventos `content`;
+- `finally` não carrega binário;
 - scripts, aplicações e socket services usam o mesmo modelo conceitual;
 - detalhes bloqueados acima precisam ser refinados antes da implementação.
