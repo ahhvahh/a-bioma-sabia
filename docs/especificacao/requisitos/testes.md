@@ -48,4 +48,8 @@ Interfaces externas devem permitir mocks/fakes para validar o Core de forma dete
 - abertura de upload fracionado retorna `media_id` e `next_sequence_id = 1`;
 - sequência pulada retorna `sequence_gap` com valor esperado;
 - sequência já recebida retorna `sequence_already_received` sem duplicar persistência;
-- chunks persistidos podem ser lidos em ordem sem montar o arquivo inteiro em memória.
+- chunks persistidos podem ser lidos em ordem sem montar o arquivo inteiro em memória;
+- `received_bytes == total_bytes` marca mídia fracionada como completa;
+- chunk que ultrapassaria `total_bytes` é recusado;
+- limpeza de payload não executa com transmissão `pending` ou `transmitting`;
+- payload `delivered` é removível sem apagar metadados de rastreabilidade.
