@@ -25,6 +25,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
+- [ADR-0012 — Área temporária de mídia para processadores](adr/processamento/midia-temporaria-por-request.md) — `refined`
 
 ### Desenhos
 
@@ -48,6 +49,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
 - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refinement`
+- [CTR-0006 — Mídia temporária por requisição](especificacao/contratos/midia-temporaria.md) — `refinement`
 
 ### Fluxos
 
