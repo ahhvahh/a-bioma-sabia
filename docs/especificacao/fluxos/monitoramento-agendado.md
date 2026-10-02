@@ -56,6 +56,14 @@ O Script Executor não atribui significado de monitoramento ao exit code.
 4. o disparo ignorado é registrado para observabilidade;
 5. a execução já ativa continua normalmente.
 
+### Falha técnica ou timeout da verificação
+
+1. uma falha de inicialização, execução, erro interno do executor ou timeout impede obter um resultado normal da verificação;
+2. Scheduler/Alert Manager converte a avaliação para `UNKNOWN`;
+3. o motivo técnico original é registrado para observabilidade;
+4. `UNKNOWN` segue as mesmas regras de primeira avaliação, transição, repetição e persistência dos demais estados;
+5. se houver transição relevante para `UNKNOWN`, o alerta é enviado.
+
 ### Primeira avaliação sem estado anterior
 
 1. Alert Manager identifica ausência de estado anterior persistido;
@@ -77,7 +85,7 @@ Pode enviar resultado mesmo sem mudança quando essa opção estiver configurada
 
 ## Falhas e tratamento
 
-O estado anterior sobrevive ao reinício por meio do SQLite. A política detalhada de falha do scheduler e de lembretes ainda não está fechada.
+O estado anterior sobrevive ao reinício por meio do SQLite. Falha técnica da verificação ou timeout produz `UNKNOWN` e preserva o motivo técnico em observabilidade. A política detalhada de lembretes ainda não está fechada.
 
 ## Resultado
 
@@ -95,6 +103,8 @@ Os valores são exemplos iniciais e devem ser configuráveis.
 
 - primeira avaliação em `OK` não gera alerta;
 - primeira avaliação em `WARNING`, `CRITICAL` ou `UNKNOWN` gera alerta;
+- falha técnica ou timeout da verificação produz `UNKNOWN`;
+- recuperação posterior de `UNKNOWN` para `OK` gera mensagem de normalização;
 - uma tarefa que vença novamente enquanto sua execução anterior estiver ativa não inicia execução concorrente;
 - o disparo sobreposto é ignorado e registrado.
 
