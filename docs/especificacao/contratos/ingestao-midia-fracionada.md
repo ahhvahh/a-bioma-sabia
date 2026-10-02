@@ -47,7 +47,7 @@ O Sabiá:
 
 1. valida a mensagem;
 2. valida a existência de `request_id`;
-3. valida `total_bytes > 0`;
+3. valida `0 < total_bytes <= 100000000`;
 4. cria o registro de mídia no banco com `received_bytes = 0` e `completed = false`;
 5. confirma a transação;
 6. devolve o identificador gerado pelo banco.
@@ -74,6 +74,16 @@ Depois de receber `media_id`, o produtor envia cada pedaço como:
 - `data: binary`.
 
 Não é necessário repetir nome, `request_id`, cliente ou destino em cada chunk.
+
+## Limite total
+
+O arquivo lógico pode possuir no máximo:
+
+`100000000` bytes
+
+equivalentes a 100 MB decimais.
+
+A abertura com `total_bytes > 100000000` deve ser recusada antes da criação de `media_id` com erro `media_too_large`.
 
 ## Tamanho dos chunks
 
@@ -174,6 +184,7 @@ A ordem do arquivo lógico é dada pela sequência persistida para o `media_id`.
 - `unknown_request`;
 - `unknown_media`;
 - `invalid_message`;
+- `media_too_large`;
 - `chunk_too_large`;
 - `sequence_gap`;
 - `sequence_already_received`;
@@ -199,12 +210,12 @@ Quando `received_bytes == total_bytes`, a mídia é marcada `completed` e CTR-00
 
 Antes de `refined`, ainda precisam ser definidos:
 
-- limite máximo permitido para `total_bytes`;
 - caminho, ownership, grupo e modo do socket.
 
 ## Critérios de aceite
 
-- metadados criam um `media_id` persistente antes do primeiro chunk;
+- abertura com `total_bytes` acima de 100 MB é recusada antes de criar `media_id`;
+- metadados válidos criam um `media_id` persistente antes do primeiro chunk;
 - arquivos menores ou iguais a 20 MB também podem usar este contrato;
 - arquivos com mesmo nome podem possuir `media_id` diferentes;
 - cada chunk possui no máximo 5 MB;
