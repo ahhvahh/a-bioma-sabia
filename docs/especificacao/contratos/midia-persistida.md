@@ -41,7 +41,7 @@ Scripts, aplicações e serviços enviam mídia por CTR-0008.
 
 Depois de validar e persistir o BLOB, o Sabiá cria a correlação necessária para transmissão e devolve `media_id`.
 
-Uma mesma `request_id` pode possuir vários registros de mídia.
+Uma mesma `request_id` pode possuir vários registros de mídia. Nome e conteúdo não possuem restrição de unicidade: arquivos iguais recebidos mais de uma vez são persistidos como registros independentes.
 
 ## Entrada pelo Telegram
 
@@ -79,7 +79,8 @@ A entrega ao Telegram é controlada por CTR-0007.
 - conteúdo binário não aparece em logs;
 - acesso ao SQLite é restrito à identidade operacional autorizada;
 - produtor externo não escolhe `client_id`, transporte ou destino da mídia;
-- `request_id` determina a correlação com a requisição original.
+- `request_id` determina a correlação com a requisição original;
+- nenhuma regra de deduplicação por `name`, hash ou conteúdo faz parte do MVP.
 
 ## BLOCKED
 
@@ -96,7 +97,7 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 ## Critérios de aceite
 
 - mídia confirmada ao produtor permanece disponível após restart do serviço;
-- vários arquivos podem ser associados à mesma requisição;
+- vários arquivos podem ser associados à mesma requisição, inclusive com mesmo nome ou conteúdo;
 - comando interno trabalha com referência e não com BLOB;
 - transmissão recuperada após restart consegue ler o mesmo `media_id`;
 - nenhum caminho temporário é necessário para mídia persistida.
