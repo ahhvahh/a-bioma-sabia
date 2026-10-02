@@ -45,4 +45,7 @@ Interfaces externas devem permitir mocks/fakes para validar o Core de forma dete
 - configuração cobre entrada válida e inválida;
 - canal simples rejeita payload acima de 20 MB;
 - canal fracionado rejeita chunk acima de 5 MB;
+- abertura de upload fracionado retorna `media_id` e `next_sequence_id = 1`;
+- sequência pulada retorna `sequence_gap` com valor esperado;
+- sequência já recebida retorna `sequence_already_received` sem duplicar persistência;
 - chunks persistidos podem ser lidos em ordem sem montar o arquivo inteiro em memória.
