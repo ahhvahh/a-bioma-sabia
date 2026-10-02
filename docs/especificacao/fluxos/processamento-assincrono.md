@@ -35,12 +35,14 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 5. a cada evento `loading`, o Sabiá valida o `request_id` e encaminha `message` ao cliente correlacionado;
 6. a cada evento `content`, o Sabiá valida `content.path` dentro de `/tmp/sabia/media/<request_id>/`;
 7. o Sabiá abre o arquivo e faz streaming ao adaptador do cliente;
-8. o processador pode repetir `content` para cada arquivo produzido;
-9. o job permanece em execução;
-10. o processador envia `finally` com a mensagem final;
-11. o Sabiá persiste o resultado final antes da entrega;
-12. o adaptador envia a mensagem final;
-13. a entrega segue a política persistente do adaptador Telegram.
+8. após transmitir o último byte, o Sabiá aguarda confirmação de recebimento do Telegram;
+9. somente após a confirmação, remove imediatamente o arquivo temporário;
+10. o processador pode repetir `content` para cada arquivo produzido;
+11. o job permanece em execução;
+12. o processador envia `finally` com a mensagem final;
+13. o Sabiá persiste o resultado final antes da entrega;
+14. o adaptador envia a mensagem final;
+15. a entrega segue a política persistente do adaptador Telegram.
 
 ## Fluxos alternativos
 
@@ -55,6 +57,12 @@ Persistir e entregar somente a mensagem final.
 ### content repetido
 
 Cada evento `content` referencia um arquivo independente. Vários arquivos são enviados usando vários eventos `content` para o mesmo `request_id`.
+
+### Falha de entrega de content
+
+Se o streaming ou a confirmação do Telegram falhar, o arquivo não é removido e pode ser reutilizado em nova tentativa enquanto o processo atual continuar executando.
+
+Se ocorrer shutdown/restart antes da confirmação, a limpeza da área temporária torna a mídia não recuperável; a entrega correspondente é registrada como falha e não é reenviada no próximo startup.
 
 ### content inválido
 
@@ -83,6 +91,8 @@ O job possui resultado final correlacionado ao `request_id` e a resposta permane
 - `finally` é necessário para conclusão semântica normal;
 - múltiplos arquivos podem ser transportados por vários eventos `content`;
 - arquivos são transmitidos por streaming a partir da área temporária;
+- arquivo só é removido após último byte transmitido e confirmação do Telegram;
+- mídia não confirmada não sobrevive à limpeza de startup/shutdown;
 - término de processo sem `finally` não é confundido com sucesso;
 - cliente, destino e `request_id` permanecem rastreáveis.
 
