@@ -20,6 +20,8 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 
 - iniciar long polling por cliente habilitado;
 - converter update em comando interno;
+- receber imagens, vídeos e arquivos suportados e normalizá-los como anexos do comando;
+- enviar imagens, vídeos e arquivos produzidos como resultado;
 - aplicar o contexto correto do cliente;
 - encaminhar identidade para autorização;
 - converter respostas internas em mensagens Telegram;
@@ -40,6 +42,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
 - [CTR-0003 — Job](../contratos/job.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 
 ## Persistência
 
@@ -94,7 +97,9 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - nenhum teste depende da API real;
 - uma resposta de um cliente não pode ser entregue usando identidade de outro cliente;
 - o `offset` nunca avança antes da persistência bem-sucedida do update correspondente;
-- uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota.
+- uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota;
+- conteúdo binário de entrada ou saída não pode ser registrado em logs;
+- limites e representação de mídia seguem o contrato de mídia ainda em `refinement`.
 
 ## Critérios de aceite
 
@@ -111,7 +116,9 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - sucesso de `getUpdates` reseta o backoff para `1s`;
 - `429` respeita `retry_after`;
 - falha de autenticação/autorização suspende somente o cliente afetado;
-- falha de polling não altera o `offset`.
+- falha de polling não altera o `offset`;
+- imagens e vídeos recebidos podem ser associados ao `request_id` sem expor objetos da Bot API ao Core;
+- imagens e vídeos de resultado podem ser enviados ao destino correlacionado quando o contrato de mídia estiver refinado.
 
 ## Referência externa
 
