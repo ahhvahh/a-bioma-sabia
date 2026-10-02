@@ -21,11 +21,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - tokenização pertence ao adaptador;
   - validação semântica dos argumentos pertence à operação correspondente;
   - identidade e correlação estão definidas por `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at`;
-  - `reply_context` contém apenas `transport` e `destination_id`, mantendo o Core independente do Telegram.
+  - `reply_context` contém apenas `transport` e `destination_id`, mantendo o Core independente do Telegram;
+  - saída usa envelope discriminado `message | job | file | error`;
+  - `message` possui `text`, `job` possui `job_id` e `error` possui `code`, `message` e `retryable`.
 - Informação ausente:
   - estrutura e limites de anexos;
-  - estrutura exata de resultado;
-  - estrutura exata de erro.
+  - schema do payload `file`.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -141,7 +142,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade e correlação foram fechados. `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at` já possuem semântica definida; permanecem pendentes anexos e as estruturas concretas de resultado/erro.
+- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram fechados. Permanecem pendentes apenas o contrato de anexos e o payload `file`.
 
 ## Condição para liberar o MVP
 
