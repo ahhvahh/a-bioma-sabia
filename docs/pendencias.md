@@ -13,67 +13,59 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 ### CTR-0001 — Comando interno
 
 - Documento: [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
+- Estado atual: `refinement`.
+- Estado necessário: `refined`.
 - Estado atual do conteúdo:
-  - a fronteira conceitual entre adaptadores e Command Router está definida;
-  - argumentos são entregues ao Core como `string[]` já tokenizado;
-  - tokenização pertence ao adaptador;
-  - validação semântica dos argumentos pertence à operação correspondente;
-  - identidade e correlação estão definidas por `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at`;
-  - `reply_context` contém apenas `transport` e `destination_id`, mantendo o Core independente do Telegram;
-  - saída usa envelope discriminado `message | job | file | error`;
-  - `message` possui `text`, `job` possui `job_id` e `error` possui `code`, `message` e `retryable`.
-- Estado atual adicional:
-  - anexos de entrada usam `{name, path}`;
-  - resultado `file` usa `{name, path}`;
-  - arquivos ficam em `/tmp/sabia/media/<request_id>/`;
-  - múltiplos arquivos assíncronos são publicados por múltiplos eventos `content`.
-- Decisões adicionais fechadas:
-  - arquivo de saída é registrado no SQLite antes do primeiro envio;
-  - estados de transmissão são `pending | transmitting | delivered | failed`;
-  - `pending` e `transmitting` são retomados após restart do serviço quando o arquivo ainda existe;
-  - arquivo de saída só é removido após último byte transmitido, confirmação remota e persistência de `delivered`;
-  - após confirmação persistida, o arquivo é removido imediatamente;
-  - startup e shutdown preservam arquivos ligados a transmissões ativas;
-  - arquivos sem transmissão ativa e sem modificação há mais de 1 minuto podem ser removidos.
+  - argumentos usam `string[]`;
+  - identidade e correlação usam `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at`;
+  - saída usa `message | job | file | error`;
+  - mídia de entrada e saída é referenciada por `media_id`;
+  - o Core não recebe BLOB nem caminho de filesystem.
 - Informação ausente:
-  - determinação do tipo de mídia;
-  - limites máximos de arquivo.
+  - limite máximo de mídia;
+  - regra normativa para `content_type`;
+  - política de retenção do BLOB após entrega.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
 
-### Processadores assíncronos e transporte de mídia
+### Processadores assíncronos e ingestão de mídia
 
-- Decisão relacionada: [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md)
+- Decisões relacionadas:
+  - [ADR-0011 — Processadores assíncronos registrados](adr/processamento/processadores-assincronos-registrados.md)
+  - [ADR-0012 — Ingestão persistente de mídia por Unix socket](adr/processamento/ingestao-midia-socket-messagepack.md)
 - Documentos:
   - [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md)
+  - [MOD-0008 — Ingestão e armazenamento de mídia](especificacao/modulos/ingestao-midia.md)
   - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md)
-  - [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md)
+  - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md)
+  - [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md)
+  - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](especificacao/contratos/ingestao-midia-messagepack.md)
+  - [FLW-0005 — Processamento assíncrono](especificacao/fluxos/processamento-assincrono.md)
+  - [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md)
   - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
-- Estado atual: ADR em `refined`; módulo, contrato, fluxo e configuração em `refinement`.
-- Estado necessário: especificações implementáveis em `refined`.
+- Estado atual: decisões arquiteturais `refined`; especificações ainda em `refinement` onde indicado.
 - Decisões já fechadas:
-  - processadores podem ser script Bash, aplicação/executável ou serviço/socket;
-  - toda execução usa `request_id` gerado pelo Sabiá;
-  - eventos de processador usam `status: loading | content | finally`;
-  - `loading` representa progresso e não encerra o job;
-  - `content` referencia um arquivo como `{name, path}`, pode ocorrer múltiplas vezes e não encerra o job;
-  - `finally` é a finalização semântica normal e contém a mensagem final;
-  - binários não trafegam no protocolo de controle;
-  - a raiz temporária é `/tmp/sabia/media`, isolada por `request_id`;
-  - o Sabiá faz streaming dos arquivos ao Telegram;
-  - término do processo sem `finally` não equivale automaticamente a sucesso;
-  - imagens e vídeos são suportados na entrada e na saída por referência local.
+  - canal de controle do processador usa `loading | finally`;
+  - mídia não trafega no canal de controle;
+  - mídia entra por Unix domain socket local;
+  - envelope de mídia usa MessagePack;
+  - cada upload usa `request_id` e contém um BLOB;
+  - uma requisição pode enviar vários arquivos por vários uploads;
+  - o BLOB e sua transmissão são persistidos antes do ACK;
+  - ACK retorna `media_id`;
+  - transmissões `pending | transmitting` são recuperáveis após restart;
+  - nenhuma dependência de `/tmp` permanece no contrato de mídia.
 - Informação ausente:
-  - framing/protocolo concreto usado por scripts/aplicações locais;
-  - framing/protocolo concreto usado por serviços/socket;
-  - regra para determinar se o arquivo será enviado como imagem, vídeo ou documento;
-  - limites máximos de arquivo;
-  - schema da configuração `processors`;
-  - garantia de durabilidade da mídia quando o próprio sistema operacional limpar `/tmp` ou houver reboot do host.
+  - framing/protocolo concreto do canal de controle CTR-0005;
+  - caminho final do Unix socket de mídia;
+  - ownership, grupo e modo de acesso do socket;
+  - limite máximo de payload MessagePack/BLOB;
+  - política de retry/idempotência quando o produtor repete um upload cujo commit ocorreu mas o ACK foi perdido;
+  - política de retenção do BLOB após entrega;
+  - regra para determinar/validar `content_type`;
+  - schema final da configuração `processors`.
 - Dependências afetadas:
   - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
@@ -185,9 +177,9 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade, correlação, envelope de resultado/erro e referências de mídia `{name, path}` foram definidos. Lifecycle e recovery das transmissões foram fechados por CTR-0007; tipo e limites permanecem em CTR-0006.
-- ADR-0011: arquitetura de processadores registrados e eventos `loading | content | finally` está `refined`.
-- ADR-0012 + CTR-0007: `/tmp/sabia/media/<request_id>/`, múltiplos `content`, streaming, persistência de transmissões, recovery após restart do serviço, remoção após confirmação e coleta segura de órfãos com carência de 1 minuto estão definidos.
+- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
+- ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
+- ADR-0012 + CTR-0006/CTR-0007: mídia é persistida como BLOB, referenciada por `media_id` e transmissões sobrevivem a restart sem depender de `/tmp`.
 
 ## Condição para liberar o MVP
 
