@@ -19,13 +19,34 @@ Definir a fronteira entre adaptadores de entrada e o Command Router sem transpor
 
 ## Entrada
 
-O comando interno deve representar, no mínimo:
-- cliente lógico que recebeu a solicitação;
-- identidade já submetida à autorização;
-- identificador do comando;
-- argumentos do comando, quando permitidos;
-- contexto suficiente para direcionar uma resposta;
-- referência a anexos quando o comando aceitar mídia.
+O comando interno usa o seguinte schema mínimo:
+
+- `request_id: string` — identificador único da requisição dentro do Sabiá;
+- `client_id: string` — cliente lógico que recebeu a solicitação;
+- `principal_id: string` — identidade já autorizada, normalizada pelo adaptador;
+- `command: string` — identificador lógico do comando;
+- `arguments: string[]` — argumentos já tokenizados e ainda não validados semanticamente;
+- `reply_context.transport: string` — identificador lógico do transporte de origem;
+- `reply_context.destination_id: string` — destino opaco ao Core usado pelo adaptador para responder;
+- `received_at: timestamp` — instante em que a requisição foi aceita pelo adaptador;
+- `attachments: attachment[]` — opcional, somente quando a operação suportar anexos.
+
+### Identidade e correlação
+
+`request_id` é gerado na entrada e permanece estável durante roteamento, criação de job, persistência, auditoria e entrega da resposta.
+
+`client_id` identifica qual cliente lógico recebeu a solicitação e deve ser usado para selecionar o adaptador/credencial correto na resposta.
+
+`principal_id` representa a identidade já submetida à autorização. Para Telegram, o adaptador normaliza o Telegram User ID para string antes de construir o comando interno.
+
+`reply_context` não carrega objetos do SDK ou da Bot API. Ele contém somente:
+
+- `transport`: nome lógico do transporte, como `telegram`;
+- `destination_id`: identificador do destino no transporte, tratado como valor opaco pelo Core.
+
+Para Telegram, `destination_id` corresponde ao chat de resposta normalizado como string. O Core não interpreta seu formato.
+
+`received_at` deve representar um instante absoluto; a representação concreta em memória pode variar, mas serializações persistidas devem preservar data/hora e fuso ou normalização equivalente em UTC.
 
 ### Argumentos
 
@@ -42,11 +63,15 @@ Regras:
 - o Core não recebe texto bruto do Telegram para interpretar a sintaxe do comando;
 - nenhum objeto específico da Telegram Bot API pode ser carregado em `arguments`.
 
-Os tipos concretos dos demais campos, limites e estrutura completa do schema ainda precisam ser definidos.
+### Anexos
+
+`attachments` é opcional e permanece em definição. Nenhuma operação do MVP deve depender de anexos enquanto seu contrato não estiver refinado.
 
 ## Saída
 
 Resultado interno passível de conversão pelo adaptador: resposta textual, criação/referência de job, erro controlado e, quando aplicável, arquivo de resultado.
+
+A estrutura discriminada e os tipos concretos do resultado ainda precisam ser definidos.
 
 ## Erros
 
@@ -55,17 +80,22 @@ Resultado interno passível de conversão pelo adaptador: resposta textual, cria
 - operação não disponível para o cliente;
 - falha do executor.
 
+A estrutura normativa de erro ainda precisa ser definida.
+
 ## Regras e restrições
 
 - não expor objetos da Bot API como contrato do domínio;
 - autorização ocorre antes da execução;
 - comando não carrega caminho de script arbitrário;
 - tokenização é responsabilidade do adaptador;
-- validação semântica dos argumentos é responsabilidade da operação correspondente.
+- validação semântica dos argumentos é responsabilidade da operação correspondente;
+- `request_id` não muda durante o processamento da mesma requisição;
+- resposta deve preservar `request_id`, `client_id` e `reply_context`;
+- o Core trata `destination_id` como opaco.
 
 ## Compatibilidade
 
-Novos transportes devem conseguir produzir o mesmo comando conceitual e entregar argumentos como `string[]`, independentemente da sintaxe original do transporte.
+Novos transportes devem conseguir produzir o mesmo comando conceitual, normalizar sua identidade para `principal_id`, fornecer `reply_context` e entregar argumentos como `string[]`, independentemente da sintaxe original do transporte.
 
 ## Critérios de aceite
 
@@ -73,4 +103,7 @@ Novos transportes devem conseguir produzir o mesmo comando conceitual e entregar
 - argumentos chegam ao Core como `string[]` já tokenizado;
 - adaptadores não precisam conhecer as regras semânticas específicas de cada operação;
 - operações validam seus próprios argumentos;
-- ainda falta fechar os demais campos, tipos, limites e estruturas de resultado/erro antes de `refined`.
+- uma requisição possui `request_id` estável ponta a ponta;
+- o Core não depende de Telegram User ID ou Chat ID como tipos nativos;
+- a resposta pode ser roteada por `client_id` + `reply_context`;
+- ainda falta fechar anexos e as estruturas concretas de resultado/erro antes de `refined`.
