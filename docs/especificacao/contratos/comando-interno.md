@@ -13,7 +13,8 @@ Definir a fronteira entre adaptadores de entrada e o Command Router sem transpor
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [ADR-0003 — Core independente do Telegram](../../adr/arquitetura/core-independente-do-telegram.md)
 - [CTR-0005 — Protocolo de processador assíncrono](processador-assincrono.md)
-- [CTR-0006 — Mídia temporária por requisição](midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](midia-persistida.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](ingestao-midia-messagepack.md)
 
 ## Tipo
 
@@ -67,12 +68,13 @@ Regras:
 
 ### Anexos
 
-`attachments` é opcional e cada item usa a referência de CTR-0006:
+`attachments` é opcional e cada item referencia mídia persistida conforme CTR-0006:
 
+- `media_id: integer`;
 - `name: string`;
-- `path: string`.
+- `content_type: string | null`.
 
-O adaptador salva a mídia recebida em `/tmp/sabia/media/<request_id>/` antes de construir o comando interno. O Core não recebe binário no envelope.
+O adaptador ou produtor persiste a mídia antes de disponibilizá-la ao Core. O Core não recebe binário no envelope.
 
 ## Saída
 
@@ -104,14 +106,15 @@ O ciclo de vida do job segue [CTR-0003 — Job](job.md).
 
 ### file
 
-Representa um arquivo de resultado.
+Representa mídia persistida pronta para entrega.
 
-O tipo existe no envelope e usa a referência de CTR-0006:
+Payload:
 
+- `media_id: integer`;
 - `name: string`;
-- `path: string`.
+- `content_type: string | null`.
 
-Para processamentos assíncronos com vários arquivos, cada arquivo é publicado por um evento `content` separado de CTR-0005.
+Processadores assíncronos publicam vários arquivos realizando vários uploads CTR-0008 com o mesmo `request_id`.
 
 ### error
 
@@ -171,5 +174,5 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - `message` contém `text`;
 - `job` contém `job_id`;
 - `error` contém `code`, `message` e `retryable`;
-- referências de mídia de entrada e saída usam `{name, path}` conforme CTR-0006;
-- permanecem `BLOCKED` lifecycle/limpeza, tipo de mídia e limites máximos antes de `refined`.
+- referências de mídia de entrada e saída usam `media_id` conforme CTR-0006;
+- permanecem `BLOCKED` limite máximo, validação de `content_type` e retenção do BLOB antes de `refined`.
