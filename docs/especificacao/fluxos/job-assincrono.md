@@ -1,7 +1,7 @@
 # Job assíncrono
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0002-bf3989?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
 ## Objetivo
 
@@ -14,6 +14,8 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
+- [MOD-0007 — Processadores assíncronos e transporte](../modulos/processadores-assincronos.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 
 ## Gatilho
 
@@ -31,13 +33,14 @@ Command Router identifica uma operação assíncrona válida.
 2. o job entra em `queued`;
 3. o cliente envia confirmação imediata ao destino de origem;
 4. um worker disponível muda o job para `running`;
-5. Worker executa a operação;
-6. progresso, quando existir, é encaminhado pelo cliente correto;
-7. Worker conclui em estado final;
-8. o resultado é persistido como resposta `pending`;
-9. adaptador do `client_id` correspondente envia a resposta usando `reply_context.transport` e `reply_context.destination_id` persistidos;
-10. após sucesso da Bot API, o identificador remoto da mensagem é persistido;
-11. somente depois dessa persistência o estado de entrega passa para `delivered`.
+5. Worker delega a operação ao processador registrado quando aplicável;
+6. eventos `loading` válidos são correlacionados por `request_id` e encaminhados pelo cliente correto;
+7. o job permanece `running` até receber `finally` válido ou atingir uma condição de falha/timeout;
+8. `finally` produz o resultado final do processamento;
+9. o resultado é persistido como resposta `pending`;
+10. adaptador do `client_id` correspondente envia a resposta usando `reply_context.transport` e `reply_context.destination_id` persistidos;
+11. após sucesso da Bot API, o identificador remoto da mensagem é persistido;
+12. somente depois dessa persistência o estado de entrega passa para `delivered`.
 
 ## Fluxos alternativos
 
@@ -86,10 +89,13 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 - running interrompido não reinicia silenciosamente;
 - resposta é enviada pelo `client_id` correto para o `reply_context.destination_id` persistido;
 - `request_id` permanece rastreável entre requisição, job e entrega;
+- `loading` não encerra o job;
+- conclusão normal de processador assíncrono exige `finally` válido;
 - resposta não entregue permanece pendente;
 - sucesso de envio persiste a confirmação remota antes de marcar `delivered`;
 - falha ambígua permite retry após restart;
-- erro permanente encerra a entrega em `failed` sem alterar o resultado de processamento do job.
+- erro permanente encerra a entrega em `failed` sem alterar o resultado de processamento do job;
+- permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
 
 ## Implementação relacionada
 
