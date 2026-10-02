@@ -4,7 +4,9 @@ Este documento consolida as lacunas ainda abertas na documentação do Sabiá. O
 
 ## Estado do gate
 
-O gate completo de especificação do MVP permanece `BLOCKED` enquanto contratos e especificações necessárias estiverem em `refinement`.
+O gate completo de especificação do MVP permanece `BLOCKED`.
+
+Além de documentos ainda em `refinement`, existem documentos marcados como `refined` cujo conteúdo ainda não é suficiente para implementação sem decisões implícitas. Esses casos precisam ser corrigidos antes de considerar o gate satisfeito.
 
 ## BLOCKED
 
@@ -14,58 +16,149 @@ O gate completo de especificação do MVP permanece `BLOCKED` enquanto contratos
 - Estado atual: `refinement`
 - Estado necessário: `refined`
 - Estado atual do conteúdo: a fronteira conceitual entre adaptadores e Command Router está definida.
-- Informação ausente: schema definitivo, tipos concretos, limites de argumentos/anexos e estrutura exata de resultado e erro.
+- Informação ausente:
+  - schema definitivo;
+  - tipos concretos;
+  - obrigatoriedade dos campos;
+  - limites de argumentos e anexos;
+  - estrutura exata de resultado e erro;
+  - tipos do contexto necessário para correlação de resposta.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
 
-## Pendências de refinamento
+### Persistência operacional — especificação técnica ausente
 
-### Telegram — retry e offset do long polling
+- Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
+- Estado atual: decisão arquitetural `refined`, mas não existe especificação técnica de persistência.
+- Estado necessário: especificação de persistência `refined`.
+- Informação ausente:
+  - entidades/tabelas e relações;
+  - campos, tipos, chaves e restrições;
+  - representação de requisições, jobs, tentativas, respostas pendentes, entregas e estado de alertas;
+  - regras de atomicidade e idempotência necessárias ao recovery;
+  - versionamento/migração do schema em nível implementável.
+- Dependências afetadas:
+  - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
+  - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
+  - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
+  - [CTR-0003 — Job](especificacao/contratos/job.md)
+  - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
+  - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
+  - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md)
+  - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
+
+### Telegram — offset, retry e recovery
 
 - Documentos:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta definir:
-  - quando o offset de `getUpdates` é considerado processado;
+  - [ADR-0005 — Telegram Long Polling](adr/telegram/long-polling.md)
+- Estado atual: módulo e fluxo em `refinement`.
+- Estado necessário: `refined`.
+- Informação ausente:
+  - quando um update é considerado processado para avanço do `offset`;
   - como o offset necessário ao recovery é persistido;
-  - política de retry para falhas da Bot API;
+  - tratamento de update repetido após falha/restart;
+  - política de retry para leitura e envio pela Bot API;
+  - condição que confirma entrega de resposta;
   - comportamento após reinício quando houver update ou resposta pendente.
 
-### Scheduler — sobreposição de execuções
+### Scheduler e Alert Manager — semântica operacional incompleta
 
 - Documentos:
   - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
   - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta decidir o comportamento quando um novo disparo da mesma tarefa ocorre enquanto a execução anterior ainda está em andamento.
+  - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
+- Estado atual: módulo e fluxo em `refinement`; CFG-0001 está `refined`, mas a seção `schedules` ainda é insuficiente para implementação.
+- Estado necessário: especificações implementáveis em `refined`.
+- Informação ausente:
+  - formato e semântica da periodicidade configurada;
+  - comportamento quando a mesma tarefa vence enquanto a execução anterior ainda está ativa;
+  - comportamento da primeira avaliação sem estado anterior;
+  - política concreta de lembrete para estado degradado inalterado;
+  - comportamento quando a própria verificação falha;
+  - campos, tipos e defaults necessários da configuração de agendamento.
 
-### Alertas — primeira avaliação, lembrete e falhas
+### Comandos do MVP — contrato operacional ausente
 
-- Documentos:
-  - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
-  - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta definir:
-  - comportamento da primeira avaliação quando não existe estado anterior persistido;
-  - política detalhada de lembrete para estado degradado inalterado;
-  - comportamento do scheduler quando a própria verificação falha.
+- Documento de escopo: [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md)
+- Estado atual: o requisito lista comandos, mas não existe especificação que defina o contrato operacional de cada comando.
+- Estado necessário: especificação correspondente `refined`.
+- Informação ausente:
+  - sintaxe e argumentos aceitos;
+  - vínculo entre comando e operação/script cadastrado;
+  - validações;
+  - resposta de sucesso;
+  - erros controlados;
+  - comportamento específico de comandos como `/run`, `/jobs` e `/job <id>`.
+- Dependências afetadas:
+  - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
+  - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
+  - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
+
+### CTR-0004 — Auditoria e logs
+
+- Documento: [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md)
+- Estado atual: `refined`, incompatível com o nível de definição atual do contrato.
+- Estado necessário: permanecer `refined` somente após completar o contrato.
+- Informação ausente:
+  - tipos dos campos;
+  - campos obrigatórios por tipo de evento;
+  - estrutura estável dos registros;
+  - identificação dos eventos auditáveis e respectivos resultados;
+  - tratamento normativo de dados potencialmente sensíveis além da lista de segredos proibidos.
+- Dependências afetadas:
+  - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md)
+  - requisito de logs do [REQ-0001 — MVP](especificacao/requisitos/mvp.md)
+
+## Pendências condicionais
+
+### CTR-0003 — modelo de retry
+
+- Documento: [CTR-0003 — Job](especificacao/contratos/job.md)
+- Estado atual: `refined`.
+- Ponto inconsistente: o contrato declara estados finais imutáveis e, ao mesmo tempo, permite retry como nova tentativa associada ao mesmo job, sem definir o modelo da tentativa.
+- Falta definir, se retry automático fizer parte do escopo implementado:
+  - identidade e estado da tentativa;
+  - quais falhas permitem retry;
+  - relação entre estado do job e estado das tentativas;
+  - momento em que `max_retries` é consumido.
+- Não bloqueia o MVP enquanto `max_retries = 0` e retry automático não for ativado.
+
+## Inconsistências documentais a corrigir
+
+### ADR-0006 — informação desatualizada
+
+[ADR-0006 — Jobs assíncronos](adr/processamento/jobs-assincronos.md) ainda afirma que persistência, concorrência, retries e recovery precisam ser fechados em especificação. Parte desses pontos já foi definida em ADR-0009, ADR-0010 e CTR-0003. O texto precisa ser reconciliado sem alterar a decisão arquitetural.
+
+### ADR-0007 — persistência de alertas desatualizada
+
+[ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) ainda afirma que a persistência do estado entre reinícios não está decidida. ADR-0009 já definiu SQLite e recovery desse estado.
+
+### DSG-0002 — referência a persistência ainda não decidida
+
+[DSG-0002 — Componentes do Sabiá Core](desenho/componentes-core.md) mantém critério mencionando pontos de persistência ainda não decididos. A decisão arquitetural de persistência já existe em ADR-0009; o desenho deve ser reconciliado.
+
+### FLW-0004 — estado em refinement sem lacuna própria explícita
+
+[FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) está em `refinement`, embora o fluxo já detalhe gatilho, sequência, timeout, falhas e recovery. Antes de mudar o status, deve ser verificado se a dependência em MOD-0005 e a especificação de persistência ausente ainda impedem o gate.
 
 ## Itens já resolvidos
 
-Não são mais pendências:
+Não são mais pendências arquiteturais:
 
-- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery de requisições/respostas pendentes estão `refined`.
+- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
-- [CTR-0003 — Job](especificacao/contratos/job.md): fila, concorrência, cancelamento, retry e recovery estão `refined`.
-- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md): configuração do MVP está `refined`.
 
 ## Condição para liberar o MVP
 
-Antes de iniciar implementação do escopo dependente, os contratos e fluxos necessários devem satisfazer o gate do ADP 1.0. Nenhuma lacuna acima deve ser preenchida por suposição.
+Antes de iniciar implementação do escopo dependente:
+
+1. documentos ainda em `refinement` precisam atingir `refined` com conteúdo suficiente;
+2. especificações ausentes necessárias à implementação precisam ser criadas e refinadas;
+3. documentos marcados como `refined` mas incompletos precisam ser corrigidos;
+4. inconsistências entre ADRs, desenho e especificação precisam ser reconciliadas;
+5. nenhuma lacuna pode ser preenchida por suposição.
