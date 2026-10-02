@@ -93,21 +93,30 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
 
-### Persistência operacional em PostgreSQL — especificação técnica ausente
+### Persistência operacional em PostgreSQL — proposta em revisão
 
 - Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
-- Estado atual: ADR-0009 versão 3 define PostgreSQL como persistência oficial, com banco lógico e role próprios; CTR-0007 já define de forma implementável a persistência e o recovery das transmissões de mídia, mas o restante do modelo operacional ainda não possui especificação técnica completa.
-- Estado necessário: especificação de persistência `refined`.
-- Informação ausente:
-  - entidades/tabelas e relações para requisições, jobs, tentativas, respostas textuais e estado de alertas;
-  - campos, tipos, chaves e restrições dessas entidades;
-  - regras de atomicidade e idempotência ainda não cobertas por CTR-0007;
-  - versionamento/migração do schema em nível implementável.
+- Propostas criadas:
+  - [PST-0001 — Proposta de tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
+  - [PST-0002 — Relacionamentos do estado operacional](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
+- Estado atual: o conjunto inicial de tabelas, campos, tipos, cardinalidades e unidades transacionais foi proposto para revisão. A proposta preserva os contratos existentes, mas ainda não constitui especificação liberada para implementação.
+- Estado necessário: PST-0001 e PST-0002 em `refined`.
+- Pontos que ainda precisam de decisão/revisão:
+  - domínio e transições de `request.status`;
+  - direção física final da relação entre update recebido e request;
+  - confirmação de que uma request pode ou não criar múltiplos jobs;
+  - política final de FKs e `ON DELETE`;
+  - consistência entre `media.request_id` e `media_transmission.request_id`;
+  - formato persistente final de respostas textuais;
+  - política de retenção de `alert_state` quando um schedule é removido;
+  - mecanismo concreto de migração/versionamento;
+  - modelo de `job_attempt` somente se retry automático for habilitado.
 - Dependências afetadas:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
   - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
   - [CTR-0003 — Job](especificacao/contratos/job.md)
+  - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
   - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
   - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
   - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md)

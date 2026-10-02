@@ -67,6 +67,11 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
 - [FLW-0008 — Limpeza de payloads de mídia transmitida](especificacao/fluxos/limpeza-midia.md) — `refined`
 
+### Persistência
+
+- [PST-0001 — Proposta de tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
+- [PST-0002 — Relacionamentos do estado operacional](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
+
 ### Configuração e requisitos
 
 - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refinement`
