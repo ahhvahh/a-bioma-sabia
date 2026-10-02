@@ -41,6 +41,22 @@ Update recebido por long polling em cliente habilitado.
 
 ## Fluxos alternativos
 
+### Falha temporária de leitura por getUpdates
+
+1. timeout de transporte, falha de rede ou resposta `5xx` não altera o `offset`;
+2. o cliente aplica backoff exponencial `1s → 2s → 4s → 8s → 16s → 30s`;
+3. nova falha temporária avança uma etapa até o máximo de `30s`;
+4. uma leitura bem-sucedida, ainda que sem updates, reseta o backoff para `1s`;
+5. se o Telegram retornar `429` com `retry_after`, o cliente aguarda pelo menos o intervalo informado antes da próxima leitura;
+6. falhas e backoff de um cliente não interferem nos demais.
+
+### Falha de autenticação ou autorização no polling
+
+1. erro de autenticação/autorização, incluindo `401` ou `403`, suspende o polling daquele cliente;
+2. o erro é registrado para observabilidade;
+3. os demais clientes continuam operando;
+4. nenhuma alteração de `offset` ocorre.
+
 ### Falha antes da persistência do update
 
 1. o update não é considerado aceito;
@@ -92,7 +108,7 @@ Update recebido por long polling em cliente habilitado.
 
 A entrega usa semântica `at-least-once`. Sucesso só é confirmado após retorno positivo da Bot API e persistência do `message_id`. Falha ambígua permanece pendente e pode resultar em duplicidade eventual.
 
-A política de retry da leitura por `getUpdates` ainda precisa ser definida.
+A leitura por `getUpdates` usa backoff exponencial limitado a `30s` para falhas temporárias. `429` respeita `retry_after`; falhas de autenticação/autorização suspendem somente o cliente afetado. Nenhuma falha de polling altera o `offset`.
 
 ## Resultado
 
@@ -108,7 +124,11 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 - uma resposta não é `delivered` sem confirmação e persistência do `message_id`;
 - `retry_after` impede retry antecipado;
 - falha ambígua mantém a resposta pendente;
-- falta fechar retry de leitura da Bot API para `refined`.
+- falha temporária de polling usa backoff exponencial até `30s`;
+- leitura bem-sucedida reseta o backoff para `1s`;
+- `429` respeita `retry_after`;
+- erro de autenticação/autorização suspende somente o cliente afetado;
+- falha de polling não altera o `offset`.
 
 ## Implementação relacionada
 
