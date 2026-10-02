@@ -29,8 +29,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - resultado `file` usa `{name, path}`;
   - arquivos ficam em `/tmp/sabia/media/<request_id>/`;
   - múltiplos arquivos assíncronos são publicados por múltiplos eventos `content`.
+- Decisões adicionais fechadas:
+  - arquivo de saída só é removido após último byte transmitido e confirmação do Telegram;
+  - após confirmação, o arquivo é removido imediatamente;
+  - startup e shutdown limpam integralmente `/tmp/sabia/media`;
+  - mídia temporária pendente não é recuperável após restart.
 - Informação ausente:
-  - lifecycle/limpeza dos arquivos temporários;
   - determinação do tipo de mídia;
   - limites máximos de arquivo.
 - Dependências afetadas:
@@ -63,8 +67,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Informação ausente:
   - framing/protocolo concreto usado por scripts/aplicações locais;
   - framing/protocolo concreto usado por serviços/socket;
-  - política de limpeza dos arquivos/diretórios temporários;
-  - comportamento após restart/reboot quando a mídia temporária desaparecer;
   - regra para determinar se o arquivo será enviado como imagem, vídeo ou documento;
   - limites máximos de arquivo;
   - schema da configuração `processors`.
@@ -182,7 +184,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação, envelope de resultado/erro e referências de mídia `{name, path}` foram definidos. As pendências de lifecycle, tipo e limites ficam centralizadas em CTR-0006.
 - ADR-0011: arquitetura de processadores registrados e eventos `loading | content | finally` está `refined`.
-- ADR-0012: `/tmp/sabia/media/<request_id>/`, múltiplos `content` e streaming foram definidos; lifecycle e recovery permanecem em CTR-0006.
+- ADR-0012: `/tmp/sabia/media/<request_id>/`, múltiplos `content`, streaming, remoção após confirmação e limpeza integral em startup/shutdown foram definidos. Mídia temporária não possui recovery entre execuções.
 
 ## Condição para liberar o MVP
 
