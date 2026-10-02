@@ -41,11 +41,12 @@ Devem ser persistidos, quando aplicáveis:
 - correlação entre requisição, cliente, usuário, chat, mensagem e job;
 - jobs e estados necessários para identificar trabalho pendente;
 - respostas ou mensagens ainda pendentes de entrega;
-- transmissões de mídia pendentes ou em andamento, incluindo arquivo, cliente, transporte e destino;
+- mídias aceitas, incluindo metadados e conteúdo BLOB;
+- transmissões de mídia pendentes ou em andamento, incluindo `media_id`, cliente, transporte e destino;
 - estado anterior necessário à avaliação de alertas;
 - parâmetros operacionais que precisem sobreviver ao reinício.
 
-Ao iniciar, o Sabiá deve consultar o banco e identificar requisições, jobs, mensagens e transmissões de mídia pendentes. Respostas prontas ainda não entregues voltam para envio. Transmissões de mídia `pending` ou `transmitting` são reconciliadas com o filesystem e voltam para envio quando o arquivo ainda existe.
+Ao iniciar, o Sabiá deve consultar o banco e identificar requisições, jobs, mensagens e transmissões de mídia pendentes. Respostas prontas ainda não entregues voltam para envio. Transmissões de mídia `pending` ou `transmitting` voltam para envio quando o `media_id` persistido existe.
 
 A política para um job que estava efetivamente em execução no instante da interrupção não é definida por este ADR; ela permanece responsabilidade do contrato de jobs e da política de encerramento.
 
@@ -74,6 +75,7 @@ SQLite atende ao volume e ao perfil local do Sabiá sem introduzir um serviço d
 - SQLite é usado como armazenamento operacional persistente;
 - uma requisição pendente continua identificável depois de reiniciar o serviço;
 - uma resposta pronta e ainda não entregue volta a ficar disponível para envio;
-- uma transmissão de mídia ativa continua identificável e pode ser retomada após restart quando o arquivo existe;
+- uma transmissão de mídia ativa continua identificável e pode ser retomada após restart quando o `media_id` existe;
+- mídia confirmada ao produtor por CTR-0008 permanece persistida após restart;
 - o estado anterior necessário a alertas pode ser recuperado;
 - jobs interrompidos não têm sua política inferida por este ADR.
