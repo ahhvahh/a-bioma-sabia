@@ -1,7 +1,7 @@
 # Modelo de configuração
 
 **ID:** CFG-0001  
-**Status:** refined
+**Status:** refinement
 
 ## Objetivo
 
@@ -14,6 +14,7 @@ Definir a fonte, estrutura e regras de validação da configuração operacional
 - [ADR-0008 — Menor privilégio e autorização explícita](../../adr/seguranca/menor-privilegio-e-autorizacao.md)
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
+- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
 
 ## Fonte principal
 
@@ -41,6 +42,7 @@ O arquivo deve possuir as seções:
 - `database`;
 - `telegram.clients`;
 - `scripts`;
+- `processors`;
 - `jobs`;
 - `schedules`;
 - `logging`.
@@ -97,6 +99,27 @@ Quando `interpreter` estiver ausente, `path` é executado diretamente.
 `allowed_environment` vazio significa não herdar variáveis do ambiente do Sabiá.
 
 O limite de captura definido por CTR-0002 é fixo no MVP em 1 MiB para stdout e 1 MiB para stderr por execução.
+
+### processors
+
+Processadores assíncronos podem representar:
+
+- script Bash;
+- aplicação/executável;
+- serviço acessível por socket.
+
+Cada entrada precisa possuir identificador lógico e tipo de processador.
+
+A estrutura concreta por tipo de transporte ainda está `BLOCKED` e precisa definir, no mínimo:
+
+- como localizar/invocar o processador cadastrado;
+- timeout da requisição;
+- mecanismo de envio do comando;
+- mecanismo de recebimento dos eventos `loading` e `finally`;
+- parâmetros necessários ao framing;
+- limites aplicáveis à mídia/binário.
+
+Nenhum endereço, caminho ou socket pode ser substituído por valor vindo do comando remoto.
 
 ### jobs
 
@@ -176,6 +199,8 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - configuração inválida impede startup;
 - não existe reload dinâmico;
 - definição de script contém os campos necessários a CTR-0002;
+- existe seção `processors` para processadores assíncronos registrados;
+- o schema de `processors` precisa ser refinado antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
