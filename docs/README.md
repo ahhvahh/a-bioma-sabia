@@ -26,6 +26,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](adr/processamento/ingestao-midia-socket-messagepack.md) — `refined`
+- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](adr/processamento/ingestao-midia-fracionada.md) — `refined`
 
 ### Desenhos
 
@@ -53,6 +54,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md) — `refinement`
 - [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](especificacao/contratos/ingestao-midia-messagepack.md) — `refinement`
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](especificacao/contratos/ingestao-midia-fracionada.md) — `refinement`
 
 ### Fluxos
 
@@ -62,6 +64,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
 - [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refinement`
 - [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
+- [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
 
 ### Configuração e requisitos
 
