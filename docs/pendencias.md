@@ -55,8 +55,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - envelope de mídia usa MessagePack;
   - o canal simples aceita arquivo integral de até `20000000` bytes;
   - arquivos maiores usam um segundo Unix socket com chunks de até `5000000` bytes;
-  - cada chunk contém `request_id`, `name`, `sequence_id` e BLOB;
-  - chunks são persistidos imediatamente e ordenados por `sequence_id`;
+  - abertura do arquivo fracionado envia metadados e recebe `media_id` gerado pelo banco;
+  - depois da abertura, cada chunk contém apenas `media_id`, `sequence_id` e BLOB;
+  - a primeira sequência esperada é `1`;
+  - chunks são persistidos imediatamente e `next_sequence_id` só avança após commit;
+  - sequência pulada retorna `sequence_gap` com `expected_sequence_id`;
+  - sequência já recebida retorna `sequence_already_received` sem nova persistência;
   - o Telegram recebe um único arquivo lógico; chunks não são mensagens independentes;
   - CTR-0007 voltou para `refinement` porque a entrega fracionada depende da completude definida por CTR-0009;
   - uma requisição pode enviar vários arquivos por vários uploads;
@@ -70,9 +74,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - framing/protocolo concreto do canal de controle CTR-0005;
   - caminhos finais dos sockets simples e fracionado;
   - ownership, grupo e modo de acesso dos sockets;
-  - identidade inequívoca de um arquivo fracionado quando o mesmo `request_id` possuir nomes repetidos;
   - indicador de completude/último chunk;
-  - regras de continuidade, lacuna e repetição de `sequence_id`;
   - limite total do arquivo lógico fracionado;
   - política de retenção do conteúdo após entrega;
   - regra para determinar/validar `content_type`;
@@ -190,7 +192,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
-- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o segundo socket persiste arquivos maiores em chunks de até 5 MB. O MVP não deduplica uploads integrais.
+- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o segundo socket abre um `media_id` persistente e recebe chunks de até 5 MB com sequência estrita. O MVP não deduplica uploads integrais.
 
 ## Condição para liberar o MVP
 
