@@ -16,7 +16,6 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
-- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
 
 ## Responsabilidades
 
@@ -36,23 +35,25 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 
 ## Entradas
 
-Uploads CTR-0008 e mídia recebida internamente pelo adaptador Telegram.
+Uploads integrais CTR-0008, chunks CTR-0009 e mídia recebida internamente pelo adaptador Telegram.
 
 ## Saídas
 
 - `media_id` persistente;
 - transmissão CTR-0007;
-- ACK/erro CTR-0008.
+- ACK/erro CTR-0008;
+- ACK/erro de chunk CTR-0009.
 
 ## Interfaces e contratos
 
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
 
 ## Persistência
 
-SQLite armazena metadados e BLOB da mídia. A transmissão referencia o conteúdo por `media_id`.
+SQLite armazena metadados, BLOB integral ou chunks ordenados. A transmissão referencia a mídia lógica por `media_id` quando ela estiver apta à entrega.
 
 ## Restrições
 
