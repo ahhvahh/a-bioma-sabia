@@ -19,14 +19,13 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - a fronteira conceitual entre adaptadores e Command Router está definida;
   - argumentos são entregues ao Core como `string[]` já tokenizado;
   - tokenização pertence ao adaptador;
-  - validação semântica dos argumentos pertence à operação correspondente.
+  - validação semântica dos argumentos pertence à operação correspondente;
+  - identidade e correlação estão definidas por `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at`;
+  - `reply_context` contém apenas `transport` e `destination_id`, mantendo o Core independente do Telegram.
 - Informação ausente:
-  - schema definitivo dos demais campos;
-  - tipos concretos dos demais campos;
-  - obrigatoriedade dos campos;
-  - limites globais do comando e anexos;
-  - estrutura exata de resultado e erro;
-  - tipos do contexto necessário para correlação de resposta.
+  - estrutura e limites de anexos;
+  - estrutura exata de resultado;
+  - estrutura exata de erro.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -142,7 +141,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: representação dos argumentos foi fechada como `string[]` tokenizado pelo adaptador, com validação semântica delegada à operação; permanecem pendentes os demais campos e estruturas do contrato.
+- CTR-0001: argumentos, identidade e correlação foram fechados. `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at` já possuem semântica definida; permanecem pendentes anexos e as estruturas concretas de resultado/erro.
 
 ## Condição para liberar o MVP
 
