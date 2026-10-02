@@ -1,7 +1,7 @@
 # Transmissão persistente de mídia
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0007-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
 ## Objetivo
 
@@ -109,6 +109,10 @@ Não existe reconciliação com `/tmp` ou filesystem para mídia persistida.
 ## Compatibilidade
 
 O registro usa `transport` e `destination_id`, portanto não depende exclusivamente do Telegram.
+
+## BLOCKED
+
+Para retornar a `refined`, a transmissão de mídia fracionada depende de CTR-0009 definir identidade do arquivo lógico, completude, sequência e limite total.
 
 ## Critérios de aceite
 
