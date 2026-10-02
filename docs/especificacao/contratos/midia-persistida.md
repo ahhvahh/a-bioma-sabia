@@ -91,6 +91,7 @@ A entrega ao Telegram é controlada por CTR-0007.
 - chunks com sequência pulada ou já recebida não alteram o conteúdo;
 - `size_bytes` e `received_bytes` correspondem ao conteúdo efetivamente persistido;
 - `received_bytes` nunca pode ultrapassar `total_bytes`;
+- para `storage_mode = chunked`, `total_bytes` deve ser no máximo `100000000`;
 - mídia fracionada só pode ser transmitida quando `received_bytes == total_bytes`;
 - conteúdo binário não aparece em logs;
 - acesso ao SQLite é restrito à identidade operacional autorizada;
@@ -115,8 +116,7 @@ A limpeza nunca pode ocorrer enquanto existir qualquer transmissão em `pending`
 
 Ainda precisam ser definidos antes de `refined`:
 
-- regra normativa para validar/determinar `content_type`;
-- limite máximo de `total_bytes` para mídia fracionada, conforme CTR-0009.
+- regra normativa para validar/determinar `content_type`.
 
 ## Compatibilidade
 
@@ -132,5 +132,6 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - mídia integral acima de 20 MB é recusada pelo canal simples e deve usar o canal fracionado;
 - mídia de até 20 MB também pode usar `storage_mode = chunked`;
 - chunk acima de 5 MB é recusado pelo canal fracionado;
+- arquivo fracionado acima de 100 MB é recusado na abertura;
 - mídia fracionada fica `completed` automaticamente ao atingir `total_bytes`;
 - payload entregue pode ser limpo somente sem transmissões `pending` ou `transmitting`.
