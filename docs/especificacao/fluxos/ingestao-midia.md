@@ -30,7 +30,7 @@ Produtor local conecta ao socket de mídia e envia um objeto MessagePack.
 1. aceitar conexão Unix local;
 2. decodificar um objeto MessagePack;
 3. validar `version`, `request_id`, `name`, `content_type` e `data`;
-4. localizar a requisição e sua correlação de resposta;
+4. consultar o estado operacional e localizar a requisição e sua correlação de resposta pelo `request_id`;
 5. iniciar transação SQLite;
 6. persistir mídia e obter `media_id`;
 7. persistir transmissão `pending` para o cliente/destino da requisição;
@@ -61,7 +61,7 @@ Responder `media_too_large`; o limite permanece pendente de definição.
 
 Falha antes do commit nunca produz `accepted`.
 
-Falha depois do commit e antes de o ACK chegar ao produtor pode levar o produtor a repetir o upload. A política de idempotência de uploads repetidos ainda precisa ser definida.
+Falha depois do commit e antes de o ACK chegar ao produtor pode levar o produtor a repetir o upload. O MVP não deduplica uploads: a repetição é aceita como nova mídia e recebe novo `media_id`.
 
 ## Resultado
 
@@ -72,9 +72,9 @@ Mídia e transmissão existem de forma persistente e podem sobreviver a restart 
 - ACK só ocorre após commit;
 - transmissão é criada junto com a mídia;
 - nenhum arquivo temporário é necessário;
-- vários uploads podem usar o mesmo `request_id`;
+- vários uploads podem usar o mesmo `request_id`, inclusive com mesmo nome ou conteúdo;
 - falha de conexão não corrompe registro parcialmente persistido;
-- idempotência de retry do produtor permanece `BLOCKED`.
+- retry do produtor após perda do ACK pode criar nova mídia e isso é comportamento aceito no MVP.
 
 ## Implementação relacionada
 
