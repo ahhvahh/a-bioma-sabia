@@ -8,7 +8,9 @@ Pendências consolidadas: [pendências documentais](pendencias.md).
 
 ## Estado do pipeline
 
-A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP ainda depende dos itens indicados em `BLOCKED` e das especificações ainda em `refinement`.
+A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP permanece `BLOCKED` enquanto existirem especificações necessárias em `refinement`, especificações técnicas ausentes ou documentos declarados `refined` cujo conteúdo ainda não seja implementável sem suposição.
+
+A relação normativa e atualizada dos bloqueios permanece centralizada em [docs/pendencias.md](pendencias.md).
 
 ### Decisões
 
@@ -59,18 +61,6 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. O d
 
 ## BLOCKED
 
-### Contrato do comando interno
+Os bloqueios e inconsistências que impedem considerar o gate do MVP satisfeito estão consolidados em [Pendências documentais](pendencias.md).
 
-- Documento: [CTR-0001](especificacao/contratos/comando-interno.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta fechar schema, tipos, limites, anexos e estrutura exata de resultado/erro.
-- Afeta: MOD-0001, MOD-0002 e FLW-0001.
-
-## Pendências não bloqueadoras isoladas
-
-- fechar política de offset/retry do Telegram para MOD-0002 e FLW-0001;
-- fechar concorrência de duas execuções do mesmo agendamento;
-- definir comportamento da primeira avaliação de alerta, lembretes e falhas do Scheduler.
-
-Nenhuma dessas lacunas deve ser preenchida por suposição.
+O índice mantém apenas os estados declarados dos documentos; um status `refined` não deve ser interpretado isoladamente como liberação quando o documento de pendências identifica conteúdo insuficiente ou inconsistente.
