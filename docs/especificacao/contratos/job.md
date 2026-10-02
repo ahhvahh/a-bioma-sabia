@@ -23,15 +23,16 @@ Definir identidade, estados, fila, concorrência, cancelamento, recovery e entre
 Toda solicitação assíncrona deve persistir, no mínimo:
 
 - `job_id`;
+- `request_id`;
 - `client_id`;
 - identidade do solicitante;
-- destino de resposta;
+- `reply_context` com transporte e destino de resposta;
 - operação solicitada;
 - estado;
 - timestamps relevantes;
 - referência à mensagem Telegram quando existir.
 
-Para Telegram, a correlação precisa preservar `client_id`, `chat_id` e `message_id` quando aplicável.
+Para Telegram, a correlação operacional preserva `client_id`, `reply_context.destination_id` e `message_id` quando aplicável. O `request_id` permanece estável entre comando, job, processador e entrega.
 
 ## Identidade
 
@@ -89,6 +90,15 @@ No startup:
 - não há reexecução automática de job que estava `running`;
 - respostas prontas e ainda não entregues voltam para a etapa de envio.
 
+## Progresso de processadores assíncronos
+
+Quando o job for executado por processador conforme CTR-0005:
+
+- evento `loading` é progresso intermediário e não altera o estado terminal;
+- evento `finally` encerra semanticamente o processamento normal;
+- todo evento precisa usar o mesmo `request_id` do job;
+- término do processo sem `finally` não equivale automaticamente a `completed`.
+
 ## Entrega da resposta
 
 Toda resposta pertence ao `client_id` e ao destino persistido da requisição.
@@ -114,6 +124,7 @@ Consultas normais de `/jobs` e `/job <id>` retornam somente jobs pertencentes ao
 - criação do job responde sem aguardar sua conclusão;
 - mudanças de estado devem ser persistidas;
 - resposta final precisa ser encaminhada ao cliente e destino correlacionados;
+- `request_id` deve permanecer rastreável em progresso e resultado final;
 - estado inválido ou transição inválida deve ser rejeitado;
 - histórico de mudança de estado não deve ser apagado pela atualização do estado atual.
 
@@ -130,4 +141,5 @@ A correlação de resposta deve permitir outros transportes futuramente sem torn
 - running interrompido por restart vira `failed/service_restart`;
 - não existe retry automático sem autorização explícita;
 - cancelamento respeita o estado atual;
-- resposta permanece pendente até ser entregue ao cliente/destino correto.
+- resposta permanece pendente até ser entregue ao cliente/destino correto;
+- `loading` não conclui o job e `finally` é a finalização semântica normal para processadores CTR-0005.
