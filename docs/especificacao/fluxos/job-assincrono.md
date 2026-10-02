@@ -22,12 +22,12 @@ Command Router identifica uma operação assíncrona válida.
 ## Pré-condições
 
 - operação válida e autorizada;
-- `client_id` e destino de resposta disponíveis;
+- `request_id`, `client_id` e `reply_context` disponíveis;
 - fila abaixo de `jobs.max_pending`.
 
 ## Fluxo principal
 
-1. Job Manager cria e persiste o job;
+1. Job Manager cria e persiste o job preservando `request_id`, `client_id` e `reply_context` da requisição de origem;
 2. o job entra em `queued`;
 3. o cliente envia confirmação imediata ao destino de origem;
 4. um worker disponível muda o job para `running`;
@@ -35,7 +35,7 @@ Command Router identifica uma operação assíncrona válida.
 6. progresso, quando existir, é encaminhado pelo cliente correto;
 7. Worker conclui em estado final;
 8. o resultado é persistido como resposta `pending`;
-9. adaptador do `client_id` correspondente envia a resposta ao destino persistido;
+9. adaptador do `client_id` correspondente envia a resposta usando `reply_context.transport` e `reply_context.destination_id` persistidos;
 10. após sucesso da Bot API, o identificador remoto da mensagem é persistido;
 11. somente depois dessa persistência o estado de entrega passa para `delivered`.
 
@@ -84,7 +84,8 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 - fila e concorrência respeitam configuração;
 - queued sobrevive ao restart;
 - running interrompido não reinicia silenciosamente;
-- resposta é enviada pelo cliente correto;
+- resposta é enviada pelo `client_id` correto para o `reply_context.destination_id` persistido;
+- `request_id` permanece rastreável entre requisição, job e entrega;
 - resposta não entregue permanece pendente;
 - sucesso de envio persiste a confirmação remota antes de marcar `delivered`;
 - falha ambígua permite retry após restart;
