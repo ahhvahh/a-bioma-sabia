@@ -2,7 +2,7 @@
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0012-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
-![Version](https://img.shields.io/badge/Version-4-6e7781?style=flat-square)
+![Version](https://img.shields.io/badge/Version-5-6e7781?style=flat-square)
 
 ## Contexto
 
@@ -36,17 +36,19 @@ O produtor envia metadados e binário por um socket local. O Sabiá valida a cor
 
 ## Decisão
 
-O Sabiá disponibilizará um **Unix domain socket exclusivo para ingestão de mídia**.
+O Sabiá disponibilizará um **Unix domain socket para ingestão simples de mídia**. ADR-0013 complementa esta decisão com um segundo socket dedicado à ingestão fracionada.
 
 O protocolo de aplicação desse socket será **MessagePack**.
 
-Cada envio representa um único item de mídia e contém, no mínimo:
+No canal simples, cada envio representa um único item de mídia integral e contém, no mínimo:
 
 - versão do contrato;
 - `request_id`;
 - nome lógico do arquivo;
 - metadados de tipo quando informados;
 - conteúdo binário.
+
+O canal simples aceita até `20000000` bytes por arquivo. Conteúdo maior usa o canal fracionado de ADR-0013.
 
 O Sabiá valida o `request_id`, persiste os metadados e o conteúdo binário no SQLite e somente depois retorna confirmação contendo o `media_id` persistente.
 
@@ -69,7 +71,8 @@ MessagePack oferece representação binária nativa e estrutura de mensagem comp
 - o socket precisa de política explícita de caminho, ownership e permissões locais;
 - transmissões pendentes passam a referenciar `media_id`, não caminho de filesystem;
 - mídia recebida do Telegram também pode usar o mesmo modelo persistente;
-- tamanho máximo e estratégia para conteúdos muito grandes precisam ser definidos em especificação;
+- o canal simples é limitado a 20 MB;
+- conteúdos maiores usam o segundo socket e chunks de até 5 MB conforme ADR-0013;
 - a retenção do BLOB após entrega precisa ser definida.
 
 ## Dependências
@@ -77,6 +80,7 @@ MessagePack oferece representação binária nativa e estrutura de mensagem comp
 - [ADR-0009 — Persistência do estado operacional](../persistencia/estado-operacional.md)
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](processadores-assincronos-registrados.md)
 - [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
+- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](ingestao-midia-fracionada.md)
 
 ## Critérios de validação
 
