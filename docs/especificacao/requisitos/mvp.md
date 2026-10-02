@@ -1,0 +1,102 @@
+# Escopo do primeiro MVP
+
+**ID:** REQ-0001  
+**Status:** refined
+
+## Objetivo
+
+Delimitar o primeiro MVP para impedir implementação prematura de processadores complexos.
+
+## Dependências
+
+- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
+
+## Capacidades obrigatórias
+
+### Core
+
+- Sabiá Core;
+- múltiplos clientes;
+- Script Registry;
+- Script Executor;
+- Job Manager;
+- Scheduler;
+- Alert Manager;
+- Telegram Long Polling;
+- autorização por Telegram User ID;
+- logs;
+- configuração YAML;
+- graceful shutdown;
+- integração com systemd;
+- processo executado como usuário `sabia`.
+
+### Cliente Bioma
+
+MVP:
+- `/start`;
+- `/help`;
+- `/status`;
+- `/cpu`;
+- `/memory`;
+- `/disk`;
+- `/uptime`;
+- `/run`.
+
+Catálogo previsto para evolução:
+- `/network`;
+- `/processes`;
+- `/services`;
+- `/jobs`;
+- `/job <id>`.
+
+### Cliente Tools
+
+MVP:
+- `/help`;
+- `/jobs`;
+- `/job`.
+
+Previstos, mas fora do primeiro processamento complexo:
+- `/image`;
+- `/video`;
+- `/audio`;
+- `/convert`;
+- `/resize`;
+- `/compress`;
+- `/cancel`.
+
+### Cliente Alerts
+
+MVP:
+- `/status`.
+
+Previstos:
+- `/checks`;
+- `/check <nome>`;
+- `/alerts`.
+
+## Scripts iniciais
+
+Scripts simples previstos para validar a arquitetura:
+- system/status.sh;
+- system/cpu.sh;
+- system/memory.sh;
+- system/disk.sh;
+- system/uptime.sh;
+- system/network.sh;
+- monitoring/disk-check.sh;
+- monitoring/service-check.sh.
+
+## Primeira prova funcional
+
+`disk-check` executado pelo Scheduler e notificado por Sabiá Alerts quando houver mudança de estado.
+
+## Fora do MVP
+
+Não implementar ainda processamento complexo de imagem, vídeo e áudio. A arquitetura deve apenas permitir que processadores sejam adicionados depois.
+
+## Critérios de aceite
+
+- fluxo Telegram → Bioma → comando → script → resultado → Telegram é possível;
+- fluxo Scheduler → disk-check → estado relevante → Alerts → Telegram é possível;
+- nenhum desses fluxos exige shell arbitrário nem porta pública de webhook.
