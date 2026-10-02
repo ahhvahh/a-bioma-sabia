@@ -33,11 +33,12 @@ Update recebido por long polling em cliente habilitado.
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
 6. o adaptador gera `request_id`, normaliza `principal_id`, define `client_id`, `received_at` e `reply_context = { transport: "telegram", destination_id: <chat normalizado> }`, tokeniza os argumentos e constrói o comando interno com `arguments: string[]`, sem aplicar validação semântica específica da operação;
 7. o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
-8. a operação produz resultado imediato ou cria job;
-9. o adaptador persiste a resposta como entrega `pending`;
-10. o adaptador envia a resposta pelo Telegram;
-11. após sucesso da Bot API, persiste o `message_id` retornado e marca a entrega como `delivered`;
-12. auditoria registra a operação sem segredos.
+8. a operação retorna envelope conforme CTR-0001 com `type`, `request_id` e `payload`;
+9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; `file` permanece indisponível enquanto seu contrato estiver `BLOCKED`;
+10. o adaptador persiste a resposta como entrega `pending`;
+11. o adaptador envia a resposta pelo Telegram;
+12. após sucesso da Bot API, persiste o `message_id` retornado e marca a entrega como `delivered`;
+13. auditoria registra a operação sem segredos.
 
 ## Fluxos alternativos
 
@@ -121,6 +122,8 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 - `reply_context.destination_id` representa o chat de resposta como string opaca ao Core;
 - argumentos chegam ao Core como `string[]` já tokenizado pelo adaptador;
 - validação semântica dos argumentos ocorre na operação correspondente;
+- resultados `message`, `job` e `error` são convertidos pelo adaptador sem alterar sua semântica;
+- resultado `error` preserva `code`, `message` e `retryable`;
 - cliente não acessa comandos de outro cliente;
 - falha antes da persistência não confirma o update;
 - update persistido pode ser recuperado localmente após reinício;
