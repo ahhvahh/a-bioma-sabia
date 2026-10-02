@@ -13,6 +13,7 @@ Receber um arquivo de um produtor local, persistir o conteúdo e prepará-lo par
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
 
 ## Gatilho
 
@@ -30,7 +31,7 @@ Produtor local conecta ao socket de mídia e envia um objeto MessagePack.
 1. aceitar conexão Unix local;
 2. decodificar um objeto MessagePack;
 3. validar `version`, `request_id`, `name`, `content_type` e `data`;
-4. rejeitar `data` maior que `100000000` bytes com `media_too_large`;
+4. rejeitar `data` maior que `20000000` bytes com `media_too_large`;
 5. consultar o estado operacional e localizar a requisição e sua correlação de resposta pelo `request_id`;
 6. iniciar transação SQLite;
 7. persistir mídia e obter `media_id`;
@@ -56,7 +57,7 @@ Executar rollback e responder `persistence_failed`.
 
 ### Conteúdo acima do limite
 
-Responder `media_too_large` quando `data` exceder `100000000` bytes. A rejeição ocorre antes da transação de persistência.
+Responder `media_too_large` quando `data` exceder `20000000` bytes. A rejeição ocorre antes da transação de persistência e o produtor deve usar CTR-0009 para arquivos maiores.
 
 ## Falhas e tratamento
 
@@ -76,7 +77,7 @@ Mídia e transmissão existem de forma persistente e podem sobreviver a restart 
 - vários uploads podem usar o mesmo `request_id`, inclusive com mesmo nome ou conteúdo;
 - falha de conexão não corrompe registro parcialmente persistido;
 - retry do produtor após perda do ACK pode criar nova mídia e isso é comportamento aceito no MVP;
-- payload acima de 100 MB é recusado antes de qualquer persistência.
+- payload acima de 20 MB é recusado antes de qualquer persistência e direcionado conceitualmente ao contrato fracionado.
 
 ## Implementação relacionada
 
