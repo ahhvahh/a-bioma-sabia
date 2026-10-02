@@ -148,7 +148,7 @@ Campos necessários:
 - parâmetros de ownership/permissão local;
 - `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes.
 
-Arquivos maiores que o limite do canal simples usam este canal. A identidade/completude do arquivo lógico ainda está `BLOCKED` em CTR-0009.
+Arquivos maiores que o limite do canal simples usam este canal. A abertura gera `media_id` e a sequência é estrita; permanecem `BLOCKED` somente a completude e o limite total do arquivo lógico em CTR-0009.
 
 Não existe endereço TCP para esta interface.
 
