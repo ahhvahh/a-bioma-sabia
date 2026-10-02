@@ -43,17 +43,17 @@ O Sabiá terá dois Unix domain sockets de mídia:
 
 O tamanho normativo máximo de cada chunk é `5000000` bytes (5 MB decimais). O último chunk pode ser menor.
 
-Cada chunk contém, no mínimo:
+Antes dos chunks, o produtor envia os metadados do arquivo usando `request_id`, `name` e tipo conhecido. O Sabiá cria o objeto de mídia e devolve o `media_id` gerado pelo banco.
 
-- `version`;
-- `request_id`;
-- `name`;
+Depois disso, cada chunk contém somente:
+
+- `media_id`;
 - `sequence_id`;
 - `data`.
 
-O identificador de correlação do contrato é `request_id`. O Telegram `message_id` não é exposto ao produtor.
+O Telegram `message_id` não é exposto ao produtor.
 
-Cada chunk é persistido assim que é aceito. O arquivo lógico é reconstruído pela ordem de `sequence_id`.
+A sequência inicia em `1` e deve ser estritamente crescente. Cada chunk é persistido assim que é aceito. O Sabiá devolve a próxima sequência esperada em cada ACK.
 
 A transmissão ao Telegram não envia cada chunk como uma mensagem independente. Quando o arquivo lógico estiver completo, o Sabiá lê os chunks persistidos em ordem e fornece um stream contínuo ao upload multipart do adaptador Telegram, sem precisar materializar o arquivo inteiro em memória.
 
@@ -67,7 +67,9 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - será necessário um novo contrato para o socket fracionado;
 - a persistência de mídia passa a suportar registros de chunks ordenados;
 - a fila de transmissão precisa conseguir ler conteúdo por chunks;
-- é necessário definir como o produtor informa que o arquivo terminou;
+- a identidade do arquivo lógico é resolvida pelo `media_id` gerado na abertura;
+- lacunas e sequências repetidas são recusadas com a próxima sequência esperada;
+- ainda é necessário definir como o produtor informa que o arquivo terminou;
 - o limite total do arquivo lógico precisa respeitar o transporte de destino.
 
 ## Dependências
@@ -82,7 +84,9 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - arquivos de até 20 MB usam o socket simples;
 - payload simples acima de 20 MB é recusado;
 - arquivo grande pode ser persistido em chunks de até 5 MB;
-- vários chunks são associados ao mesmo `request_id` e nome lógico;
+- vários chunks são associados ao mesmo `media_id`;
+- dois arquivos com mesmo nome podem coexistir porque recebem `media_id` distintos;
 - sequência persistida permite reconstrução ordenada;
+- sequência pulada ou repetida é detectada imediatamente;
 - Telegram recebe um único arquivo lógico e não os chunks individualmente;
 - a montagem não exige manter o arquivo completo em memória.
