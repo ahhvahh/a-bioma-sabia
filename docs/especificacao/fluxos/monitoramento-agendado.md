@@ -56,6 +56,13 @@ O Script Executor não atribui significado de monitoramento ao exit code.
 4. o disparo ignorado é registrado para observabilidade;
 5. a execução já ativa continua normalmente.
 
+### Primeira avaliação sem estado anterior
+
+1. Alert Manager identifica ausência de estado anterior persistido;
+2. se o estado atual for `OK`, persiste `OK` sem enviar alerta;
+3. se o estado atual for `WARNING`, `CRITICAL` ou `UNKNOWN`, cria e envia alerta imediatamente;
+4. o estado atual é persistido como referência para as próximas avaliações.
+
 ### Estado inalterado
 
 Não enviar imediatamente; lembrete só quando configurado.
@@ -86,6 +93,8 @@ Primeira prova funcional: `disk-check` com limites configuráveis:
 
 Os valores são exemplos iniciais e devem ser configuráveis.
 
+- primeira avaliação em `OK` não gera alerta;
+- primeira avaliação em `WARNING`, `CRITICAL` ou `UNKNOWN` gera alerta;
 - uma tarefa que vença novamente enquanto sua execução anterior estiver ativa não inicia execução concorrente;
 - o disparo sobreposto é ignorado e registrado.
 
