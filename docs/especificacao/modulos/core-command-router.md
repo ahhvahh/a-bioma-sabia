@@ -16,6 +16,8 @@ Receber comandos internos já autorizados, localizar a operação cadastrada e d
 ## Responsabilidades
 
 - resolver comando dentro do catálogo do cliente;
+- receber `request_id`, `client_id`, `principal_id`, `command`, `arguments`, `reply_context` e `received_at` conforme CTR-0001;
+- preservar `request_id`, `client_id` e `reply_context` até a produção do resultado;
 - receber argumentos já tokenizados como `string[]`;
 - delegar à operação correspondente a validação semântica dos argumentos;
 - rejeitar comando desconhecido;
@@ -53,12 +55,14 @@ Nenhuma persistência própria foi definida para o roteador.
 
 ## Critérios de aceite
 
-**BLOCKED para `refined`:** CTR-0001 já definiu `arguments: string[]` tokenizado pelo adaptador, mas ainda precisa fechar os demais campos, tipos, limites e estruturas de resultado/erro.
+**BLOCKED para `refined`:** CTR-0001 já definiu identidade, correlação e `arguments: string[]`, mas ainda precisa fechar anexos e as estruturas concretas de resultado/erro.
 
 - roteador pode ser testado com adaptadores mock;
 - comando inexistente não chega a executor;
 - o Router não interpreta texto bruto do transporte para obter argumentos;
 - a operação correspondente valida quantidade, formato e domínio dos argumentos;
+- `request_id` permanece estável durante roteamento e criação de job;
+- o Router trata `reply_context.destination_id` como valor opaco;
 - novo executor pode ser integrado sem alterar o mecanismo de identificação de comando.
 
 ## Implementação relacionada
