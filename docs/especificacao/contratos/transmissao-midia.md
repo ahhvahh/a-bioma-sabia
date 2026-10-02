@@ -14,6 +14,7 @@ Definir a fila persistente de mídia destinada ao cliente, permitindo retomar tr
 - [CTR-0006 — Mídia persistida](midia-persistida.md)
 - [CTR-0009 — Ingestão fracionada de mídia por Unix socket](ingestao-midia-fracionada.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
+- [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/limpeza-midia.md)
 
 ## Tipo
 
