@@ -27,18 +27,20 @@ Produtor local precisa enviar um arquivo maior pelo socket fracionado.
 
 ## Fluxo principal
 
-1. produtor envia `version`, `request_id`, `name` e `content_type`;
+1. produtor envia `version`, `request_id`, `name`, `content_type` e `total_bytes`;
 2. Sabiá valida a requisição;
-3. Sabiá cria a mídia no SQLite;
+3. Sabiá valida `total_bytes` e cria a mídia com `received_bytes = 0` e `completed = false`;
 4. commit gera `media_id`;
 5. Sabiá responde `media_id` e `next_sequence_id = 1`;
 6. produtor envia `media_id`, `sequence_id = 1` e `data`;
 7. Sabiá valida tamanho e sequência;
-8. persiste o chunk e avança a próxima sequência esperada;
-9. responde o próximo `next_sequence_id`;
-10. produtor repete o envio para os demais chunks;
-11. quando a mídia estiver marcada como completa, CTR-0007 pode iniciar sua transmissão;
-12. CTR-0007 lê os chunks na sequência persistida e fornece um stream único ao adaptador.
+8. calcula o novo total recebido e rejeita se ultrapassar `total_bytes`;
+9. persiste o chunk, atualiza `received_bytes` e avança a próxima sequência esperada;
+10. se `received_bytes == total_bytes`, marca `completed = true`;
+11. responde o próximo `next_sequence_id`, `received_bytes`, `total_bytes` e `completed`;
+12. produtor repete o envio enquanto `completed = false`;
+13. quando `completed = true`, CTR-0007 pode iniciar sua transmissão;
+14. CTR-0007 lê os chunks na sequência persistida e fornece um stream único ao adaptador.
 
 ## Fluxos alternativos
 
@@ -66,6 +68,14 @@ Se o produtor enviar sequência inferior à esperada:
 - responder `sequence_already_received`;
 - informar `expected_sequence_id`.
 
+### Total excedido
+
+Se um chunk faria o total persistido ultrapassar `total_bytes`:
+
+- não persistir;
+- responder `total_bytes_exceeded`;
+- manter `received_bytes` e `next_sequence_id` inalterados.
+
 ### Restart
 
 O banco preserva `media_id`, chunks confirmados e a próxima sequência esperada.
@@ -86,10 +96,7 @@ Um único `media_id` identifica todos os chunks do arquivo, independentemente do
 
 ## BLOCKED
 
-Ainda falta definir:
-
-- mensagem/regra de conclusão do arquivo;
-- limite total do arquivo lógico.
+Ainda falta definir apenas o limite máximo permitido para `total_bytes`.
 
 ## Critérios de aceite
 
@@ -98,6 +105,8 @@ Ainda falta definir:
 - ACK de chunk informa a próxima sequência;
 - sequência pulada é recusada com valor esperado;
 - sequência já recebida é recusada sem duplicar conteúdo;
+- `completed` ocorre automaticamente quando `received_bytes == total_bytes`;
+- não existe mensagem separada de finalização;
 - restart preserva progresso;
 - arquivo pode ser lido sequencialmente sem materialização integral em memória.
 
