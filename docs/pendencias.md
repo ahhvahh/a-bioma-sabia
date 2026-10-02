@@ -58,6 +58,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - cada chunk contém `request_id`, `name`, `sequence_id` e BLOB;
   - chunks são persistidos imediatamente e ordenados por `sequence_id`;
   - o Telegram recebe um único arquivo lógico; chunks não são mensagens independentes;
+  - CTR-0007 voltou para `refinement` porque a entrega fracionada depende da completude definida por CTR-0009;
   - uma requisição pode enviar vários arquivos por vários uploads;
   - uploads repetidos, inclusive com mesmo nome/conteúdo, são aceitos como mídias independentes e não são deduplicados;
   - o serviço apenas valida a existência do `request_id` antes de persistir;
