@@ -31,7 +31,7 @@ Update recebido por long polling em cliente habilitado.
 3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
 4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
-6. o adaptador tokeniza os argumentos do comando e constrói o comando interno com `arguments: string[]`, sem aplicar validação semântica específica da operação;
+6. o adaptador gera `request_id`, normaliza `principal_id`, define `client_id`, `received_at` e `reply_context = { transport: "telegram", destination_id: <chat normalizado> }`, tokeniza os argumentos e constrói o comando interno com `arguments: string[]`, sem aplicar validação semântica específica da operação;
 7. o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
 8. a operação produz resultado imediato ou cria job;
 9. o adaptador persiste a resposta como entrega `pending`;
@@ -117,6 +117,8 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 ## Critérios de aceite
 
 - autorização antecede execução;
+- comando interno possui `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at` normalizados pelo adaptador;
+- `reply_context.destination_id` representa o chat de resposta como string opaca ao Core;
 - argumentos chegam ao Core como `string[]` já tokenizado pelo adaptador;
 - validação semântica dos argumentos ocorre na operação correspondente;
 - cliente não acessa comandos de outro cliente;
