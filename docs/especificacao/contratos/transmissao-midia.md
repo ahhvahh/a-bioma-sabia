@@ -67,7 +67,7 @@ O produtor só recebe ACK de sucesso depois de mídia e transmissão estarem per
 
 1. selecionar transmissão `pending` ou elegível para retry;
 2. carregar metadados e a fonte persistida por `media_id`;
-3. quando a mídia for fracionada, verificar que o arquivo lógico está completo e ler os chunks por ordem de `sequence_id`;
+3. quando a mídia for fracionada, exigir `completed = true` e ler os chunks por ordem de `sequence_id`;
 4. marcar `transmitting`;
 5. fornecer um stream contínuo ao adaptador correspondente;
 6. aguardar confirmação remota;
@@ -112,7 +112,7 @@ O registro usa `transport` e `destination_id`, portanto não depende exclusivame
 
 ## BLOCKED
 
-Para retornar a `refined`, a transmissão de mídia fracionada depende de CTR-0009 definir identidade do arquivo lógico, completude, sequência e limite total.
+Para retornar a `refined`, a transmissão de mídia fracionada depende de CTR-0009 definir apenas a regra de completude e o limite total do arquivo lógico.
 
 ## Critérios de aceite
 
