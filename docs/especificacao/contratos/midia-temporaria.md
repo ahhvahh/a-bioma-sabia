@@ -13,6 +13,7 @@ Definir a representação de mídia de entrada e saída entre adaptadores, Core 
 - [CTR-0001 — Comando interno](comando-interno.md)
 - [CTR-0005 — Protocolo de processador assíncrono](processador-assincrono.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
+- [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
 
 ## Tipo
 
@@ -77,35 +78,27 @@ O Sabiá abre o arquivo validado e faz streaming para o adaptador Telegram sem e
 
 ## Lifecycle e limpeza
 
-Para cada arquivo de saída anunciado por `content`:
+O lifecycle de arquivos de saída segue CTR-0007.
 
-1. validar a referência;
-2. abrir o arquivo;
-3. transmitir por streaming;
-4. aguardar o retorno de sucesso do Telegram;
-5. somente depois de o último byte ter sido transmitido e o Telegram confirmar o recebimento, remover imediatamente o arquivo.
+Antes da primeira tentativa de envio, o Sabiá persiste uma transmissão com correlação suficiente para reenviar o arquivo ao cliente correto.
 
-Se o streaming ou a confirmação falhar, o arquivo permanece disponível para nova tentativa enquanto o processo atual continuar executando.
+Arquivos em transmissões `pending` ou `transmitting` não podem ser removidos.
+
+Após transmissão completa, confirmação remota e persistência do estado `delivered`, o arquivo é removido imediatamente.
 
 ### Startup
 
-Antes de aceitar novas requisições, o Sabiá remove todo o conteúdo existente em:
+O startup não limpa toda a área temporária.
 
-`/tmp/sabia/media`
+O Sabiá reconcilia transmissões `pending` e `transmitting` com o filesystem e tenta novamente os arquivos existentes.
 
-A raiz pode ser recriada vazia em seguida.
-
-Referências persistidas para arquivos temporários de uma execução anterior não são recuperáveis após essa limpeza.
+Arquivos sem registro ativo podem ser removidos somente quando estiverem sem modificação há mais de 1 minuto.
 
 ### Shutdown
 
-Antes de finalizar o processo, o Sabiá remove todo o conteúdo de:
+O shutdown preserva arquivos associados a transmissões `pending` ou `transmitting` para permitir recovery no próximo startup do serviço.
 
-`/tmp/sabia/media`
-
-Entregas de mídia sem confirmação até esse ponto tornam-se não recuperáveis pela referência temporária e precisam permanecer registradas como falha de entrega, sem tentativa de reenvio no próximo startup.
-
-Respostas textuais persistidas não são afetadas por essa política.
+Arquivos órfãos podem ser coletados pelas mesmas regras de CTR-0007.
 
 ## Relação com finally
 
@@ -126,7 +119,7 @@ O processador pode enviar:
 - `media_not_regular` — referência não aponta para arquivo regular;
 - `media_unreadable` — Sabiá não consegue abrir o arquivo;
 - `media_delivery_failed` — falha ao transmitir o arquivo ao transporte externo;
-- `media_unavailable_after_cleanup` — entrega persistida referencia mídia que foi removida pela política de startup/shutdown.
+- `media_unavailable_after_cleanup` — registro ativo referencia mídia que desapareceu do filesystem.
 
 ## Regras e restrições
 
@@ -138,8 +131,9 @@ O processador pode enviar:
 - o streaming ao Telegram é responsabilidade do Sabiá;
 - o arquivo não pode ser apagado antes da transmissão completa e confirmação de recebimento;
 - confirmação bem-sucedida exige remoção imediata do arquivo;
-- startup e shutdown limpam toda a raiz temporária;
-- mídia temporária não é recuperável entre execuções do serviço;
+- startup e shutdown preservam mídia referenciada por transmissões ativas;
+- transmissões ativas podem ser retomadas após restart do serviço;
+- órfãos sem modificação há mais de 1 minuto podem ser coletados;
 - o binário não pode ser registrado em logs.
 
 ## BLOCKED
@@ -162,6 +156,7 @@ A referência `{name, path}` é independente do Telegram e pode ser usada por ou
 - `content` não encerra o job;
 - `finally` não carrega conteúdo binário;
 - arquivo é removido somente após último byte transmitido e confirmação do Telegram;
-- startup e shutdown limpam toda `/tmp/sabia/media`;
-- mídia pendente removida pela limpeza não é reenviada após restart;
+- startup reconcilia e retoma mídia pendente quando o arquivo existe;
+- shutdown preserva arquivos de transmissões ativas;
+- arquivo órfão sem modificação há mais de 1 minuto pode ser removido;
 - tipo de mídia e limites ainda precisam ser refinados antes do gate.
