@@ -26,7 +26,10 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - rejeitar payload simples acima de `20000000` bytes;
 - rejeitar chunk acima de `5000000` bytes;
 - validar versão e `request_id`;
+- criar `media_id` a partir dos metadados antes de receber chunks;
 - persistir BLOB integral ou chunks ordenados e respectivos metadados;
+- controlar `next_sequence_id` por mídia fracionada;
+- rejeitar sequência pulada ou já recebida sem alterar os chunks persistidos;
 - criar transmissão pendente na mesma unidade lógica;
 - devolver ACK somente após commit;
 - fornecer `media_id` à fila de entrega;
@@ -71,7 +74,7 @@ SQLite armazena metadados, BLOB integral ou chunks ordenados. A transmissão ref
 - restart mantém conteúdo confirmado;
 - payload integral acima de 20 MB é rejeitado com `media_too_large` e deve usar o canal fracionado;
 - chunk acima de 5 MB é rejeitado com `chunk_too_large`;
-- contrato permanece em `refinement` enquanto identidade/completude do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
+- contrato permanece em `refinement` enquanto completude/limite total do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
 
 ## Implementação relacionada
 
