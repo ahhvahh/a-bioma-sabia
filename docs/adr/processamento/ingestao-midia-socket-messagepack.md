@@ -54,7 +54,7 @@ Uma mesma requisição pode receber vários arquivos por várias mensagens indep
 
 O banco de dados é a fonte oficial do conteúdo recebido. O envio ao Telegram lê o binário persistido e não depende de arquivo temporário.
 
-A área `/tmp/sabia/media` deixa de fazer parte do contrato de transporte de mídia.
+Nenhuma área temporária de filesystem faz parte do contrato de transporte de mídia.
 
 ## Justificativa
 
