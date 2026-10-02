@@ -31,8 +31,8 @@ Update recebido por long polling em cliente habilitado.
 3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
 4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
-6. o adaptador converte a solicitação em comando interno;
-7. o Command Router resolve a operação cadastrada;
+6. o adaptador tokeniza os argumentos do comando e constrói o comando interno com `arguments: string[]`, sem aplicar validação semântica específica da operação;
+7. o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
 8. a operação produz resultado imediato ou cria job;
 9. o adaptador persiste a resposta como entrega `pending`;
 10. o adaptador envia a resposta pelo Telegram;
@@ -117,6 +117,8 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 ## Critérios de aceite
 
 - autorização antecede execução;
+- argumentos chegam ao Core como `string[]` já tokenizado pelo adaptador;
+- validação semântica dos argumentos ocorre na operação correspondente;
 - cliente não acessa comandos de outro cliente;
 - falha antes da persistência não confirma o update;
 - update persistido pode ser recuperado localmente após reinício;
