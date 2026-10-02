@@ -26,10 +26,10 @@ Executar operações demoradas sem bloquear o recebimento de comandos e garantir
 - executar por workers;
 - controlar estados e histórico;
 - receber e publicar progresso `loading` correlacionado por `request_id`;
-- receber eventos `content` correlacionados e encaminhar cada arquivo ao pipeline de entrega;
 - aceitar `finally` como finalização semântica normal do processador;
+- correlacionar mídia persistida pelo socket de ingestão usando `request_id`;
 - correlacionar resultado com `client_id` e destino de resposta;
-- persistir referência/estado de cada conteúdo anunciado e a resposta final antes da entrega;
+- acompanhar transmissões CTR-0007 sem transportar binário pelo job;
 - persistir respostas até a confirmação de entrega;
 - recuperar fila após reinício;
 - suportar consulta e cancelamento conforme CTR-0003.
@@ -40,7 +40,7 @@ Solicitação de operação assíncrona e contexto persistente de resposta.
 
 ## Saídas
 
-Identificador de job, mudanças de estado, eventos `loading`, conteúdos `content` e resposta `finally` destinada ao cliente correspondente.
+Identificador de job, mudanças de estado, eventos `loading`, resposta `finally` e correlação com mídias/transmissões associadas ao mesmo `request_id`.
 
 ## Interfaces e contratos
 
@@ -49,7 +49,7 @@ Identificador de job, mudanças de estado, eventos `loading`, conteúdos `conten
 
 ## Persistência
 
-SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes. Transmissões de mídia `pending` ou `transmitting` são retomadas conforme CTR-0007 quando o arquivo ainda existe.
+SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes. Transmissões de mídia `pending` ou `transmitting` são retomadas conforme CTR-0007 quando o `media_id` existe.
 
 ## Restrições
 
@@ -66,10 +66,10 @@ SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs e
 - running interrompido não é reexecutado silenciosamente;
 - cancelamento e retry seguem CTR-0003;
 - `loading` não finaliza o job;
-- `content` pode ocorrer várias vezes e não finaliza o job;
+- uploads de mídia são independentes do canal de controle e usam o mesmo `request_id`;
 - `finally` correlacionado conclui semanticamente o processamento;
-- transmissão de mídia ativa permanece recuperável após restart enquanto o arquivo existir;
-- permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
+- transmissão de mídia ativa permanece recuperável após restart enquanto o `media_id` existir;
+- permanece `refinement` enquanto CTR-0005 estiver incompleto para framing do canal de controle.
 
 ## Implementação relacionada
 
