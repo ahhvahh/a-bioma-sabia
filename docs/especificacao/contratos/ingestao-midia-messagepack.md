@@ -48,12 +48,14 @@ Objeto MessagePack:
 
 Regras:
 
-- `request_id` deve corresponder a uma requisição conhecida pelo Sabiá;
+- antes de persistir, o Sabiá consulta o estado operacional e `request_id` deve corresponder a uma requisição conhecida;
+- o Sabiá não tenta deduplicar uploads por nome, conteúdo ou `request_id`;
 - `name` não representa caminho de filesystem;
 - o produtor não fornece `client_id`, `transport` nem destino; esses dados são recuperados pela correlação do `request_id`;
 - `data` nunca é escrito em logs;
 - uma conexão envia um arquivo;
-- vários arquivos para a mesma requisição usam várias conexões/uploads com o mesmo `request_id`.
+- vários arquivos para a mesma requisição usam várias conexões/uploads com o mesmo `request_id`;
+- dois uploads com mesmo `request_id`, mesmo `name` e mesmo conteúdo são aceitos como duas mídias independentes e recebem `media_id` distintos.
 
 ## Persistência e atomicidade
 
@@ -61,7 +63,7 @@ Antes de confirmar o upload, o Sabiá deve:
 
 1. validar a estrutura MessagePack;
 2. validar a versão;
-3. localizar a requisição por `request_id`;
+3. consultar o estado operacional e localizar a requisição por `request_id`;
 4. validar os limites configurados;
 5. inserir metadados e BLOB da mídia no SQLite;
 6. criar a transmissão pendente correlacionada ao cliente/destino da requisição;
@@ -70,6 +72,8 @@ Antes de confirmar o upload, o Sabiá deve:
 O ACK de sucesso só pode ser enviado depois do commit da mídia e da transmissão.
 
 Falha antes do commit não pode retornar sucesso.
+
+Não existe chave de idempotência de upload no MVP. Se o produtor repetir um upload após perda do ACK, o novo recebimento é tratado como nova mídia.
 
 ## Saída de sucesso
 
@@ -128,6 +132,7 @@ Antes de `refined` ainda precisam ser definidos:
 - upload com `request_id` desconhecido é rejeitado;
 - sucesso só ocorre depois de persistência atômica;
 - vários arquivos podem usar o mesmo `request_id`;
+- uploads repetidos não são deduplicados e podem gerar `media_id` distintos;
 - restart após ACK não perde o conteúdo persistido;
 - nenhum caminho de filesystem é aceito no payload;
 - binário não aparece em logs.
