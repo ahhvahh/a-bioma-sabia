@@ -17,13 +17,14 @@ Criar uma mídia lógica a partir dos metadados e receber seu conteúdo em chunk
 
 ## Gatilho
 
-Produtor local precisa enviar um arquivo maior pelo socket fracionado.
+Produtor local escolhe enviar um arquivo pelo socket fracionado. Para arquivos acima de 20 MB, esse canal é obrigatório; para arquivos menores ou iguais a 20 MB, é opcional.
 
 ## Pré-condições
 
 - socket fracionado em execução;
 - processo local autorizado;
-- `request_id` conhecido.
+- `request_id` conhecido;
+- `total_bytes > 0`; não existe tamanho mínimo para usar o fluxo.
 
 ## Fluxo principal
 
