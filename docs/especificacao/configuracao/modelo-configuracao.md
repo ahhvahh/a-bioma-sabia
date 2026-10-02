@@ -111,10 +111,12 @@ Cada agendamento possui, no mínimo:
 
 - identificador;
 - operação/script cadastrado;
-- periodicidade;
+- `interval`: duração positiva obrigatória entre disparos;
 - habilitação;
 - política de relatório;
 - `reminder_interval`: duração positiva opcional para lembretes de estado degradado inalterado.
+
+No MVP, `interval` é a única forma de periodicidade. Expressões cron, calendários e horários absolutos não são aceitos.
 
 `reminder_interval` ausente significa que o agendamento não envia lembretes periódicos para estado inalterado. Quando presente, aplica-se somente a `WARNING`, `CRITICAL` e `UNKNOWN`; mudança de estado reinicia a contagem e `OK` encerra lembretes.
 
@@ -133,7 +135,7 @@ A configuração completa é validada antes de iniciar:
 
 Configuração ausente, inválida, campo obrigatório ausente, segredo referenciado inexistente ou valor fora do domínio faz o processo falhar no startup.
 
-Para agendamentos, `reminder_interval`, quando presente, deve ser uma duração positiva.
+Para agendamentos, `interval` é obrigatório e deve ser uma duração positiva. `reminder_interval`, quando presente, também deve ser uma duração positiva. Configuração cron é inválida no MVP.
 
 Para scripts:
 
@@ -176,5 +178,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - definição de script contém os campos necessários a CTR-0002;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
+- `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
+- cron não é aceito no MVP;
 - `reminder_interval` é opcional, positivo quando presente e ausente significa sem lembretes periódicos;
 - SQLite possui caminho conhecido e schema versionado.
