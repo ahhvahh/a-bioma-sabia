@@ -25,7 +25,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
-- [ADR-0012 — Área temporária de mídia para processadores](adr/processamento/midia-temporaria-por-request.md) — `refined`
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](adr/processamento/ingestao-midia-socket-messagepack.md) — `refined`
 
 ### Desenhos
 
@@ -41,6 +41,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
 - [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refinement`
+- [MOD-0008 — Ingestão e armazenamento de mídia](especificacao/modulos/ingestao-midia.md) — `refinement`
 
 ### Contratos
 
@@ -49,8 +50,9 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
 - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refinement`
-- [CTR-0006 — Mídia temporária por requisição](especificacao/contratos/midia-temporaria.md) — `refinement`
+- [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md) — `refinement`
 - [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](especificacao/contratos/ingestao-midia-messagepack.md) — `refinement`
 
 ### Fluxos
 
@@ -59,6 +61,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
 - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
 - [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refinement`
+- [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
 
 ### Configuração e requisitos
 
