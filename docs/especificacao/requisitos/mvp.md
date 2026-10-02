@@ -28,7 +28,7 @@ Delimitar o primeiro MVP para impedir implementação prematura de processadores
 - configuração YAML;
 - graceful shutdown;
 - Unix socket local de ingestão simples de mídia com MessagePack, limitado a 20 MB;
-- segundo Unix socket para ingestão fracionada em chunks de até 5 MB;
+- segundo Unix socket para ingestão fracionada em chunks de até 5 MB, opcional para arquivos de até 20 MB e obrigatório acima desse limite;
 - persistência de mídia em SQLite por `media_id`;
 - fila persistente de transmissão de mídia;
 - integração com systemd;
