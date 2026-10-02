@@ -17,6 +17,7 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [MOD-0007 — Processadores assíncronos e transporte](../modulos/processadores-assincronos.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 - [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Gatilho
 
@@ -62,7 +63,7 @@ Marcar como `failed/service_restart`; não reexecutar automaticamente.
 
 Resposta textual pendente volta à etapa de envio e segue semântica `at-least-once`.
 
-Conteúdo de mídia baseado em `/tmp/sabia/media/<request_id>/` não é recuperável após restart porque a limpeza de startup remove toda a área temporária. Entrega de mídia ainda não confirmada deve permanecer registrada como falha de entrega e não é reenviada automaticamente.
+Transmissões de mídia `pending` ou `transmitting` são recuperadas conforme CTR-0007. Se o arquivo ainda existir, ele volta a ser elegível para envio. Se estiver ausente, a transmissão termina em `failed/media_missing`.
 
 ### Erro com retry_after
 
@@ -99,6 +100,7 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 - resposta não entregue permanece pendente;
 - sucesso de envio persiste a confirmação remota antes de marcar `delivered`;
 - falha ambígua permite retry após restart;
+- mídia `pending` ou `transmitting` é retomada após restart quando o arquivo existe;
 - erro permanente encerra a entrega em `failed` sem alterar o resultado de processamento do job;
 - permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
 
