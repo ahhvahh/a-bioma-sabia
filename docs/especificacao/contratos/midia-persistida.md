@@ -14,6 +14,7 @@ Definir a representação persistente de imagens, vídeos e outros arquivos usad
 - [CTR-0001 — Comando interno](comando-interno.md)
 - [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](ingestao-midia-fracionada.md)
 
 ## Tipo
 
@@ -28,7 +29,7 @@ Cada conteúdo de mídia possui registro persistente no SQLite com, no mínimo:
 - `name: string` — nome lógico do arquivo;
 - `content_type: string | null` — tipo declarado/conhecido quando disponível;
 - `size_bytes: integer` — tamanho persistido do BLOB;
-- `data: blob` — conteúdo binário;
+- `data: blob | null` — conteúdo binário quando a mídia foi recebida integralmente pelo canal simples;
 - `created_at: timestamp`.
 
 `media_id` é a referência usada pelos demais contratos.
@@ -39,7 +40,9 @@ Nenhum contrato interno usa caminho de filesystem como identidade de mídia.
 
 Scripts, aplicações e serviços enviam mídia por CTR-0008.
 
-Depois de validar e persistir o BLOB, o Sabiá cria a correlação necessária para transmissão e devolve `media_id`.
+Depois de validar e persistir o BLOB integral pelo CTR-0008, o Sabiá cria a correlação necessária para transmissão e devolve `media_id`.
+
+Arquivos maiores usam CTR-0009. Seus pedaços são persistidos separadamente e ordenados por `sequence_id`; a mídia lógica só pode ser entregue quando a regra de completude estiver satisfeita.
 
 Uma mesma `request_id` pode possuir vários registros de mídia. Nome e conteúdo não possuem restrição de unicidade: arquivos iguais recebidos mais de uma vez são persistidos como registros independentes.
 
@@ -75,7 +78,9 @@ A entrega ao Telegram é controlada por CTR-0007.
 ## Regras e restrições
 
 - BLOB só é considerado disponível após commit;
-- cada BLOB aceito pelo canal de ingestão possui no máximo `100000000` bytes;
+- cada BLOB integral aceito pelo canal simples possui no máximo `20000000` bytes;
+- chunks aceitos pelo canal fracionado possuem no máximo `5000000` bytes;
+- conteúdo fracionado é lido em ordem de `sequence_id` sem exigir montagem integral em memória;
 - `size_bytes` corresponde ao conteúdo efetivamente persistido;
 - conteúdo binário não aparece em logs;
 - acesso ao SQLite é restrito à identidade operacional autorizada;
@@ -87,8 +92,9 @@ A entrega ao Telegram é controlada por CTR-0007.
 
 Ainda precisam ser definidos antes de `refined`:
 
-- política de retenção do BLOB depois que todas as transmissões relacionadas forem concluídas;
-- regra normativa para validar/determinar `content_type`.
+- política de retenção do conteúdo depois que todas as transmissões relacionadas forem concluídas;
+- regra normativa para validar/determinar `content_type`;
+- identidade e completude da mídia fracionada, conforme CTR-0009.
 
 ## Compatibilidade
 
@@ -101,4 +107,5 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - comando interno trabalha com referência e não com BLOB;
 - transmissão recuperada após restart consegue ler o mesmo `media_id`;
 - nenhum caminho temporário é necessário para mídia persistida;
-- mídia acima de 100 MB é recusada antes da persistência.
+- mídia integral acima de 20 MB é recusada pelo canal simples e deve usar o canal fracionado;
+- chunk acima de 5 MB é recusado pelo canal fracionado.
