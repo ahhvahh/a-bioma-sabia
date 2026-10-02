@@ -25,7 +25,7 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 - emitir alerta em mudança relevante;
 - emitir recuperação;
 - suprimir repetição imediata;
-- permitir lembrete periódico configurado;
+- permitir lembrete periódico configurado por `reminder_interval` opcional em cada agendamento;
 - impedir sobreposição da mesma tarefa agendada: se um novo disparo ocorrer enquanto a execução anterior da mesma tarefa ainda estiver ativa, o novo disparo é ignorado e o evento é registrado.
 
 ## Entradas
@@ -52,6 +52,8 @@ Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se
 
 Falha técnica ao iniciar/executar a verificação, erro interno do executor ou timeout da verificação produz estado `UNKNOWN`. O motivo técnico original deve permanecer disponível em logs/auditoria. O estado `UNKNOWN` participa normalmente das regras de primeira avaliação, transição, repetição e recuperação.
 
+Quando o estado permanecer em `WARNING`, `CRITICAL` ou `UNKNOWN`, um lembrete só pode ser enviado se o agendamento possuir `reminder_interval` configurado e o intervalo tiver transcorrido desde a última notificação desse estado. Sem `reminder_interval`, não existem lembretes periódicos. Qualquer mudança de estado reinicia a contagem e a recuperação para `OK` encerra os lembretes.
+
 ## Critérios de aceite
 
 - transição gera alerta conforme regra;
@@ -64,7 +66,9 @@ Falha técnica ao iniciar/executar a verificação, erro interno do executor ou 
 - disparo ocorrido durante execução ativa é ignorado e registrado;
 - falha técnica ou timeout da verificação resulta em `UNKNOWN`;
 - transição para `UNKNOWN` é persistida e pode gerar alerta conforme as mesmas regras dos demais estados;
-- política detalhada de lembrete ainda precisa ser completada antes de `refined`.
+- estado degradado inalterado só gera lembrete quando `reminder_interval` estiver configurado e vencido;
+- sem `reminder_interval`, estado inalterado não gera lembretes;
+- mudança de estado reinicia a contagem de lembrete e `OK` encerra lembretes.
 
 ## Implementação relacionada
 
