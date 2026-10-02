@@ -24,6 +24,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [ADR-0008 — Menor privilégio e autorização explícita](adr/seguranca/menor-privilegio-e-autorizacao.md) — `refined`
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
+- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
 
 ### Desenhos
 
@@ -35,9 +36,10 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refinement`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
 - [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refined`
-- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refined`
+- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refinement`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
+- [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refinement`
 
 ### Contratos
 
@@ -45,17 +47,19 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refined`
 - [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
+- [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refinement`
 
 ### Fluxos
 
 - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md) — `refinement`
-- [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refined`
+- [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refinement`
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
 - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
+- [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refinement`
 
 ### Configuração e requisitos
 
-- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refined`
+- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refinement`
 - [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md) — `refined`
 - [REQ-0002 — Requisitos de testes](especificacao/requisitos/testes.md) — `refined`
 
