@@ -10,7 +10,7 @@ Definir o contrato local usado por scripts, aplicações e serviços para enviar
 ## Dependências
 
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
-- [CTR-0006 — Mídia persistida](midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 
