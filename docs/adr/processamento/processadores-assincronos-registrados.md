@@ -2,76 +2,72 @@
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0011-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
-![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2-6e7781?style=flat-square)
 
 ## Contexto
 
-O Sabiá precisa delegar trabalhos a scripts Bash, aplicações locais e serviços acessíveis por socket. Parte desses trabalhos é assíncrona e pode produzir mensagens de progresso e arquivos de resultado, incluindo imagens e vídeos destinados ao cliente Telegram.
+O Sabiá precisa delegar trabalhos a scripts Bash, aplicações locais e serviços acessíveis por socket. Esses processadores podem emitir progresso, finalizar semanticamente uma requisição e produzir imagens, vídeos ou outros arquivos destinados ao cliente.
 
 ## Problema
 
-O modelo atual de execução de script é orientado à conclusão do processo e captura de stdout/stderr. Isso não é suficiente para processadores que continuam trabalhando e precisam publicar progresso até uma mensagem explícita de finalização.
-
-Também é necessário preservar a independência entre Core, Telegram e tecnologia concreta do processador.
+O modelo de execução orientado somente a exit code/stdout não atende processadores assíncronos. Também é necessário evitar que o canal de controle precise transportar conteúdo binário potencialmente grande.
 
 ## Restrições
 
 - processadores precisam ser previamente cadastrados;
-- comandos remotos não escolhem caminho arbitrário, executável ou socket;
-- o Sabiá gera e controla o identificador da requisição;
-- o processador precisa devolver esse identificador em toda mensagem de progresso ou finalização;
-- o Core não deve depender de objetos da Telegram Bot API;
-- arquivos de resultado podem incluir imagem, vídeo ou outro arquivo suportado pelo transporte;
-- contratos binários e limites precisam ser definidos antes da implementação.
+- comandos remotos não escolhem executável, serviço ou socket arbitrário;
+- o Sabiá gera e controla `request_id`;
+- progresso e finalização precisam preservar `request_id`;
+- o Core não depende da Telegram Bot API;
+- mídia precisa ser persistida antes de ser considerada recebida.
 
 ## Opções consideradas
 
-### Apenas execução local orientada a exit code
+### Um único protocolo com progresso e binário
 
-Preserva CTR-0002, mas não atende aplicações e serviços assíncronos que publicam progresso antes da conclusão.
+Centraliza mensagens, mas mistura controle com conteúdo pesado e complica framing, memória e recovery.
 
-### Processadores registrados com protocolo assíncrono comum
+### Canal de controle + canal de mídia dedicado
 
-Mantém diferentes tecnologias de execução atrás de uma fronteira única e permite progresso e resultado final correlacionados.
+Mantém progresso/finalização separados do conteúdo binário. A mídia usa Unix socket local, MessagePack e persistência própria.
 
 ## Decisão
 
-O Sabiá terá uma abstração de **processador registrado** capaz de representar:
+O Sabiá mantém uma abstração de **processador registrado** para:
 
 - script Bash;
 - aplicação/executável;
 - serviço acessível por socket.
 
-A comunicação com processadores assíncronos será mediada por uma camada de **Processor Transport**, responsável por adaptar o mecanismo concreto de cada processador ao protocolo interno comum.
+O **Processor Transport** adapta o mecanismo concreto ao protocolo de controle CTR-0005.
 
-Cada execução recebe um `request_id` gerado pelo Sabiá.
+O canal de controle usa somente:
 
-Durante a execução, o processador envia eventos correlacionados contendo:
+- `loading`;
+- `finally`.
 
-- `request_id`;
-- `status`, com valores `loading`, `content` ou `finally`;
-- `message`.
+Cada evento carrega `request_id` e mensagem.
 
-`loading` representa progresso intermediário e pode ser encaminhado ao cliente de origem.
+Mídia não trafega pelo canal de controle.
 
-`content` anuncia um arquivo produzido dentro da área temporária da requisição e pode ocorrer múltiplas vezes.
+Qualquer produtor local autorizado que possua o `request_id` pode enviar um ou vários conteúdos pelo canal de ingestão CTR-0008. O Sabiá persiste cada item e o correlaciona à mesma requisição.
 
-`finally` encerra semanticamente o processamento daquela requisição e carrega a mensagem final. Arquivos não são transportados dentro de `finally`; a referência e o streaming seguem ADR-0012.
+`finally` encerra semanticamente o processamento normal, independentemente de quantos itens de mídia tenham sido enviados.
 
-CTR-0002 continua válido para a execução local controlada de scripts/executáveis. O novo protocolo assíncrono complementa CTR-0002 e não transforma stdout/stderr em contrato de progresso.
+CTR-0002 continua válido para execução local controlada de scripts/executáveis.
 
 ## Justificativa
 
-A abstração permite usar scripts, aplicações e serviços sem acoplar o Command Router ou o Telegram à forma concreta de execução e sem confundir término do processo com conclusão semântica do trabalho assíncrono.
+Separar controle e mídia mantém o protocolo assíncrono simples, permite testes independentes e garante que o conteúdo binário tenha durabilidade antes da entrega externa.
 
 ## Consequências
 
-- será necessário um registro de processadores e seus tipos de transporte;
-- jobs precisam preservar `request_id` até a finalização e entrega;
-- mensagens `loading` precisam ser encaminhadas pelo contexto de resposta persistido;
-- o evento `finally` precisa produzir resultado persistente antes da entrega;
-- o contrato de referência/lifecycle da mídia e o framing dos transportes concretos ainda precisam ser refinados;
-- saída de processo e protocolo assíncrono passam a ser conceitos distintos.
+- Processor Transport continua responsável por progresso e finalização;
+- Media Ingest fica responsável pelo recebimento binário;
+- jobs preservam `request_id` entre os dois canais;
+- uma requisição pode possuir várias mídias persistidas;
+- o framing do canal de controle ainda precisa ser refinado;
+- limites e autorização concreta do socket de mídia permanecem na especificação.
 
 ## Dependências
 
@@ -79,14 +75,13 @@ A abstração permite usar scripts, aplicações e serviços sem acoplar o Comma
 - [ADR-0004 — Registro explícito de scripts](../execucao/registro-explicito-de-scripts.md)
 - [ADR-0006 — Jobs assíncronos](jobs-assincronos.md)
 - [ADR-0009 — Persistência do estado operacional](../persistencia/estado-operacional.md)
-- [ADR-0012 — Área temporária de mídia para processadores](midia-temporaria-por-request.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](ingestao-midia-socket-messagepack.md)
 
 ## Critérios de validação
 
-- script, aplicação e serviço/socket podem ser representados por uma operação cadastrada sem fornecer endereço arbitrário pelo Telegram;
-- toda mensagem do processador contém o `request_id` fornecido pelo Sabiá;
-- `loading` pode gerar atualização ao cliente sem finalizar o job;
-- `content` pode publicar vários arquivos sem finalizar o job;
+- script, aplicação e serviço podem ser cadastrados sem entrada arbitrária do Telegram;
+- todo evento de controle preserva `request_id`;
+- `loading` não encerra o job;
 - `finally` encerra semanticamente a requisição;
-- binários não trafegam no protocolo de controle;
-- detalhes de framing e lifecycle da mídia permanecem em especificação, não no Command Router.
+- mídia não trafega no protocolo de controle;
+- vários arquivos podem ser enviados pelo socket de mídia usando o mesmo `request_id`.
