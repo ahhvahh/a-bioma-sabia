@@ -32,6 +32,39 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
 
+### Processadores assíncronos e transporte de mídia
+
+- Decisão relacionada: [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md)
+- Documentos:
+  - [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md)
+  - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md)
+  - [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md)
+  - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
+- Estado atual: ADR em `refined`; módulo, contrato, fluxo e configuração em `refinement`.
+- Estado necessário: especificações implementáveis em `refined`.
+- Decisões já fechadas:
+  - processadores podem ser script Bash, aplicação/executável ou serviço/socket;
+  - toda execução usa `request_id` gerado pelo Sabiá;
+  - eventos de processador usam `status: loading | finally` e `message`;
+  - `loading` representa progresso e não encerra o job;
+  - `finally` é a finalização semântica normal;
+  - `finally` pode conter `file_type` e `binary`;
+  - término do processo sem `finally` não equivale automaticamente a sucesso;
+  - imagens e vídeos precisam ser suportados na entrada e na saída.
+- Informação ausente:
+  - framing/protocolo concreto usado por scripts/aplicações locais;
+  - framing/protocolo concreto usado por serviços/socket;
+  - semântica normativa de `file_type`;
+  - limite máximo de binário;
+  - estratégia para imagens/vídeos grandes sem exigir carregamento integral em memória;
+  - schema final de mídia de entrada/anexos;
+  - schema da configuração `processors`.
+- Dependências afetadas:
+  - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
+  - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
+  - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
+  - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
+
 ### Persistência operacional — especificação técnica ausente
 
 - Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
@@ -59,7 +92,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
   - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
   - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
-- Estado atual: módulo e fluxo em `refinement`; CFG-0001 está `refined`, mas a seção `schedules` ainda é insuficiente para implementação.
+- Estado atual: módulo, fluxo e CFG-0001 em `refinement`; além de `schedules`, CFG-0001 foi reaberto pela inclusão de `processors`.
 - Estado necessário: especificações implementáveis em `refined`.
 - Informação ausente:
   - campos, tipos e defaults necessários da configuração de agendamento.
@@ -126,10 +159,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 
 [ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) ainda afirma que a persistência do estado entre reinícios não está decidida. ADR-0009 já definiu SQLite e recovery desse estado.
 
-### DSG-0002 — referência a persistência ainda não decidida
-
-[DSG-0002 — Componentes do Sabiá Core](desenho/componentes-core.md) mantém critério mencionando pontos de persistência ainda não decididos. A decisão arquitetural de persistência já existe em ADR-0009; o desenho deve ser reconciliado.
-
 ### FLW-0004 — estado em refinement sem lacuna própria explícita
 
 [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) está em `refinement`, embora o fluxo já detalhe gatilho, sequência, timeout, falhas e recovery. Antes de mudar o status, deve ser verificado se a dependência em MOD-0005 e a especificação de persistência ausente ainda impedem o gate.
@@ -142,7 +171,8 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram fechados. Permanecem pendentes apenas o contrato de anexos e o payload `file`.
+- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram fechados. O suporte de mídia passou a depender de CTR-0005; permanecem pendentes schema de anexos, `file_type`, payload `file` e estratégia para binários grandes.
+- ADR-0011: arquitetura de processadores registrados e eventos `loading | finally` está `refined`; especificações concretas de transporte e mídia permanecem em `refinement`.
 
 ## Condição para liberar o MVP
 
