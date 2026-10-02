@@ -130,9 +130,9 @@ Campos necessários:
 
 - `socket_path`: caminho absoluto do Unix socket;
 - parâmetros de ownership/permissão local;
-- `max_payload_bytes`: limite máximo aceito por upload MessagePack.
+- `max_payload_bytes`: limite máximo aceito por upload MessagePack; no MVP o valor normativo é `100000000` bytes (100 MB decimais).
 
-O caminho, ownership/grupo/modo e o limite concreto permanecem `BLOCKED`.
+O caminho e ownership/grupo/modo permanecem `BLOCKED`. O limite não é livremente configurável no MVP: valores diferentes de `100000000` são inválidos.
 
 Não existe endereço TCP para esta interface.
 
@@ -217,7 +217,8 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `processors` para processadores assíncronos registrados;
 - existe seção `media_ingest` para o Unix socket MessagePack;
 - `media_ingest.socket_path` deve ser absoluto;
-- o schema de `processors` e os valores de segurança/limite de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
+- `media_ingest.max_payload_bytes` deve ser exatamente `100000000` no MVP;
+- o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
