@@ -2,7 +2,7 @@
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0009-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
-![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2-6e7781?style=flat-square)
 
 ## Contexto
 
@@ -41,10 +41,11 @@ Devem ser persistidos, quando aplicáveis:
 - correlação entre requisição, cliente, usuário, chat, mensagem e job;
 - jobs e estados necessários para identificar trabalho pendente;
 - respostas ou mensagens ainda pendentes de entrega;
+- transmissões de mídia pendentes ou em andamento, incluindo arquivo, cliente, transporte e destino;
 - estado anterior necessário à avaliação de alertas;
 - parâmetros operacionais que precisem sobreviver ao reinício.
 
-Ao iniciar, o Sabiá deve consultar o banco e identificar requisições, jobs e mensagens pendentes. Respostas que já estejam prontas mas ainda não tenham sido entregues devem voltar para a etapa de envio ao destino correspondente.
+Ao iniciar, o Sabiá deve consultar o banco e identificar requisições, jobs, mensagens e transmissões de mídia pendentes. Respostas prontas ainda não entregues voltam para envio. Transmissões de mídia `pending` ou `transmitting` são reconciliadas com o filesystem e voltam para envio quando o arquivo ainda existe.
 
 A política para um job que estava efetivamente em execução no instante da interrupção não é definida por este ADR; ela permanece responsabilidade do contrato de jobs e da política de encerramento.
 
@@ -56,7 +57,7 @@ SQLite atende ao volume e ao perfil local do Sabiá sem introduzir um serviço d
 
 - o banco SQLite passa a ser parte do estado operacional do serviço;
 - operações de persistência devem usar transações curtas;
-- fila e respostas pendentes podem ser reconstruídas a partir do banco;
+- fila, respostas e transmissões de mídia pendentes podem ser reconstruídas a partir do banco;
 - o serviço não deve considerar uma resposta definitivamente concluída enquanto o estado de entrega correspondente não estiver registrado;
 - retenção, localização física do arquivo e evolução de schema ficam na especificação de configuração/persistência, sem reabrir esta decisão arquitetural;
 - comportamento de jobs interrompidos continua dependente de ADR-0010 e CTR-0003.
@@ -66,11 +67,13 @@ SQLite atende ao volume e ao perfil local do Sabiá sem introduzir um serviço d
 - [ADR-0005 — Telegram Long Polling](../telegram/long-polling.md)
 - [ADR-0006 — Jobs assíncronos](../processamento/jobs-assincronos.md)
 - [ADR-0007 — Scheduler e alertas orientados a estado](../monitoramento/scheduler-alertas-estado.md)
+- [ADR-0012 — Área temporária de mídia para processadores](../processamento/midia-temporaria-por-request.md)
 
 ## Critérios de validação
 
 - SQLite é usado como armazenamento operacional persistente;
 - uma requisição pendente continua identificável depois de reiniciar o serviço;
 - uma resposta pronta e ainda não entregue volta a ficar disponível para envio;
+- uma transmissão de mídia ativa continua identificável e pode ser retomada após restart quando o arquivo existe;
 - o estado anterior necessário a alertas pode ser recuperado;
 - jobs interrompidos não têm sua política inferida por este ADR.
