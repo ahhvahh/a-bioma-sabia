@@ -75,6 +75,7 @@ A entrega ao Telegram é controlada por CTR-0007.
 ## Regras e restrições
 
 - BLOB só é considerado disponível após commit;
+- cada BLOB aceito pelo canal de ingestão possui no máximo `100000000` bytes;
 - `size_bytes` corresponde ao conteúdo efetivamente persistido;
 - conteúdo binário não aparece em logs;
 - acesso ao SQLite é restrito à identidade operacional autorizada;
@@ -86,7 +87,6 @@ A entrega ao Telegram é controlada por CTR-0007.
 
 Ainda precisam ser definidos antes de `refined`:
 
-- limite máximo de BLOB aceito;
 - política de retenção do BLOB depois que todas as transmissões relacionadas forem concluídas;
 - regra normativa para validar/determinar `content_type`.
 
@@ -100,4 +100,5 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - vários arquivos podem ser associados à mesma requisição, inclusive com mesmo nome ou conteúdo;
 - comando interno trabalha com referência e não com BLOB;
 - transmissão recuperada após restart consegue ler o mesmo `media_id`;
-- nenhum caminho temporário é necessário para mídia persistida.
+- nenhum caminho temporário é necessário para mídia persistida;
+- mídia acima de 100 MB é recusada antes da persistência.
