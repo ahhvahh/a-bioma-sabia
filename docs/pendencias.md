@@ -53,7 +53,9 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - mídia entra por Unix domain socket local;
   - envelope de mídia usa MessagePack;
   - o canal simples aceita arquivo integral de até `20000000` bytes;
-  - arquivos maiores usam um segundo Unix socket com chunks de até `5000000` bytes;
+  - o segundo Unix socket aceita mídia de qualquer tamanho permitido pelo contrato em chunks de até `5000000` bytes;
+  - para arquivos de até 20 MB, o produtor pode escolher canal simples ou fracionado;
+  - acima de 20 MB, o canal fracionado é obrigatório;
   - abertura do arquivo fracionado envia metadados e recebe `media_id` gerado pelo banco;
   - depois da abertura, cada chunk contém apenas `media_id`, `sequence_id` e BLOB;
   - a primeira sequência esperada é `1`;
@@ -198,7 +200,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
-- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o segundo socket abre um `media_id` persistente, recebe chunks de até 5 MB com sequência estrita e determina completude por `total_bytes`. FLW-0008 define limpeza segura somente com fila de transmissão ociosa.
+- ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o canal fracionado pode ser usado para qualquer tamanho permitido, sendo obrigatório acima de 20 MB. O segundo socket abre um `media_id` persistente, recebe chunks de até 5 MB com sequência estrita e determina completude por `total_bytes`. FLW-0008 define limpeza segura somente com fila de transmissão ociosa.
 
 ## Condição para liberar o MVP
 
