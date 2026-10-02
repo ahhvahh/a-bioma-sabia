@@ -16,11 +16,12 @@ Executar verificações periódicas e enviar alertas apenas quando a avaliação
 
 ## Gatilho
 
-Agendamento configurado torna-se devido.
+O `interval` configurado para o agendamento torna a tarefa devida.
 
 ## Pré-condições
 
 - tarefa habilitada;
+- `interval` positivo configurado;
 - script cadastrado;
 - cliente de alerta habilitado quando houver notificação.
 
@@ -113,7 +114,8 @@ Os valores são exemplos iniciais e devem ser configuráveis.
 - sem `reminder_interval`, não existem lembretes periódicos;
 - mudança de estado reinicia o intervalo e recuperação para `OK` encerra lembretes;
 - uma tarefa que vença novamente enquanto sua execução anterior estiver ativa não inicia execução concorrente;
-- o disparo sobreposto é ignorado e registrado.
+- o disparo sobreposto é ignorado e registrado;
+- a periodicidade do MVP é expressa somente por `interval` positivo; cron não é suportado.
 
 O fluxo permanece em `refinement` até fechar as demais pendências específicas de Scheduler e Alertas.
 
