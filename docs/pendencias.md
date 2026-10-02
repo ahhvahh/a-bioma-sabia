@@ -75,12 +75,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Estado necessário: especificações implementáveis em `refined`.
 - Informação ausente:
   - formato e semântica da periodicidade configurada;
-  - política concreta de lembrete para estado degradado inalterado;
   - campos, tipos e defaults necessários da configuração de agendamento.
 - Decisões já fechadas:
   - se a mesma tarefa vencer enquanto sua execução anterior estiver ativa, o novo disparo é ignorado e registrado; não há fila nem execução concorrente;
   - na primeira avaliação, `OK` é persistido sem alerta; `WARNING`, `CRITICAL` e `UNKNOWN` geram alerta imediato e são persistidos;
-  - falha técnica da verificação ou timeout produz `UNKNOWN`, preserva o motivo técnico em observabilidade e segue as mesmas regras de alerta/persistência dos demais estados.
+  - falha técnica da verificação ou timeout produz `UNKNOWN`, preserva o motivo técnico em observabilidade e segue as mesmas regras de alerta/persistência dos demais estados;
+  - `reminder_interval` é opcional por agendamento; sem ele não há lembrete, com ele estados `WARNING`, `CRITICAL` e `UNKNOWN` inalterados são lembrados somente após o intervalo; mudança de estado reinicia a contagem e `OK` encerra lembretes.
 
 ### Comandos do MVP — contrato operacional ausente
 
