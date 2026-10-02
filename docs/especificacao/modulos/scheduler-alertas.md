@@ -16,7 +16,7 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 
 ## Responsabilidades
 
-- disparar tarefas cadastradas por periodicidade;
+- disparar tarefas cadastradas por `interval` de duração;
 - interpretar status de monitoramento;
 - converter falha técnica da verificação ou timeout em estado `UNKNOWN`, preservando o motivo para observabilidade;
 - comparar estado atual e anterior;
@@ -48,6 +48,8 @@ O estado anterior necessário à avaliação de alertas deve ser mantido no SQLi
 
 Estados de monitoramento: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`.
 
+No MVP, cada agendamento utiliza exclusivamente um `interval` de duração positivo. Expressões cron, calendários e horários absolutos não fazem parte do primeiro MVP.
+
 Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se a periodicidade vencer novamente antes do término da execução corrente, o Scheduler não cria nova execução, não enfileira uma segunda ocorrência e registra o disparo ignorado para observabilidade.
 
 Falha técnica ao iniciar/executar a verificação, erro interno do executor ou timeout da verificação produz estado `UNKNOWN`. O motivo técnico original deve permanecer disponível em logs/auditoria. O estado `UNKNOWN` participa normalmente das regras de primeira avaliação, transição, repetição e recuperação.
@@ -68,7 +70,8 @@ Quando o estado permanecer em `WARNING`, `CRITICAL` ou `UNKNOWN`, um lembrete s�
 - transição para `UNKNOWN` é persistida e pode gerar alerta conforme as mesmas regras dos demais estados;
 - estado degradado inalterado só gera lembrete quando `reminder_interval` estiver configurado e vencido;
 - sem `reminder_interval`, estado inalterado não gera lembretes;
-- mudança de estado reinicia a contagem de lembrete e `OK` encerra lembretes.
+- mudança de estado reinicia a contagem de lembrete e `OK` encerra lembretes;
+- todo agendamento do MVP possui `interval` positivo; cron não é aceito.
 
 ## Implementação relacionada
 
