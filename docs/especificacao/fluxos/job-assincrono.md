@@ -1,11 +1,11 @@
 # Job assíncrono
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0002-bf3989?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
-Executar uma operação demorada sem bloquear o tratamento de novos comandos e manter o usuário informado.
+Executar uma operação demorada sem bloquear novos comandos e entregar o resultado ao cliente e destino corretos.
 
 ## Dependências
 
@@ -16,57 +16,64 @@ Executar uma operação demorada sem bloquear o tratamento de novos comandos e m
 
 ## Gatilho
 
-Command Router identifica uma operação classificada como demorada.
+Command Router identifica uma operação assíncrona válida.
 
 ## Pré-condições
 
 - operação válida e autorizada;
-- contexto de resposta disponível.
+- `client_id` e destino de resposta disponíveis;
+- fila abaixo de `jobs.max_pending`.
 
 ## Fluxo principal
 
-1. Job Manager cria e persiste a requisição/job;
+1. Job Manager cria e persiste o job;
 2. o job entra em `queued`;
-3. o usuário recebe confirmação imediata com identificador do job;
-4. Job Queue disponibiliza o trabalho;
-5. Worker inicia e muda para `running`;
-6. Worker publica progresso quando aplicável;
-7. adaptador Telegram edita a mensagem associada;
-8. Worker conclui como `completed`, `failed`, `cancelled` ou `timeout`;
-9. o resultado a entregar permanece persistido enquanto estiver pendente;
-10. resultado final é enviado; se houver arquivo, ele é transmitido ao usuário;
-11. a entrega é registrada no estado operacional.
+3. o cliente envia confirmação imediata ao destino de origem;
+4. um worker disponível muda o job para `running`;
+5. Worker executa a operação;
+6. progresso, quando existir, é encaminhado pelo cliente correto;
+7. Worker conclui em estado final;
+8. o resultado é persistido como resposta pendente;
+9. adaptador do `client_id` correspondente envia a resposta ao destino persistido;
+10. somente depois da entrega o estado de entrega é registrado como concluído.
 
 ## Fluxos alternativos
 
-### Reinício com mensagem pendente
+### Fila cheia
 
-1. o serviço lê o SQLite no startup;
-2. identifica respostas prontas ainda não entregues;
-3. devolve essas respostas para a etapa de envio ao destino correlacionado.
+Rejeitar a criação com erro controlado de capacidade.
 
-### Consulta de job
+### Restart com job queued
 
-`/jobs` lista jobs visíveis ao cliente/usuário conforme autorização e `/job <id>` consulta um job.
+O job retorna à fila.
+
+### Restart com job running
+
+Marcar como `failed/service_restart`; não reexecutar automaticamente.
+
+### Restart com resposta pendente
+
+Recolocar a resposta na etapa de envio.
 
 ### Cancelamento
 
-Previsto para o cliente Tools, mas a semântica ainda não está definida.
+Aplicar as regras de CTR-0003 conforme o estado atual.
 
 ## Falhas e tratamento
 
-A persistência de requisições e respostas é definida por ADR-0009. Retry e comportamento de job que estava executando durante interrupção dependem de CTR-0003 e ADR-0010.
+Falha de processamento e falha de entrega são registradas separadamente. Um resultado processado não é considerado entregue enquanto o cliente não concluir a tentativa de envio.
 
 ## Resultado
 
-Job termina em estado final observável e a resposta pendente permanece recuperável até sua entrega.
+Job possui estado final persistido e sua resposta permanece rastreável até a entrega.
 
 ## Critérios de aceite
 
-- recebimento de comandos continua enquanto job executa;
-- progresso pode editar a mesma mensagem;
-- resposta pendente sobrevive ao reinício;
-- política de concorrência, retry e job interrompido precisa ser definida antes de `refined`.
+- fila e concorrência respeitam configuração;
+- queued sobrevive ao restart;
+- running interrompido não reinicia silenciosamente;
+- resposta é enviada pelo cliente correto;
+- resposta não entregue permanece pendente.
 
 ## Implementação relacionada
 

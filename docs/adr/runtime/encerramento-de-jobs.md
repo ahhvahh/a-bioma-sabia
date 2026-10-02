@@ -1,46 +1,67 @@
 # Política de encerramento de jobs
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0010-7a3e9d?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
-![Version](https://img.shields.io/badge/Version----6e7781?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
+![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
 
 ## Contexto
 
-Ao receber SIGTERM ou SIGINT, o Sabiá deve parar de aceitar novos jobs, parar schedulers, finalizar workers, salvar estado e encerrar recursos.
+Ao receber SIGTERM ou SIGINT, o Sabiá deve encerrar de forma controlada sem perder requisições, respostas pendentes ou contexto necessário à comunicação com Telegram.
 
 ## Problema
 
-Definir o destino de jobs que já estão em execução durante o graceful shutdown.
+Definir o comportamento de jobs, respostas e clientes Telegram durante o graceful shutdown.
 
 ## Restrições
 
-O escopo original admite cancelar ou concluir operações "conforme política", sem definir a política.
+- nenhum novo trabalho deve ser aceito após o início do shutdown;
+- requisições e respostas pendentes são persistidas em SQLite conforme ADR-0009;
+- respostas produzidas pertencem ao cliente Telegram e ao destino que originaram a requisição;
+- todos os clientes Telegram ativos devem ser avisados antes do encerramento;
+- jobs em execução recebem um período configurado para finalizar.
 
 ## Opções consideradas
 
-### Concluir jobs em andamento
+### Cancelar imediatamente
 
-Aumenta o tempo de shutdown.
+Reduz o tempo de shutdown, mas interrompe respostas potencialmente próximas da conclusão.
 
-### Cancelar jobs em andamento
+### Aguardar indefinidamente
 
-Encerra mais rápido, mas exige semântica de cancelamento e recuperação.
+Preserva trabalho, mas impede um encerramento previsível.
 
-### Política configurável
+### Aguardar até timeout configurado
 
-Permite escolher por operação ou instalação, mas adiciona configuração.
+Permite concluir trabalho pendente dentro de um limite operacional conhecido.
 
 ## Decisão
 
-**BLOCKED.** A política ainda não foi escolhida.
+Ao iniciar o shutdown:
+
+1. o Sabiá para de aceitar novas requisições e novos jobs;
+2. todos os clientes Telegram ativos são colocados em estado de encerramento;
+3. cada cliente ativo envia aviso de encerramento aos seus destinos autorizados conhecidos e registrados no estado operacional;
+4. schedulers deixam de iniciar novas execuções;
+5. jobs em `queued` permanecem persistidos para o próximo startup;
+6. jobs em `running` recebem até `service.shutdown_timeout` para finalizar;
+7. respostas concluídas durante esse período são enviadas pelo mesmo cliente Telegram e ao mesmo destino correlacionado à requisição;
+8. respostas prontas que não puderem ser entregues antes do encerramento permanecem persistidas como pendentes;
+9. ao atingir o timeout, jobs ainda `running` são cancelados e registrados como `failed` com motivo `shutdown_timeout`;
+10. o serviço persiste o estado final necessário, fecha recursos e encerra.
+
+`service.shutdown_timeout` é parâmetro obrigatório e positivo da configuração.
 
 ## Justificativa
 
-O comportamento afeta integridade do job, tempo de shutdown e experiência do usuário.
+A política preserva a entrega de respostas sempre que possível, limita o tempo máximo de encerramento e mantém recovery seguro para trabalho e mensagens pendentes.
 
 ## Consequências
 
-FLW-0004 e os critérios finais de MOD-0004 permanecem em `refinement`.
+- o shutdown pode aguardar até o timeout configurado;
+- clientes precisam manter destinos conhecidos suficientes para o aviso operacional;
+- respostas sempre preservam a correlação com o cliente e destino de origem;
+- jobs interrompidos pelo limite não são reexecutados automaticamente;
+- jobs ainda em fila continuam disponíveis após reinício.
 
 ## Dependências
 
@@ -49,7 +70,10 @@ FLW-0004 e os critérios finais de MOD-0004 permanecem em `refinement`.
 
 ## Critérios de validação
 
-- definir política de jobs em `queued`;
-- definir política de jobs em `running`;
-- definir tempo máximo de shutdown, se existir;
-- definir estado final registrado para operação interrompida.
+- novos jobs deixam de ser aceitos no início do shutdown;
+- todos os clientes Telegram ativos tentam enviar aviso de encerramento;
+- job `queued` permanece recuperável;
+- job `running` pode concluir dentro do timeout;
+- resposta concluída é enviada pelo cliente e destino corretos;
+- resposta não entregue permanece pendente no SQLite;
+- job que ultrapassa o timeout termina como `failed/shutdown_timeout`.

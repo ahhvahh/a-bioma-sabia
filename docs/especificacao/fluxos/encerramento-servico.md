@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Encerrar o Sabiá de forma controlada ao receber sinal do sistema operacional.
+Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativos e preservando a entrega de respostas.
 
 ## Dependências
 
@@ -25,32 +25,47 @@ Serviço em execução.
 
 ## Fluxo principal
 
-1. parar de aceitar novos jobs;
-2. interromper criação de novas execuções agendadas;
-3. tratar jobs em execução conforme política;
-4. finalizar workers;
-5. salvar o estado definido como persistente;
-6. fechar recursos;
-7. encerrar o processo.
+1. entrar em estado de shutdown;
+2. parar de aceitar novas requisições/jobs;
+3. impedir novos disparos do Scheduler;
+4. avisar todos os clientes Telegram ativos por seus destinos autorizados conhecidos;
+5. manter os canais de saída necessários para concluir respostas já pendentes;
+6. aguardar jobs em `running` até `service.shutdown_timeout`;
+7. enviar toda resposta concluída ao cliente e destino que originaram a requisição;
+8. manter no SQLite respostas que ainda não puderem ser entregues;
+9. preservar jobs `queued` para o próximo startup;
+10. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
+11. finalizar workers;
+12. persistir estado final;
+13. fechar recursos;
+14. encerrar.
 
 ## Fluxos alternativos
 
-### Job em execução
+### Falha ao avisar um cliente
 
-**BLOCKED:** comportamento depende de ADR-0010.
+Registrar a falha e continuar o shutdown. O aviso não pode impedir indefinidamente o encerramento.
+
+### Resposta pronta sem entrega
+
+Persistir como pendente para reenvio no próximo startup.
 
 ## Falhas e tratamento
 
-Tempo máximo de shutdown e comportamento quando uma operação não encerra ainda não foram definidos.
+O tempo máximo é definido por `service.shutdown_timeout`. O encerramento não aguarda indefinidamente.
 
 ## Resultado
 
-Processo encerrado sem aceitar novo trabalho após início do shutdown.
+O serviço encerra sem aceitar novo trabalho, com fila e respostas pendentes preservadas.
 
 ## Critérios de aceite
 
-Para `refined`, fechar ADR-0009 e ADR-0010 e definir timeout de encerramento se aplicável.
+- todos os clientes ativos recebem tentativa de aviso;
+- respostas concluídas durante shutdown são direcionadas ao cliente correto;
+- fila pendente sobrevive ao restart;
+- execução que excede timeout fica registrada como falha;
+- respostas não entregues permanecem recuperáveis.
 
 ## Implementação relacionada
 
-Processo principal, Job Manager, Scheduler e recursos compartilhados.
+Processo principal, adaptador Telegram, Job Manager, Scheduler, workers e SQLite.

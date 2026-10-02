@@ -6,7 +6,7 @@ O Sabiá é um serviço Linux do ecossistema Bioma para integrar aplicações, s
 
 ## Estado do pipeline
 
-A arquitetura principal possui decisões explícitas e desenhos finalizados. A especificação do MVP ainda possui itens em `refinement` porque existem contratos e comportamentos operacionais não fechados.
+A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP ainda depende dos contratos indicados em `BLOCKED`.
 
 ### Decisões
 
@@ -19,7 +19,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 - [ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) — `refined`
 - [ADR-0008 — Menor privilégio e autorização explícita](adr/seguranca/menor-privilegio-e-autorizacao.md) — `refined`
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
-- [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refinement`
+- [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
 
 ### Desenhos
 
@@ -31,7 +31,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refinement`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
 - [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refinement`
-- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refinement`
+- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refined`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
 
@@ -39,31 +39,23 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md) — `refinement`
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refinement`
-- [CTR-0003 — Job](especificacao/contratos/job.md) — `refinement`
+- [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
 
 ### Fluxos
 
 - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md) — `refinement`
-- [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refinement`
+- [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refined`
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
 - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
 
 ### Configuração e requisitos
 
-- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refinement`
+- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refined`
 - [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md) — `refined`
 - [REQ-0002 — Requisitos de testes](especificacao/requisitos/testes.md) — `refined`
 
 ## BLOCKED
-
-### Encerramento de jobs em execução
-
-- Documento: [ADR-0010](adr/runtime/encerramento-de-jobs.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta consolidar documentalmente a política de jobs em execução, timeout e comportamento ao atingir o limite.
-- Afeta: MOD-0004 e FLW-0004.
 
 ### Contrato do comando interno
 
@@ -81,19 +73,10 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 - Falta definir invocação do processo, diretório de trabalho, ambiente permitido, limites de saída e tratamento de processos no timeout.
 - Afeta: MOD-0003, MOD-0005 e FLW-0003.
 
-### Fila e concorrência de jobs
+## Pendências não bloqueadoras isoladas
 
-- Documento: [CTR-0003](especificacao/contratos/job.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta definir geração de job_id, capacidade da fila, concorrência, retry, cancelamento, transições e tratamento de job que estava em execução após reinício.
-- Afeta: MOD-0002, MOD-0004 e FLW-0002.
+- fechar política de offset/retry do Telegram para MOD-0002;
+- fechar concorrência de duas execuções do mesmo agendamento;
+- definir comportamento da primeira avaliação de alerta quando ainda não existe estado anterior.
 
-### Modelo de configuração
-
-- Documento: [CFG-0001](especificacao/configuracao/modelo-configuracao.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta fechar schema YAML, localização, precedência, validação, reload e parâmetros operacionais.
-
-Nenhum desses bloqueios autoriza preencher a decisão por suposição.
+Nenhuma dessas lacunas deve ser preenchida por suposição.

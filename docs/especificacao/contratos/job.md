@@ -1,11 +1,11 @@
 # Job
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0003-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
-Definir os estados e informações mínimas de uma operação assíncrona.
+Definir identidade, estados, fila, concorrência, cancelamento, recovery e entrega de respostas de uma operação assíncrona.
 
 ## Dependências
 
@@ -20,16 +20,35 @@ Definir os estados e informações mínimas de uma operação assíncrona.
 
 ## Entrada
 
-Solicitação de operação demorada com contexto de resposta. Para Telegram, a origem precisa permitir correlacionar:
-- `chat_id`;
-- `message_id`;
-- `job_id`.
+Toda solicitação assíncrona deve persistir, no mínimo:
 
-A requisição e a correlação necessárias ao envio da resposta devem ser persistidas no SQLite.
+- `job_id`;
+- `client_id`;
+- identidade do solicitante;
+- destino de resposta;
+- operação solicitada;
+- estado;
+- timestamps relevantes;
+- referência à mensagem Telegram quando existir.
 
-## Saída
+Para Telegram, a correlação precisa preservar `client_id`, `chat_id` e `message_id` quando aplicável.
+
+## Identidade
+
+`job_id` é um inteiro sequencial gerado pelo SQLite.
+
+## Fila e concorrência
+
+- a fila é persistida no SQLite;
+- `jobs.max_workers` define quantos jobs podem estar `running` simultaneamente;
+- `jobs.max_pending` define quantos jobs `queued` podem aguardar execução;
+- ambos são parâmetros obrigatórios, inteiros e maiores que zero;
+- ao atingir `max_pending`, nova solicitação de job é rejeitada com erro controlado de capacidade.
+
+## Estados e transições
 
 Estados permitidos:
+
 - `queued`;
 - `running`;
 - `completed`;
@@ -37,33 +56,78 @@ Estados permitidos:
 - `cancelled`;
 - `timeout`.
 
-O job pode publicar progresso e, ao concluir, produzir resultado textual ou arquivo. Uma resposta concluída mas ainda não entregue deve permanecer registrada como pendente até voltar à etapa de envio.
+Transições permitidas:
+
+- `queued → running`;
+- `queued → cancelled`;
+- `running → completed`;
+- `running → failed`;
+- `running → cancelled`;
+- `running → timeout`.
+
+Estados finais não retornam para estados de execução.
+
+## Retry
+
+Não existe retry automático por padrão.
+
+Uma operação só pode ser repetida automaticamente quando estiver explicitamente configurada como repetível e possuir `max_retries > 0`. Retry cria uma nova tentativa associada ao mesmo job sem apagar o histórico da tentativa anterior.
+
+## Cancelamento
+
+- job `queued`: removido da execução futura e marcado `cancelled`;
+- job `running`: o worker solicita cancelamento pelo contexto de execução e encerra o processo associado;
+- cancelamento confirmado termina em `cancelled`;
+- falha técnica ao cancelar termina em `failed` com motivo registrado.
+
+## Recovery
+
+No startup:
+
+- `queued` permanece `queued` e volta a ser elegível para execução;
+- job encontrado em `running` é marcado `failed` com motivo `service_restart`;
+- não há reexecução automática de job que estava `running`;
+- respostas prontas e ainda não entregues voltam para a etapa de envio.
+
+## Entrega da resposta
+
+Toda resposta pertence ao `client_id` e ao destino persistido da requisição.
+
+A conclusão do processamento não equivale à conclusão da entrega. Enquanto uma resposta não tiver sido enviada ao cliente/destino correto, ela permanece pendente no estado operacional.
+
+## Visibilidade
+
+Consultas normais de `/jobs` e `/job <id>` retornam somente jobs pertencentes ao mesmo cliente lógico e ao mesmo solicitante autorizado. Não existe visibilidade administrativa global implícita.
 
 ## Erros
 
-Falha, cancelamento e timeout são estados explícitos, não exceções invisíveis ao usuário.
+- fila cheia;
+- operação inválida;
+- falha de execução;
+- cancelamento;
+- timeout;
+- falha de entrega;
+- job inexistente ou não visível ao solicitante.
 
 ## Regras e restrições
 
-- criação do job responde sem aguardar conclusão;
-- trabalho é executado por worker;
-- mudanças de estado devem ser observáveis;
-- estado inválido deve ser rejeitado;
-- o estado persistente deve permitir identificar trabalho e mensagens pendentes depois de reinício.
+- criação do job responde sem aguardar sua conclusão;
+- mudanças de estado devem ser persistidas;
+- resposta final precisa ser encaminhada ao cliente e destino correlacionados;
+- estado inválido ou transição inválida deve ser rejeitado;
+- histórico de mudança de estado não deve ser apagado pela atualização do estado atual.
 
 ## Compatibilidade
 
-A correlação de resposta deve permitir outros transportes no futuro, sem exigir que o modelo inteiro seja exclusivamente Telegram.
+A correlação de resposta deve permitir outros transportes futuramente sem tornar o modelo exclusivamente Telegram.
 
 ## Critérios de aceite
 
-Persistência/recovery de requisições e respostas está definida por ADR-0009.
-
-Antes de `refined`, ainda é necessário definir:
-- tipo e geração de `job_id`;
-- capacidade da fila;
-- concorrência de workers;
-- política de retry;
-- semântica de cancelamento;
-- transições exatas permitidas;
-- comportamento de job que estava `running` no instante de uma interrupção.
+- IDs são persistentes e sequenciais;
+- fila respeita `max_pending`;
+- concorrência respeita `max_workers`;
+- queued sobrevive ao restart;
+- running interrompido por restart vira `failed/service_restart`;
+- não existe retry automático sem autorização explícita;
+- cancelamento respeita o estado atual;
+- resposta permanece pendente até ser entregue ao cliente/destino correto.

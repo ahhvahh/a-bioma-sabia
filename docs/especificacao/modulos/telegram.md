@@ -14,6 +14,7 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 - [ADR-0005 — Telegram Long Polling](../../adr/telegram/long-polling.md)
 - [ADR-0008 — Menor privilégio e autorização explícita](../../adr/seguranca/menor-privilegio-e-autorizacao.md)
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
+- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
 
 ## Responsabilidades
 
@@ -23,8 +24,9 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 - encaminhar identidade para autorização;
 - converter respostas internas em mensagens Telegram;
 - editar mensagem de progresso de job;
-- enviar arquivo final quando existir;
-- registrar no estado operacional as correlações e entregas pendentes necessárias ao recovery.
+- enviar resposta/arquivo final pelo mesmo cliente e destino correlacionado à requisição;
+- registrar correlações e entregas pendentes;
+- durante shutdown, avisar todos os clientes ativos por seus destinos autorizados conhecidos.
 
 ## Entradas
 
@@ -41,20 +43,21 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 ## Persistência
 
-O estado operacional usa SQLite conforme ADR-0009. Requisições e respostas pendentes devem permanecer correlacionadas ao destino para que, após reinício, mensagens prontas e ainda não entregues voltem à etapa de envio.
+SQLite mantém a correlação entre requisição, cliente e destino de resposta. Mensagens prontas e não entregues voltam à etapa de envio após reinício.
 
 ## Restrições
 
 - long polling e webhook não são usados simultaneamente para o mesmo cliente;
 - tokens não aparecem em logs;
-- nenhum teste depende da API real.
+- nenhum teste depende da API real;
+- uma resposta de um cliente não pode ser entregue usando identidade de outro cliente.
 
 ## Critérios de aceite
 
 - clientes habilitados funcionam independentemente;
-- update é convertido sem expor tipos Telegram ao restante do Core além da fronteira;
-- mensagens de jobs podem ser editadas;
-- uma mensagem persistida como pendente pode voltar à etapa de envio depois de reinício;
+- resposta é enviada pelo cliente que recebeu a requisição;
+- todos os clientes ativos recebem tentativa de aviso no shutdown;
+- mensagem pendente pode voltar à etapa de envio após reinício;
 - política detalhada de offset/retry ainda precisa ser fechada antes de `refined`.
 
 ## Implementação relacionada

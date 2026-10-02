@@ -1,11 +1,11 @@
 # Jobs
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0004-1f883d?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
-Executar operações demoradas sem bloquear o recebimento de comandos.
+Executar operações demoradas sem bloquear o recebimento de comandos e garantir que a resposta seja entregue ao cliente correto.
 
 ## Dependências
 
@@ -17,24 +17,24 @@ Executar operações demoradas sem bloquear o recebimento de comandos.
 
 ## Responsabilidades
 
-- criar job e responder imediatamente;
-- persistir requisição e estado necessário à recuperação;
+- criar e persistir job;
 - enfileirar trabalho;
+- limitar concorrência por configuração;
 - executar por workers;
-- controlar estados válidos;
+- controlar estados e histórico;
 - publicar progresso;
-- correlacionar resultado com destino de resposta;
-- persistir respostas pendentes até a entrega;
-- suportar consulta por `/jobs` e `/job <id>`;
-- suportar cancelamento quando previsto pelo cliente.
+- correlacionar resultado com `client_id` e destino de resposta;
+- persistir respostas até a confirmação de entrega;
+- recuperar fila após reinício;
+- suportar consulta e cancelamento conforme CTR-0003.
 
 ## Entradas
 
-Solicitação de operação assíncrona e contexto necessário para resposta.
+Solicitação de operação assíncrona e contexto persistente de resposta.
 
 ## Saídas
 
-Identificador de job, mudanças de estado, progresso e resultado final.
+Identificador de job, mudanças de estado, progresso e resposta final destinada ao cliente correspondente.
 
 ## Interfaces e contratos
 
@@ -42,20 +42,22 @@ Identificador de job, mudanças de estado, progresso e resultado final.
 
 ## Persistência
 
-SQLite é o armazenamento oficial do estado operacional. Requisições, jobs e respostas pendentes precisam ser recuperáveis após reinício. A política para jobs que estavam `running` no instante da interrupção permanece definida por CTR-0003/ADR-0010.
+SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes.
 
 ## Restrições
 
-- trabalho demorado não bloqueia o ciclo de recebimento Telegram;
-- estados: `queued`, `running`, `completed`, `failed`, `cancelled`, `timeout`.
+- estados e transições seguem CTR-0003;
+- não existe retry automático por padrão;
+- limites `max_workers` e `max_pending` vêm da configuração.
 
 ## Critérios de aceite
 
-- criação do job é separada da execução;
-- progresso pode atualizar a mesma mensagem;
-- requisição pendente sobrevive ao reinício;
-- resposta pronta e não entregue pode voltar à etapa de envio;
-- ainda faltam concorrência, fila, retry, cancelamento e política para job interrompido para chegar a `refined`.
+- job não bloqueia o recebimento de comandos;
+- fila e concorrência respeitam configuração;
+- resposta é entregue usando o cliente e destino persistidos;
+- queued sobrevive a restart;
+- running interrompido não é reexecutado silenciosamente;
+- cancelamento e retry seguem CTR-0003.
 
 ## Implementação relacionada
 
