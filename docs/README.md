@@ -50,6 +50,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
 - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refinement`
 - [CTR-0006 — Mídia temporária por requisição](especificacao/contratos/midia-temporaria.md) — `refinement`
+- [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
 
 ### Fluxos
 
