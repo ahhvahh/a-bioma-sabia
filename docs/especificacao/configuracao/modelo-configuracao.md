@@ -114,7 +114,9 @@ Cada agendamento possui, no mínimo:
 - periodicidade;
 - habilitação;
 - política de relatório;
-- lembrete quando aplicável.
+- `reminder_interval`: duração positiva opcional para lembretes de estado degradado inalterado.
+
+`reminder_interval` ausente significa que o agendamento não envia lembretes periódicos para estado inalterado. Quando presente, aplica-se somente a `WARNING`, `CRITICAL` e `UNKNOWN`; mudança de estado reinicia a contagem e `OK` encerra lembretes.
 
 ### logging
 
@@ -130,6 +132,8 @@ A configuração completa é validada antes de iniciar:
 - processamento de comandos.
 
 Configuração ausente, inválida, campo obrigatório ausente, segredo referenciado inexistente ou valor fora do domínio faz o processo falhar no startup.
+
+Para agendamentos, `reminder_interval`, quando presente, deve ser uma duração positiva.
 
 Para scripts:
 
@@ -172,4 +176,5 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - definição de script contém os campos necessários a CTR-0002;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
+- `reminder_interval` é opcional, positivo quando presente e ausente significa sem lembretes periódicos;
 - SQLite possui caminho conhecido e schema versionado.
