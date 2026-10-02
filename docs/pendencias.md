@@ -53,6 +53,8 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - envelope de mídia usa MessagePack;
   - cada upload usa `request_id` e contém um BLOB;
   - uma requisição pode enviar vários arquivos por vários uploads;
+  - uploads repetidos, inclusive com mesmo nome/conteúdo, são aceitos como mídias independentes e não são deduplicados;
+  - o serviço apenas valida a existência do `request_id` antes de persistir;
   - o BLOB e sua transmissão são persistidos antes do ACK;
   - ACK retorna `media_id`;
   - transmissões `pending | transmitting` são recuperáveis após restart;
@@ -62,7 +64,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - caminho final do Unix socket de mídia;
   - ownership, grupo e modo de acesso do socket;
   - limite máximo de payload MessagePack/BLOB;
-  - política de retry/idempotência quando o produtor repete um upload cujo commit ocorreu mas o ACK foi perdido;
   - política de retenção do BLOB após entrega;
   - regra para determinar/validar `content_type`;
   - schema final da configuração `processors`.
@@ -179,7 +180,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
-- ADR-0012 + CTR-0006/CTR-0007: mídia é persistida como BLOB, referenciada por `media_id` e transmissões sobrevivem a restart sem depender de `/tmp`.
+- ADR-0012 + CTR-0006/CTR-0007: mídia é persistida como BLOB, referenciada por `media_id` e transmissões sobrevivem a restart sem depender de `/tmp`. O MVP não realiza deduplicação de uploads.
 
 ## Condição para liberar o MVP
 
