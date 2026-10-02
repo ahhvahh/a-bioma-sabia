@@ -33,7 +33,8 @@ Cada entrega de mídia possui registro no SQLite com, no mínimo:
 - `created_at: timestamp`;
 - `updated_at: timestamp`;
 - `remote_message_id: string | null`;
-- `last_error: string | null`.
+- `last_error: string | null`;
+- `streamed_bytes: integer` — bytes consumidos pelo upload na tentativa atual.
 
 Nome, tipo e BLOB pertencem ao registro de mídia referenciado por `media_id`.
 
@@ -68,13 +69,15 @@ O produtor só recebe ACK de sucesso depois de mídia e transmissão estarem per
 1. selecionar transmissão `pending` ou elegível para retry;
 2. carregar metadados e a fonte persistida por `media_id`;
 3. quando a mídia for fracionada, exigir `completed = true` e ler os chunks por ordem de `sequence_id`;
-4. marcar `transmitting`;
+4. marcar `transmitting` e iniciar `streamed_bytes = 0` para a tentativa;
 5. fornecer um stream contínuo ao adaptador correspondente;
-6. aguardar confirmação remota;
-7. persistir `remote_message_id` quando fornecido;
-8. persistir `delivered`.
+6. incrementar `streamed_bytes` à medida que os bytes são consumidos pelo upload;
+7. quando `streamed_bytes == total_bytes`, considerar o envio local do corpo completo, mas manter `transmitting`;
+8. aguardar confirmação remota do Telegram;
+9. persistir `remote_message_id` quando fornecido;
+10. somente após a confirmação remota persistir `delivered`.
 
-A política de retenção do BLOB depois de `delivered` pertence a CTR-0006.
+Chunks/BLOBs não são removidos durante o streaming. Eles permanecem disponíveis até a confirmação remota, para que uma falha ou restart possa repetir a transmissão desde o início. A limpeza posterior pertence a CTR-0006/FLW-0008.
 
 ## Recovery no startup
 
@@ -99,10 +102,12 @@ Não existe reconciliação com `/tmp` ou filesystem para mídia persistida.
 
 - `media_id` precisa existir antes da transmissão;
 - reinício retoma `pending` e `transmitting`;
+- `streamed_bytes == total_bytes` não equivale sozinho a `delivered`;
 - confirmação remota é persistida antes de `delivered`;
 - falha ambígua permite reenvio;
 - conteúdo binário não é duplicado dentro da tabela de transmissão;
 - chunks não são entregues individualmente ao transporte externo;
+- chunks não são apagados durante uma transmissão ativa;
 - mídia fracionada só inicia entrega quando estiver completa;
 - binário não aparece em logs.
 
@@ -112,7 +117,7 @@ O registro usa `transport` e `destination_id`, portanto não depende exclusivame
 
 ## BLOCKED
 
-Para retornar a `refined`, a transmissão de mídia fracionada depende de CTR-0009 definir apenas a regra de completude e o limite total do arquivo lógico.
+Para retornar a `refined`, a transmissão de mídia fracionada depende apenas do limite máximo permitido para `total_bytes` em CTR-0009.
 
 ## Critérios de aceite
 
@@ -121,4 +126,5 @@ Para retornar a `refined`, a transmissão de mídia fracionada depende de CTR-00
 - várias mídias da mesma requisição possuem transmissões independentes;
 - falha ambígua pode ser reenviada;
 - confirmação remota é persistida;
+- `streamed_bytes` acompanha a tentativa atual sem provocar exclusão antecipada do conteúdo;
 - ausência de `media_id` produz falha explícita.
