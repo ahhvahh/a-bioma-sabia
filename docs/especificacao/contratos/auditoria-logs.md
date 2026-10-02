@@ -53,7 +53,9 @@ Nunca registrar:
 - tokens;
 - senhas;
 - segredos;
-- credenciais.
+- credenciais;
+- BLOBs de mídia;
+- campo `data` de CTR-0008.
 
 A saída inicial é stdout/stderr para integração natural com systemd/journalctl.
 
@@ -65,4 +67,5 @@ O formato deve permanecer estruturado mesmo quando novos componentes forem adici
 
 - eventos incluem contexto suficiente para correlação;
 - segredos são omitidos;
+- conteúdo binário de mídia nunca é serializado para logs/auditoria;
 - saída é consumível por journalctl através de stdout/stderr.
