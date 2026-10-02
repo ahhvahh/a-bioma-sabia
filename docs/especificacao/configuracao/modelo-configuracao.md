@@ -15,6 +15,7 @@ Definir a fonte, estrutura e regras de validação da configuração operacional
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
 
 ## Fonte principal
 
@@ -43,6 +44,7 @@ O arquivo deve possuir as seções:
 - `telegram.clients`;
 - `scripts`;
 - `processors`;
+- `media_ingest`;
 - `jobs`;
 - `schedules`;
 - `logging`.
@@ -116,10 +118,23 @@ A estrutura concreta por tipo de transporte ainda está `BLOCKED` e precisa defi
 - timeout da requisição;
 - mecanismo de envio do comando;
 - mecanismo de recebimento dos eventos `loading` e `finally`;
-- parâmetros necessários ao framing;
-- limites aplicáveis à mídia/binário.
+- parâmetros necessários ao framing do canal de controle.
 
 Nenhum endereço, caminho ou socket pode ser substituído por valor vindo do comando remoto.
+
+### media_ingest
+
+Configura o socket local exclusivo de ingestão de mídia.
+
+Campos necessários:
+
+- `socket_path`: caminho absoluto do Unix socket;
+- parâmetros de ownership/permissão local;
+- `max_payload_bytes`: limite máximo aceito por upload MessagePack.
+
+O caminho, ownership/grupo/modo e o limite concreto permanecem `BLOCKED`.
+
+Não existe endereço TCP para esta interface.
 
 ### jobs
 
@@ -200,7 +215,9 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - não existe reload dinâmico;
 - definição de script contém os campos necessários a CTR-0002;
 - existe seção `processors` para processadores assíncronos registrados;
-- o schema de `processors` precisa ser refinado antes de retornar CFG-0001 a `refined`;
+- existe seção `media_ingest` para o Unix socket MessagePack;
+- `media_ingest.socket_path` deve ser absoluto;
+- o schema de `processors` e os valores de segurança/limite de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
