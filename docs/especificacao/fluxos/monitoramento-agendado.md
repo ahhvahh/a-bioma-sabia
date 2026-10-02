@@ -48,6 +48,14 @@ O Script Executor não atribui significado de monitoramento ao exit code.
 
 ## Fluxos alternativos
 
+### Novo disparo durante execução ativa
+
+1. Scheduler identifica que a mesma tarefa já possui uma execução ativa;
+2. o novo disparo é ignorado;
+3. nenhuma nova execução é criada ou enfileirada;
+4. o disparo ignorado é registrado para observabilidade;
+5. a execução já ativa continua normalmente.
+
 ### Estado inalterado
 
 Não enviar imediatamente; lembrete só quando configurado.
@@ -78,7 +86,10 @@ Primeira prova funcional: `disk-check` com limites configuráveis:
 
 Os valores são exemplos iniciais e devem ser configuráveis.
 
-O fluxo permanece em `refinement` até fechar as pendências específicas de Scheduler e Alertas.
+- uma tarefa que vença novamente enquanto sua execução anterior estiver ativa não inicia execução concorrente;
+- o disparo sobreposto é ignorado e registrado.
+
+O fluxo permanece em `refinement` até fechar as demais pendências específicas de Scheduler e Alertas.
 
 ## Implementação relacionada
 
