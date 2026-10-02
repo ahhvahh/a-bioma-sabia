@@ -66,7 +66,7 @@ O limite se aplica ao campo `data` de uma única mensagem MessagePack.
 
 Conteúdo que exceda esse valor deve ser recusado com `media_too_large` antes de iniciar a persistência do BLOB.
 
-Arquivos maiores devem usar CTR-0009, em socket separado, com chunks persistidos.
+Arquivos acima de 20 MB devem usar CTR-0009. Arquivos de até 20 MB também podem optar por CTR-0009 quando o produtor preferir ingestão fracionada.
 
 ## Persistência e atomicidade
 
