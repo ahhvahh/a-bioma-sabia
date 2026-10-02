@@ -22,7 +22,7 @@ Definir a fila persistente de mídia destinada ao cliente, permitindo retomar tr
 
 ## Registro persistente
 
-Cada entrega de mídia possui registro no SQLite com, no mínimo:
+Cada entrega de mídia possui registro no PostgreSQL com, no mínimo:
 
 - `transmission_id: integer` — identificador persistente da transmissão;
 - `media_id: integer` — conteúdo persistido em CTR-0006;

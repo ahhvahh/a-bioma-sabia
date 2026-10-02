@@ -32,7 +32,7 @@ Permite streaming simples, mas cria perda de durabilidade se o arquivo desaparec
 
 ### Unix socket local + MessagePack + BLOB persistido
 
-O produtor envia metadados e binário por um socket local. O Sabiá valida a correlação e persiste o conteúdo no SQLite antes de responder com sucesso.
+O produtor envia metadados e binário por um socket local. O Sabiá valida a correlação e persiste o conteúdo no PostgreSQL antes de responder com sucesso.
 
 ## Decisão
 
@@ -50,7 +50,7 @@ No canal simples, cada envio representa um único item de mídia integral e cont
 
 O canal simples aceita até `20000000` bytes por arquivo. Conteúdo maior usa o canal fracionado de ADR-0013.
 
-O Sabiá valida o `request_id`, persiste os metadados e o conteúdo binário no SQLite e somente depois retorna confirmação contendo o `media_id` persistente.
+O Sabiá valida o `request_id`, persiste os metadados e o conteúdo binário no PostgreSQL e somente depois retorna confirmação contendo o `media_id` persistente.
 
 Uma mesma requisição pode receber vários arquivos por várias mensagens independentes no socket.
 
@@ -66,7 +66,7 @@ MessagePack oferece representação binária nativa e estrutura de mensagem comp
 
 ## Consequências
 
-- o SQLite passa a armazenar BLOBs de mídia;
+- o PostgreSQL passa a armazenar BLOBs de mídia;
 - será necessário um contrato de ingestão MessagePack;
 - o socket precisa de política explícita de caminho, ownership e permissões locais;
 - transmissões pendentes passam a referenciar `media_id`, não caminho de filesystem;

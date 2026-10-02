@@ -56,7 +56,7 @@ Processor Transport       Job Queue/Workers
        Media Chunk Socket (>20 MB, chunks <=5 MB)
              |
              v
-        Media Store/SQLite
+        Media Store/PostgreSQL
              |
              v
       Media Delivery Queue
@@ -80,7 +80,7 @@ Logging/Audit <----------------- eventos operacionais
 - **Job Manager/Queue/Workers:** executa operações demoradas fora do tratamento imediato do comando, preserva `request_id` e encaminha eventos de progresso/finalização.
 - **Media Ingest Socket:** recebe arquivos integrais de até 20 MB por Unix socket e MessagePack.
 - **Media Chunk Socket:** recebe arquivos maiores em chunks persistidos de até 5 MB.
-- **Media Store/SQLite:** persiste metadados e BLOBs antes do ACK ao produtor.
+- **Media Store/PostgreSQL:** persiste metadados e BLOBs antes do ACK ao produtor.
 - **Media Delivery Queue:** mantém transmissões pendentes por `media_id` e permite recovery após restart.
 - **Scheduler:** dispara verificações cadastradas.
 - **Alert Manager:** avalia mudança de estado e decide quando notificar.

@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Remover do SQLite conteúdos binários já entregues sem interferir em transmissões pendentes, em andamento ou recuperáveis após restart.
+Remover do PostgreSQL conteúdos binários já entregues sem interferir em transmissões pendentes, em andamento ou recuperáveis após restart.
 
 ## Dependências
 
@@ -103,4 +103,4 @@ O banco deixa de reter payload binário desnecessário depois da entrega, sem co
 
 ## Implementação relacionada
 
-Media Store, Media Delivery Queue e estado operacional SQLite.
+Media Store, Media Delivery Queue e estado operacional PostgreSQL.

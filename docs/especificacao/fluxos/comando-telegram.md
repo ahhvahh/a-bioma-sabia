@@ -125,7 +125,7 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 - validação semântica dos argumentos ocorre na operação correspondente;
 - resultados `message`, `job` e `error` são convertidos pelo adaptador sem alterar sua semântica;
 - resultado `error` preserva `code`, `message` e `retryable`;
-- mídia recebida permanece correlacionada ao `request_id` e é persistida no SQLite;
+- mídia recebida permanece correlacionada ao `request_id` e é persistida no PostgreSQL;
 - referências internas de arquivo usam `media_id`;
 - conteúdo binário nunca é registrado em logs;
 - cliente não acessa comandos de outro cliente;

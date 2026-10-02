@@ -93,10 +93,10 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
 
-### Persistência operacional — especificação técnica ausente
+### Persistência operacional em PostgreSQL — especificação técnica ausente
 
 - Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
-- Estado atual: decisão arquitetural `refined`; CTR-0007 já define de forma implementável a persistência e o recovery das transmissões de mídia, mas o restante do modelo operacional ainda não possui especificação técnica completa.
+- Estado atual: ADR-0009 versão 3 define PostgreSQL como persistência oficial, com banco lógico e role próprios; CTR-0007 já define de forma implementável a persistência e o recovery das transmissões de mídia, mas o restante do modelo operacional ainda não possui especificação técnica completa.
 - Estado necessário: especificação de persistência `refined`.
 - Informação ausente:
   - entidades/tabelas e relações para requisições, jobs, tentativas, respostas textuais e estado de alertas;
@@ -182,9 +182,9 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 
 [ADR-0006 — Jobs assíncronos](adr/processamento/jobs-assincronos.md) ainda afirma que persistência, concorrência, retries e recovery precisam ser fechados em especificação. Parte desses pontos já foi definida em ADR-0009, ADR-0010 e CTR-0003. O texto precisa ser reconciliado sem alterar a decisão arquitetural.
 
-### ADR-0007 — persistência de alertas desatualizada
+### ADR-0007 — referência de persistência de alertas a reconciliar
 
-[ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) ainda afirma que a persistência do estado entre reinícios não está decidida. ADR-0009 já definiu SQLite e recovery desse estado.
+[ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) ainda afirma que a persistência do estado entre reinícios não está decidida. ADR-0009 já definiu PostgreSQL e recovery desse estado; qualquer referência anterior ao mecanismo de persistência deve apontar para a decisão vigente.
 
 ### FLW-0004 — estado em refinement sem lacuna própria explícita
 
@@ -194,7 +194,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 
 Não são mais pendências arquiteturais:
 
-- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente.
+- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): PostgreSQL, banco lógico/role próprios e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente e do contrato concreto de conexão.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.

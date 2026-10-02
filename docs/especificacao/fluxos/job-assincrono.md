@@ -108,4 +108,4 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 
 ## Implementação relacionada
 
-JobManager, JobQueue, Worker, SQLite e adaptador Telegram.
+JobManager, JobQueue, Worker, PostgreSQL e adaptador Telegram.

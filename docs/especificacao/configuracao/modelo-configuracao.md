@@ -59,13 +59,11 @@ Campos mínimos:
 
 ### database
 
-Campos mínimos:
+A persistência oficial utiliza PostgreSQL conforme ADR-0009.
 
-- `path`: caminho do arquivo SQLite.
+O Sabiá deve usar banco lógico e role próprios, mesmo quando o servidor PostgreSQL for compartilhado com outros projetos.
 
-O caminho padrão é:
-
-`/var/lib/sabia/sabia.db`
+A configuração precisa identificar a conexão com esse banco e referenciar as credenciais pelo mecanismo de segredos desta especificação. Os campos concretos de endpoint, TLS e referência de credencial permanecem em `refinement` e não devem ser inferidos pela implementação.
 
 ### telegram.clients
 
@@ -208,11 +206,11 @@ Não existe reload dinâmico no primeiro MVP.
 
 Qualquer alteração de configuração exige reinicialização controlada do serviço.
 
-## SQLite
+## PostgreSQL
 
-O arquivo SQLite é criado/aberto no caminho configurado.
+PostgreSQL é a persistência operacional obrigatória do Sabiá. Não existe fallback normativo para SQLite.
 
-O schema deve possuir versão persistida para permitir migrações futuras. Migrações compatíveis com a versão do binário são executadas antes de liberar os demais módulos no startup. Falha de migração bloqueia a inicialização.
+O Sabiá usa banco lógico e role próprios. O schema deve possuir versão persistida para permitir migrações futuras. Migrações compatíveis com a versão do binário são executadas antes de liberar os demais módulos no startup. Falha de migração bloqueia a inicialização.
 
 ## Retenção
 
@@ -244,4 +242,5 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
 - cron não é aceito no MVP;
 - `reminder_interval` é opcional, positivo quando presente e ausente significa sem lembretes periódicos;
-- SQLite possui caminho conhecido e schema versionado.
+- PostgreSQL é a persistência oficial, com banco lógico e role próprios e schema versionado;
+- o contrato concreto de conexão PostgreSQL precisa ser refinado antes de CFG-0001 retornar a `refined`;

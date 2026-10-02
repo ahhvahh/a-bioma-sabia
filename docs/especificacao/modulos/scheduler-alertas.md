@@ -42,7 +42,7 @@ Nenhuma mensagem quando não houver evento relevante, salvo tarefa configurada p
 
 ## Persistência
 
-O estado anterior necessário à avaliação de alertas deve ser mantido no SQLite conforme ADR-0009 e recuperado após reinício.
+O estado anterior necessário à avaliação de alertas deve ser mantido no PostgreSQL conforme ADR-0009 e recuperado após reinício.
 
 ## Restrições
 

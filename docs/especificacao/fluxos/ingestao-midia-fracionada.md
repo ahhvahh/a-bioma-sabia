@@ -113,4 +113,4 @@ Ainda falta definir apenas o limite máximo permitido para `total_bytes`.
 
 ## Implementação relacionada
 
-Media Chunk Ingest, SQLite, Media Store e Media Delivery Queue.
+Media Chunk Ingest, PostgreSQL, Media Store e Media Delivery Queue.

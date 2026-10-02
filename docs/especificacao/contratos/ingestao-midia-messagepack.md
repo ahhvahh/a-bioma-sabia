@@ -76,7 +76,7 @@ Antes de confirmar o upload, o Sabiá deve:
 2. validar a versão;
 3. consultar o estado operacional e localizar a requisição por `request_id`;
 4. rejeitar o upload com `media_too_large` se `data` exceder `20000000` bytes;
-5. inserir metadados e BLOB da mídia no SQLite;
+5. inserir metadados e BLOB da mídia no PostgreSQL;
 6. criar a transmissão pendente correlacionada ao cliente/destino da requisição;
 7. confirmar a transação.
 
@@ -117,7 +117,7 @@ Códigos mínimos:
 
 - socket disponível apenas localmente;
 - acesso depende de permissão do objeto Unix socket;
-- arquivo SQLite deve permanecer acessível somente à identidade operacional autorizada do Sabiá;
+- credenciais e role PostgreSQL devem permanecer acessíveis somente à identidade operacional autorizada do Sabiá;
 - conteúdo binário não é incluído em logs, auditoria ou mensagens de erro;
 - nome e content type fornecidos pelo produtor não são tratados como dados confiáveis para decidir autorização;
 - conhecer um `request_id` não substitui a autorização local para abrir o socket.

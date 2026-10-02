@@ -58,7 +58,7 @@ Uploads integrais CTR-0008, chunks CTR-0009 e mídia recebida internamente pelo 
 
 ## Persistência
 
-SQLite armazena metadados, BLOB integral ou chunks ordenados. A transmissão referencia a mídia lógica por `media_id` quando ela estiver apta à entrega.
+PostgreSQL armazena metadados, BLOB integral ou chunks ordenados. A transmissão referencia a mídia lógica por `media_id` quando ela estiver apta à entrega.
 
 ## Restrições
 
@@ -80,4 +80,4 @@ SQLite armazena metadados, BLOB integral ou chunks ordenados. A transmissão ref
 
 ## Implementação relacionada
 
-Prevista para Media Ingest, armazenamento SQLite e fila de mídia.
+Prevista para Media Ingest, armazenamento PostgreSQL e fila de mídia.

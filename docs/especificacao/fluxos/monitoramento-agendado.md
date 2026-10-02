@@ -36,7 +36,7 @@ O `interval` configurado para o agendamento torna a tarefa devida.
 7. compara estado atual e anterior;
 8. se houver transição relevante, cria mensagem;
 9. adaptador do cliente Alerts envia ao Telegram;
-10. novo estado é persistido no SQLite para avaliação futura.
+10. novo estado é persistido no PostgreSQL para avaliação futura.
 
 Para scripts de monitoramento, a interpretação inicial é:
 
@@ -90,7 +90,7 @@ Pode enviar resultado mesmo sem mudança quando essa opção estiver configurada
 
 ## Falhas e tratamento
 
-O estado anterior sobrevive ao reinício por meio do SQLite. Falha técnica da verificação ou timeout produz `UNKNOWN` e preserva o motivo técnico em observabilidade. O instante da última notificação necessário ao cálculo de `reminder_interval` também deve sobreviver ao reinício.
+O estado anterior sobrevive ao reinício por meio do PostgreSQL. Falha técnica da verificação ou timeout produz `UNKNOWN` e preserva o motivo técnico em observabilidade. O instante da última notificação necessário ao cálculo de `reminder_interval` também deve sobreviver ao reinício.
 
 ## Resultado
 
@@ -121,4 +121,4 @@ O fluxo permanece em `refinement` até fechar as demais pendências específicas
 
 ## Implementação relacionada
 
-Scheduler, Script Executor, Alert Manager, SQLite e cliente Alerts.
+Scheduler, Script Executor, Alert Manager, PostgreSQL e cliente Alerts.

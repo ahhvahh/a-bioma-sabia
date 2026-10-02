@@ -49,7 +49,7 @@ Identificador de job, mudanças de estado, eventos `loading`, resposta `finally`
 
 ## Persistência
 
-SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes. Transmissões de mídia `pending` ou `transmitting` são retomadas conforme CTR-0007 quando o `media_id` existe.
+PostgreSQL é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes. Transmissões de mídia `pending` ou `transmitting` são retomadas conforme CTR-0007 quando o `media_id` existe.
 
 ## Restrições
 

@@ -34,8 +34,8 @@ Serviço em execução.
 5. manter os canais de saída necessários para concluir respostas já pendentes;
 6. aguardar jobs em `running` até `service.shutdown_timeout`;
 7. enviar toda resposta concluída ao cliente e destino que originaram a requisição;
-8. manter no SQLite respostas textuais que ainda não puderem ser entregues;
-9. preservar no SQLite mídias e transmissões `pending` ou `transmitting`;
+8. manter no PostgreSQL respostas textuais que ainda não puderem ser entregues;
+9. preservar no PostgreSQL mídias e transmissões `pending` ou `transmitting`;
 10. preservar jobs `queued` para o próximo startup;
 11. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
 12. finalizar workers;
@@ -56,7 +56,7 @@ Persistir como pendente para reenvio no próximo startup.
 
 ### Mídia sem confirmação
 
-Se uma transmissão ainda não tiver confirmação do Telegram no shutdown, preservar mídia e transmissão no SQLite. Ela será reconciliada e reenviada no próximo startup conforme CTR-0007.
+Se uma transmissão ainda não tiver confirmação do Telegram no shutdown, preservar mídia e transmissão no PostgreSQL. Ela será reconciliada e reenviada no próximo startup conforme CTR-0007.
 
 ## Falhas e tratamento
 
@@ -78,4 +78,4 @@ O serviço encerra sem aceitar novo trabalho, preservando fila, respostas textua
 
 ## Implementação relacionada
 
-Processo principal, adaptador Telegram, Job Manager, Scheduler, workers e SQLite.
+Processo principal, adaptador Telegram, Job Manager, Scheduler, workers e PostgreSQL.

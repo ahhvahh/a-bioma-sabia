@@ -33,7 +33,7 @@ Produtor local conecta ao socket de mídia e envia um objeto MessagePack.
 3. validar `version`, `request_id`, `name`, `content_type` e `data`;
 4. rejeitar `data` maior que `20000000` bytes com `media_too_large`;
 5. consultar o estado operacional e localizar a requisição e sua correlação de resposta pelo `request_id`;
-6. iniciar transação SQLite;
+6. iniciar transação PostgreSQL;
 7. persistir mídia e obter `media_id`;
 8. persistir transmissão `pending` para o cliente/destino da requisição;
 9. confirmar a transação;
@@ -81,4 +81,4 @@ Mídia e transmissão existem de forma persistente e podem sobreviver a restart 
 
 ## Implementação relacionada
 
-Media Ingest, SQLite e Media Delivery Queue.
+Media Ingest, PostgreSQL e Media Delivery Queue.

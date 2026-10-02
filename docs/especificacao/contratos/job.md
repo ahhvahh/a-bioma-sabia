@@ -37,11 +37,11 @@ Para Telegram, a correlação operacional preserva `client_id`, `reply_context.d
 
 ## Identidade
 
-`job_id` é um inteiro sequencial gerado pelo SQLite.
+`job_id` é um inteiro sequencial gerado pelo PostgreSQL.
 
 ## Fila e concorrência
 
-- a fila é persistida no SQLite;
+- a fila é persistida no PostgreSQL;
 - `jobs.max_workers` define quantos jobs podem estar `running` simultaneamente;
 - `jobs.max_pending` define quantos jobs `queued` podem aguardar execução;
 - ambos são parâmetros obrigatórios, inteiros e maiores que zero;

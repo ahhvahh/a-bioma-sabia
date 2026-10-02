@@ -23,7 +23,7 @@ Definir a representação persistente de imagens, vídeos e outros arquivos usad
 
 ## Entidade persistente
 
-Cada conteúdo de mídia possui registro persistente no SQLite com, no mínimo:
+Cada conteúdo de mídia possui registro persistente no PostgreSQL com, no mínimo:
 
 - `media_id: integer` — identificador persistente;
 - `request_id: string` — requisição à qual o conteúdo está associado;
@@ -94,7 +94,7 @@ A entrega ao Telegram é controlada por CTR-0007.
 - para `storage_mode = chunked`, `total_bytes` deve ser no máximo `100000000`;
 - mídia fracionada só pode ser transmitida quando `received_bytes == total_bytes`;
 - conteúdo binário não aparece em logs;
-- acesso ao SQLite é restrito à identidade operacional autorizada;
+- acesso ao PostgreSQL é restrito à identidade operacional autorizada;
 - produtor externo não escolhe `client_id`, transporte ou destino da mídia;
 - `request_id` determina a correlação com a requisição original;
 - nenhuma regra de deduplicação por `name`, hash ou conteúdo faz parte do MVP.

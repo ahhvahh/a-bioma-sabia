@@ -49,7 +49,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 ## Persistência
 
-SQLite mantém a correlação entre requisição, cliente e destino de resposta. Mensagens prontas e não entregues voltam à etapa de envio após reinício.
+PostgreSQL mantém a correlação entre requisição, cliente e destino de resposta. Mensagens prontas e não entregues voltam à etapa de envio após reinício.
 
 Para cada cliente Telegram, o estado persistente deve registrar o maior `update_id` aceito para processamento. Um update somente pode ser considerado aceito após sua persistência transacional bem-sucedida no estado operacional.
 
@@ -114,7 +114,7 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - resposta é enviada pelo cliente que recebeu a requisição;
 - todos os clientes ativos recebem tentativa de aviso no shutdown;
 - mensagem textual pendente pode voltar à etapa de envio após reinício;
-- mídia pendente registrada no SQLite é retomada após restart quando o `media_id` existe;
+- mídia pendente registrada no PostgreSQL é retomada após restart quando o `media_id` existe;
 - update persistido não é executado novamente após reinício ou repetição da Bot API;
 - falha antes da persistência não avança o `offset`;
 - `retry_after` é respeitado quando fornecido;
