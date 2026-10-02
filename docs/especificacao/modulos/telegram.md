@@ -45,12 +45,23 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 SQLite mantém a correlação entre requisição, cliente e destino de resposta. Mensagens prontas e não entregues voltam à etapa de envio após reinício.
 
+Para cada cliente Telegram, o estado persistente deve registrar o maior `update_id` aceito para processamento. Um update somente pode ser considerado aceito após sua persistência transacional bem-sucedida no estado operacional.
+
+Após persistir o update, a próxima chamada a `getUpdates` deve usar:
+
+`offset = maior update_id persistido + 1`
+
+A confirmação perante o Telegram, portanto, não depende da conclusão do comando. Depois da persistência, eventual falha ou reinício deve retomar o processamento a partir do estado local, sem solicitar novamente o mesmo update ao Telegram.
+
+O processamento local deve tratar `update_id` como identificador idempotente por cliente, impedindo que uma repetição já persistida produza uma segunda execução da mesma requisição.
+
 ## Restrições
 
 - long polling e webhook não são usados simultaneamente para o mesmo cliente;
 - tokens não aparecem em logs;
 - nenhum teste depende da API real;
-- uma resposta de um cliente não pode ser entregue usando identidade de outro cliente.
+- uma resposta de um cliente não pode ser entregue usando identidade de outro cliente;
+- o `offset` nunca avança antes da persistência bem-sucedida do update correspondente.
 
 ## Critérios de aceite
 
@@ -58,7 +69,9 @@ SQLite mantém a correlação entre requisição, cliente e destino de resposta.
 - resposta é enviada pelo cliente que recebeu a requisição;
 - todos os clientes ativos recebem tentativa de aviso no shutdown;
 - mensagem pendente pode voltar à etapa de envio após reinício;
-- política detalhada de offset/retry ainda precisa ser fechada antes de `refined`.
+- update persistido não é executado novamente após reinício ou repetição da Bot API;
+- falha antes da persistência não avança o `offset`;
+- política detalhada de retry da Bot API e recovery de respostas ainda precisa ser fechada antes de `refined`.
 
 ## Implementação relacionada
 
