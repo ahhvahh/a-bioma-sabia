@@ -23,7 +23,8 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 - encaminhar identidade para autorização;
 - converter respostas internas em mensagens Telegram;
 - editar mensagem de progresso de job;
-- enviar arquivo final quando existir.
+- enviar arquivo final quando existir;
+- registrar no estado operacional as correlações e entregas pendentes necessárias ao recovery.
 
 ## Entradas
 
@@ -40,7 +41,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 ## Persistência
 
-**BLOCKED:** falta decidir se offset/identificador de update e correlações necessárias sobrevivem a reinício.
+O estado operacional usa SQLite conforme ADR-0009. Requisições e respostas pendentes devem permanecer correlacionadas ao destino para que, após reinício, mensagens prontas e ainda não entregues voltem à etapa de envio.
 
 ## Restrições
 
@@ -53,7 +54,8 @@ Comandos internos e chamadas de envio/edição de mensagens.
 - clientes habilitados funcionam independentemente;
 - update é convertido sem expor tipos Telegram ao restante do Core além da fronteira;
 - mensagens de jobs podem ser editadas;
-- política de offset/retry precisa ser fechada antes de `refined`.
+- uma mensagem persistida como pendente pode voltar à etapa de envio depois de reinício;
+- política detalhada de offset/retry ainda precisa ser fechada antes de `refined`.
 
 ## Implementação relacionada
 

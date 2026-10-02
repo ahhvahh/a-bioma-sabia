@@ -25,6 +25,8 @@ Solicitação de operação demorada com contexto de resposta. Para Telegram, a 
 - `message_id`;
 - `job_id`.
 
+A requisição e a correlação necessárias ao envio da resposta devem ser persistidas no SQLite.
+
 ## Saída
 
 Estados permitidos:
@@ -35,7 +37,7 @@ Estados permitidos:
 - `cancelled`;
 - `timeout`.
 
-O job pode publicar progresso e, ao concluir, produzir resultado textual ou arquivo.
+O job pode publicar progresso e, ao concluir, produzir resultado textual ou arquivo. Uma resposta concluída mas ainda não entregue deve permanecer registrada como pendente até voltar à etapa de envio.
 
 ## Erros
 
@@ -46,7 +48,8 @@ Falha, cancelamento e timeout são estados explícitos, não exceções invisív
 - criação do job responde sem aguardar conclusão;
 - trabalho é executado por worker;
 - mudanças de estado devem ser observáveis;
-- estado inválido deve ser rejeitado.
+- estado inválido deve ser rejeitado;
+- o estado persistente deve permitir identificar trabalho e mensagens pendentes depois de reinício.
 
 ## Compatibilidade
 
@@ -54,11 +57,13 @@ A correlação de resposta deve permitir outros transportes no futuro, sem exigi
 
 ## Critérios de aceite
 
-Antes de `refined`, definir:
+Persistência/recovery de requisições e respostas está definida por ADR-0009.
+
+Antes de `refined`, ainda é necessário definir:
 - tipo e geração de `job_id`;
 - capacidade da fila;
 - concorrência de workers;
 - política de retry;
 - semântica de cancelamento;
-- persistência/recovery;
-- transições exatas permitidas.
+- transições exatas permitidas;
+- comportamento de job que estava `running` no instante de uma interrupção.

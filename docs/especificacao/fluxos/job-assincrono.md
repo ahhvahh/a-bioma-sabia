@@ -25,16 +25,25 @@ Command Router identifica uma operação classificada como demorada.
 
 ## Fluxo principal
 
-1. Job Manager cria o job em `queued`;
-2. o usuário recebe confirmação imediata com identificador do job;
-3. Job Queue disponibiliza o trabalho;
-4. Worker inicia e muda para `running`;
-5. Worker publica progresso quando aplicável;
-6. adaptador Telegram edita a mensagem associada;
-7. Worker conclui como `completed`, `failed`, `cancelled` ou `timeout`;
-8. resultado final é enviado; se houver arquivo, ele é transmitido ao usuário.
+1. Job Manager cria e persiste a requisição/job;
+2. o job entra em `queued`;
+3. o usuário recebe confirmação imediata com identificador do job;
+4. Job Queue disponibiliza o trabalho;
+5. Worker inicia e muda para `running`;
+6. Worker publica progresso quando aplicável;
+7. adaptador Telegram edita a mensagem associada;
+8. Worker conclui como `completed`, `failed`, `cancelled` ou `timeout`;
+9. o resultado a entregar permanece persistido enquanto estiver pendente;
+10. resultado final é enviado; se houver arquivo, ele é transmitido ao usuário;
+11. a entrega é registrada no estado operacional.
 
 ## Fluxos alternativos
+
+### Reinício com mensagem pendente
+
+1. o serviço lê o SQLite no startup;
+2. identifica respostas prontas ainda não entregues;
+3. devolve essas respostas para a etapa de envio ao destino correlacionado.
 
 ### Consulta de job
 
@@ -46,18 +55,19 @@ Previsto para o cliente Tools, mas a semântica ainda não está definida.
 
 ## Falhas e tratamento
 
-Recovery, retries e interrupção por shutdown dependem de ADR-0009 e ADR-0010.
+A persistência de requisições e respostas é definida por ADR-0009. Retry e comportamento de job que estava executando durante interrupção dependem de CTR-0003 e ADR-0010.
 
 ## Resultado
 
-Job termina em estado final observável.
+Job termina em estado final observável e a resposta pendente permanece recuperável até sua entrega.
 
 ## Critérios de aceite
 
 - recebimento de comandos continua enquanto job executa;
 - progresso pode editar a mesma mensagem;
-- política de concorrência/restart precisa ser definida antes de `refined`.
+- resposta pendente sobrevive ao reinício;
+- política de concorrência, retry e job interrompido precisa ser definida antes de `refined`.
 
 ## Implementação relacionada
 
-JobManager, JobQueue, Worker e adaptador Telegram.
+JobManager, JobQueue, Worker, SQLite e adaptador Telegram.

@@ -6,7 +6,7 @@ O Sabiá é um serviço Linux do ecossistema Bioma para integrar aplicações, s
 
 ## Estado do pipeline
 
-A arquitetura principal possui decisões explícitas e desenhos finalizados. A especificação do MVP ainda possui itens em `refinement` porque existem decisões operacionais não fechadas.
+A arquitetura principal possui decisões explícitas e desenhos finalizados. A especificação do MVP ainda possui itens em `refinement` porque existem contratos e comportamentos operacionais não fechados.
 
 ### Decisões
 
@@ -18,7 +18,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 - [ADR-0006 — Jobs assíncronos](adr/processamento/jobs-assincronos.md) — `refined`
 - [ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) — `refined`
 - [ADR-0008 — Menor privilégio e autorização explícita](adr/seguranca/menor-privilegio-e-autorizacao.md) — `refined`
-- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refinement`
+- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refinement`
 
 ### Desenhos
@@ -57,34 +57,43 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 
 ## BLOCKED
 
-### Persistência do estado operacional
-
-- Documento: [ADR-0009](adr/persistencia/estado-operacional.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta decidir onde e como persistir jobs, fila, offsets relevantes do Telegram e estado dos alertas entre reinicializações.
-- Afeta: MOD-0002, MOD-0004, MOD-0005, CTR-0003, FLW-0002 e FLW-0003.
-
 ### Encerramento de jobs em execução
 
 - Documento: [ADR-0010](adr/runtime/encerramento-de-jobs.md)
 - Estado atual: `refinement`
 - Estado necessário: `refined`
-- Falta decidir se jobs em execução serão concluídos, cancelados ou tratados por política configurável ao receber SIGTERM/SIGINT.
+- Falta consolidar documentalmente a política de jobs em execução, timeout e comportamento ao atingir o limite.
 - Afeta: MOD-0004 e FLW-0004.
+
+### Contrato do comando interno
+
+- Documento: [CTR-0001](especificacao/contratos/comando-interno.md)
+- Estado atual: `refinement`
+- Estado necessário: `refined`
+- Falta fechar schema, tipos, limites, anexos e estrutura exata de resultado/erro.
+- Afeta: MOD-0001, MOD-0002 e FLW-0001.
 
 ### Contrato operacional do executor
 
 - Documento: [CTR-0002](especificacao/contratos/execucao-script.md)
 - Estado atual: `refinement`
 - Estado necessário: `refined`
-- Falta definir detalhes necessários à execução segura: forma de invocação do arquivo cadastrado, diretório de trabalho, ambiente herdado/permitido e limites de saída.
+- Falta definir invocação do processo, diretório de trabalho, ambiente permitido, limites de saída e tratamento de processos no timeout.
+- Afeta: MOD-0003, MOD-0005 e FLW-0003.
 
 ### Fila e concorrência de jobs
 
 - Documento: [CTR-0003](especificacao/contratos/job.md)
 - Estado atual: `refinement`
 - Estado necessário: `refined`
-- Falta definir concorrência, capacidade da fila, política de cancelamento, retries e comportamento após reinício.
+- Falta definir geração de job_id, capacidade da fila, concorrência, retry, cancelamento, transições e tratamento de job que estava em execução após reinício.
+- Afeta: MOD-0002, MOD-0004 e FLW-0002.
+
+### Modelo de configuração
+
+- Documento: [CFG-0001](especificacao/configuracao/modelo-configuracao.md)
+- Estado atual: `refinement`
+- Estado necessário: `refined`
+- Falta fechar schema YAML, localização, precedência, validação, reload e parâmetros operacionais.
 
 Nenhum desses bloqueios autoriza preencher a decisão por suposição.

@@ -18,11 +18,13 @@ Executar operações demoradas sem bloquear o recebimento de comandos.
 ## Responsabilidades
 
 - criar job e responder imediatamente;
+- persistir requisição e estado necessário à recuperação;
 - enfileirar trabalho;
 - executar por workers;
 - controlar estados válidos;
 - publicar progresso;
 - correlacionar resultado com destino de resposta;
+- persistir respostas pendentes até a entrega;
 - suportar consulta por `/jobs` e `/job <id>`;
 - suportar cancelamento quando previsto pelo cliente.
 
@@ -40,7 +42,7 @@ Identificador de job, mudanças de estado, progresso e resultado final.
 
 ## Persistência
 
-**BLOCKED:** mecanismo e política de recovery não definidos.
+SQLite é o armazenamento oficial do estado operacional. Requisições, jobs e respostas pendentes precisam ser recuperáveis após reinício. A política para jobs que estavam `running` no instante da interrupção permanece definida por CTR-0003/ADR-0010.
 
 ## Restrições
 
@@ -51,7 +53,9 @@ Identificador de job, mudanças de estado, progresso e resultado final.
 
 - criação do job é separada da execução;
 - progresso pode atualizar a mesma mensagem;
-- faltam concorrência, fila, retry, cancelamento e restart para chegar a `refined`.
+- requisição pendente sobrevive ao reinício;
+- resposta pronta e não entregue pode voltar à etapa de envio;
+- ainda faltam concorrência, fila, retry, cancelamento e política para job interrompido para chegar a `refined`.
 
 ## Implementação relacionada
 

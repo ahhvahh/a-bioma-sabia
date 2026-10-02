@@ -30,10 +30,11 @@ Agendamento configurado torna-se devido.
 2. resolve script cadastrado;
 3. Script Executor executa com timeout;
 4. resultado é convertido em `OK`, `WARNING`, `CRITICAL` ou `UNKNOWN`;
-5. Alert Manager compara estado atual e anterior;
-6. se houver transição relevante, cria mensagem;
-7. adaptador do cliente Alerts envia ao Telegram;
-8. novo estado fica disponível para avaliação futura.
+5. Alert Manager recupera o estado anterior persistido;
+6. compara estado atual e anterior;
+7. se houver transição relevante, cria mensagem;
+8. adaptador do cliente Alerts envia ao Telegram;
+9. novo estado é persistido no SQLite para avaliação futura.
 
 ## Fluxos alternativos
 
@@ -51,11 +52,11 @@ Pode enviar resultado mesmo sem mudança quando essa opção estiver configurada
 
 ## Falhas e tratamento
 
-Persistência do estado anterior e política de falha do scheduler ainda não estão fechadas.
+O estado anterior sobrevive ao reinício por meio do SQLite. A política detalhada de falha do scheduler e de lembretes ainda precisa ser fechada.
 
 ## Resultado
 
-Estado atualizado e, quando necessário, alerta enviado.
+Estado atualizado e persistido e, quando necessário, alerta enviado.
 
 ## Critérios de aceite
 
@@ -68,4 +69,4 @@ Os valores são exemplos iniciais e devem ser configuráveis.
 
 ## Implementação relacionada
 
-Scheduler, Script Executor, Alert Manager e cliente Alerts.
+Scheduler, Script Executor, Alert Manager, SQLite e cliente Alerts.

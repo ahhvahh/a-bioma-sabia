@@ -19,6 +19,7 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 - disparar tarefas cadastradas por periodicidade;
 - interpretar status de monitoramento;
 - comparar estado atual e anterior;
+- persistir estado necessário à avaliação futura;
 - emitir alerta em mudança relevante;
 - emitir recuperação;
 - suprimir repetição imediata;
@@ -38,7 +39,7 @@ Nenhuma mensagem quando não houver evento relevante, salvo tarefa configurada p
 
 ## Persistência
 
-**BLOCKED:** ainda não foi definido se e como o estado anterior sobrevive a reinicializações.
+O estado anterior necessário à avaliação de alertas deve ser mantido no SQLite conforme ADR-0009 e recuperado após reinício.
 
 ## Restrições
 
@@ -49,7 +50,8 @@ Estados de monitoramento: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`.
 - transição gera alerta conforme regra;
 - repetição de estado não gera mensagem imediata;
 - recuperação gera mensagem;
-- política de persistência e lembrete precisa ser completada antes de `refined`.
+- estado anterior pode ser recuperado após reinício;
+- política detalhada de lembrete e comportamento de falhas ainda precisa ser completada antes de `refined`.
 
 ## Implementação relacionada
 
