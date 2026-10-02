@@ -69,18 +69,62 @@ Regras:
 
 ## Saída
 
-Resultado interno passível de conversão pelo adaptador: resposta textual, criação/referência de job, erro controlado e, quando aplicável, arquivo de resultado.
+Toda resposta do Core usa um envelope discriminado:
 
-A estrutura discriminada e os tipos concretos do resultado ainda precisam ser definidos.
+- `type: message | job | file | error`;
+- `request_id: string`;
+- `payload`: conteúdo específico do tipo.
+
+`request_id` deve ser o mesmo da requisição de origem.
+
+### message
+
+Representa resposta textual imediata.
+
+Payload mínimo:
+
+- `text: string`.
+
+### job
+
+Representa criação ou referência de job assíncrono.
+
+Payload mínimo:
+
+- `job_id: integer`.
+
+O ciclo de vida do job segue [CTR-0003 — Job](job.md).
+
+### file
+
+Representa um arquivo de resultado.
+
+O tipo existe no envelope, porém o schema do payload permanece `BLOCKED` até a definição do contrato de arquivos/anexos. Nenhuma operação do MVP pode depender de resultado `file` enquanto esse contrato não estiver refinado.
+
+### error
+
+Representa erro controlado produzido pelo Core ou por uma operação.
+
+Payload obrigatório:
+
+- `code: string` — código estável e apropriado para tratamento programático;
+- `message: string` — mensagem controlada e apropriada para apresentação ao solicitante;
+- `retryable: boolean` — indica se repetir a mesma operação pode ser apropriado sem alteração da solicitação.
+
+O adaptador pode adaptar a apresentação do erro ao transporte, mas não deve reinterpretar o significado de `code` ou `retryable`.
 
 ## Erros
+
+Erros previstos incluem, no mínimo:
 
 - comando desconhecido;
 - argumentos inválidos;
 - operação não disponível para o cliente;
 - falha do executor.
 
-A estrutura normativa de erro ainda precisa ser definida.
+Todos devem ser retornados usando `type: error` e o payload normativo definido acima.
+
+Códigos específicos por operação pertencem ao contrato da própria operação.
 
 ## Regras e restrições
 
@@ -90,12 +134,16 @@ A estrutura normativa de erro ainda precisa ser definida.
 - tokenização é responsabilidade do adaptador;
 - validação semântica dos argumentos é responsabilidade da operação correspondente;
 - `request_id` não muda durante o processamento da mesma requisição;
-- resposta deve preservar `request_id`, `client_id` e `reply_context`;
-- o Core trata `destination_id` como opaco.
+- resposta deve preservar `request_id`, `client_id` e `reply_context` na correlação operacional, mesmo que o envelope retornado ao adaptador carregue diretamente apenas `request_id`;
+- o Core trata `destination_id` como opaco;
+- exatamente um valor de `type` é válido por resultado;
+- `payload` deve ser compatível com o `type` correspondente.
 
 ## Compatibilidade
 
 Novos transportes devem conseguir produzir o mesmo comando conceitual, normalizar sua identidade para `principal_id`, fornecer `reply_context` e entregar argumentos como `string[]`, independentemente da sintaxe original do transporte.
+
+Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resultado sem exigir que o Core conheça detalhes do transporte.
 
 ## Critérios de aceite
 
@@ -106,4 +154,9 @@ Novos transportes devem conseguir produzir o mesmo comando conceitual, normaliza
 - uma requisição possui `request_id` estável ponta a ponta;
 - o Core não depende de Telegram User ID ou Chat ID como tipos nativos;
 - a resposta pode ser roteada por `client_id` + `reply_context`;
-- ainda falta fechar anexos e as estruturas concretas de resultado/erro antes de `refined`.
+- resultados usam `type: message | job | file | error`;
+- todo resultado preserva `request_id`;
+- `message` contém `text`;
+- `job` contém `job_id`;
+- `error` contém `code`, `message` e `retryable`;
+- permanece `BLOCKED` apenas o schema de anexos e do payload `file` antes de `refined`.
