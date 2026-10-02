@@ -27,14 +27,14 @@ Update recebido por long polling em cliente habilitado.
 ## Fluxo principal
 
 1. o adaptador recebe update;
-2. identifica usuário, chat e conteúdo relevante;
+2. identifica usuário, chat, comando e mídia/anexos relevantes;
 3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
 4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
-6. o adaptador gera `request_id`, normaliza `principal_id`, define `client_id`, `received_at` e `reply_context = { transport: "telegram", destination_id: <chat normalizado> }`, tokeniza os argumentos e constrói o comando interno com `arguments: string[]`, sem aplicar validação semântica específica da operação;
+6. o adaptador gera `request_id`, normaliza `principal_id`, define `client_id`, `received_at` e `reply_context = { transport: "telegram", destination_id: <chat normalizado> }`, tokeniza os argumentos, associa mídia recebida aos anexos normalizados e constrói o comando interno sem aplicar validação semântica específica da operação;
 7. o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
 8. a operação retorna envelope conforme CTR-0001 com `type`, `request_id` e `payload`;
-9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; `file` permanece indisponível enquanto seu contrato estiver `BLOCKED`;
+9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; resultados `file` são necessários para imagem/vídeo, mas permanecem `BLOCKED` até o contrato de mídia definir tipo, limites e binários grandes;
 10. o adaptador persiste a resposta como entrega `pending`;
 11. o adaptador envia a resposta pelo Telegram;
 12. após sucesso da Bot API, persiste o `message_id` retornado e marca a entrega como `delivered`;
@@ -124,6 +124,8 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 - validação semântica dos argumentos ocorre na operação correspondente;
 - resultados `message`, `job` e `error` são convertidos pelo adaptador sem alterar sua semântica;
 - resultado `error` preserva `code`, `message` e `retryable`;
+- mídia recebida permanece correlacionada ao `request_id`;
+- resultado binário nunca é registrado em logs;
 - cliente não acessa comandos de outro cliente;
 - falha antes da persistência não confirma o update;
 - update persistido pode ser recuperado localmente após reinício;
