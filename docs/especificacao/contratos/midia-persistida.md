@@ -15,6 +15,7 @@ Definir a representação persistente de imagens, vídeos e outros arquivos usad
 - [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](ingestao-midia-messagepack.md)
 - [CTR-0009 — Ingestão fracionada de mídia por Unix socket](ingestao-midia-fracionada.md)
+- [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/limpeza-midia.md)
 
 ## Tipo
 
