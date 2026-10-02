@@ -55,13 +55,29 @@ A confirmação perante o Telegram, portanto, não depende da conclusão do coma
 
 O processamento local deve tratar `update_id` como identificador idempotente por cliente, impedindo que uma repetição já persistida produza uma segunda execução da mesma requisição.
 
+Respostas de saída devem permanecer persistidas como pendentes até que a Bot API retorne sucesso e o identificador da mensagem enviada seja persistido. Para mensagens, o `message_id` retornado no objeto `Message` é a evidência de entrega aceita pelo serviço remoto.
+
+## Política de envio e retry
+
+A entrega pelo Telegram usa semântica `at-least-once`.
+
+- sucesso da Bot API: persistir `message_id` e somente então marcar a entrega como `delivered`;
+- erro com `retry_after`: manter `pending` e aguardar pelo menos o intervalo indicado antes da próxima tentativa;
+- timeout, desconexão ou falha temporária sem confirmação: manter `pending` e permitir nova tentativa;
+- erro permanente de requisição: marcar a entrega como `failed`, preservando código e descrição para observabilidade;
+- após reinício, entregas `pending` retornam à etapa de envio;
+- em falha ambígua após o envio, priorizar eventual entrega: nova tentativa é permitida mesmo que isso possa produzir duplicidade rara.
+
+A aplicação não considera a ausência de resposta da Bot API como prova de que a mensagem não foi entregue.
+
 ## Restrições
 
 - long polling e webhook não são usados simultaneamente para o mesmo cliente;
 - tokens não aparecem em logs;
 - nenhum teste depende da API real;
 - uma resposta de um cliente não pode ser entregue usando identidade de outro cliente;
-- o `offset` nunca avança antes da persistência bem-sucedida do update correspondente.
+- o `offset` nunca avança antes da persistência bem-sucedida do update correspondente;
+- uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota.
 
 ## Critérios de aceite
 
@@ -71,7 +87,14 @@ O processamento local deve tratar `update_id` como identificador idempotente por
 - mensagem pendente pode voltar à etapa de envio após reinício;
 - update persistido não é executado novamente após reinício ou repetição da Bot API;
 - falha antes da persistência não avança o `offset`;
-- política detalhada de retry da Bot API e recovery de respostas ainda precisa ser fechada antes de `refined`.
+- `retry_after` é respeitado quando fornecido;
+- timeout ou falha ambígua não remove a resposta da fila de entrega;
+- sucesso de envio persiste `message_id` antes de concluir a entrega;
+- ainda falta fechar a política de retry da leitura por `getUpdates` antes de `refined`.
+
+## Referência externa
+
+- Telegram Bot API: https://core.telegram.org/bots/api
 
 ## Implementação relacionada
 
