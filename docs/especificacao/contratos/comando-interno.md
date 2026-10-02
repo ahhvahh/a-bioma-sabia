@@ -12,6 +12,7 @@ Definir a fronteira entre adaptadores de entrada e o Command Router sem transpor
 - [MOD-0001 — Core e Command Router](../modulos/core-command-router.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [ADR-0003 — Core independente do Telegram](../../adr/arquitetura/core-independente-do-telegram.md)
+- [CTR-0005 — Protocolo de processador assíncrono](processador-assincrono.md)
 
 ## Tipo
 
@@ -99,7 +100,7 @@ O ciclo de vida do job segue [CTR-0003 — Job](job.md).
 
 Representa um arquivo de resultado.
 
-O tipo existe no envelope, porém o schema do payload permanece `BLOCKED` até a definição do contrato de arquivos/anexos. Nenhuma operação do MVP pode depender de resultado `file` enquanto esse contrato não estiver refinado.
+O tipo existe no envelope e é necessário ao MVP para imagens, vídeos e outros resultados binários. O schema do payload permanece `BLOCKED` e deve ser reconciliado com CTR-0005, que já define conceitualmente `file_type` + `binary` no evento `finally`.
 
 ### error
 
@@ -159,4 +160,4 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - `message` contém `text`;
 - `job` contém `job_id`;
 - `error` contém `code`, `message` e `retryable`;
-- permanece `BLOCKED` apenas o schema de anexos e do payload `file` antes de `refined`.
+- permanece `BLOCKED` o schema de mídia de entrada/anexos e do payload `file`, incluindo tipo, limites e representação de binários grandes, antes de `refined`.
