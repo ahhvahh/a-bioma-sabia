@@ -146,7 +146,8 @@ Campos necessários:
 
 - `socket_path`: caminho absoluto, diferente de `media_ingest.socket_path`;
 - parâmetros de ownership/permissão local;
-- `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes.
+- `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes;
+- `max_total_bytes`: no MVP deve ser exatamente `100000000` bytes.
 
 Arquivos acima do limite do canal simples usam obrigatoriamente este canal. Arquivos menores ou iguais a 20 MB também podem usá-lo. A abertura gera `media_id` e a sequência é estrita; permanecem `BLOCKED` somente a completude e o limite total do arquivo lógico em CTR-0009.
 
@@ -236,6 +237,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - `media_ingest.max_payload_bytes` deve ser exatamente `20000000` no MVP;
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
+- `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
 - o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
