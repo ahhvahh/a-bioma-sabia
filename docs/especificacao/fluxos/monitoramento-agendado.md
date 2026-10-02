@@ -73,7 +73,11 @@ O Script Executor não atribui significado de monitoramento ao exit code.
 
 ### Estado inalterado
 
-Não enviar imediatamente; lembrete só quando configurado.
+1. se o estado permanecer `OK`, não enviar lembrete;
+2. se permanecer `WARNING`, `CRITICAL` ou `UNKNOWN` e `reminder_interval` não estiver configurado, não enviar lembrete;
+3. se `reminder_interval` estiver configurado e ainda não tiver transcorrido desde a última notificação desse estado, não enviar lembrete;
+4. quando o intervalo vencer, enviar lembrete e registrar o instante da nova notificação;
+5. qualquer mudança de estado reinicia a contagem; recuperação para `OK` encerra lembretes.
 
 ### Recuperação
 
@@ -85,7 +89,7 @@ Pode enviar resultado mesmo sem mudança quando essa opção estiver configurada
 
 ## Falhas e tratamento
 
-O estado anterior sobrevive ao reinício por meio do SQLite. Falha técnica da verificação ou timeout produz `UNKNOWN` e preserva o motivo técnico em observabilidade. A política detalhada de lembretes ainda não está fechada.
+O estado anterior sobrevive ao reinício por meio do SQLite. Falha técnica da verificação ou timeout produz `UNKNOWN` e preserva o motivo técnico em observabilidade. O instante da última notificação necessário ao cálculo de `reminder_interval` também deve sobreviver ao reinício.
 
 ## Resultado
 
@@ -105,6 +109,9 @@ Os valores são exemplos iniciais e devem ser configuráveis.
 - primeira avaliação em `WARNING`, `CRITICAL` ou `UNKNOWN` gera alerta;
 - falha técnica ou timeout da verificação produz `UNKNOWN`;
 - recuperação posterior de `UNKNOWN` para `OK` gera mensagem de normalização;
+- estado degradado inalterado só gera lembrete após `reminder_interval` configurado;
+- sem `reminder_interval`, não existem lembretes periódicos;
+- mudança de estado reinicia o intervalo e recuperação para `OK` encerra lembretes;
 - uma tarefa que vença novamente enquanto sua execução anterior estiver ativa não inicia execução concorrente;
 - o disparo sobreposto é ignorado e registrado.
 
