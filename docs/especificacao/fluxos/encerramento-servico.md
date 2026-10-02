@@ -14,7 +14,7 @@ Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativo
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [MOD-0004 — Jobs](../modulos/jobs.md)
 - [MOD-0005 — Scheduler e Alert Manager](../modulos/scheduler-alertas.md)
-- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Gatilho
@@ -35,12 +35,12 @@ Serviço em execução.
 6. aguardar jobs em `running` até `service.shutdown_timeout`;
 7. enviar toda resposta concluída ao cliente e destino que originaram a requisição;
 8. manter no SQLite respostas textuais que ainda não puderem ser entregues;
-9. preservar no SQLite transmissões de mídia `pending` ou `transmitting` e manter seus arquivos no filesystem;
+9. preservar no SQLite mídias e transmissões `pending` ou `transmitting`;
 10. preservar jobs `queued` para o próximo startup;
 11. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
 12. finalizar workers;
 13. persistir estado final;
-14. executar apenas a coleta de arquivos órfãos permitida por CTR-0007, sem remover arquivos de transmissões ativas;
+14. fechar recursos de ingestão de mídia e impedir novos uploads;
 15. fechar recursos;
 16. encerrar.
 
@@ -56,7 +56,7 @@ Persistir como pendente para reenvio no próximo startup.
 
 ### Mídia sem confirmação
 
-Se um arquivo ainda não tiver confirmação do Telegram no shutdown, preservar seu registro e o arquivo. A transmissão será reconciliada e reenviada no próximo startup conforme CTR-0007.
+Se uma transmissão ainda não tiver confirmação do Telegram no shutdown, preservar mídia e transmissão no SQLite. Ela será reconciliada e reenviada no próximo startup conforme CTR-0007.
 
 ## Falhas e tratamento
 
@@ -73,8 +73,8 @@ O serviço encerra sem aceitar novo trabalho, preservando fila, respostas textua
 - fila pendente sobrevive ao restart;
 - execução que excede timeout fica registrada como falha;
 - respostas textuais não entregues permanecem recuperáveis;
-- mídia sem confirmação não é marcada como entregue e permanece recuperável quando seu arquivo existe;
-- shutdown não remove arquivos associados a transmissões `pending` ou `transmitting`.
+- mídia sem confirmação não é marcada como entregue e permanece recuperável enquanto o `media_id` existir;
+- shutdown não remove BLOBs necessários a transmissões `pending` ou `transmitting`.
 
 ## Implementação relacionada
 
