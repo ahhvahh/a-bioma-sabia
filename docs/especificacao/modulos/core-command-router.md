@@ -55,7 +55,7 @@ Nenhuma persistência própria foi definida para o roteador.
 
 ## Critérios de aceite
 
-**BLOCKED para `refined`:** CTR-0001 já definiu identidade, correlação, argumentos e o envelope de resultado/erro. Permanece pendente apenas o contrato de anexos e do payload `file`.
+**BLOCKED para `refined`:** CTR-0001 já definiu identidade, correlação, argumentos, envelope de resultado/erro e referências de mídia por `media_id`. O gate ainda depende das pendências de CTR-0006: limite, validação de tipo e retenção.
 
 - roteador pode ser testado com adaptadores mock;
 - comando inexistente não chega a executor;
@@ -64,7 +64,7 @@ Nenhuma persistência própria foi definida para o roteador.
 - `request_id` permanece estável durante roteamento e criação de job;
 - o Router trata `reply_context.destination_id` como valor opaco;
 - resultado imediato usa `message`, criação/referência assíncrona usa `job` e falhas controladas usam `error`;
-- o Router não produz `file` enquanto o contrato de arquivos/anexos estiver `BLOCKED`;
+- resultado `file` referencia `media_id` persistido e não carrega BLOB;
 - novo executor pode ser integrado sem alterar o mecanismo de identificação de comando.
 
 ## Implementação relacionada
