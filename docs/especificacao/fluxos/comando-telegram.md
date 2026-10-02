@@ -13,7 +13,7 @@ Processar um comando recebido por um cliente Telegram até sua resposta, preserv
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 - [MOD-0001 — Core e Command Router](../modulos/core-command-router.md)
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
-- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 
 ## Gatilho
 
@@ -32,10 +32,10 @@ Update recebido por long polling em cliente habilitado.
 3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
 4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
-6. o adaptador gera `request_id`, cria `/tmp/sabia/media/<request_id>/`, salva a mídia recebida nessa área, normaliza os anexos como `{name, path}`, define `principal_id`, `client_id`, `received_at` e `reply_context`, tokeniza os argumentos e constrói o comando interno sem aplicar validação semântica específica da operação;
+6. o adaptador gera `request_id`, persiste a mídia recebida conforme CTR-0006, normaliza anexos por `media_id`, define `principal_id`, `client_id`, `received_at` e `reply_context`, tokeniza os argumentos e constrói o comando interno sem aplicar validação semântica específica da operação;
 7. o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
 8. a operação retorna envelope conforme CTR-0001 com `type`, `request_id` e `payload`;
-9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; resultados `file` usam `{name, path}` de CTR-0006 e são transmitidos por streaming;
+9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; resultados `file` usam `media_id` de CTR-0006;
 10. o adaptador persiste a resposta como entrega `pending`;
 11. o adaptador envia a resposta pelo Telegram;
 12. após sucesso da Bot API, persiste o `message_id` retornado e marca a entrega como `delivered`;
@@ -125,8 +125,8 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 - validação semântica dos argumentos ocorre na operação correspondente;
 - resultados `message`, `job` e `error` são convertidos pelo adaptador sem alterar sua semântica;
 - resultado `error` preserva `code`, `message` e `retryable`;
-- mídia recebida permanece correlacionada ao `request_id` e é armazenada em `/tmp/sabia/media/<request_id>/`;
-- referências de arquivo usam `{name, path}`;
+- mídia recebida permanece correlacionada ao `request_id` e é persistida no SQLite;
+- referências internas de arquivo usam `media_id`;
 - conteúdo binário nunca é registrado em logs;
 - cliente não acessa comandos de outro cliente;
 - falha antes da persistência não confirma o update;
