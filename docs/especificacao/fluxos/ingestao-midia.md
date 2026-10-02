@@ -57,7 +57,7 @@ Executar rollback e responder `persistence_failed`.
 
 ### Conteúdo acima do limite
 
-Responder `media_too_large` quando `data` exceder `20000000` bytes. A rejeição ocorre antes da transação de persistência e o produtor deve usar CTR-0009 para arquivos maiores.
+Responder `media_too_large` quando `data` exceder `20000000` bytes. A rejeição ocorre antes da transação de persistência e o produtor deve usar CTR-0009. Para arquivos de até 20 MB, CTR-0009 também é uma alternativa válida.
 
 ## Falhas e tratamento
 
