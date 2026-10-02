@@ -25,7 +25,7 @@ Impedir que clientes não autorizados ou entradas arbitrárias alcancem operaç�
 - preservar isolamento entre clientes;
 - restringir o socket de mídia a processos locais autorizados;
 - impedir que conhecer um `request_id` seja suficiente para abrir o canal de mídia;
-- proteger o arquivo SQLite contra leitura por identidades não autorizadas.
+- proteger credenciais e acesso ao PostgreSQL contra uso por identidades não autorizadas;
 
 ## Entradas
 
@@ -45,7 +45,7 @@ Toda tentativa processada deve permitir auditoria do resultado sem registrar seg
 
 ## Persistência
 
-Whitelists e referências de segredo vêm da configuração. Tokens reais não são versionados. Mídia persistida e o arquivo SQLite devem permanecer acessíveis somente à identidade operacional e identidades locais explicitamente autorizadas pelo modelo de permissões.
+Whitelists e referências de segredo vêm da configuração. Tokens reais não são versionados. Mídia persistida e as credenciais/roles PostgreSQL devem permanecer acessíveis somente à identidade operacional e identidades locais explicitamente autorizadas pelo modelo de permissões.
 
 ## Restrições
 

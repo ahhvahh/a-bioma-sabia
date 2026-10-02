@@ -95,4 +95,4 @@ O job possui estado final rastreável e toda mídia aceita possui `media_id` e t
 
 ## Implementação relacionada
 
-Processor Registry, Processor Transport, Media Ingest, Job Manager, SQLite e adaptadores de transporte.
+Processor Registry, Processor Transport, Media Ingest, Job Manager, PostgreSQL e adaptadores de transporte.

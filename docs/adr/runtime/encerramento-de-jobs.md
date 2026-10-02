@@ -15,7 +15,7 @@ Definir o comportamento de jobs, respostas e clientes Telegram durante o gracefu
 ## Restrições
 
 - nenhum novo trabalho deve ser aceito após o início do shutdown;
-- requisições e respostas pendentes são persistidas em SQLite conforme ADR-0009;
+- requisições e respostas pendentes são persistidas em PostgreSQL conforme ADR-0009;
 - respostas produzidas pertencem ao cliente Telegram e ao destino que originaram a requisição;
 - todos os clientes Telegram ativos devem ser avisados antes do encerramento;
 - jobs em execução recebem um período configurado para finalizar.
@@ -75,5 +75,5 @@ A política preserva a entrega de respostas sempre que possível, limita o tempo
 - job `queued` permanece recuperável;
 - job `running` pode concluir dentro do timeout;
 - resposta concluída é enviada pelo cliente e destino corretos;
-- resposta não entregue permanece pendente no SQLite;
+- resposta não entregue permanece pendente no PostgreSQL;
 - job que ultrapassa o timeout termina como `failed/shutdown_timeout`.
