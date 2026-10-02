@@ -15,15 +15,19 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
 
 ## Responsabilidades
 
-- abrir o Unix socket de ingestão;
+- abrir o Unix socket de ingestão simples;
+- abrir um segundo Unix socket dedicado à ingestão fracionada;
 - aceitar apenas conexões locais permitidas pelo sistema operacional;
 - decodificar MessagePack;
-- rejeitar payloads acima de `100000000` bytes antes da persistência;
+- rejeitar payload simples acima de `20000000` bytes;
+- rejeitar chunk acima de `5000000` bytes;
 - validar versão e `request_id`;
-- persistir BLOB e metadados;
+- persistir BLOB integral ou chunks ordenados e respectivos metadados;
 - criar transmissão pendente na mesma unidade lógica;
 - devolver ACK somente após commit;
 - fornecer `media_id` à fila de entrega;
@@ -64,8 +68,9 @@ SQLite armazena metadados e BLOB da mídia. A transmissão referencia o conteúd
 - falha de persistência não produz ACK de sucesso;
 - vários uploads podem compartilhar o mesmo `request_id`;
 - restart mantém conteúdo confirmado;
-- payload acima de 100 MB é rejeitado com `media_too_large`;
-- contrato permanece em `refinement` enquanto caminho/permissões do socket estiverem abertos.
+- payload integral acima de 20 MB é rejeitado com `media_too_large` e deve usar o canal fracionado;
+- chunk acima de 5 MB é rejeitado com `chunk_too_large`;
+- contrato permanece em `refinement` enquanto identidade/completude do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
 
 ## Implementação relacionada
 
