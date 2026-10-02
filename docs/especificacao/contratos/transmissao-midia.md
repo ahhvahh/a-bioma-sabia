@@ -12,6 +12,7 @@ Definir a fila persistente de mídia destinada ao cliente, permitindo retomar tr
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
 - [CTR-0006 — Mídia persistida](midia-persistida.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](ingestao-midia-fracionada.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 
 ## Tipo
@@ -65,12 +66,13 @@ O produtor só recebe ACK de sucesso depois de mídia e transmissão estarem per
 ## Envio
 
 1. selecionar transmissão `pending` ou elegível para retry;
-2. carregar metadados e BLOB por `media_id`;
-3. marcar `transmitting`;
-4. enviar o conteúdo ao adaptador correspondente;
-5. aguardar confirmação remota;
-6. persistir `remote_message_id` quando fornecido;
-7. persistir `delivered`.
+2. carregar metadados e a fonte persistida por `media_id`;
+3. quando a mídia for fracionada, verificar que o arquivo lógico está completo e ler os chunks por ordem de `sequence_id`;
+4. marcar `transmitting`;
+5. fornecer um stream contínuo ao adaptador correspondente;
+6. aguardar confirmação remota;
+7. persistir `remote_message_id` quando fornecido;
+8. persistir `delivered`.
 
 A política de retenção do BLOB depois de `delivered` pertence a CTR-0006.
 
@@ -100,6 +102,8 @@ Não existe reconciliação com `/tmp` ou filesystem para mídia persistida.
 - confirmação remota é persistida antes de `delivered`;
 - falha ambígua permite reenvio;
 - conteúdo binário não é duplicado dentro da tabela de transmissão;
+- chunks não são entregues individualmente ao transporte externo;
+- mídia fracionada só inicia entrega quando estiver completa;
 - binário não aparece em logs.
 
 ## Compatibilidade
