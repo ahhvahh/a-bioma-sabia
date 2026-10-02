@@ -21,7 +21,7 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 - iniciar long polling por cliente habilitado;
 - converter update em comando interno;
 - receber imagens, vídeos e arquivos suportados e normalizá-los como anexos do comando;
-- enviar imagens, vídeos e arquivos produzidos como resultado;
+- enviar imagens, vídeos e arquivos produzidos como resultado por streaming a partir da área temporária da requisição;
 - aplicar o contexto correto do cliente;
 - encaminhar identidade para autorização;
 - converter respostas internas em mensagens Telegram;
@@ -43,6 +43,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
+- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
 
 ## Persistência
 
@@ -99,7 +100,9 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - o `offset` nunca avança antes da persistência bem-sucedida do update correspondente;
 - uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota;
 - conteúdo binário de entrada ou saída não pode ser registrado em logs;
-- limites e representação de mídia seguem o contrato de mídia ainda em `refinement`.
+- referências de mídia seguem CTR-0006;
+- o adaptador nunca aceita para envio arquivo fora de `/tmp/sabia/media/<request_id>/`;
+- lifecycle, tipo de mídia e limites permanecem em `refinement`.
 
 ## Critérios de aceite
 
@@ -118,7 +121,8 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - falha de autenticação/autorização suspende somente o cliente afetado;
 - falha de polling não altera o `offset`;
 - imagens e vídeos recebidos podem ser associados ao `request_id` sem expor objetos da Bot API ao Core;
-- imagens e vídeos de resultado podem ser enviados ao destino correlacionado quando o contrato de mídia estiver refinado.
+- imagens e vídeos de resultado são referenciados por `{name, path}` e enviados por streaming;
+- múltiplos arquivos da mesma requisição são enviados por eventos `content` independentes.
 
 ## Referência externa
 
