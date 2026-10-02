@@ -44,6 +44,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 - [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Persistência
 
@@ -87,7 +88,7 @@ A entrega pelo Telegram usa semântica `at-least-once`.
 - timeout, desconexão ou falha temporária sem confirmação: manter `pending` e permitir nova tentativa;
 - erro permanente de requisição: marcar a entrega como `failed`, preservando código e descrição para observabilidade;
 - após reinício, entregas textuais `pending` retornam à etapa de envio;
-- entregas de mídia baseadas em `/tmp/sabia/media/<request_id>/` não sobrevivem a restart e não são reenviadas após a limpeza de startup;
+- transmissões de mídia `pending` ou `transmitting` também são reconciliadas e reenviadas quando o arquivo persistido ainda existe;
 - em falha ambígua após o envio, priorizar eventual entrega: nova tentativa é permitida mesmo que isso possa produzir duplicidade rara.
 
 A aplicação não considera a ausência de resposta da Bot API como prova de que a mensagem não foi entregue.
@@ -105,7 +106,7 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - conteúdo binário de entrada ou saída não pode ser registrado em logs;
 - referências de mídia seguem CTR-0006;
 - o adaptador nunca aceita para envio arquivo fora de `/tmp/sabia/media/<request_id>/`;
-- lifecycle, tipo de mídia e limites permanecem em `refinement`.
+- lifecycle de transmissão segue CTR-0007; tipo de mídia e limites permanecem em `refinement`.
 
 ## Critérios de aceite
 
@@ -113,7 +114,7 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - resposta é enviada pelo cliente que recebeu a requisição;
 - todos os clientes ativos recebem tentativa de aviso no shutdown;
 - mensagem textual pendente pode voltar à etapa de envio após reinício;
-- mídia temporária pendente não é recuperável após restart;
+- mídia pendente registrada no SQLite é retomada após restart quando o arquivo ainda existe;
 - update persistido não é executado novamente após reinício ou repetição da Bot API;
 - falha antes da persistência não avança o `offset`;
 - `retry_after` é respeitado quando fornecido;
