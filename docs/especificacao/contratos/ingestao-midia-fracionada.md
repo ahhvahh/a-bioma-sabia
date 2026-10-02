@@ -40,22 +40,26 @@ Objeto MessagePack:
 - `version: integer` — versão do contrato; MVP usa `1`;
 - `request_id: string` — identificador da requisição conhecido pelo produtor;
 - `name: string` — nome lógico do arquivo;
-- `content_type: string | null` — tipo declarado, quando conhecido.
+- `content_type: string | null` — tipo declarado, quando conhecido;
+- `total_bytes: integer` — tamanho total esperado do arquivo lógico em bytes.
 
 O Sabiá:
 
 1. valida a mensagem;
 2. valida a existência de `request_id`;
-3. cria o registro de mídia no banco;
-4. confirma a transação;
-5. devolve o identificador gerado pelo banco.
+3. valida `total_bytes > 0`;
+4. cria o registro de mídia no banco com `received_bytes = 0` e `completed = false`;
+5. confirma a transação;
+6. devolve o identificador gerado pelo banco.
 
 Resposta:
 
 - `status: "accepted"`;
 - `request_id: string`;
 - `media_id: integer`;
-- `next_sequence_id: integer`.
+- `next_sequence_id: integer`;
+- `received_bytes: integer`;
+- `total_bytes: integer`.
 
 No MVP, a primeira sequência esperada é `1`.
 
@@ -93,17 +97,24 @@ Para cada `media_id`, o Sabiá persiste qual é o próximo `sequence_id` esperad
 
 Quando `sequence_id == next_sequence_id`:
 
-1. persistir o chunk;
-2. confirmar a transação;
-3. avançar `next_sequence_id`;
-4. retornar ACK.
+1. calcular `new_received_bytes = received_bytes + len(data)`;
+2. rejeitar com `total_bytes_exceeded` se `new_received_bytes > total_bytes`;
+3. persistir o chunk;
+4. atualizar `received_bytes`;
+5. se `received_bytes == total_bytes`, marcar `completed = true`;
+6. avançar `next_sequence_id`;
+7. confirmar a transação;
+8. retornar ACK.
 
 Resposta:
 
 - `status: "accepted"`;
 - `media_id: integer`;
 - `sequence_id: integer`;
-- `next_sequence_id: integer`.
+- `next_sequence_id: integer`;
+- `received_bytes: integer`;
+- `total_bytes: integer`;
+- `completed: boolean`.
 
 ### Sequência pulada
 
@@ -135,6 +146,18 @@ Resposta:
 
 No MVP, não é feita comparação de hash ou conteúdo para decidir duplicidade. A duplicidade é determinada pela posição sequencial já persistida.
 
+## Completude
+
+O produtor não envia mensagem separada de término.
+
+A mídia fica completa automaticamente quando:
+
+`received_bytes == total_bytes`
+
+Enquanto `received_bytes < total_bytes`, a mídia permanece incompleta e não pode ser transmitida.
+
+Se um chunk faria `received_bytes` ultrapassar `total_bytes`, ele é rejeitado com `total_bytes_exceeded` e não é persistido.
+
 ## Persistência
 
 Cada chunk aceito é persistido em transação própria.
@@ -154,6 +177,7 @@ A ordem do arquivo lógico é dada pela sequência persistida para o `media_id`.
 - `chunk_too_large`;
 - `sequence_gap`;
 - `sequence_already_received`;
+- `total_bytes_exceeded`;
 - `persistence_failed`;
 - `not_authorized`.
 
@@ -161,7 +185,7 @@ A ordem do arquivo lógico é dada pela sequência persistida para o `media_id`.
 
 Chunks não são enviados ao Telegram individualmente.
 
-Quando a mídia lógica estiver completa, o Sabiá lê os chunks do `media_id` em ordem crescente e produz um stream contínuo para CTR-0007/Adaptador Telegram.
+Quando `received_bytes == total_bytes`, a mídia é marcada `completed` e CTR-0007 pode iniciar sua transmissão. O Sabiá lê os chunks do `media_id` em ordem crescente e produz um stream contínuo para o adaptador Telegram.
 
 ## Segurança
 
@@ -175,8 +199,7 @@ Quando a mídia lógica estiver completa, o Sabiá lê os chunks do `media_id` e
 
 Antes de `refined`, ainda precisam ser definidos:
 
-- como o produtor informa que não haverá mais chunks e que a mídia está completa;
-- limite máximo do arquivo lógico completo;
+- limite máximo permitido para `total_bytes`;
 - caminho, ownership, grupo e modo do socket.
 
 ## Critérios de aceite
@@ -188,5 +211,8 @@ Antes de `refined`, ainda precisam ser definidos:
 - sequência pulada retorna `sequence_gap` com a sequência esperada;
 - sequência já recebida retorna `sequence_already_received`;
 - chunk válido é persistido antes do ACK;
+- `received_bytes` é atualizado atomicamente com o chunk;
+- `completed` é definido automaticamente quando `received_bytes == total_bytes`;
+- chunk que ultrapassaria `total_bytes` é recusado;
 - conteúdo pode ser reconstruído em ordem sem manter o arquivo inteiro em memória;
 - arquivo lógico é entregue como um único arquivo ao transporte externo.
