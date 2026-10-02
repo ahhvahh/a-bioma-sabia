@@ -23,7 +23,11 @@ Devem existir testes para:
 - Job Manager;
 - Scheduler;
 - mudança de estado dos alertas;
-- configuração.
+- configuração;
+- ingestão simples de mídia;
+- ingestão fracionada de mídia;
+- persistência e ordenação de chunks;
+- recovery de transmissões de mídia.
 
 ## Isolamento externo
 
@@ -38,4 +42,7 @@ Interfaces externas devem permitir mocks/fakes para validar o Core de forma dete
 - executor cobre sucesso, erro e timeout;
 - scheduler cobre disparo devido;
 - alertas cobrem mudança, repetição e recuperação;
-- configuração cobre entrada válida e inválida.
+- configuração cobre entrada válida e inválida;
+- canal simples rejeita payload acima de 20 MB;
+- canal fracionado rejeita chunk acima de 5 MB;
+- chunks persistidos podem ser lidos em ordem sem montar o arquivo inteiro em memória.
