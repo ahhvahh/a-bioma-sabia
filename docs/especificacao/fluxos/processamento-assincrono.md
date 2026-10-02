@@ -13,6 +13,7 @@ Executar um comando em processador assíncrono registrado, encaminhar progresso 
 - [MOD-0004 — Jobs](../modulos/jobs.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
+- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
 
 ## Gatilho
 
@@ -32,12 +33,14 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 3. o Processor Transport envia `request_id`, comando e argumentos;
 4. o processador inicia o trabalho;
 5. a cada evento `loading`, o Sabiá valida o `request_id` e encaminha `message` ao cliente correlacionado;
-6. o job permanece em execução;
-7. o processador envia `finally` com a mensagem final;
-8. quando existir arquivo, `finally` também contém `file_type` e `binary`;
-9. o Sabiá persiste o resultado final antes da entrega;
-10. o adaptador do cliente envia mensagem e, quando houver, o arquivo;
-11. a entrega segue a política persistente do adaptador Telegram.
+6. a cada evento `content`, o Sabiá valida `content.path` dentro de `/tmp/sabia/media/<request_id>/`;
+7. o Sabiá abre o arquivo e faz streaming ao adaptador do cliente;
+8. o processador pode repetir `content` para cada arquivo produzido;
+9. o job permanece em execução;
+10. o processador envia `finally` com a mensagem final;
+11. o Sabiá persiste o resultado final antes da entrega;
+12. o adaptador envia a mensagem final;
+13. a entrega segue a política persistente do adaptador Telegram.
 
 ## Fluxos alternativos
 
@@ -49,9 +52,13 @@ Cada mensagem válida pode atualizar o cliente sem encerrar o job.
 
 Persistir e entregar somente a mensagem final.
 
-### finally com arquivo
+### content repetido
 
-Persistir metadados e conteúdo/referência conforme o contrato de mídia ainda a ser refinado e entregar o arquivo pelo transporte de origem.
+Cada evento `content` referencia um arquivo independente. Vários arquivos são enviados usando vários eventos `content` para o mesmo `request_id`.
+
+### content inválido
+
+Se o caminho não pertencer ao diretório da requisição, não existir ou não puder ser lido, o arquivo não é enviado e a falha é registrada conforme CTR-0006.
 
 ### Processo termina sem finally
 
@@ -74,7 +81,8 @@ O job possui resultado final correlacionado ao `request_id` e a resposta permane
 - progresso `loading` chega ao cliente correto;
 - progresso não finaliza o job;
 - `finally` é necessário para conclusão semântica normal;
-- arquivo final pode ser transportado quando o contrato binário estiver refinado;
+- múltiplos arquivos podem ser transportados por vários eventos `content`;
+- arquivos são transmitidos por streaming a partir da área temporária;
 - término de processo sem `finally` não é confundido com sucesso;
 - cliente, destino e `request_id` permanecem rastreáveis.
 
