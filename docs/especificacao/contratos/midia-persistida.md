@@ -30,7 +30,10 @@ Cada conteúdo de mídia possui registro persistente no SQLite com, no mínimo:
 - `content_type: string | null` — tipo declarado/conhecido quando disponível;
 - `size_bytes: integer` — tamanho persistido do BLOB;
 - `data: blob | null` — conteúdo binário quando a mídia foi recebida integralmente pelo canal simples;
-- `created_at: timestamp`.
+- `created_at: timestamp`;
+- `storage_mode: inline | chunked`;
+- `next_sequence_id: integer | null` — próxima sequência esperada quando `storage_mode = chunked`;
+- `completed: boolean` — indica se a mídia lógica está apta à transmissão.
 
 `media_id` é a referência usada pelos demais contratos.
 
@@ -42,7 +45,7 @@ Scripts, aplicações e serviços enviam mídia por CTR-0008.
 
 Depois de validar e persistir o BLOB integral pelo CTR-0008, o Sabiá cria a correlação necessária para transmissão e devolve `media_id`.
 
-Arquivos maiores usam CTR-0009. Seus pedaços são persistidos separadamente e ordenados por `sequence_id`; a mídia lógica só pode ser entregue quando a regra de completude estiver satisfeita.
+Arquivos maiores usam CTR-0009. A abertura cria primeiro o registro de mídia, retorna `media_id` e inicializa `next_sequence_id = 1`. Cada chunk é persistido separadamente e ordenado por `sequence_id`. A mídia lógica só pode ser entregue quando `completed = true`.
 
 Uma mesma `request_id` pode possuir vários registros de mídia. Nome e conteúdo não possuem restrição de unicidade: arquivos iguais recebidos mais de uma vez são persistidos como registros independentes.
 
@@ -81,6 +84,8 @@ A entrega ao Telegram é controlada por CTR-0007.
 - cada BLOB integral aceito pelo canal simples possui no máximo `20000000` bytes;
 - chunks aceitos pelo canal fracionado possuem no máximo `5000000` bytes;
 - conteúdo fracionado é lido em ordem de `sequence_id` sem exigir montagem integral em memória;
+- `next_sequence_id` só avança após commit do chunk esperado;
+- chunks com sequência pulada ou já recebida não alteram o conteúdo;
 - `size_bytes` corresponde ao conteúdo efetivamente persistido;
 - conteúdo binário não aparece em logs;
 - acesso ao SQLite é restrito à identidade operacional autorizada;
@@ -94,7 +99,7 @@ Ainda precisam ser definidos antes de `refined`:
 
 - política de retenção do conteúdo depois que todas as transmissões relacionadas forem concluídas;
 - regra normativa para validar/determinar `content_type`;
-- identidade e completude da mídia fracionada, conforme CTR-0009.
+- completude da mídia fracionada e limite total do arquivo, conforme CTR-0009.
 
 ## Compatibilidade
 
