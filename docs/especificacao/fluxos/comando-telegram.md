@@ -34,8 +34,10 @@ Update recebido por long polling em cliente habilitado.
 6. o adaptador converte a solicitação em comando interno;
 7. o Command Router resolve a operação cadastrada;
 8. a operação produz resultado imediato ou cria job;
-9. o adaptador converte o resultado em resposta Telegram;
-10. auditoria registra a operação sem segredos.
+9. o adaptador persiste a resposta como entrega `pending`;
+10. o adaptador envia a resposta pelo Telegram;
+11. após sucesso da Bot API, persiste o `message_id` retornado e marca a entrega como `delivered`;
+12. auditoria registra a operação sem segredos.
 
 ## Fluxos alternativos
 
@@ -51,6 +53,31 @@ Update recebido por long polling em cliente habilitado.
 2. nenhuma segunda execução da mesma requisição é criada;
 3. o estado local já existente continua sendo a fonte para processamento ou recovery.
 
+### Retry de envio solicitado pelo Telegram
+
+1. a entrega permanece `pending`;
+2. se a resposta contiver `retry_after`, nenhuma nova tentativa pode ocorrer antes do intervalo informado;
+3. depois do intervalo, a mesma entrega volta a ser elegível para envio.
+
+### Falha temporária ou ambígua de envio
+
+1. timeout, desconexão ou erro temporário sem confirmação mantém a entrega `pending`;
+2. a aplicação registra a tentativa;
+3. a entrega pode ser reenviada;
+4. eventual duplicidade de mensagem é aceita para preservar semântica `at-least-once`.
+
+### Falha permanente de envio
+
+1. a entrega é marcada como `failed`;
+2. código e descrição do erro são preservados;
+3. não há retry automático dessa entrega sem nova ação explicitamente definida.
+
+### Restart com resposta pendente
+
+1. respostas `pending` retornam à etapa de envio;
+2. respostas `delivered` não são reenviadas;
+3. respostas `failed` permanecem encerradas.
+
 ### Usuário ou chat não autorizado
 
 1. a operação não chega ao executor;
@@ -63,11 +90,13 @@ Update recebido por long polling em cliente habilitado.
 
 ## Falhas e tratamento
 
-Falhas de Bot API, política de retry de leitura/envio e recovery de respostas pendentes ainda precisam ser definidos.
+A entrega usa semântica `at-least-once`. Sucesso só é confirmado após retorno positivo da Bot API e persistência do `message_id`. Falha ambígua permanece pendente e pode resultar em duplicidade eventual.
+
+A política de retry da leitura por `getUpdates` ainda precisa ser definida.
 
 ## Resultado
 
-Resposta controlada ao usuário ou referência de job criado.
+Resposta controlada ao usuário ou referência de job criado, com estado de entrega persistido.
 
 ## Critérios de aceite
 
@@ -76,7 +105,10 @@ Resposta controlada ao usuário ou referência de job criado.
 - falha antes da persistência não confirma o update;
 - update persistido pode ser recuperado localmente após reinício;
 - o mesmo `update_id` persistido para um cliente não gera execução duplicada;
-- falta fechar retry da Bot API e recovery de respostas para `refined`.
+- uma resposta não é `delivered` sem confirmação e persistência do `message_id`;
+- `retry_after` impede retry antecipado;
+- falha ambígua mantém a resposta pendente;
+- falta fechar retry de leitura da Bot API para `refined`.
 
 ## Implementação relacionada
 
