@@ -75,6 +75,38 @@ Cada evento pode ser encaminhado e entregue independentemente dos demais.
 
 O Sabiá abre o arquivo validado e faz streaming para o adaptador Telegram sem exigir carregamento integral em memória.
 
+## Lifecycle e limpeza
+
+Para cada arquivo de saída anunciado por `content`:
+
+1. validar a referência;
+2. abrir o arquivo;
+3. transmitir por streaming;
+4. aguardar o retorno de sucesso do Telegram;
+5. somente depois de o último byte ter sido transmitido e o Telegram confirmar o recebimento, remover imediatamente o arquivo.
+
+Se o streaming ou a confirmação falhar, o arquivo permanece disponível para nova tentativa enquanto o processo atual continuar executando.
+
+### Startup
+
+Antes de aceitar novas requisições, o Sabiá remove todo o conteúdo existente em:
+
+`/tmp/sabia/media`
+
+A raiz pode ser recriada vazia em seguida.
+
+Referências persistidas para arquivos temporários de uma execução anterior não são recuperáveis após essa limpeza.
+
+### Shutdown
+
+Antes de finalizar o processo, o Sabiá remove todo o conteúdo de:
+
+`/tmp/sabia/media`
+
+Entregas de mídia sem confirmação até esse ponto tornam-se não recuperáveis pela referência temporária e precisam permanecer registradas como falha de entrega, sem tentativa de reenvio no próximo startup.
+
+Respostas textuais persistidas não são afetadas por essa política.
+
 ## Relação com finally
 
 `content` não finaliza a requisição.
@@ -93,7 +125,8 @@ O processador pode enviar:
 - `media_not_found` — arquivo inexistente;
 - `media_not_regular` — referência não aponta para arquivo regular;
 - `media_unreadable` — Sabiá não consegue abrir o arquivo;
-- `media_delivery_failed` — falha ao transmitir o arquivo ao transporte externo.
+- `media_delivery_failed` — falha ao transmitir o arquivo ao transporte externo;
+- `media_unavailable_after_cleanup` — entrega persistida referencia mídia que foi removida pela política de startup/shutdown.
 
 ## Regras e restrições
 
@@ -103,14 +136,16 @@ O processador pode enviar:
 - um evento `content` referencia um único arquivo;
 - múltiplos arquivos usam múltiplos eventos `content`;
 - o streaming ao Telegram é responsabilidade do Sabiá;
+- o arquivo não pode ser apagado antes da transmissão completa e confirmação de recebimento;
+- confirmação bem-sucedida exige remoção imediata do arquivo;
+- startup e shutdown limpam toda a raiz temporária;
+- mídia temporária não é recuperável entre execuções do serviço;
 - o binário não pode ser registrado em logs.
 
 ## BLOCKED
 
 Ainda precisam ser definidos antes de `refined`:
 
-- política de limpeza dos diretórios e arquivos temporários;
-- comportamento após restart/reboot quando arquivos temporários desaparecerem;
 - determinação normativa do tipo de mídia usado para escolher envio como imagem, vídeo ou documento;
 - limites máximos de arquivo aceitos pelo Sabiá e pelos processadores.
 
@@ -126,4 +161,7 @@ A referência `{name, path}` é independente do Telegram e pode ser usada por ou
 - nenhum caminho fora do diretório da requisição é aceito;
 - `content` não encerra o job;
 - `finally` não carrega conteúdo binário;
-- lifecycle e recuperação precisam ser refinados antes do gate.
+- arquivo é removido somente após último byte transmitido e confirmação do Telegram;
+- startup e shutdown limpam toda `/tmp/sabia/media`;
+- mídia pendente removida pela limpeza não é reenviada após restart;
+- tipo de mídia e limites ainda precisam ser refinados antes do gate.
