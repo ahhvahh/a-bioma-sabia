@@ -21,7 +21,8 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 - iniciar long polling por cliente habilitado;
 - converter update em comando interno;
 - receber imagens, vídeos e arquivos suportados e normalizá-los como anexos do comando;
-- enviar imagens, vídeos e arquivos produzidos como resultado por streaming a partir da área temporária da requisição;
+- persistir imagens, vídeos e arquivos recebidos como mídia CTR-0006;
+- enviar imagens, vídeos e arquivos produzidos a partir do BLOB persistido por `media_id`;
 - aplicar o contexto correto do cliente;
 - encaminhar identidade para autorização;
 - converter respostas internas em mensagens Telegram;
@@ -43,7 +44,7 @@ Comandos internos e chamadas de envio/edição de mensagens.
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Persistência
@@ -88,7 +89,7 @@ A entrega pelo Telegram usa semântica `at-least-once`.
 - timeout, desconexão ou falha temporária sem confirmação: manter `pending` e permitir nova tentativa;
 - erro permanente de requisição: marcar a entrega como `failed`, preservando código e descrição para observabilidade;
 - após reinício, entregas textuais `pending` retornam à etapa de envio;
-- transmissões de mídia `pending` ou `transmitting` também são reconciliadas e reenviadas quando o arquivo persistido ainda existe;
+- transmissões de mídia `pending` ou `transmitting` também são reconciliadas e reenviadas quando o `media_id` persistido existe;
 - em falha ambígua após o envio, priorizar eventual entrega: nova tentativa é permitida mesmo que isso possa produzir duplicidade rara.
 
 A aplicação não considera a ausência de resposta da Bot API como prova de que a mensagem não foi entregue.
@@ -101,12 +102,11 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - uma resposta de um cliente não pode ser entregue usando identidade de outro cliente;
 - o `offset` nunca avança antes da persistência bem-sucedida do update correspondente;
 - uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota;
-- arquivo temporário só pode ser removido após transmissão completa e confirmação remota;
-- após confirmação de mídia, o arquivo deve ser removido imediatamente;
 - conteúdo binário de entrada ou saída não pode ser registrado em logs;
-- referências de mídia seguem CTR-0006;
-- o adaptador nunca aceita para envio arquivo fora de `/tmp/sabia/media/<request_id>/`;
-- lifecycle de transmissão segue CTR-0007; tipo de mídia e limites permanecem em `refinement`.
+- referências de mídia seguem CTR-0006 por `media_id`;
+- lifecycle de transmissão segue CTR-0007;
+- Telegram não recebe caminho de filesystem como contrato interno;
+- tipo de mídia, limite e retenção do BLOB permanecem em `refinement`.
 
 ## Critérios de aceite
 
@@ -114,7 +114,7 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - resposta é enviada pelo cliente que recebeu a requisição;
 - todos os clientes ativos recebem tentativa de aviso no shutdown;
 - mensagem textual pendente pode voltar à etapa de envio após reinício;
-- mídia pendente registrada no SQLite é retomada após restart quando o arquivo ainda existe;
+- mídia pendente registrada no SQLite é retomada após restart quando o `media_id` existe;
 - update persistido não é executado novamente após reinício ou repetição da Bot API;
 - falha antes da persistência não avança o `offset`;
 - `retry_after` é respeitado quando fornecido;
@@ -126,8 +126,8 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - falha de autenticação/autorização suspende somente o cliente afetado;
 - falha de polling não altera o `offset`;
 - imagens e vídeos recebidos podem ser associados ao `request_id` sem expor objetos da Bot API ao Core;
-- imagens e vídeos de resultado são referenciados por `{name, path}` e enviados por streaming;
-- múltiplos arquivos da mesma requisição são enviados por eventos `content` independentes.
+- imagens e vídeos de resultado são referenciados por `media_id` e lidos do armazenamento persistente;
+- múltiplos arquivos da mesma requisição possuem transmissões independentes.
 
 ## Referência externa
 
