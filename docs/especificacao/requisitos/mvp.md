@@ -27,7 +27,8 @@ Delimitar o primeiro MVP para impedir implementação prematura de processadores
 - logs;
 - configuração YAML;
 - graceful shutdown;
-- Unix socket local de ingestão de mídia com MessagePack;
+- Unix socket local de ingestão simples de mídia com MessagePack, limitado a 20 MB;
+- segundo Unix socket para ingestão fracionada em chunks de até 5 MB;
 - persistência de mídia em SQLite por `media_id`;
 - fila persistente de transmissão de mídia;
 - integração com systemd;
@@ -103,5 +104,6 @@ Não implementar ainda os processadores complexos de imagem, vídeo e áudio lis
 - fluxo Telegram → Bioma → comando → script → resultado → Telegram é possível;
 - fluxo Scheduler → disk-check → estado relevante → Alerts → Telegram é possível;
 - nenhum desses fluxos exige shell arbitrário nem porta pública de webhook;
-- produtor local autorizado consegue persistir mídia associada a `request_id` e receber `media_id`;
+- produtor local autorizado consegue persistir mídia integral ou fracionada associada a `request_id`;
+- arquivo fracionado pode ser reconstruído por sequência sem alocar o conteúdo completo em memória;
 - transmissão de mídia pendente sobrevive a restart do serviço.
