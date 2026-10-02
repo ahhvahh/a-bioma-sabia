@@ -68,7 +68,7 @@ SQLite atende ao volume e ao perfil local do Sabiá sem introduzir um serviço d
 - [ADR-0005 — Telegram Long Polling](../telegram/long-polling.md)
 - [ADR-0006 — Jobs assíncronos](../processamento/jobs-assincronos.md)
 - [ADR-0007 — Scheduler e alertas orientados a estado](../monitoramento/scheduler-alertas-estado.md)
-- [ADR-0012 — Área temporária de mídia para processadores](../processamento/midia-temporaria-por-request.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../processamento/ingestao-midia-socket-messagepack.md)
 
 ## Critérios de validação
 
