@@ -49,31 +49,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md)
   - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
 
-### Telegram — retry de leitura
-
-- Documentos:
-  - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
-  - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
-  - [ADR-0005 — Telegram Long Polling](adr/telegram/long-polling.md)
-- Estado atual: módulo e fluxo em `refinement`.
-- Estado necessário: `refined`.
-- Decisões já fechadas:
-  - um update somente é confirmado após persistência transacional bem-sucedida;
-  - depois da persistência, `offset = maior update_id persistido + 1`;
-  - `update_id` persistido é tratado de forma idempotente por cliente e não pode gerar segunda execução;
-  - entrega de respostas usa semântica `at-least-once`;
-  - sucesso de envio só conclui a entrega após persistir o `message_id` retornado;
-  - `retry_after` é obrigatório quando informado;
-  - timeout ou falha temporária mantém a entrega `pending`;
-  - erro permanente encerra a entrega como `failed`;
-  - após reinício, respostas `pending` voltam para envio;
-  - duplicidade eventual é aceita em falhas ambíguas para priorizar entrega.
-- Informação ausente:
-  - política de retry do próprio `getUpdates` quando a leitura falhar;
-  - backoff entre falhas consecutivas de polling;
-  - limite máximo do backoff;
-  - momento de reset do backoff após recuperação.
-
 ### Scheduler e Alert Manager — semântica operacional incompleta
 
 - Documentos:
@@ -162,7 +137,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
-- Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio e recovery de respostas estão definidos; permanece pendente apenas o retry da leitura por `getUpdates`.
+- Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 
 ## Condição para liberar o MVP
 
