@@ -13,6 +13,7 @@ Definir a fronteira entre adaptadores de entrada e o Command Router sem transpor
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [ADR-0003 — Core independente do Telegram](../../adr/arquitetura/core-independente-do-telegram.md)
 - [CTR-0005 — Protocolo de processador assíncrono](processador-assincrono.md)
+- [CTR-0006 — Mídia temporária por requisição](midia-temporaria.md)
 
 ## Tipo
 
@@ -66,7 +67,12 @@ Regras:
 
 ### Anexos
 
-`attachments` é opcional e permanece em definição. Nenhuma operação do MVP deve depender de anexos enquanto seu contrato não estiver refinado.
+`attachments` é opcional e cada item usa a referência de CTR-0006:
+
+- `name: string`;
+- `path: string`.
+
+O adaptador salva a mídia recebida em `/tmp/sabia/media/<request_id>/` antes de construir o comando interno. O Core não recebe binário no envelope.
 
 ## Saída
 
@@ -100,7 +106,12 @@ O ciclo de vida do job segue [CTR-0003 — Job](job.md).
 
 Representa um arquivo de resultado.
 
-O tipo existe no envelope e é necessário ao MVP para imagens, vídeos e outros resultados binários. O schema do payload permanece `BLOCKED` e deve ser reconciliado com CTR-0005, que já define conceitualmente `file_type` + `binary` no evento `finally`.
+O tipo existe no envelope e usa a referência de CTR-0006:
+
+- `name: string`;
+- `path: string`.
+
+Para processamentos assíncronos com vários arquivos, cada arquivo é publicado por um evento `content` separado de CTR-0005.
 
 ### error
 
@@ -160,4 +171,5 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - `message` contém `text`;
 - `job` contém `job_id`;
 - `error` contém `code`, `message` e `retryable`;
-- permanece `BLOCKED` o schema de mídia de entrada/anexos e do payload `file`, incluindo tipo, limites e representação de binários grandes, antes de `refined`.
+- referências de mídia de entrada e saída usam `{name, path}` conforme CTR-0006;
+- permanecem `BLOCKED` lifecycle/limpeza, tipo de mídia e limites máximos antes de `refined`.
