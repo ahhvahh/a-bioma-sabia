@@ -28,7 +28,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. A e
 
 ### Módulos
 
-- [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refined`
+- [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refinement`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
 - [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refinement`
 - [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refinement`

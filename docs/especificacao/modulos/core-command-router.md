@@ -1,7 +1,7 @@
 # Core e Command Router
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0001-1f883d?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
 ## Objetivo
 
@@ -50,6 +50,8 @@ Nenhuma persistência própria foi definida para o roteador.
 - não conter lógica específica de FFmpeg ou ferramenta concreta.
 
 ## Critérios de aceite
+
+**BLOCKED para `refined`:** CTR-0001 ainda precisa fechar schema, tipos e limites do comando interno.
 
 - roteador pode ser testado com adaptadores mock;
 - comando inexistente não chega a executor;
