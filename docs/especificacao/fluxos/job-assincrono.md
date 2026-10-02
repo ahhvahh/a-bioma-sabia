@@ -16,7 +16,8 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [MOD-0007 — Processadores assíncronos e transporte](../modulos/processadores-assincronos.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Gatilho
@@ -37,13 +38,14 @@ Command Router identifica uma operação assíncrona válida.
 4. um worker disponível muda o job para `running`;
 5. Worker delega a operação ao processador registrado quando aplicável;
 6. eventos `loading` válidos são correlacionados por `request_id` e encaminhados pelo cliente correto;
-7. eventos `content` válidos são correlacionados, validados conforme CTR-0006 e transmitidos individualmente ao cliente;
-8. o job permanece `running` até receber `finally` válido ou atingir uma condição de falha/timeout;
-9. `finally` produz o resultado final do processamento;
-10. o resultado é persistido como resposta `pending`;
-11. adaptador do `client_id` correspondente envia a resposta usando `reply_context.transport` e `reply_context.destination_id` persistidos;
-12. após sucesso da Bot API, o identificador remoto da mensagem é persistido;
-13. somente depois dessa persistência o estado de entrega passa para `delivered`.
+7. mídias produzidas pelo processador são ingeridas por CTR-0008 e associadas ao mesmo `request_id` sem passar pelo canal de controle;
+8. cada mídia persistida cria transmissão independente CTR-0007;
+9. o job permanece `running` até receber `finally` válido ou atingir uma condição de falha/timeout;
+10. `finally` produz o resultado final do processamento;
+11. o resultado é persistido como resposta `pending`;
+12. adaptador do `client_id` correspondente envia a resposta usando `reply_context.transport` e `reply_context.destination_id` persistidos;
+13. após sucesso da Bot API, o identificador remoto da mensagem é persistido;
+14. somente depois dessa persistência o estado de entrega passa para `delivered`.
 
 ## Fluxos alternativos
 
@@ -63,7 +65,7 @@ Marcar como `failed/service_restart`; não reexecutar automaticamente.
 
 Resposta textual pendente volta à etapa de envio e segue semântica `at-least-once`.
 
-Transmissões de mídia `pending` ou `transmitting` são recuperadas conforme CTR-0007. Se o arquivo ainda existir, ele volta a ser elegível para envio. Se estiver ausente, a transmissão termina em `failed/media_missing`.
+Transmissões de mídia `pending` ou `transmitting` são recuperadas conforme CTR-0007. Se o `media_id` existir, a transmissão volta a ser elegível para envio; ausência da mídia gera `failed/media_missing`.
 
 ### Erro com retry_after
 
@@ -95,12 +97,12 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 - resposta é enviada pelo `client_id` correto para o `reply_context.destination_id` persistido;
 - `request_id` permanece rastreável entre requisição, job e entrega;
 - `loading` não encerra o job;
-- `content` pode ser repetido para vários arquivos e não encerra o job;
+- uploads de mídia podem ocorrer várias vezes pelo socket e não encerram o job;
 - conclusão normal de processador assíncrono exige `finally` válido;
 - resposta não entregue permanece pendente;
 - sucesso de envio persiste a confirmação remota antes de marcar `delivered`;
 - falha ambígua permite retry após restart;
-- mídia `pending` ou `transmitting` é retomada após restart quando o arquivo existe;
+- mídia `pending` ou `transmitting` é retomada após restart quando o `media_id` existe;
 - erro permanente encerra a entrega em `failed` sem alterar o resultado de processamento do job;
 - permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
 
