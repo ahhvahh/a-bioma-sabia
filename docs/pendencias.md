@@ -24,9 +24,15 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - `reply_context` contém apenas `transport` e `destination_id`, mantendo o Core independente do Telegram;
   - saída usa envelope discriminado `message | job | file | error`;
   - `message` possui `text`, `job` possui `job_id` e `error` possui `code`, `message` e `retryable`.
+- Estado atual adicional:
+  - anexos de entrada usam `{name, path}`;
+  - resultado `file` usa `{name, path}`;
+  - arquivos ficam em `/tmp/sabia/media/<request_id>/`;
+  - múltiplos arquivos assíncronos são publicados por múltiplos eventos `content`.
 - Informação ausente:
-  - estrutura e limites de anexos;
-  - schema do payload `file`.
+  - lifecycle/limpeza dos arquivos temporários;
+  - determinação do tipo de mídia;
+  - limites máximos de arquivo.
 - Dependências afetadas:
   - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -45,19 +51,22 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Decisões já fechadas:
   - processadores podem ser script Bash, aplicação/executável ou serviço/socket;
   - toda execução usa `request_id` gerado pelo Sabiá;
-  - eventos de processador usam `status: loading | finally` e `message`;
+  - eventos de processador usam `status: loading | content | finally`;
   - `loading` representa progresso e não encerra o job;
-  - `finally` é a finalização semântica normal;
-  - `finally` pode conter `file_type` e `binary`;
+  - `content` referencia um arquivo como `{name, path}`, pode ocorrer múltiplas vezes e não encerra o job;
+  - `finally` é a finalização semântica normal e contém a mensagem final;
+  - binários não trafegam no protocolo de controle;
+  - a raiz temporária é `/tmp/sabia/media`, isolada por `request_id`;
+  - o Sabiá faz streaming dos arquivos ao Telegram;
   - término do processo sem `finally` não equivale automaticamente a sucesso;
-  - imagens e vídeos precisam ser suportados na entrada e na saída.
+  - imagens e vídeos são suportados na entrada e na saída por referência local.
 - Informação ausente:
   - framing/protocolo concreto usado por scripts/aplicações locais;
   - framing/protocolo concreto usado por serviços/socket;
-  - semântica normativa de `file_type`;
-  - limite máximo de binário;
-  - estratégia para imagens/vídeos grandes sem exigir carregamento integral em memória;
-  - schema final de mídia de entrada/anexos;
+  - política de limpeza dos arquivos/diretórios temporários;
+  - comportamento após restart/reboot quando a mídia temporária desaparecer;
+  - regra para determinar se o arquivo será enviado como imagem, vídeo ou documento;
+  - limites máximos de arquivo;
   - schema da configuração `processors`.
 - Dependências afetadas:
   - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
@@ -171,8 +180,9 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram fechados. O suporte de mídia passou a depender de CTR-0005; permanecem pendentes schema de anexos, `file_type`, payload `file` e estratégia para binários grandes.
-- ADR-0011: arquitetura de processadores registrados e eventos `loading | finally` está `refined`; especificações concretas de transporte e mídia permanecem em `refinement`.
+- CTR-0001: argumentos, identidade, correlação, envelope de resultado/erro e referências de mídia `{name, path}` foram definidos. As pendências de lifecycle, tipo e limites ficam centralizadas em CTR-0006.
+- ADR-0011: arquitetura de processadores registrados e eventos `loading | content | finally` está `refined`.
+- ADR-0012: `/tmp/sabia/media/<request_id>/`, múltiplos `content` e streaming foram definidos; lifecycle e recovery permanecem em CTR-0006.
 
 ## Condição para liberar o MVP
 
