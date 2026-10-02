@@ -75,11 +75,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Estado necessário: especificações implementáveis em `refined`.
 - Informação ausente:
   - formato e semântica da periodicidade configurada;
-  - comportamento da primeira avaliação sem estado anterior;
   - política concreta de lembrete para estado degradado inalterado;
   - comportamento quando a própria verificação falha;
   - campos, tipos e defaults necessários da configuração de agendamento.
-- Decisão já fechada: se a mesma tarefa vencer enquanto sua execução anterior estiver ativa, o novo disparo é ignorado e registrado; não há fila nem execução concorrente.
+- Decisões já fechadas:
+  - se a mesma tarefa vencer enquanto sua execução anterior estiver ativa, o novo disparo é ignorado e registrado; não há fila nem execução concorrente;
+  - na primeira avaliação, `OK` é persistido sem alerta; `WARNING`, `CRITICAL` e `UNKNOWN` geram alerta imediato e são persistidos.
 
 ### Comandos do MVP — contrato operacional ausente
 
