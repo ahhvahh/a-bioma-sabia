@@ -28,14 +28,28 @@ Update recebido por long polling em cliente habilitado.
 
 1. o adaptador recebe update;
 2. identifica usuário, chat e conteúdo relevante;
-3. a autorização valida whitelist do cliente e, quando configurado, chat;
-4. o adaptador converte a solicitação em comando interno;
-5. o Command Router resolve a operação cadastrada;
-6. a operação produz resultado imediato ou cria job;
-7. o adaptador converte o resultado em resposta Telegram;
-8. auditoria registra a operação sem segredos.
+3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
+4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
+5. a autorização valida whitelist do cliente e, quando configurado, chat;
+6. o adaptador converte a solicitação em comando interno;
+7. o Command Router resolve a operação cadastrada;
+8. a operação produz resultado imediato ou cria job;
+9. o adaptador converte o resultado em resposta Telegram;
+10. auditoria registra a operação sem segredos.
 
 ## Fluxos alternativos
+
+### Falha antes da persistência do update
+
+1. o update não é considerado aceito;
+2. o `offset` não avança além desse `update_id`;
+3. uma leitura posterior pode receber novamente o update.
+
+### Update já persistido
+
+1. o adaptador identifica a duplicidade pelo `update_id` dentro do cliente correspondente;
+2. nenhuma segunda execução da mesma requisição é criada;
+3. o estado local já existente continua sendo a fonte para processamento ou recovery.
 
 ### Usuário ou chat não autorizado
 
@@ -49,7 +63,7 @@ Update recebido por long polling em cliente habilitado.
 
 ## Falhas e tratamento
 
-Falhas de Bot API, política de retry, avanço de offset e comportamento após reinício ainda precisam ser definidos.
+Falhas de Bot API, política de retry de leitura/envio e recovery de respostas pendentes ainda precisam ser definidos.
 
 ## Resultado
 
@@ -59,7 +73,10 @@ Resposta controlada ao usuário ou referência de job criado.
 
 - autorização antecede execução;
 - cliente não acessa comandos de outro cliente;
-- falta fechar retry/offset para `refined`.
+- falha antes da persistência não confirma o update;
+- update persistido pode ser recuperado localmente após reinício;
+- o mesmo `update_id` persistido para um cliente não gera execução duplicada;
+- falta fechar retry da Bot API e recovery de respostas para `refined`.
 
 ## Implementação relacionada
 
