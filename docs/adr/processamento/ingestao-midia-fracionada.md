@@ -71,7 +71,7 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - a identidade do arquivo lógico é resolvida pelo `media_id` gerado na abertura;
 - lacunas e sequências repetidas são recusadas com a próxima sequência esperada;
 - não existe mensagem separada de término; `received_bytes == total_bytes` define completude;
-- o limite máximo permitido para `total_bytes` precisa respeitar o transporte de destino.
+- o canal fracionado aceita `total_bytes` de no máximo `100000000` bytes (100 MB decimais).
 
 ## Dependências
 
@@ -92,4 +92,5 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - sequência pulada ou repetida é detectada imediatamente;
 - completude é determinada por `total_bytes` sem mensagem adicional;
 - Telegram recebe um único arquivo lógico e não os chunks individualmente;
-- a montagem não exige manter o arquivo completo em memória.
+- a montagem não exige manter o arquivo completo em memória;
+- `total_bytes` acima de `100000000` é recusado na abertura.
