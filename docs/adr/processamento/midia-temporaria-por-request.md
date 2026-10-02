@@ -2,7 +2,7 @@
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0012-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
-![Version](https://img.shields.io/badge/Version-2-6e7781?style=flat-square)
+![Version](https://img.shields.io/badge/Version-3-6e7781?style=flat-square)
 
 ## Contexto
 
@@ -57,20 +57,25 @@ O Sabiá é responsável por abrir o arquivo referenciado e fazer streaming ao a
 
 ### Lifecycle da área temporária
 
-Um arquivo anunciado por `content` permanece disponível enquanto sua entrega estiver em andamento ou puder ser repetida no processo atual.
+Todo arquivo destinado ao cliente precisa ser registrado no estado operacional persistente antes da primeira tentativa de envio.
 
-O arquivo só pode ser removido após as duas condições ocorrerem:
+O registro persistente relaciona o arquivo à requisição, cliente, transporte e destino.
 
-1. o streaming transmitiu o último byte do arquivo ao Telegram;
-2. o Telegram confirmou com sucesso o recebimento da mensagem/arquivo.
+Um arquivo anunciado por `content` permanece disponível enquanto existir transmissão ativa em estado `pending` ou `transmitting`.
 
-Após a confirmação, o Sabiá remove imediatamente o arquivo correspondente.
+O arquivo só pode ser removido após:
 
-Ao iniciar, o Sabiá limpa integralmente `/tmp/sabia/media` antes de aceitar novas requisições.
+1. o streaming transmitir o último byte;
+2. o transporte confirmar o recebimento;
+3. a confirmação ser persistida como `delivered`.
 
-Ao encerrar, o Sabiá limpa integralmente `/tmp/sabia/media` antes de finalizar o processo.
+Após isso, o Sabiá remove imediatamente o arquivo correspondente.
 
-Consequentemente, arquivos temporários não são mecanismo de recovery entre execuções do Sabiá. Uma entrega de mídia ainda não confirmada no momento de shutdown/restart deixa de ser recuperável a partir dessa referência temporária.
+No startup, o Sabiá reconcilia o SQLite com `/tmp/sabia/media` e retoma transmissões `pending` e `transmitting` cujos arquivos ainda existam.
+
+No shutdown, arquivos associados a transmissões `pending` ou `transmitting` são preservados para o próximo startup do serviço.
+
+Arquivos sem transmissão ativa podem ser removidos quando estiverem sem modificação há mais de 1 minuto.
 
 ## Justificativa
 
@@ -84,14 +89,16 @@ O isolamento por `request_id` reduz colisões de nomes e facilita validação e 
 - o Sabiá precisa validar que `content.path` pertence à área da requisição;
 - arquivos podem ser entregues individualmente antes do `finally`;
 - arquivos são removidos imediatamente após transmissão completa e confirmação do Telegram;
-- startup e shutdown limpam toda a raiz temporária;
-- mídia temporária não sobrevive como mecanismo de recovery entre execuções;
+- transmissões pendentes são persistidas no SQLite e podem ser retomadas após restart do serviço;
+- startup e shutdown preservam arquivos referenciados por transmissões ativas;
+- arquivos órfãos podem ser coletados após mais de 1 minuto sem modificação;
 - o tipo de mídia ainda precisa ser determinado de forma normativa antes do envio ao Telegram.
 
 ## Dependências
 
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](processadores-assincronos-registrados.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../../especificacao/contratos/processador-assincrono.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../especificacao/contratos/transmissao-midia.md)
 
 ## Critérios de validação
 
@@ -102,4 +109,6 @@ O isolamento por `request_id` reduz colisões de nomes e facilita validação e 
 - o Sabiá consegue transmitir o arquivo por streaming;
 - caminhos fora do diretório da requisição não são aceitos;
 - arquivo confirmado pelo Telegram é removido imediatamente;
-- startup e shutdown deixam `/tmp/sabia/media` vazia.
+- restart do serviço retoma transmissões persistidas quando o arquivo ainda existe;
+- arquivos ativos não são removidos por startup/shutdown;
+- arquivos órfãos sem modificação há mais de 1 minuto podem ser removidos.
