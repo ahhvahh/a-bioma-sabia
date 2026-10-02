@@ -5,15 +5,18 @@
 
 ## Objetivo
 
-Definir o protocolo interno comum entre o Sabiá e processadores assíncronos registrados, independentemente de o processador ser um script Bash, aplicação/executável ou serviço acessível por socket.
+Definir o protocolo de controle entre o Sabiá e processadores assíncronos registrados, independentemente de o processador ser script Bash, aplicação/executável ou serviço acessível por socket.
+
+Conteúdo binário não trafega neste contrato; mídia usa CTR-0008.
 
 ## Dependências
 
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
 - [CTR-0001 — Comando interno](comando-interno.md)
 - [CTR-0003 — Job](job.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](ingestao-midia-messagepack.md)
 - [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [CTR-0006 — Mídia temporária por requisição](midia-temporaria.md)
 
 ## Tipo
 
@@ -23,126 +26,97 @@ Definir o protocolo interno comum entre o Sabiá e processadores assíncronos re
 
 Toda execução assíncrona recebe, no mínimo:
 
-- `request_id: string` — identificador gerado e controlado pelo Sabiá;
-- `command: string` — operação lógica resolvida pelo registro;
-- `arguments: string[]` — argumentos já validados pela operação.
+- `request_id: string`;
+- `command: string`;
+- `arguments: string[]`.
 
-Quando a operação aceitar mídia de entrada, a requisição também pode transportar anexos conforme CTR-0001. O objeto binário de entrada permanece `BLOCKED` até o contrato de mídia ser refinado.
+Quando existirem anexos de entrada, o processador recebe referências por `media_id` conforme CTR-0006/CTR-0001.
 
 O processador não gera nem substitui o `request_id`.
 
 ## Eventos do processador para o Sabiá
 
-Cada evento contém obrigatoriamente:
+Cada evento de controle contém:
 
 - `request_id: string`;
-- `status: loading | content | finally`.
-
-`message` é obrigatório em `loading` e `finally`. Em `content`, o payload é o objeto de mídia definido em CTR-0006.
+- `status: loading | finally`;
+- `message: string`.
 
 ### loading
 
-`loading` representa atualização intermediária.
-
-Regras:
+Representa atualização intermediária.
 
 - pode ocorrer zero ou mais vezes;
 - não encerra o job;
-- não altera o `request_id`;
 - a mensagem pode ser encaminhada ao cliente correlacionado.
-
-### content
-
-`content` anuncia um arquivo produzido pelo processador.
-
-O objeto contém:
-
-- `request_id: string`;
-- `status: content`;
-- `content.name: string`;
-- `content.path: string`.
-
-Cada evento referencia um único arquivo. Uma requisição pode publicar zero ou mais eventos `content`.
-
-O arquivo precisa estar dentro de `/tmp/sabia/media/<request_id>/` e segue CTR-0006.
-
-`content` não encerra o job.
 
 ### finally
 
-`finally` representa a finalização semântica da requisição.
+Representa a finalização semântica da requisição.
 
-O objeto final contém:
+- ocorre no máximo uma vez como término normal;
+- contém a mensagem final;
+- não carrega mídia nem binário.
 
-- `request_id: string`;
-- `status: finally`;
-- `message: string`.
+Depois de um `finally` válido, novos eventos de controle não alteram o resultado da requisição.
 
-`finally` não transporta arquivo nem conteúdo binário.
+## Mídia produzida
 
-Após um `finally` válido ser aceito, a requisição é terminal e novos eventos para o mesmo `request_id` não podem alterar seu resultado.
+Qualquer script, aplicação ou serviço que possua o `request_id` e autorização local para o socket de mídia pode publicar um ou vários arquivos por CTR-0008.
+
+Mídia e eventos de controle são canais distintos:
+
+- CTR-0005: progresso e finalização;
+- CTR-0008: conteúdo binário.
+
+O Sabiá correlaciona ambos pelo mesmo `request_id`.
 
 ## Relação com jobs
 
-O `request_id` é a correlação entre comando, job, processador, mensagens de progresso e resultado final.
+`loading` representa progresso sem criar estado terminal.
 
-`loading` representa progresso do job em execução, mas não cria novo estado terminal em CTR-0003.
+`finally` encerra semanticamente o processamento normal.
 
-`content` representa conteúdo de saída e pode ocorrer várias vezes sem concluir o job.
-
-`finally` permite concluir o processamento do job e preparar a mensagem final para entrega.
-
-## Saída para o cliente
-
-Mensagens `loading` podem ser convertidas pelo adaptador em atualização ao cliente Telegram correspondente.
-
-Eventos `content` são validados conforme CTR-0006 e o arquivo é transmitido por streaming ao cliente correlacionado.
-
-O evento `finally` deve produzir a mensagem final persistida.
+Uploads de mídia podem ocorrer antes de `finally` e geram transmissões independentes. A entrega da mídia não altera por si só o estado terminal do job.
 
 ## Erros
 
-Condições de erro incluem:
+- `unknown_request`;
+- `invalid_status`;
+- `processor_timeout`;
+- `transport_failure`.
 
-- `unknown_request` — `request_id` não corresponde a execução ativa;
-- `invalid_status` — status diferente de `loading`, `content` ou `finally`;
-- `invalid_content_payload` — objeto `content` ausente ou inválido;
-- `processor_timeout` — nenhum `finally` foi recebido dentro do limite operacional;
-- `transport_failure` — falha no mecanismo concreto entre Sabiá e processador.
+Erros de mídia pertencem a CTR-0008/CTR-0007.
 
 ## Regras e restrições
 
-- somente processadores cadastrados podem receber requisições;
-- eventos não podem acessar diretamente o adaptador Telegram;
+- somente processadores cadastrados recebem requisições;
+- eventos não acessam diretamente Telegram;
 - toda correlação usa `request_id`;
 - `loading` não finaliza processamento;
-- `content` não finaliza processamento e pode ocorrer múltiplas vezes;
 - `finally` é terminal;
-- conteúdo binário não faz parte do protocolo de controle e não deve ser escrito em logs;
+- conteúdo binário não trafega neste protocolo;
 - stdout/stderr de CTR-0002 não substituem este protocolo assíncrono.
 
 ## Compatibilidade
 
-Scripts, aplicações e serviços/socket podem usar mecanismos concretos diferentes, desde que o Processor Transport normalize todos para este contrato.
+Scripts, aplicações e serviços podem usar mecanismos concretos diferentes para controle, desde que o Processor Transport normalize eventos para este contrato.
+
+Mídia sempre usa a fronteira específica de CTR-0008.
 
 ## BLOCKED
 
 Ainda precisam ser definidos antes de `refined`:
 
-- representação/framing das mensagens para cada transporte concreto;
-- framing das mensagens para cada transporte concreto;
-- política de limpeza/recovery de mídia temporária de CTR-0006;
-- determinação normativa do tipo de mídia;
-- limites máximos de arquivo.
+- framing/protocolo concreto do canal de controle para scripts/aplicações;
+- framing/protocolo concreto do canal de controle para serviços/socket;
+- política de timeout sem `finally`.
 
 ## Critérios de aceite
 
 - toda execução recebe `request_id` gerado pelo Sabiá;
 - todo evento devolve o mesmo `request_id`;
-- `loading` pode ser encaminhado ao Telegram sem encerrar o job;
+- `loading` pode chegar ao cliente sem encerrar o job;
 - `finally` encerra semanticamente o processamento;
-- `content` referencia exatamente um arquivo por evento;
-- múltiplos arquivos usam múltiplos eventos `content`;
-- `finally` não carrega binário;
-- scripts, aplicações e socket services usam o mesmo modelo conceitual;
-- detalhes bloqueados acima precisam ser refinados antes da implementação.
+- mídia não trafega no protocolo de controle;
+- vários arquivos podem ser associados ao mesmo `request_id` via CTR-0008.
