@@ -45,6 +45,7 @@ O arquivo deve possuir as seções:
 - `scripts`;
 - `processors`;
 - `media_ingest`;
+- `media_chunk_ingest`;
 - `jobs`;
 - `schedules`;
 - `logging`.
@@ -130,9 +131,23 @@ Campos necessários:
 
 - `socket_path`: caminho absoluto do Unix socket;
 - parâmetros de ownership/permissão local;
-- `max_payload_bytes`: limite máximo aceito por upload MessagePack; no MVP o valor normativo é `100000000` bytes (100 MB decimais).
+- `max_payload_bytes`: limite máximo aceito por upload MessagePack; no MVP o valor normativo é `20000000` bytes (20 MB decimais).
 
-O caminho e ownership/grupo/modo permanecem `BLOCKED`. O limite não é livremente configurável no MVP: valores diferentes de `100000000` são inválidos.
+O caminho e ownership/grupo/modo permanecem `BLOCKED`. O limite não é livremente configurável no MVP: valores diferentes de `20000000` são inválidos.
+
+Não existe endereço TCP para esta interface.
+
+### media_chunk_ingest
+
+Configura o segundo Unix socket, exclusivo para ingestão fracionada.
+
+Campos necessários:
+
+- `socket_path`: caminho absoluto, diferente de `media_ingest.socket_path`;
+- parâmetros de ownership/permissão local;
+- `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes.
+
+Arquivos maiores que o limite do canal simples usam este canal. A identidade/completude do arquivo lógico ainda está `BLOCKED` em CTR-0009.
 
 Não existe endereço TCP para esta interface.
 
@@ -217,7 +232,9 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `processors` para processadores assíncronos registrados;
 - existe seção `media_ingest` para o Unix socket MessagePack;
 - `media_ingest.socket_path` deve ser absoluto;
-- `media_ingest.max_payload_bytes` deve ser exatamente `100000000` no MVP;
+- `media_ingest.max_payload_bytes` deve ser exatamente `20000000` no MVP;
+- existe seção `media_chunk_ingest` com socket distinto;
+- `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
 - o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
