@@ -49,7 +49,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md)
   - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
 
-### Telegram — offset, retry e recovery
+### Telegram — retry e recovery
 
 - Documentos:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -57,13 +57,14 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - [ADR-0005 — Telegram Long Polling](adr/telegram/long-polling.md)
 - Estado atual: módulo e fluxo em `refinement`.
 - Estado necessário: `refined`.
+- Decisão já fechada:
+  - um update somente é confirmado após persistência transacional bem-sucedida;
+  - depois da persistência, `offset = maior update_id persistido + 1`;
+  - `update_id` persistido é tratado de forma idempotente por cliente e não pode gerar segunda execução.
 - Informação ausente:
-  - quando um update é considerado processado para avanço do `offset`;
-  - como o offset necessário ao recovery é persistido;
-  - tratamento de update repetido após falha/restart;
   - política de retry para leitura e envio pela Bot API;
   - condição que confirma entrega de resposta;
-  - comportamento após reinício quando houver update ou resposta pendente.
+  - comportamento após reinício quando houver resposta pendente.
 
 ### Scheduler e Alert Manager — semântica operacional incompleta
 
@@ -153,6 +154,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
+- Telegram: confirmação de update e avanço de `offset` estão definidos; permanecem pendentes retry da Bot API e recovery de respostas.
 
 ## Condição para liberar o MVP
 
