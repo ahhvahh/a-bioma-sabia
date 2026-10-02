@@ -13,6 +13,7 @@ Definir identidade, estados, fila, concorrência, cancelamento, recovery e entre
 - [ADR-0006 — Jobs assíncronos](../../adr/processamento/jobs-assincronos.md)
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
+- [CTR-0007 — Transmissão persistente de mídia](transmissao-midia.md)
 
 ## Tipo
 
@@ -99,6 +100,10 @@ Quando o job for executado por processador conforme CTR-0005:
 - todo evento precisa usar o mesmo `request_id` do job;
 - término do processo sem `finally` não equivale automaticamente a `completed`.
 
+## Mídia associada
+
+Mídias produzidas durante o job são correlacionadas pelo mesmo `request_id`, recebem `media_id` persistente e possuem transmissões independentes conforme CTR-0007. A entrega de mídia não altera automaticamente o estado terminal do job.
+
 ## Entrega da resposta
 
 Toda resposta pertence ao `client_id` e ao destino persistido da requisição.
@@ -142,4 +147,5 @@ A correlação de resposta deve permitir outros transportes futuramente sem torn
 - não existe retry automático sem autorização explícita;
 - cancelamento respeita o estado atual;
 - resposta permanece pendente até ser entregue ao cliente/destino correto;
-- `loading` não conclui o job e `finally` é a finalização semântica normal para processadores CTR-0005.
+- `loading` não conclui o job e `finally` é a finalização semântica normal para processadores CTR-0005;
+- mídia associada usa `media_id` e transmissão persistente separada do estado do job.
