@@ -86,7 +86,8 @@ A entrega pelo Telegram usa semântica `at-least-once`.
 - erro com `retry_after`: manter `pending` e aguardar pelo menos o intervalo indicado antes da próxima tentativa;
 - timeout, desconexão ou falha temporária sem confirmação: manter `pending` e permitir nova tentativa;
 - erro permanente de requisição: marcar a entrega como `failed`, preservando código e descrição para observabilidade;
-- após reinício, entregas `pending` retornam à etapa de envio;
+- após reinício, entregas textuais `pending` retornam à etapa de envio;
+- entregas de mídia baseadas em `/tmp/sabia/media/<request_id>/` não sobrevivem a restart e não são reenviadas após a limpeza de startup;
 - em falha ambígua após o envio, priorizar eventual entrega: nova tentativa é permitida mesmo que isso possa produzir duplicidade rara.
 
 A aplicação não considera a ausência de resposta da Bot API como prova de que a mensagem não foi entregue.
@@ -99,6 +100,8 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - uma resposta de um cliente não pode ser entregue usando identidade de outro cliente;
 - o `offset` nunca avança antes da persistência bem-sucedida do update correspondente;
 - uma entrega não pode ser marcada como `delivered` antes da persistência da confirmação remota;
+- arquivo temporário só pode ser removido após transmissão completa e confirmação remota;
+- após confirmação de mídia, o arquivo deve ser removido imediatamente;
 - conteúdo binário de entrada ou saída não pode ser registrado em logs;
 - referências de mídia seguem CTR-0006;
 - o adaptador nunca aceita para envio arquivo fora de `/tmp/sabia/media/<request_id>/`;
@@ -109,7 +112,8 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - clientes habilitados funcionam independentemente;
 - resposta é enviada pelo cliente que recebeu a requisição;
 - todos os clientes ativos recebem tentativa de aviso no shutdown;
-- mensagem pendente pode voltar à etapa de envio após reinício;
+- mensagem textual pendente pode voltar à etapa de envio após reinício;
+- mídia temporária pendente não é recuperável após restart;
 - update persistido não é executado novamente após reinício ou repetição da Bot API;
 - falha antes da persistência não avança o `offset`;
 - `retry_after` é respeitado quando fornecido;
