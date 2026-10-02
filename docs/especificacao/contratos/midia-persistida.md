@@ -48,7 +48,7 @@ Scripts, aplicações e serviços enviam mídia por CTR-0008.
 
 Depois de validar e persistir o BLOB integral pelo CTR-0008, o Sabiá cria a correlação necessária para transmissão e devolve `media_id`.
 
-Arquivos maiores usam CTR-0009. A abertura cria primeiro o registro de mídia com `total_bytes`, retorna `media_id`, inicializa `received_bytes = 0` e `next_sequence_id = 1`. Cada chunk é persistido separadamente e ordenado por `sequence_id`. Quando `received_bytes == total_bytes`, `completed` passa automaticamente para `true`.
+Quando o produtor escolher armazenamento fracionado, usa CTR-0009 independentemente do tamanho total. Para conteúdo acima de 20 MB, CTR-0009 é obrigatório porque CTR-0008 recusa o upload integral. A abertura cria primeiro o registro de mídia com `total_bytes`, retorna `media_id`, inicializa `received_bytes = 0` e `next_sequence_id = 1`. Cada chunk é persistido separadamente e ordenado por `sequence_id`. Quando `received_bytes == total_bytes`, `completed` passa automaticamente para `true`.
 
 Uma mesma `request_id` pode possuir vários registros de mídia. Nome e conteúdo não possuem restrição de unicidade: arquivos iguais recebidos mais de uma vez são persistidos como registros independentes.
 
@@ -130,6 +130,7 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - transmissão recuperada após restart consegue ler o mesmo `media_id`;
 - nenhum caminho temporário é necessário para mídia persistida;
 - mídia integral acima de 20 MB é recusada pelo canal simples e deve usar o canal fracionado;
+- mídia de até 20 MB também pode usar `storage_mode = chunked`;
 - chunk acima de 5 MB é recusado pelo canal fracionado;
 - mídia fracionada fica `completed` automaticamente ao atingir `total_bytes`;
 - payload entregue pode ser limpo somente sem transmissões `pending` ou `transmitting`.
