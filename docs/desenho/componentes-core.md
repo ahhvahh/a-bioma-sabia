@@ -19,6 +19,7 @@ Representar os componentes necessários ao primeiro MVP e suas responsabilidades
 - [ADR-0008 — Menor privilégio e autorização explícita](../adr/seguranca/menor-privilegio-e-autorizacao.md)
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../adr/processamento/processadores-assincronos-registrados.md)
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](../adr/processamento/ingestao-midia-socket-messagepack.md)
+- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](../adr/processamento/ingestao-midia-fracionada.md)
 
 ## Nível C4
 
@@ -50,7 +51,9 @@ Processor Transport       Job Queue/Workers
              |
              | request_id + MessagePack/BLOB
              v
-       Media Ingest Socket
+       Media Ingest Socket (<=20 MB)
+             |
+       Media Chunk Socket (>20 MB, chunks <=5 MB)
              |
              v
         Media Store/SQLite
@@ -75,7 +78,8 @@ Logging/Audit <----------------- eventos operacionais
 - **Processor Registry:** associa identificadores permitidos às definições de processadores cadastrados, incluindo scripts, aplicações e serviços/socket.
 - **Processor Transport:** adapta cada mecanismo concreto de execução/comunicação ao protocolo interno de requisição, progresso e finalização; CTR-0002 continua sendo usado na execução local controlada.
 - **Job Manager/Queue/Workers:** executa operações demoradas fora do tratamento imediato do comando, preserva `request_id` e encaminha eventos de progresso/finalização.
-- **Media Ingest Socket:** recebe mídia de produtores locais por Unix socket e MessagePack.
+- **Media Ingest Socket:** recebe arquivos integrais de até 20 MB por Unix socket e MessagePack.
+- **Media Chunk Socket:** recebe arquivos maiores em chunks persistidos de até 5 MB.
 - **Media Store/SQLite:** persiste metadados e BLOBs antes do ACK ao produtor.
 - **Media Delivery Queue:** mantém transmissões pendentes por `media_id` e permite recovery após restart.
 - **Scheduler:** dispara verificações cadastradas.
@@ -93,4 +97,4 @@ O Command Router não conhece detalhes de Telegram, shell, socket, FFmpeg ou out
 - componentes de transporte, domínio operacional e execução não estão fundidos;
 - o Processor Transport separa protocolo interno de mecanismos concretos de execução/comunicação;
 - o canal de controle e o canal de mídia são separados;
-- detalhes ainda não refinados de limites e autorização concreta do socket não alteram este desenho estrutural.
+- detalhes ainda não refinados de identidade/completude da mídia fracionada e autorização concreta dos sockets não alteram este desenho estrutural.
