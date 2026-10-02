@@ -49,12 +49,14 @@ Cada execução recebe um `request_id` gerado pelo Sabiá.
 Durante a execução, o processador envia eventos correlacionados contendo:
 
 - `request_id`;
-- `status`, com valores `loading` ou `finally`;
+- `status`, com valores `loading`, `content` ou `finally`;
 - `message`.
 
 `loading` representa progresso intermediário e pode ser encaminhado ao cliente de origem.
 
-`finally` encerra semanticamente o processamento daquela requisição e carrega a resposta final. Quando existir arquivo, o resultado final também contém tipo de arquivo e conteúdo binário para posterior transporte ao cliente.
+`content` anuncia um arquivo produzido dentro da área temporária da requisição e pode ocorrer múltiplas vezes.
+
+`finally` encerra semanticamente o processamento daquela requisição e carrega a mensagem final. Arquivos não são transportados dentro de `finally`; a referência e o streaming seguem ADR-0012.
 
 CTR-0002 continua válido para a execução local controlada de scripts/executáveis. O novo protocolo assíncrono complementa CTR-0002 e não transforma stdout/stderr em contrato de progresso.
 
@@ -68,7 +70,7 @@ A abstração permite usar scripts, aplicações e serviços sem acoplar o Comma
 - jobs precisam preservar `request_id` até a finalização e entrega;
 - mensagens `loading` precisam ser encaminhadas pelo contexto de resposta persistido;
 - o evento `finally` precisa produzir resultado persistente antes da entrega;
-- o contrato do objeto binário e o framing dos transportes concretos ainda precisam ser refinados;
+- o contrato de referência/lifecycle da mídia e o framing dos transportes concretos ainda precisam ser refinados;
 - saída de processo e protocolo assíncrono passam a ser conceitos distintos.
 
 ## Dependências
@@ -77,12 +79,14 @@ A abstração permite usar scripts, aplicações e serviços sem acoplar o Comma
 - [ADR-0004 — Registro explícito de scripts](../execucao/registro-explicito-de-scripts.md)
 - [ADR-0006 — Jobs assíncronos](jobs-assincronos.md)
 - [ADR-0009 — Persistência do estado operacional](../persistencia/estado-operacional.md)
+- [ADR-0012 — Área temporária de mídia para processadores](midia-temporaria-por-request.md)
 
 ## Critérios de validação
 
 - script, aplicação e serviço/socket podem ser representados por uma operação cadastrada sem fornecer endereço arbitrário pelo Telegram;
 - toda mensagem do processador contém o `request_id` fornecido pelo Sabiá;
 - `loading` pode gerar atualização ao cliente sem finalizar o job;
+- `content` pode publicar vários arquivos sem finalizar o job;
 - `finally` encerra semanticamente a requisição;
-- resultado final pode transportar mensagem e, opcionalmente, arquivo binário;
-- detalhes de framing e objeto binário permanecem em especificação, não no Command Router.
+- binários não trafegam no protocolo de controle;
+- detalhes de framing e lifecycle da mídia permanecem em especificação, não no Command Router.
