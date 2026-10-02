@@ -25,9 +25,10 @@ Executar operações demoradas sem bloquear o recebimento de comandos e garantir
 - executar por workers;
 - controlar estados e histórico;
 - receber e publicar progresso `loading` correlacionado por `request_id`;
+- receber eventos `content` correlacionados e encaminhar cada arquivo ao pipeline de entrega;
 - aceitar `finally` como finalização semântica normal do processador;
 - correlacionar resultado com `client_id` e destino de resposta;
-- persistir resposta final, incluindo artefato binário quando houver, antes da entrega;
+- persistir referência/estado de cada conteúdo anunciado e a resposta final antes da entrega;
 - persistir respostas até a confirmação de entrega;
 - recuperar fila após reinício;
 - suportar consulta e cancelamento conforme CTR-0003.
@@ -38,7 +39,7 @@ Solicitação de operação assíncrona e contexto persistente de resposta.
 
 ## Saídas
 
-Identificador de job, mudanças de estado, eventos `loading` e resposta `finally` destinada ao cliente correspondente.
+Identificador de job, mudanças de estado, eventos `loading`, conteúdos `content` e resposta `finally` destinada ao cliente correspondente.
 
 ## Interfaces e contratos
 
@@ -64,6 +65,7 @@ SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs e
 - running interrompido não é reexecutado silenciosamente;
 - cancelamento e retry seguem CTR-0003;
 - `loading` não finaliza o job;
+- `content` pode ocorrer várias vezes e não finaliza o job;
 - `finally` correlacionado conclui semanticamente o processamento;
 - permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
 
