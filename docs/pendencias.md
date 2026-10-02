@@ -15,12 +15,16 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Documento: [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
 - Estado atual: `refinement`
 - Estado necessário: `refined`
-- Estado atual do conteúdo: a fronteira conceitual entre adaptadores e Command Router está definida.
+- Estado atual do conteúdo:
+  - a fronteira conceitual entre adaptadores e Command Router está definida;
+  - argumentos são entregues ao Core como `string[]` já tokenizado;
+  - tokenização pertence ao adaptador;
+  - validação semântica dos argumentos pertence à operação correspondente.
 - Informação ausente:
-  - schema definitivo;
-  - tipos concretos;
+  - schema definitivo dos demais campos;
+  - tipos concretos dos demais campos;
   - obrigatoriedade dos campos;
-  - limites de argumentos e anexos;
+  - limites globais do comando e anexos;
   - estrutura exata de resultado e erro;
   - tipos do contexto necessário para correlação de resposta.
 - Dependências afetadas:
@@ -138,6 +142,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
+- CTR-0001: representação dos argumentos foi fechada como `string[]` tokenizado pelo adaptador, com validação semântica delegada à operação; permanecem pendentes os demais campos e estruturas do contrato.
 
 ## Condição para liberar o MVP
 
