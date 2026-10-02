@@ -20,6 +20,7 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 - interpretar status de monitoramento;
 - comparar estado atual e anterior;
 - persistir estado necessário à avaliação futura;
+- na primeira avaliação sem estado anterior, persistir silenciosamente `OK` e notificar imediatamente `WARNING`, `CRITICAL` ou `UNKNOWN`;
 - emitir alerta em mudança relevante;
 - emitir recuperação;
 - suprimir repetição imediata;
@@ -54,6 +55,8 @@ Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se
 - repetição de estado não gera mensagem imediata;
 - recuperação gera mensagem;
 - estado anterior pode ser recuperado após reinício;
+- primeira avaliação em `OK` é persistida sem alerta;
+- primeira avaliação em `WARNING`, `CRITICAL` ou `UNKNOWN` gera alerta e persiste o estado;
 - uma mesma tarefa não possui execuções sobrepostas;
 - disparo ocorrido durante execução ativa é ignorado e registrado;
 - política detalhada de lembrete e comportamento de falhas ainda precisa ser completada antes de `refined`.
