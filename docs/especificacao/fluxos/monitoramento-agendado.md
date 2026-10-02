@@ -28,13 +28,23 @@ Agendamento configurado torna-se devido.
 
 1. Scheduler identifica tarefa devida;
 2. resolve script cadastrado;
-3. Script Executor executa com timeout;
-4. resultado é convertido em `OK`, `WARNING`, `CRITICAL` ou `UNKNOWN`;
-5. Alert Manager recupera o estado anterior persistido;
-6. compara estado atual e anterior;
-7. se houver transição relevante, cria mensagem;
-8. adaptador do cliente Alerts envia ao Telegram;
-9. novo estado é persistido no SQLite para avaliação futura.
+3. Script Executor executa conforme CTR-0002;
+4. Scheduler/Alert Manager interpreta o exit code de monitoramento;
+5. resultado é convertido em `OK`, `WARNING`, `CRITICAL` ou `UNKNOWN`;
+6. Alert Manager recupera o estado anterior persistido;
+7. compara estado atual e anterior;
+8. se houver transição relevante, cria mensagem;
+9. adaptador do cliente Alerts envia ao Telegram;
+10. novo estado é persistido no SQLite para avaliação futura.
+
+Para scripts de monitoramento, a interpretação inicial é:
+
+- `0 = OK`;
+- `1 = WARNING`;
+- `2 = CRITICAL`;
+- `3 = UNKNOWN`.
+
+O Script Executor não atribui significado de monitoramento ao exit code.
 
 ## Fluxos alternativos
 
@@ -52,7 +62,7 @@ Pode enviar resultado mesmo sem mudança quando essa opção estiver configurada
 
 ## Falhas e tratamento
 
-O estado anterior sobrevive ao reinício por meio do SQLite. A política detalhada de falha do scheduler e de lembretes ainda precisa ser fechada.
+O estado anterior sobrevive ao reinício por meio do SQLite. A política detalhada de falha do scheduler e de lembretes ainda não está fechada.
 
 ## Resultado
 
@@ -61,11 +71,14 @@ Estado atualizado e persistido e, quando necessário, alerta enviado.
 ## Critérios de aceite
 
 Primeira prova funcional: `disk-check` com limites configuráveis:
+
 - abaixo de 80%: `OK`;
 - 80% a 89%: `WARNING`;
 - 90% ou mais: `CRITICAL`.
 
 Os valores são exemplos iniciais e devem ser configuráveis.
+
+O fluxo permanece em `refinement` até fechar as pendências específicas de Scheduler e Alertas.
 
 ## Implementação relacionada
 

@@ -20,23 +20,6 @@ O gate completo de especificação do MVP permanece `BLOCKED` enquanto contratos
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
   - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
 
-### CTR-0002 — Execução de script
-
-- Documento: [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Estado atual do conteúdo: registro explícito, timeout, stdout, stderr e exit code estão definidos.
-- Informação ausente:
-  - forma de invocação do executável/script cadastrado;
-  - diretório de trabalho;
-  - variáveis de ambiente herdadas ou permitidas;
-  - limite de stdout e stderr;
-  - tratamento de processos filhos em timeout/cancelamento.
-- Dependências afetadas:
-  - [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md)
-  - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md)
-  - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
-
 ## Pendências de refinamento
 
 ### Telegram — retry e offset do long polling
@@ -79,6 +62,7 @@ Não são mais pendências:
 
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): SQLite e recovery de requisições/respostas pendentes estão `refined`.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
+- [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - [CTR-0003 — Job](especificacao/contratos/job.md): fila, concorrência, cancelamento, retry e recovery estão `refined`.
 - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md): configuração do MVP está `refined`.
 

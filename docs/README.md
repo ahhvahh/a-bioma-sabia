@@ -8,7 +8,7 @@ Pendências consolidadas: [pendências documentais](pendencias.md).
 
 ## Estado do pipeline
 
-A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP ainda depende dos contratos indicados em `BLOCKED`.
+A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP ainda depende dos itens indicados em `BLOCKED` e das especificações ainda em `refinement`.
 
 ### Decisões
 
@@ -32,7 +32,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. O d
 
 - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refinement`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
-- [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refinement`
+- [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refined`
 - [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refined`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
@@ -40,7 +40,7 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. O d
 ### Contratos
 
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md) — `refinement`
-- [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refinement`
+- [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refined`
 - [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
 - [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
 
@@ -67,18 +67,10 @@ A arquitetura principal possui decisões explícitas e desenhos finalizados. O d
 - Falta fechar schema, tipos, limites, anexos e estrutura exata de resultado/erro.
 - Afeta: MOD-0001, MOD-0002 e FLW-0001.
 
-### Contrato operacional do executor
-
-- Documento: [CTR-0002](especificacao/contratos/execucao-script.md)
-- Estado atual: `refinement`
-- Estado necessário: `refined`
-- Falta definir invocação do processo, diretório de trabalho, ambiente permitido, limites de saída e tratamento de processos no timeout.
-- Afeta: MOD-0003, MOD-0005 e FLW-0003.
-
 ## Pendências não bloqueadoras isoladas
 
-- fechar política de offset/retry do Telegram para MOD-0002;
+- fechar política de offset/retry do Telegram para MOD-0002 e FLW-0001;
 - fechar concorrência de duas execuções do mesmo agendamento;
-- definir comportamento da primeira avaliação de alerta quando ainda não existe estado anterior.
+- definir comportamento da primeira avaliação de alerta, lembretes e falhas do Scheduler.
 
 Nenhuma dessas lacunas deve ser preenchida por suposição.

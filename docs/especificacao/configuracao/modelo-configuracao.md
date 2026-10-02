@@ -79,15 +79,24 @@ Clientes iniciais:
 
 ### scripts
 
-Cada script cadastrado possui, no mínimo:
+Cada script cadastrado possui:
 
 - identificador lógico;
-- `path`;
-- `timeout`;
+- `path`: caminho absoluto do executável ou script;
+- `timeout`: duração positiva;
+- `interpreter`: caminho absoluto opcional de interpretador explicitamente cadastrado;
+- `working_directory`: diretório absoluto opcional;
+- `allowed_environment`: lista de nomes de variáveis que podem ser herdadas;
 - indicação explícita de repetibilidade quando retry automático for permitido;
 - `max_retries`, com padrão `0`.
 
-Detalhes de working directory, ambiente e limites de saída dependem de CTR-0002.
+Quando `working_directory` estiver ausente, o executor utiliza o diretório que contém `path`.
+
+Quando `interpreter` estiver ausente, `path` é executado diretamente.
+
+`allowed_environment` vazio significa não herdar variáveis do ambiente do Sabiá.
+
+O limite de captura definido por CTR-0002 é fixo no MVP em 1 MiB para stdout e 1 MiB para stderr por execução.
 
 ### jobs
 
@@ -122,6 +131,14 @@ A configuração completa é validada antes de iniciar:
 
 Configuração ausente, inválida, campo obrigatório ausente, segredo referenciado inexistente ou valor fora do domínio faz o processo falhar no startup.
 
+Para scripts:
+
+- `path` deve ser absoluto;
+- `interpreter`, quando presente, deve ser absoluto;
+- `working_directory`, quando presente, deve ser absoluto;
+- `timeout` deve ser positivo;
+- nomes em `allowed_environment` devem ser válidos e não duplicados.
+
 O Sabiá não deve iniciar parcialmente com configuração inválida.
 
 ## Reload
@@ -152,5 +169,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - segredos são referenciados e não gravados diretamente no YAML;
 - configuração inválida impede startup;
 - não existe reload dinâmico;
+- definição de script contém os campos necessários a CTR-0002;
+- scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - SQLite possui caminho conhecido e schema versionado.
