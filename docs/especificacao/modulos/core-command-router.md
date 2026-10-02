@@ -31,7 +31,7 @@ Comando interno validado pelo adaptador e pela camada de autorização.
 
 ## Saídas
 
-Resultado interno imediato, erro de roteamento ou referência para job criado.
+Envelope conforme CTR-0001 com `type: message | job | file | error`, `request_id` e `payload` compatível com o tipo.
 
 ## Interfaces e contratos
 
@@ -55,7 +55,7 @@ Nenhuma persistência própria foi definida para o roteador.
 
 ## Critérios de aceite
 
-**BLOCKED para `refined`:** CTR-0001 já definiu identidade, correlação e `arguments: string[]`, mas ainda precisa fechar anexos e as estruturas concretas de resultado/erro.
+**BLOCKED para `refined`:** CTR-0001 já definiu identidade, correlação, argumentos e o envelope de resultado/erro. Permanece pendente apenas o contrato de anexos e do payload `file`.
 
 - roteador pode ser testado com adaptadores mock;
 - comando inexistente não chega a executor;
@@ -63,6 +63,8 @@ Nenhuma persistência própria foi definida para o roteador.
 - a operação correspondente valida quantidade, formato e domínio dos argumentos;
 - `request_id` permanece estável durante roteamento e criação de job;
 - o Router trata `reply_context.destination_id` como valor opaco;
+- resultado imediato usa `message`, criação/referência assíncrona usa `job` e falhas controladas usam `error`;
+- o Router não produz `file` enquanto o contrato de arquivos/anexos estiver `BLOCKED`;
 - novo executor pode ser integrado sem alterar o mecanismo de identificação de comando.
 
 ## Implementação relacionada
