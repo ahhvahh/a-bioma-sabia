@@ -18,6 +18,7 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 
 - disparar tarefas cadastradas por periodicidade;
 - interpretar status de monitoramento;
+- converter falha técnica da verificação ou timeout em estado `UNKNOWN`, preservando o motivo para observabilidade;
 - comparar estado atual e anterior;
 - persistir estado necessário à avaliação futura;
 - na primeira avaliação sem estado anterior, persistir silenciosamente `OK` e notificar imediatamente `WARNING`, `CRITICAL` ou `UNKNOWN`;
@@ -49,6 +50,8 @@ Estados de monitoramento: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`.
 
 Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se a periodicidade vencer novamente antes do término da execução corrente, o Scheduler não cria nova execução, não enfileira uma segunda ocorrência e registra o disparo ignorado para observabilidade.
 
+Falha técnica ao iniciar/executar a verificação, erro interno do executor ou timeout da verificação produz estado `UNKNOWN`. O motivo técnico original deve permanecer disponível em logs/auditoria. O estado `UNKNOWN` participa normalmente das regras de primeira avaliação, transição, repetição e recuperação.
+
 ## Critérios de aceite
 
 - transição gera alerta conforme regra;
@@ -59,7 +62,9 @@ Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se
 - primeira avaliação em `WARNING`, `CRITICAL` ou `UNKNOWN` gera alerta e persiste o estado;
 - uma mesma tarefa não possui execuções sobrepostas;
 - disparo ocorrido durante execução ativa é ignorado e registrado;
-- política detalhada de lembrete e comportamento de falhas ainda precisa ser completada antes de `refined`.
+- falha técnica ou timeout da verificação resulta em `UNKNOWN`;
+- transição para `UNKNOWN` é persistida e pode gerar alerta conforme as mesmas regras dos demais estados;
+- política detalhada de lembrete ainda precisa ser completada antes de `refined`.
 
 ## Implementação relacionada
 
