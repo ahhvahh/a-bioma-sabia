@@ -16,6 +16,8 @@ Receber comandos internos já autorizados, localizar a operação cadastrada e d
 ## Responsabilidades
 
 - resolver comando dentro do catálogo do cliente;
+- receber argumentos já tokenizados como `string[]`;
+- delegar à operação correspondente a validação semântica dos argumentos;
 - rejeitar comando desconhecido;
 - delegar trabalho imediato ou criação de job;
 - produzir resultado interno convertível pelo adaptador de transporte;
@@ -51,10 +53,12 @@ Nenhuma persistência própria foi definida para o roteador.
 
 ## Critérios de aceite
 
-**BLOCKED para `refined`:** CTR-0001 ainda precisa fechar schema, tipos e limites do comando interno.
+**BLOCKED para `refined`:** CTR-0001 já definiu `arguments: string[]` tokenizado pelo adaptador, mas ainda precisa fechar os demais campos, tipos, limites e estruturas de resultado/erro.
 
 - roteador pode ser testado com adaptadores mock;
 - comando inexistente não chega a executor;
+- o Router não interpreta texto bruto do transporte para obter argumentos;
+- a operação correspondente valida quantidade, formato e domínio dos argumentos;
 - novo executor pode ser integrado sem alterar o mecanismo de identificação de comando.
 
 ## Implementação relacionada
