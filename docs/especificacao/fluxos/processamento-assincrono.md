@@ -14,6 +14,7 @@ Executar um comando em processador assíncrono registrado, encaminhar progresso 
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
 - [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Gatilho
 
@@ -34,15 +35,17 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 4. o processador inicia o trabalho;
 5. a cada evento `loading`, o Sabiá valida o `request_id` e encaminha `message` ao cliente correlacionado;
 6. a cada evento `content`, o Sabiá valida `content.path` dentro de `/tmp/sabia/media/<request_id>/`;
-7. o Sabiá abre o arquivo e faz streaming ao adaptador do cliente;
-8. após transmitir o último byte, o Sabiá aguarda confirmação de recebimento do Telegram;
-9. somente após a confirmação, remove imediatamente o arquivo temporário;
-10. o processador pode repetir `content` para cada arquivo produzido;
-11. o job permanece em execução;
-12. o processador envia `finally` com a mensagem final;
-13. o Sabiá persiste o resultado final antes da entrega;
-14. o adaptador envia a mensagem final;
-15. a entrega segue a política persistente do adaptador Telegram.
+7. antes do primeiro envio, persiste a transmissão como `pending` conforme CTR-0007;
+8. muda a transmissão para `transmitting` e faz streaming ao adaptador do cliente;
+9. após transmitir o último byte, aguarda confirmação de recebimento do Telegram;
+10. persiste a confirmação e o estado `delivered`;
+11. somente então remove imediatamente o arquivo temporário;
+12. o processador pode repetir `content` para cada arquivo produzido;
+13. o job permanece em execução;
+14. o processador envia `finally` com a mensagem final;
+15. o Sabiá persiste o resultado final antes da entrega;
+16. o adaptador envia a mensagem final;
+17. a entrega segue a política persistente do adaptador Telegram.
 
 ## Fluxos alternativos
 
@@ -60,9 +63,9 @@ Cada evento `content` referencia um arquivo independente. Vários arquivos são 
 
 ### Falha de entrega de content
 
-Se o streaming ou a confirmação do Telegram falhar, o arquivo não é removido e pode ser reutilizado em nova tentativa enquanto o processo atual continuar executando.
+Se o streaming ou a confirmação do Telegram falhar, o arquivo não é removido e a transmissão permanece `pending` ou `transmitting` para nova tentativa.
 
-Se ocorrer shutdown/restart antes da confirmação, a limpeza da área temporária torna a mídia não recuperável; a entrega correspondente é registrada como falha e não é reenviada no próximo startup.
+Após restart do serviço, o Sabiá consulta CTR-0007 e reenvia transmissões ativas cujos arquivos ainda existam.
 
 ### content inválido
 
@@ -92,7 +95,7 @@ O job possui resultado final correlacionado ao `request_id` e a resposta permane
 - múltiplos arquivos podem ser transportados por vários eventos `content`;
 - arquivos são transmitidos por streaming a partir da área temporária;
 - arquivo só é removido após último byte transmitido e confirmação do Telegram;
-- mídia não confirmada não sobrevive à limpeza de startup/shutdown;
+- mídia não confirmada permanece registrada e pode ser retomada após restart quando o arquivo ainda existe;
 - término de processo sem `finally` não é confundido com sucesso;
 - cliente, destino e `request_id` permanecem rastreáveis.
 
