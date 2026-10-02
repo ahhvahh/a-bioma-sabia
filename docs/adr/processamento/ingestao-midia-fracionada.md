@@ -43,7 +43,7 @@ O Sabiá terá dois Unix domain sockets de mídia:
 
 O tamanho normativo máximo de cada chunk é `5000000` bytes (5 MB decimais). O último chunk pode ser menor.
 
-Antes dos chunks, o produtor envia os metadados do arquivo usando `request_id`, `name` e tipo conhecido. O Sabiá cria o objeto de mídia e devolve o `media_id` gerado pelo banco.
+Antes dos chunks, o produtor envia os metadados do arquivo usando `request_id`, `name`, tipo conhecido e `total_bytes`. O Sabiá cria o objeto de mídia e devolve o `media_id` gerado pelo banco.
 
 Depois disso, cada chunk contém somente:
 
@@ -53,7 +53,7 @@ Depois disso, cada chunk contém somente:
 
 O Telegram `message_id` não é exposto ao produtor.
 
-A sequência inicia em `1` e deve ser estritamente crescente. Cada chunk é persistido assim que é aceito. O Sabiá devolve a próxima sequência esperada em cada ACK.
+A sequência inicia em `1` e deve ser estritamente crescente. Cada chunk é persistido assim que é aceito. O Sabiá devolve a próxima sequência esperada em cada ACK. A mídia é considerada completa automaticamente quando a soma dos bytes persistidos atinge exatamente `total_bytes`.
 
 A transmissão ao Telegram não envia cada chunk como uma mensagem independente. Quando o arquivo lógico estiver completo, o Sabiá lê os chunks persistidos em ordem e fornece um stream contínuo ao upload multipart do adaptador Telegram, sem precisar materializar o arquivo inteiro em memória.
 
@@ -69,8 +69,8 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - a fila de transmissão precisa conseguir ler conteúdo por chunks;
 - a identidade do arquivo lógico é resolvida pelo `media_id` gerado na abertura;
 - lacunas e sequências repetidas são recusadas com a próxima sequência esperada;
-- ainda é necessário definir como o produtor informa que o arquivo terminou;
-- o limite total do arquivo lógico precisa respeitar o transporte de destino.
+- não existe mensagem separada de término; `received_bytes == total_bytes` define completude;
+- o limite máximo permitido para `total_bytes` precisa respeitar o transporte de destino.
 
 ## Dependências
 
@@ -88,5 +88,6 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 - dois arquivos com mesmo nome podem coexistir porque recebem `media_id` distintos;
 - sequência persistida permite reconstrução ordenada;
 - sequência pulada ou repetida é detectada imediatamente;
+- completude é determinada por `total_bytes` sem mensagem adicional;
 - Telegram recebe um único arquivo lógico e não os chunks individualmente;
 - a montagem não exige manter o arquivo completo em memória.
