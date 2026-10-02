@@ -27,6 +27,9 @@ Delimitar o primeiro MVP para impedir implementação prematura de processadores
 - logs;
 - configuração YAML;
 - graceful shutdown;
+- Unix socket local de ingestão de mídia com MessagePack;
+- persistência de mídia em SQLite por `media_id`;
+- fila persistente de transmissão de mídia;
 - integração com systemd;
 - processo executado como usuário `sabia`.
 
@@ -93,10 +96,12 @@ Scripts simples previstos para validar a arquitetura:
 
 ## Fora do MVP
 
-Não implementar ainda processamento complexo de imagem, vídeo e áudio. A arquitetura deve apenas permitir que processadores sejam adicionados depois.
+Não implementar ainda os processadores complexos de imagem, vídeo e áudio listados como evolução. A infraestrutura de ingestão, persistência e transporte de mídia, porém, faz parte do MVP para permitir que processadores externos utilizem o Sabiá sem alterar o Core.
 
 ## Critérios de aceite
 
 - fluxo Telegram → Bioma → comando → script → resultado → Telegram é possível;
 - fluxo Scheduler → disk-check → estado relevante → Alerts → Telegram é possível;
-- nenhum desses fluxos exige shell arbitrário nem porta pública de webhook.
+- nenhum desses fluxos exige shell arbitrário nem porta pública de webhook;
+- produtor local autorizado consegue persistir mídia associada a `request_id` e receber `media_id`;
+- transmissão de mídia pendente sobrevive a restart do serviço.
