@@ -14,6 +14,7 @@ Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativo
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
 - [MOD-0004 — Jobs](../modulos/jobs.md)
 - [MOD-0005 — Scheduler e Alert Manager](../modulos/scheduler-alertas.md)
+- [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
 
 ## Gatilho
 
@@ -32,13 +33,15 @@ Serviço em execução.
 5. manter os canais de saída necessários para concluir respostas já pendentes;
 6. aguardar jobs em `running` até `service.shutdown_timeout`;
 7. enviar toda resposta concluída ao cliente e destino que originaram a requisição;
-8. manter no SQLite respostas que ainda não puderem ser entregues;
-9. preservar jobs `queued` para o próximo startup;
-10. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
-11. finalizar workers;
-12. persistir estado final;
-13. fechar recursos;
-14. encerrar.
+8. manter no SQLite respostas textuais que ainda não puderem ser entregues;
+9. para mídia ainda não confirmada, registrar a entrega como falha não recuperável após a limpeza temporária;
+10. preservar jobs `queued` para o próximo startup;
+11. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
+12. finalizar workers;
+13. persistir estado final;
+14. limpar integralmente `/tmp/sabia/media`;
+15. fechar recursos;
+16. encerrar.
 
 ## Fluxos alternativos
 
@@ -46,9 +49,13 @@ Serviço em execução.
 
 Registrar a falha e continuar o shutdown. O aviso não pode impedir indefinidamente o encerramento.
 
-### Resposta pronta sem entrega
+### Resposta textual pronta sem entrega
 
 Persistir como pendente para reenvio no próximo startup.
+
+### Mídia sem confirmação
+
+Se um arquivo ainda não tiver confirmação de recebimento do Telegram quando a limpeza de shutdown ocorrer, sua entrega não é recuperável no próximo startup. Registrar a falha antes de remover a área temporária.
 
 ## Falhas e tratamento
 
@@ -56,7 +63,7 @@ O tempo máximo é definido por `service.shutdown_timeout`. O encerramento não 
 
 ## Resultado
 
-O serviço encerra sem aceitar novo trabalho, com fila e respostas pendentes preservadas.
+O serviço encerra sem aceitar novo trabalho, com fila e respostas textuais pendentes preservadas. A área temporária de mídia termina vazia.
 
 ## Critérios de aceite
 
@@ -64,7 +71,9 @@ O serviço encerra sem aceitar novo trabalho, com fila e respostas pendentes pre
 - respostas concluídas durante shutdown são direcionadas ao cliente correto;
 - fila pendente sobrevive ao restart;
 - execução que excede timeout fica registrada como falha;
-- respostas não entregues permanecem recuperáveis.
+- respostas textuais não entregues permanecem recuperáveis;
+- mídia sem confirmação não é marcada como entregue e não permanece recuperável após a limpeza;
+- `/tmp/sabia/media` é limpa antes do encerramento.
 
 ## Implementação relacionada
 
