@@ -16,8 +16,8 @@ Definir como receber arquivos maiores sem ampliar indefinidamente o payload do s
 
 ## Restrições
 
-- arquivos de até 20 MB devem continuar usando o canal simples;
-- arquivos maiores devem possuir canal Unix socket próprio;
+- arquivos de até 20 MB podem usar o canal simples ou o canal fracionado;
+- arquivos acima de 20 MB não podem usar o canal simples e devem usar o canal fracionado;
 - o canal fracionado usa MessagePack;
 - cada pedaço deve ser persistido assim que recebido;
 - pedaços pertencentes ao mesmo arquivo precisam ser ordenáveis;
@@ -39,7 +39,7 @@ Mantém o caminho simples pequeno e permite persistência progressiva de arquivo
 O Sabiá terá dois Unix domain sockets de mídia:
 
 1. **Media Ingest** — arquivo integral em uma mensagem MessagePack, limitado a `20000000` bytes;
-2. **Media Chunk Ingest** — arquivo enviado em partes independentes e ordenáveis.
+2. **Media Chunk Ingest** — arquivo de qualquer tamanho permitido pelo contrato, enviado em partes independentes e ordenáveis. Para arquivos acima de 20 MB, este canal é obrigatório.
 
 O tamanho normativo máximo de cada chunk é `5000000` bytes (5 MB decimais). O último chunk pode ser menor.
 
@@ -63,8 +63,9 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 
 ## Consequências
 
-- CTR-0008 passa a aceitar no máximo 20 MB;
-- será necessário um novo contrato para o socket fracionado;
+- CTR-0008 aceita no máximo 20 MB;
+- arquivos de até 20 MB podem optar por CTR-0008 ou pelo canal fracionado;
+- arquivos acima de 20 MB usam obrigatoriamente o canal fracionado;
 - a persistência de mídia passa a suportar registros de chunks ordenados;
 - a fila de transmissão precisa conseguir ler conteúdo por chunks;
 - a identidade do arquivo lógico é resolvida pelo `media_id` gerado na abertura;
@@ -81,9 +82,10 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 
 ## Critérios de validação
 
-- arquivos de até 20 MB usam o socket simples;
-- payload simples acima de 20 MB é recusado;
-- arquivo grande pode ser persistido em chunks de até 5 MB;
+- arquivos de até 20 MB podem usar o socket simples ou o fracionado;
+- payload simples acima de 20 MB é recusado e precisa usar o fracionado;
+- o canal fracionado aceita também arquivos menores que 20 MB;
+- qualquer arquivo aceito pelo canal fracionado é persistido em chunks de até 5 MB;
 - vários chunks são associados ao mesmo `media_id`;
 - dois arquivos com mesmo nome podem coexistir porque recebem `media_id` distintos;
 - sequência persistida permite reconstrução ordenada;
