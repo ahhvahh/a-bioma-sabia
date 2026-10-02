@@ -15,6 +15,7 @@ Executar operações demoradas sem bloquear o recebimento de comandos e garantir
 - [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [MOD-0007 — Processadores assíncronos e transporte](processadores-assincronos.md)
 
 ## Responsabilidades
@@ -48,7 +49,7 @@ Identificador de job, mudanças de estado, eventos `loading`, conteúdos `conten
 
 ## Persistência
 
-SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes.
+SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs encontrados em `running` após reinício passam para `failed/service_restart`. Respostas não entregues permanecem pendentes. Transmissões de mídia `pending` ou `transmitting` são retomadas conforme CTR-0007 quando o arquivo ainda existe.
 
 ## Restrições
 
@@ -67,6 +68,7 @@ SQLite é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jobs e
 - `loading` não finaliza o job;
 - `content` pode ocorrer várias vezes e não finaliza o job;
 - `finally` correlacionado conclui semanticamente o processamento;
+- transmissão de mídia ativa permanece recuperável após restart enquanto o arquivo existir;
 - permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
 
 ## Implementação relacionada
