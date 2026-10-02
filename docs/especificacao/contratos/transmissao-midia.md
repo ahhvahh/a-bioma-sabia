@@ -5,13 +5,13 @@
 
 ## Objetivo
 
-Definir o registro persistente de arquivos que precisam ser transmitidos ao cliente, permitindo retomar transmissões após reinício do serviço e remover com segurança arquivos órfãos da área temporária.
+Definir a fila persistente de mídia destinada ao cliente, permitindo retomar transmissões após reinício do serviço sem depender de arquivos temporários.
 
 ## Dependências
 
 - [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0012 — Área temporária de mídia para processadores](../../adr/processamento/midia-temporaria-por-request.md)
-- [CTR-0006 — Mídia temporária por requisição](midia-temporaria.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
+- [CTR-0006 — Mídia persistida](midia-persistida.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 
 ## Tipo
@@ -20,121 +20,97 @@ Definir o registro persistente de arquivos que precisam ser transmitidos ao clie
 
 ## Registro persistente
 
-Cada arquivo destinado a transmissão deve possuir registro no SQLite antes da primeira tentativa de envio.
-
-Campos mínimos:
+Cada entrega de mídia possui registro no SQLite com, no mínimo:
 
 - `transmission_id: integer` — identificador persistente da transmissão;
+- `media_id: integer` — conteúdo persistido em CTR-0006;
 - `request_id: string` — correlação com a requisição;
 - `client_id: string` — cliente lógico responsável pela entrega;
 - `transport: string` — transporte de destino;
 - `destination_id: string` — destino opaco no transporte;
-- `name: string` — nome apresentado ao cliente;
-- `path: string` — caminho validado dentro de `/tmp/sabia/media/<request_id>/`;
 - `status: pending | transmitting | delivered | failed`;
 - `created_at: timestamp`;
 - `updated_at: timestamp`;
-- `remote_message_id: string | null` — identificador remoto quando houver confirmação;
-- `last_error: string | null` — erro controlado da tentativa mais recente.
+- `remote_message_id: string | null`;
+- `last_error: string | null`.
 
-O tipo de mídia pode ser acrescentado quando CTR-0006 fechar a regra normativa de classificação como imagem, vídeo ou documento.
+Nome, tipo e BLOB pertencem ao registro de mídia referenciado por `media_id`.
 
 ## Estados
 
 ### pending
 
-Arquivo registrado e aguardando tentativa de transmissão.
+Mídia persistida e aguardando tentativa de transmissão.
 
 ### transmitting
 
-Existe tentativa de envio em andamento ou a execução anterior terminou sem registrar conclusão definitiva.
+Existe tentativa de envio em andamento ou a execução anterior terminou sem persistir conclusão definitiva.
 
-No startup, `transmitting` é tratado novamente como elegível para envio. Essa regra preserva semântica `at-least-once`: uma falha ambígua pode resultar em duplicidade, mas não em descarte silencioso.
+No startup, `transmitting` volta a ser elegível para envio. Isso preserva semântica `at-least-once`: uma confirmação remota perdida localmente pode produzir reenvio.
 
 ### delivered
 
-O Telegram confirmou o recebimento e a confirmação remota foi persistida.
-
-Depois de persistir `delivered`, o arquivo temporário deve ser removido imediatamente.
+O transporte confirmou o recebimento e a confirmação foi persistida.
 
 ### failed
 
-A transmissão não pode continuar automaticamente, por exemplo quando o arquivo referenciado deixou de existir.
+A transmissão não pode continuar automaticamente.
 
-## Ordem de persistência e envio
+## Criação
 
-Para um evento `content` válido:
+A transmissão deve ser criada na mesma transação lógica que torna a mídia recebida disponível para entrega quando o upload vier de CTR-0008.
 
-1. validar `request_id`, `name` e `path`;
-2. confirmar que o arquivo pertence ao diretório da requisição;
-3. persistir a transmissão como `pending`;
-4. somente depois iniciar o streaming;
-5. marcar `transmitting` ao iniciar a tentativa;
-6. transmitir o arquivo;
-7. receber confirmação do transporte;
-8. persistir `remote_message_id` e `delivered`;
-9. remover imediatamente o arquivo.
+O produtor só recebe ACK de sucesso depois de mídia e transmissão estarem persistidas.
 
-O arquivo nunca pode ser removido apenas porque o último byte foi escrito no socket. A remoção exige confirmação remota persistida.
+## Envio
+
+1. selecionar transmissão `pending` ou elegível para retry;
+2. carregar metadados e BLOB por `media_id`;
+3. marcar `transmitting`;
+4. enviar o conteúdo ao adaptador correspondente;
+5. aguardar confirmação remota;
+6. persistir `remote_message_id` quando fornecido;
+7. persistir `delivered`.
+
+A política de retenção do BLOB depois de `delivered` pertence a CTR-0006.
 
 ## Recovery no startup
 
-Antes de aceitar novas transmissões:
+Antes de considerar a fila recuperada:
 
-1. consultar registros `pending` e `transmitting`;
-2. para cada registro, verificar se o arquivo ainda existe e permanece dentro da área permitida;
-3. se existir, torná-lo elegível para nova tentativa;
-4. se estiver ausente, marcar `failed` com erro `media_missing`;
-5. depois da reconciliação, executar a coleta de órfãos.
+1. consultar transmissões `pending` e `transmitting`;
+2. verificar a existência do `media_id` correspondente;
+3. se a mídia existir, tornar a transmissão elegível para nova tentativa;
+4. se a mídia não existir, marcar `failed` com `media_missing`.
 
-O startup não limpa integralmente `/tmp/sabia/media`.
-
-## Coleta de arquivos órfãos
-
-Um arquivo pode ser removido pelo coletor somente quando todas as condições forem verdadeiras:
-
-- está dentro de `/tmp/sabia/media`;
-- não existe registro `pending` ou `transmitting` que referencie seu caminho;
-- o arquivo está sem modificação há mais de **1 minuto**.
-
-Para o MVP, a idade operacional é calculada pelo tempo desde o `mtime` do arquivo. Isso evita remover um arquivo que ainda esteja sendo produzido por um processador.
-
-Diretórios vazios podem ser removidos após a coleta dos arquivos.
-
-## Shutdown
-
-O shutdown não remove arquivos referenciados por transmissões `pending` ou `transmitting`.
-
-Esses arquivos permanecem no filesystem para recovery no próximo startup do serviço.
-
-Arquivos órfãos podem ser coletados pelas mesmas regras de idade e ausência de referência persistente.
+Não existe reconciliação com `/tmp` ou filesystem para mídia persistida.
 
 ## Erros
 
-- `media_missing` — registro ativo referencia arquivo inexistente;
-- `media_path_invalid` — caminho não pertence à área da requisição;
-- `media_persistence_failed` — falha ao registrar transmissão antes do envio;
-- `media_delivery_failed` — falha de transporte;
-- `media_confirmation_persistence_failed` — transporte confirmou, mas a confirmação não foi persistida.
+- `media_missing`;
+- `media_delivery_failed`;
+- `media_confirmation_persistence_failed`;
+- `transport_not_available`;
+- `destination_not_available`.
 
 ## Regras e restrições
 
-- nenhuma transmissão começa antes de existir registro `pending`;
-- `pending` e `transmitting` impedem coleta do arquivo correspondente;
-- reinício do serviço retoma `pending` e `transmitting`;
-- confirmação remota é persistida antes da remoção do arquivo;
-- arquivo órfão só é coletado após mais de 1 minuto sem modificação;
-- conteúdo binário não é persistido no SQLite.
+- `media_id` precisa existir antes da transmissão;
+- reinício retoma `pending` e `transmitting`;
+- confirmação remota é persistida antes de `delivered`;
+- falha ambígua permite reenvio;
+- conteúdo binário não é duplicado dentro da tabela de transmissão;
+- binário não aparece em logs.
 
 ## Compatibilidade
 
-O registro usa `transport` e `destination_id` para não depender exclusivamente do Telegram.
+O registro usa `transport` e `destination_id`, portanto não depende exclusivamente do Telegram.
 
 ## Critérios de aceite
 
-- restart do serviço retoma transmissões pendentes;
-- transmissão em estado ambíguo pode ser reenviada;
-- arquivo ativo não é removido pelo coletor;
-- arquivo órfão sem modificação há mais de 1 minuto é removido;
-- confirmação remota precede remoção do arquivo;
-- arquivo ausente no recovery produz falha explícita.
+- restart retoma transmissões pendentes;
+- mídia persistida continua disponível sem filesystem temporário;
+- várias mídias da mesma requisição possuem transmissões independentes;
+- falha ambígua pode ser reenviada;
+- confirmação remota é persistida;
+- ausência de `media_id` produz falha explícita.
