@@ -57,6 +57,16 @@ Regras:
 - vários arquivos para a mesma requisição usam várias conexões/uploads com o mesmo `request_id`;
 - dois uploads com mesmo `request_id`, mesmo `name` e mesmo conteúdo são aceitos como duas mídias independentes e recebem `media_id` distintos.
 
+## Limite de tamanho
+
+O MVP aceita no máximo **100 MB decimais**, equivalentes a `100000000` bytes, por upload.
+
+O limite se aplica ao campo `data` de uma única mensagem MessagePack.
+
+Conteúdo que exceda esse valor deve ser recusado com `media_too_large` antes de iniciar a persistência do BLOB.
+
+Upload segmentado/chunked não faz parte da versão `1` do contrato.
+
 ## Persistência e atomicidade
 
 Antes de confirmar o upload, o Sabiá deve:
@@ -64,7 +74,7 @@ Antes de confirmar o upload, o Sabiá deve:
 1. validar a estrutura MessagePack;
 2. validar a versão;
 3. consultar o estado operacional e localizar a requisição por `request_id`;
-4. validar os limites configurados;
+4. rejeitar o upload com `media_too_large` se `data` exceder `100000000` bytes;
 5. inserir metadados e BLOB da mídia no SQLite;
 6. criar a transmissão pendente correlacionada ao cliente/destino da requisição;
 7. confirmar a transação.
@@ -123,8 +133,7 @@ Antes de `refined` ainda precisam ser definidos:
 
 - caminho normativo ou parâmetro final do socket;
 - ownership, grupo e modo de acesso do socket;
-- tamanho máximo permitido para `data`;
-- se vídeos grandes exigirão upload segmentado em versão futura do contrato.
+- se uma versão futura deverá suportar upload segmentado para conteúdos acima de 100 MB.
 
 ## Critérios de aceite
 
@@ -135,4 +144,5 @@ Antes de `refined` ainda precisam ser definidos:
 - uploads repetidos não são deduplicados e podem gerar `media_id` distintos;
 - restart após ACK não perde o conteúdo persistido;
 - nenhum caminho de filesystem é aceito no payload;
-- binário não aparece em logs.
+- binário não aparece em logs;
+- `data` com mais de `100000000` bytes é recusado antes da persistência.
