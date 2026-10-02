@@ -57,6 +57,23 @@ O processamento local deve tratar `update_id` como identificador idempotente por
 
 Respostas de saída devem permanecer persistidas como pendentes até que a Bot API retorne sucesso e o identificador da mensagem enviada seja persistido. Para mensagens, o `message_id` retornado no objeto `Message` é a evidência de entrega aceita pelo serviço remoto.
 
+## Política de polling e retry de leitura
+
+Cada cliente mantém seu próprio ciclo de long polling e seu próprio estado de backoff. Falhas de um cliente não suspendem nem atrasam os demais.
+
+Para falhas temporárias de `getUpdates`, aplicar backoff exponencial:
+
+`1s → 2s → 4s → 8s → 16s → 30s`
+
+Regras:
+
+- timeout de transporte, falha de rede e resposta `5xx`: avançar para a próxima etapa do backoff;
+- `429` com `retry_after`: aguardar pelo menos o intervalo informado pelo Telegram, sem aplicar espera menor pelo backoff local;
+- chamada `getUpdates` bem-sucedida, mesmo com lista vazia: resetar o backoff para `1s`;
+- erro de autenticação ou autorização do cliente, incluindo `401` ou `403`: suspender o ciclo daquele cliente e registrar erro operacional; não repetir indefinidamente;
+- falha de polling nunca altera o `offset`;
+- o uso de pequeno jitter para reduzir reconexões simultâneas é permitido como detalhe de implementação, sem alterar os limites normativos acima.
+
 ## Política de envio e retry
 
 A entrega pelo Telegram usa semântica `at-least-once`.
@@ -90,7 +107,11 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - `retry_after` é respeitado quando fornecido;
 - timeout ou falha ambígua não remove a resposta da fila de entrega;
 - sucesso de envio persiste `message_id` antes de concluir a entrega;
-- ainda falta fechar a política de retry da leitura por `getUpdates` antes de `refined`.
+- falha temporária de `getUpdates` usa backoff exponencial até o máximo de `30s`;
+- sucesso de `getUpdates` reseta o backoff para `1s`;
+- `429` respeita `retry_after`;
+- falha de autenticação/autorização suspende somente o cliente afetado;
+- falha de polling não altera o `offset`.
 
 ## Referência externa
 
