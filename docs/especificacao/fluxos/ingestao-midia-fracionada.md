@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Receber arquivos maiores em chunks persistidos sequencialmente e preparar sua posterior transmissão como um único arquivo lógico.
+Criar uma mídia lógica a partir dos metadados e receber seu conteúdo em chunks sequenciais persistidos individualmente.
 
 ## Dependências
 
@@ -17,72 +17,89 @@ Receber arquivos maiores em chunks persistidos sequencialmente e preparar sua po
 
 ## Gatilho
 
-Produtor local conecta ao socket de ingestão fracionada e envia um chunk MessagePack.
+Produtor local precisa enviar um arquivo maior pelo socket fracionado.
 
 ## Pré-condições
 
 - socket fracionado em execução;
 - processo local autorizado;
-- `request_id` conhecido;
-- chunk com no máximo `5000000` bytes.
+- `request_id` conhecido.
 
 ## Fluxo principal
 
-1. aceitar conexão no socket fracionado;
-2. decodificar um objeto MessagePack;
-3. validar `version`, `request_id`, `name`, `sequence_id` e `data`;
-4. rejeitar chunk acima de 5 MB;
-5. consultar a requisição pelo `request_id`;
-6. persistir o chunk e sua sequência;
-7. confirmar a transação;
-8. responder ACK do chunk;
-9. encerrar a conexão;
-10. repetir para os demais pedaços;
-11. quando a mídia lógica estiver completa, disponibilizá-la para CTR-0007;
-12. CTR-0007 lê os chunks em sequência e produz um único stream para o adaptador de destino.
+1. produtor envia `version`, `request_id`, `name` e `content_type`;
+2. Sabiá valida a requisição;
+3. Sabiá cria a mídia no SQLite;
+4. commit gera `media_id`;
+5. Sabiá responde `media_id` e `next_sequence_id = 1`;
+6. produtor envia `media_id`, `sequence_id = 1` e `data`;
+7. Sabiá valida tamanho e sequência;
+8. persiste o chunk e avança a próxima sequência esperada;
+9. responde o próximo `next_sequence_id`;
+10. produtor repete o envio para os demais chunks;
+11. quando a mídia estiver marcada como completa, CTR-0007 pode iniciar sua transmissão;
+12. CTR-0007 lê os chunks na sequência persistida e fornece um stream único ao adaptador.
 
 ## Fluxos alternativos
 
-### Chunk fora do limite
+### Chunk acima de 5 MB
 
-Responder `chunk_too_large` antes da persistência.
+Responder `chunk_too_large`; não persistir.
 
-### Requisição desconhecida
+### Mídia desconhecida
 
-Responder `unknown_request`.
+Responder `unknown_media`.
 
-### Chunk recebido fora de ordem
+### Sequência pulada
 
-O chunk pode ser persistido porque `sequence_id` define a ordem lógica. A política para lacunas e duplicidades permanece pendente.
+Se o produtor enviar sequência maior que a esperada:
+
+- não persistir;
+- responder `sequence_gap`;
+- informar `expected_sequence_id`.
+
+### Sequência repetida
+
+Se o produtor enviar sequência inferior à esperada:
+
+- não persistir novamente;
+- responder `sequence_already_received`;
+- informar `expected_sequence_id`.
 
 ### Restart
 
-Chunks já confirmados permanecem no SQLite. A mídia incompleta continua persistida, mas não pode ser transmitida até que a regra de completude esteja satisfeita.
+O banco preserva `media_id`, chunks confirmados e a próxima sequência esperada.
+
+Após restart, o produtor pode continuar a partir da sequência indicada pelo estado persistido.
 
 ## Falhas e tratamento
 
-Falha antes do commit nunca produz ACK de sucesso.
+Falha antes do commit não produz ACK.
 
-Falha de entrega ao Telegram não apaga os chunks necessários à recuperação da transmissão.
+A sequência nunca avança antes da persistência do chunk.
+
+Falha de entrega ao Telegram não remove os chunks necessários ao recovery.
 
 ## Resultado
 
-O arquivo lógico permanece representado por conteúdo persistido e ordenável sem necessidade de montar todo o arquivo em memória.
+Um único `media_id` identifica todos os chunks do arquivo, independentemente do nome ou de outros arquivos associados à mesma requisição.
 
 ## BLOCKED
 
-- identificação inequívoca do arquivo lógico quando houver mesmo `request_id` e `name`;
-- indicação de último chunk/completude;
-- regras para lacuna, repetição e continuidade de sequência;
+Ainda falta definir:
+
+- mensagem/regra de conclusão do arquivo;
 - limite total do arquivo lógico.
 
 ## Critérios de aceite
 
-- chunk de até 5 MB é persistido antes do ACK;
-- chunks podem chegar fora de ordem e permanecem ordenáveis;
-- restart não perde chunks confirmados;
-- o Telegram recebe um único arquivo lógico;
-- o processo não precisa alocar o arquivo completo em memória.
+- abertura cria `media_id`;
+- primeira sequência esperada é 1;
+- ACK de chunk informa a próxima sequência;
+- sequência pulada é recusada com valor esperado;
+- sequência já recebida é recusada sem duplicar conteúdo;
+- restart preserva progresso;
+- arquivo pode ser lido sequencialmente sem materialização integral em memória.
 
 ## Implementação relacionada
 
