@@ -15,6 +15,7 @@ Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativo
 - [MOD-0004 — Jobs](../modulos/jobs.md)
 - [MOD-0005 — Scheduler e Alert Manager](../modulos/scheduler-alertas.md)
 - [CTR-0006 — Mídia temporária por requisição](../contratos/midia-temporaria.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 
 ## Gatilho
 
@@ -34,12 +35,12 @@ Serviço em execução.
 6. aguardar jobs em `running` até `service.shutdown_timeout`;
 7. enviar toda resposta concluída ao cliente e destino que originaram a requisição;
 8. manter no SQLite respostas textuais que ainda não puderem ser entregues;
-9. para mídia ainda não confirmada, registrar a entrega como falha não recuperável após a limpeza temporária;
+9. preservar no SQLite transmissões de mídia `pending` ou `transmitting` e manter seus arquivos no filesystem;
 10. preservar jobs `queued` para o próximo startup;
 11. ao atingir o timeout, cancelar jobs ainda executando e registrá-los como `failed/shutdown_timeout`;
 12. finalizar workers;
 13. persistir estado final;
-14. limpar integralmente `/tmp/sabia/media`;
+14. executar apenas a coleta de arquivos órfãos permitida por CTR-0007, sem remover arquivos de transmissões ativas;
 15. fechar recursos;
 16. encerrar.
 
@@ -55,7 +56,7 @@ Persistir como pendente para reenvio no próximo startup.
 
 ### Mídia sem confirmação
 
-Se um arquivo ainda não tiver confirmação de recebimento do Telegram quando a limpeza de shutdown ocorrer, sua entrega não é recuperável no próximo startup. Registrar a falha antes de remover a área temporária.
+Se um arquivo ainda não tiver confirmação do Telegram no shutdown, preservar seu registro e o arquivo. A transmissão será reconciliada e reenviada no próximo startup conforme CTR-0007.
 
 ## Falhas e tratamento
 
@@ -63,7 +64,7 @@ O tempo máximo é definido por `service.shutdown_timeout`. O encerramento não 
 
 ## Resultado
 
-O serviço encerra sem aceitar novo trabalho, com fila e respostas textuais pendentes preservadas. A área temporária de mídia termina vazia.
+O serviço encerra sem aceitar novo trabalho, preservando fila, respostas textuais e transmissões de mídia ainda ativas.
 
 ## Critérios de aceite
 
@@ -72,8 +73,8 @@ O serviço encerra sem aceitar novo trabalho, com fila e respostas textuais pend
 - fila pendente sobrevive ao restart;
 - execução que excede timeout fica registrada como falha;
 - respostas textuais não entregues permanecem recuperáveis;
-- mídia sem confirmação não é marcada como entregue e não permanece recuperável após a limpeza;
-- `/tmp/sabia/media` é limpa antes do encerramento.
+- mídia sem confirmação não é marcada como entregue e permanece recuperável quando seu arquivo existe;
+- shutdown não remove arquivos associados a transmissões `pending` ou `transmitting`.
 
 ## Implementação relacionada
 
