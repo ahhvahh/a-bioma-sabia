@@ -23,7 +23,8 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 - emitir alerta em mudança relevante;
 - emitir recuperação;
 - suprimir repetição imediata;
-- permitir lembrete periódico configurado.
+- permitir lembrete periódico configurado;
+- impedir sobreposição da mesma tarefa agendada: se um novo disparo ocorrer enquanto a execução anterior da mesma tarefa ainda estiver ativa, o novo disparo é ignorado e o evento é registrado.
 
 ## Entradas
 
@@ -45,12 +46,16 @@ O estado anterior necessário à avaliação de alertas deve ser mantido no SQLi
 
 Estados de monitoramento: `OK`, `WARNING`, `CRITICAL`, `UNKNOWN`.
 
+Para uma mesma tarefa agendada, somente uma execução pode permanecer ativa. Se a periodicidade vencer novamente antes do término da execução corrente, o Scheduler não cria nova execução, não enfileira uma segunda ocorrência e registra o disparo ignorado para observabilidade.
+
 ## Critérios de aceite
 
 - transição gera alerta conforme regra;
 - repetição de estado não gera mensagem imediata;
 - recuperação gera mensagem;
 - estado anterior pode ser recuperado após reinício;
+- uma mesma tarefa não possui execuções sobrepostas;
+- disparo ocorrido durante execução ativa é ignorado e registrado;
 - política detalhada de lembrete e comportamento de falhas ainda precisa ser completada antes de `refined`.
 
 ## Implementação relacionada
