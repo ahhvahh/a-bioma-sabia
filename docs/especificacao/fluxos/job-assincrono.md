@@ -60,7 +60,9 @@ Marcar como `failed/service_restart`; não reexecutar automaticamente.
 
 ### Restart com resposta pendente
 
-Recolocar a resposta na etapa de envio. A entrega segue semântica `at-least-once`: se a tentativa anterior teve resultado ambíguo, a nova tentativa pode produzir uma mensagem duplicada.
+Resposta textual pendente volta à etapa de envio e segue semântica `at-least-once`.
+
+Conteúdo de mídia baseado em `/tmp/sabia/media/<request_id>/` não é recuperável após restart porque a limpeza de startup remove toda a área temporária. Entrega de mídia ainda não confirmada deve permanecer registrada como falha de entrega e não é reenviada automaticamente.
 
 ### Erro com retry_after
 
