@@ -4,6 +4,8 @@ Esta é a raiz documental do Sabiá, organizada conforme o Architecture Document
 
 O Sabiá é um serviço Linux do ecossistema Bioma para integrar aplicações, scripts e serviços locais com clientes Telegram independentes, com foco em segurança, baixo consumo, modularidade e operação sem execução arbitrária de comandos.
 
+Pendências consolidadas: [pendências documentais](pendencias.md).
+
 ## Estado do pipeline
 
 A arquitetura principal possui decisões explícitas e desenhos finalizados. O desenvolvimento completo do MVP ainda depende dos contratos indicados em `BLOCKED`.
