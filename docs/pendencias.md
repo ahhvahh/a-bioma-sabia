@@ -30,10 +30,13 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - arquivos ficam em `/tmp/sabia/media/<request_id>/`;
   - múltiplos arquivos assíncronos são publicados por múltiplos eventos `content`.
 - Decisões adicionais fechadas:
-  - arquivo de saída só é removido após último byte transmitido e confirmação do Telegram;
-  - após confirmação, o arquivo é removido imediatamente;
-  - startup e shutdown limpam integralmente `/tmp/sabia/media`;
-  - mídia temporária pendente não é recuperável após restart.
+  - arquivo de saída é registrado no SQLite antes do primeiro envio;
+  - estados de transmissão são `pending | transmitting | delivered | failed`;
+  - `pending` e `transmitting` são retomados após restart do serviço quando o arquivo ainda existe;
+  - arquivo de saída só é removido após último byte transmitido, confirmação remota e persistência de `delivered`;
+  - após confirmação persistida, o arquivo é removido imediatamente;
+  - startup e shutdown preservam arquivos ligados a transmissões ativas;
+  - arquivos sem transmissão ativa e sem modificação há mais de 1 minuto podem ser removidos.
 - Informação ausente:
   - determinação do tipo de mídia;
   - limites máximos de arquivo.
@@ -69,7 +72,8 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - framing/protocolo concreto usado por serviços/socket;
   - regra para determinar se o arquivo será enviado como imagem, vídeo ou documento;
   - limites máximos de arquivo;
-  - schema da configuração `processors`.
+  - schema da configuração `processors`;
+  - garantia de durabilidade da mídia quando o próprio sistema operacional limpar `/tmp` ou houver reboot do host.
 - Dependências afetadas:
   - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
@@ -79,13 +83,12 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 ### Persistência operacional — especificação técnica ausente
 
 - Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
-- Estado atual: decisão arquitetural `refined`, mas não existe especificação técnica de persistência.
+- Estado atual: decisão arquitetural `refined`; CTR-0007 já define de forma implementável a persistência e o recovery das transmissões de mídia, mas o restante do modelo operacional ainda não possui especificação técnica completa.
 - Estado necessário: especificação de persistência `refined`.
 - Informação ausente:
-  - entidades/tabelas e relações;
-  - campos, tipos, chaves e restrições;
-  - representação de requisições, jobs, tentativas, respostas pendentes, entregas e estado de alertas;
-  - regras de atomicidade e idempotência necessárias ao recovery;
+  - entidades/tabelas e relações para requisições, jobs, tentativas, respostas textuais e estado de alertas;
+  - campos, tipos, chaves e restrições dessas entidades;
+  - regras de atomicidade e idempotência ainda não cobertas por CTR-0007;
   - versionamento/migração do schema em nível implementável.
 - Dependências afetadas:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -182,9 +185,9 @@ Não são mais pendências arquiteturais:
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade, correlação, envelope de resultado/erro e referências de mídia `{name, path}` foram definidos. As pendências de lifecycle, tipo e limites ficam centralizadas em CTR-0006.
+- CTR-0001: argumentos, identidade, correlação, envelope de resultado/erro e referências de mídia `{name, path}` foram definidos. Lifecycle e recovery das transmissões foram fechados por CTR-0007; tipo e limites permanecem em CTR-0006.
 - ADR-0011: arquitetura de processadores registrados e eventos `loading | content | finally` está `refined`.
-- ADR-0012: `/tmp/sabia/media/<request_id>/`, múltiplos `content`, streaming, remoção após confirmação e limpeza integral em startup/shutdown foram definidos. Mídia temporária não possui recovery entre execuções.
+- ADR-0012 + CTR-0007: `/tmp/sabia/media/<request_id>/`, múltiplos `content`, streaming, persistência de transmissões, recovery após restart do serviço, remoção após confirmação e coleta segura de órfãos com carência de 1 minuto estão definidos.
 
 ## Condição para liberar o MVP
 
