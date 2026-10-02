@@ -2,7 +2,7 @@
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0012-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
-![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2-6e7781?style=flat-square)
 
 ## Contexto
 
@@ -55,6 +55,23 @@ O Sabiá é responsável por abrir o arquivo referenciado e fazer streaming ao a
 
 `finally` permanece como marcador de encerramento semântico da requisição e pode conter apenas a mensagem final.
 
+### Lifecycle da área temporária
+
+Um arquivo anunciado por `content` permanece disponível enquanto sua entrega estiver em andamento ou puder ser repetida no processo atual.
+
+O arquivo só pode ser removido após as duas condições ocorrerem:
+
+1. o streaming transmitiu o último byte do arquivo ao Telegram;
+2. o Telegram confirmou com sucesso o recebimento da mensagem/arquivo.
+
+Após a confirmação, o Sabiá remove imediatamente o arquivo correspondente.
+
+Ao iniciar, o Sabiá limpa integralmente `/tmp/sabia/media` antes de aceitar novas requisições.
+
+Ao encerrar, o Sabiá limpa integralmente `/tmp/sabia/media` antes de finalizar o processo.
+
+Consequentemente, arquivos temporários não são mecanismo de recovery entre execuções do Sabiá. Uma entrega de mídia ainda não confirmada no momento de shutdown/restart deixa de ser recuperável a partir dessa referência temporária.
+
 ## Justificativa
 
 A referência por caminho reduz a complexidade do protocolo, evita transportar vídeos/imagens como payload de controle e permite que o Sabiá faça streaming diretamente do filesystem.
@@ -66,7 +83,9 @@ O isolamento por `request_id` reduz colisões de nomes e facilita validação e 
 - processadores precisam conhecer o diretório temporário da própria requisição;
 - o Sabiá precisa validar que `content.path` pertence à área da requisição;
 - arquivos podem ser entregues individualmente antes do `finally`;
-- o lifecycle e a política de limpeza dos arquivos temporários precisam ser especificados;
+- arquivos são removidos imediatamente após transmissão completa e confirmação do Telegram;
+- startup e shutdown limpam toda a raiz temporária;
+- mídia temporária não sobrevive como mecanismo de recovery entre execuções;
 - o tipo de mídia ainda precisa ser determinado de forma normativa antes do envio ao Telegram.
 
 ## Dependências
@@ -81,4 +100,6 @@ O isolamento por `request_id` reduz colisões de nomes e facilita validação e 
 - cada arquivo é anunciado por um evento `content`;
 - o binário não é carregado no protocolo de controle;
 - o Sabiá consegue transmitir o arquivo por streaming;
-- caminhos fora do diretório da requisição não são aceitos.
+- caminhos fora do diretório da requisição não são aceitos;
+- arquivo confirmado pelo Telegram é removido imediatamente;
+- startup e shutdown deixam `/tmp/sabia/media` vazia.
