@@ -183,6 +183,8 @@ A persistência de `remote_message_id` e a mudança para `delivered` devem ocorr
 
 `outbound_message.content` é `text` normativo no MVP e contém a apresentação textual já produzida pelo adaptador. Arquivos usam `media_transmission` e não são serializados nesta coluna.
 
+**BLOCKED:** o Scheduler pode produzir alertas sem uma `request` de origem documentada, enquanto `outbound_message.request_id` é obrigatório. A correlação dessas notificações precisa ser decidida antes de fechar o modelo.
+
 ### `alert_state`
 
 Mantém o estado necessário para o Scheduler/Alert Manager sobreviver a reinícios.
