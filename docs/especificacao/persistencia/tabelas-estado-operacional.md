@@ -24,6 +24,7 @@ Este documento é uma **proposta para revisão**. Nomes de tabelas, tipos físic
 - [CTR-0010 — Origem e conversão dos dados persistentes](../contratos/origem-dados-persistencia.md)
 - [FLW-0009 — Registro do estado operacional](../fluxos/registro-estado-operacional.md)
 - [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
+- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
 
 ## Escopo
 
@@ -165,7 +166,7 @@ Representa respostas textuais persistidas até confirmação de entrega.
 | `transport` | `text` | sim | transporte |
 | `destination_id` | `text` | sim | destino |
 | `content` | `text` | sim | conteúdo textual a entregar |
-| `status` | `text` | sim | `pending/delivered/failed` |
+| `status` | `text` | sim | `pending/sending/delivered/failed` |
 | `remote_message_id` | `text` | não | confirmação do transporte |
 | `available_at` | `timestamptz` | não | próxima tentativa após `retry_after`, quando aplicável |
 | `last_error_code` | `text` | não | último erro controlado |
@@ -173,7 +174,7 @@ Representa respostas textuais persistidas até confirmação de entrega.
 | `created_at` | `timestamptz` | sim | criação |
 | `updated_at` | `timestamptz` | sim | última alteração |
 
-A persistência de `remote_message_id` e a mudança para `delivered` devem ocorrer de forma atômica.
+A persistência de `remote_message_id` e a mudança para `delivered` devem ocorrer de forma atômica. O estado `sending` representa o claim persistente da mensagem e segue PST-0003.
 
 ### `alert_state`
 
