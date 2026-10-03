@@ -1,7 +1,7 @@
 # Entidade `outbound_message`
 
 **ID:** PST-0106  
-**Status:** refined
+**Status:** refinement
 
 ## Objetivo
 
@@ -64,3 +64,12 @@ O envelope CTR-0001 não é persistido nesta coluna:
 - resultado `file` não usa `outbound_message`; a entrega de arquivo pertence a `media_transmission`.
 
 Recovery reenvia o texto já materializado em `content`; não precisa reconstruir o envelope original do Core.
+
+
+## BLOCKED
+
+### Alertas agendados
+
+`request_id` é obrigatório neste modelo, porém FLW-0003 pode gerar notificações do Scheduler sem uma `request` de origem documentada.
+
+Antes de refinar esta entidade é necessário decidir como mensagens de alerta são correlacionadas e persistidas. Não deve ser criada `request` sintética, tornar `request_id` nulo ou adicionar outra chave de correlação sem decisão explícita.
