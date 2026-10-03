@@ -13,6 +13,7 @@ Definir como componentes consultam o PostgreSQL e convertem registros persistido
 - [PST-0100 — Entidades persistentes](../persistencia/entidades/README.md)
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0007 — Transmissão de mídia](../contratos/transmissao-midia.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
 
 ## Princípio
 
@@ -58,7 +59,7 @@ Filtro: `job.status = queued`.
 
 Saída: campos necessários a CTR-0003 e à operação registrada.
 
-O mecanismo concreto de locking/claim concorrente ainda precisa ser refinado.
+O consumo ocorre exclusivamente pelo claim atômico de PST-0003. A rotina seleciona `queued` com `FOR UPDATE SKIP LOCKED`, muda o job para `running`, registra o histórico correspondente e faz commit antes de devolver o item ao worker.
 
 ### Recuperar respostas pendentes
 
@@ -69,6 +70,8 @@ Filtro lógico:
 
 Saída: cliente, transporte, destino e conteúdo.
 
+A mensagem deve ser reclamada conforme PST-0003, realizando `pending → sending` na mesma transação do claim antes de qualquer chamada ao transporte.
+
 ### Recuperar transmissão de mídia
 
 Filtro: `pending` ou `transmitting` elegível.
@@ -78,6 +81,8 @@ Carregar:
 - `media_transmission`;
 - `media`;
 - se `storage_mode = chunked`, stream de `media_chunk` em ordem.
+
+Para uma nova tentativa elegível em `pending`, o claim realiza `pending → transmitting` conforme PST-0003 antes do streaming.
 
 ### Recuperar estado de alerta
 
@@ -108,12 +113,10 @@ Saída: `last_update_id`; o adaptador calcula o próximo offset.
 
 ## Concorrência
 
-O PostgreSQL foi escolhido para permitir consumidores concorrentes, mas o mecanismo concreto para claim de jobs e filas ainda não está especificado.
+O claim concorrente é definido por PST-0003. Jobs, mensagens de saída e transmissões de mídia são reservados no PostgreSQL com transação curta, `FOR UPDATE SKIP LOCKED` e mudança de estado antes do commit. O processamento externo ocorre somente depois do commit.
 
 ## BLOCKED
 
-- estratégia de locking/claim concorrente de jobs;
-- estratégia de locking/claim de mensagens/transmissões quando houver múltiplos workers;
 - projeção persistente final de `outbound_message.content`;
 - comportamento quando dados persistidos violarem um domínio esperado após migração ou inconsistência.
 
@@ -123,4 +126,5 @@ O PostgreSQL foi escolhido para permitir consumidores concorrentes, mas o mecani
 - socket recupera destino somente a partir da request persistida;
 - recovery usa o mesmo estado persistido usado em operação normal;
 - mídia chunked é consumida em sequência sem montagem integral obrigatória;
-- toda alteração decorrente do consumo retorna ao fluxo FLW-0009.
+- toda alteração decorrente do consumo retorna ao fluxo FLW-0009;
+- consumidores concorrentes não recebem o mesmo item elegível pelo mesmo estado de fila.
