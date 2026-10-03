@@ -13,6 +13,7 @@ Processar um comando recebido por um cliente Telegram até sua resposta, preserv
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 - [MOD-0001 — Core e Command Router](../modulos/core-command-router.md)
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 
 ## Gatilho
@@ -79,22 +80,23 @@ Update recebido por long polling em cliente habilitado.
 
 ### Falha temporária ou ambígua de envio
 
-1. timeout, desconexão ou erro temporário sem confirmação mantém a entrega `pending`;
+1. timeout, desconexão ou erro temporário sem confirmação retorna a entrega de `sending` para `pending`;
 2. a aplicação registra a tentativa;
 3. a entrega pode ser reenviada;
 4. eventual duplicidade de mensagem é aceita para preservar semântica `at-least-once`.
 
 ### Falha permanente de envio
 
-1. a entrega é marcada como `failed`;
+1. a entrega em `sending` é marcada como `failed`;
 2. código e descrição do erro são preservados;
 3. não há retry automático dessa entrega sem nova ação explicitamente definida.
 
 ### Restart com resposta pendente
 
-1. respostas `pending` retornam à etapa de envio;
-2. respostas `delivered` não são reenviadas;
-3. respostas `failed` permanecem encerradas.
+1. respostas `sending` são reconciliadas para `pending` antes da retomada dos entregadores;
+2. respostas `pending` retornam à etapa de claim/envio;
+3. respostas `delivered` não são reenviadas;
+4. respostas `failed` permanecem encerradas.
 
 ### Usuário ou chat não autorizado
 
