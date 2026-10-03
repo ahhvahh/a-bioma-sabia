@@ -1,7 +1,7 @@
 # Auditoria e logs
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0004-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
 ## Objetivo
 
