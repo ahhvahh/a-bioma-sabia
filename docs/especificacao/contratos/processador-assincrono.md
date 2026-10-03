@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Definir o protocolo de controle entre o Sabiá e processadores assíncronos registrados, independentemente de o processador ser script Bash, aplicação/executável ou serviço acessível por socket.
+Definir o protocolo de controle entre o Sabiá e scripts Bash registrados que atuam como processadores assíncronos no primeiro MVP.
 
 Conteúdo binário não trafega neste contrato; mídia usa CTR-0008.
 
@@ -28,49 +28,41 @@ O canal de controle usa **JSON Lines (JSONL/NDJSON)** em UTF-8.
 
 Cada mensagem lógica é serializada como um único objeto JSON em uma única linha, terminada por `\n`. O delimitador de mensagem é a quebra de linha; não há prefixo binário de tamanho.
 
-O mesmo framing é usado para:
+No primeiro MVP, o protocolo é específico para scripts Bash:
 
-- stdin/stdout de scripts e aplicações executáveis;
-- streams de serviços acessíveis por socket.
+- o `stdin` recebe somente o `request_id` UUID v4 como uma linha UTF-8 terminada em `\n`;
+- argumentos da operação são fornecidos ao processo via argumentos de linha de comando conforme CTR-0002;
+- o `stdout` é reservado exclusivamente aos eventos deste contrato em JSON Lines;
+- o `stderr` é reservado para diagnóstico/log operacional e não participa do protocolo;
+- aplicações dedicadas e serviços por socket ficam fora do MVP.
 
 O payload de controle não usa MessagePack nem Protobuf.
 
-Exemplo de entrada:
+Exemplo de entrada no `stdin`:
 
-```json
-{"request_id":"req-123","command":"convert","arguments":["a","b"]}
+```text
+550e8400-e29b-41d4-a716-446655440000
 ```
 
-Exemplos de saída:
+Exemplos de saída no `stdout`:
 
 ```json
 {"request_id":"req-123","status":"loading","message":"50%"}
 {"request_id":"req-123","status":"finally","message":"Concluído"}
 ```
 
-Para scripts/aplicações:
-
-- o Sabiá envia a requisição pelo `stdin` como uma linha JSON;
-- o processador publica eventos CTR-0005 no `stdout`, uma linha JSON por evento;
-- `stderr` fica reservado para diagnóstico/log operacional e não participa do protocolo.
-
-Para serviços/socket:
-
-- requisição e eventos usam o mesmo envelope JSON e o mesmo delimitador `\n`;
-- uma conexão pode transportar uma sequência de mensagens, sempre uma por linha;
-- objeto JSON inválido ou linha que não corresponde ao contrato é erro de transporte/protocolo.
+Cada linha emitida em `stdout` deve conter exatamente um objeto JSON completo. Texto não JSON em `stdout` viola o protocolo.
 
 ## Entrada do Sabiá para o processador
 
-Toda execução assíncrona recebe, no mínimo:
+Toda execução assíncrona recebe:
 
-- `request_id: string` — UUID v4 canônico gerado pelo Sabiá;
-- `command: string`;
-- `arguments: string[]`.
+- no `stdin`: `request_id` UUID v4 canônico gerado pelo Sabiá, em uma única linha;
+- em `argv`: os argumentos já validados pela operação, conforme CTR-0002.
 
-Quando existirem anexos de entrada, o processador recebe referências por `media_id` conforme CTR-0006/CTR-0001.
+O script não gera nem substitui o `request_id`.
 
-O processador não gera nem substitui o `request_id`.
+Quando uma operação precisar consumir mídia de entrada, a referência persistente continua sendo `media_id` conforme CTR-0006/CTR-0001; a forma concreta de passar argumentos da operação continua pertencendo ao contrato da própria operação.
 
 ## Eventos do processador para o Sabiá
 
@@ -100,7 +92,7 @@ Depois de um `finally` válido, novos eventos de controle não alteram o resulta
 
 ## Mídia produzida
 
-Qualquer script, aplicação ou serviço que possua o `request_id` e autorização local para o socket de mídia pode publicar um ou vários arquivos por CTR-0008.
+Qualquer script Bash registrado que possua o `request_id` e autorização local para o socket de mídia pode publicar um ou vários arquivos por CTR-0008.
 
 Mídia e eventos de controle são canais distintos:
 
@@ -157,7 +149,7 @@ Erros de mídia pertencem a CTR-0008/CTR-0007.
 
 ## Compatibilidade
 
-Scripts, aplicações e serviços usam o mesmo formato lógico e framing JSON Lines. O Processor Transport adapta apenas o mecanismo concreto de transporte, preservando o mesmo contrato.
+O MVP suporta somente scripts Bash. A inclusão futura de aplicações dedicadas ou serviços por socket exigirá extensão explícita deste contrato, sem alterar implicitamente o protocolo dos scripts existentes.
 
 Mídia sempre usa a fronteira específica de CTR-0008.
 
@@ -169,7 +161,10 @@ Mídia sempre usa a fronteira específica de CTR-0008.
 - `finally` encerra semanticamente o processamento;
 - mídia não trafega no protocolo de controle;
 - vários arquivos podem ser associados ao mesmo `request_id` via CTR-0008;
-- scripts/aplicações e serviços/socket usam JSON Lines UTF-8, com um objeto por linha;
+- o script recebe somente `request_id` pelo stdin, em uma linha UTF-8;
+- argumentos da operação chegam via argv;
+- stdout contém somente JSON Lines UTF-8, um objeto por linha;
+- serviços por socket e aplicações dedicadas não fazem parte do MVP;
 - toda execução respeita timeout absoluto de 2 horas no MVP;
 - `loading` não renova o timeout;
 - ausência de `finally` até o limite resulta em `processor_timeout` e job `timeout`.
