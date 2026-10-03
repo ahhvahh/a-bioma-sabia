@@ -31,7 +31,11 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Estado atual: decisões arquiteturais `refined`; especificações ainda em `refinement` onde indicado.
 - Decisões já fechadas:
   - canal de controle do processador usa `loading | finally`;
-  - canal de controle usa JSON Lines UTF-8, um objeto por linha, em stdin/stdout e serviços/socket;
+  - no MVP, processadores assíncronos são somente scripts Bash previamente cadastrados;
+  - cada processador referencia um `script_id` existente no Script Registry;
+  - o Sabiá escreve `request_id` UUID v4 no stdin como uma linha; argumentos da operação seguem via argv;
+  - stdout é reservado a JSON Lines UTF-8 com eventos `loading | finally`; stderr permanece diagnóstico;
+  - aplicações dedicadas e serviços por socket ficam fora do MVP e serão tratados como evolução futura;
   - `content_type` é metadado declarado: `null` é válido, vazio vira `null`, valor informado precisa ser media type válido e é normalizado para minúsculas; não há inferência por extensão ou inspeção dos bytes;
   - no Telegram, `image/*` usa envio de imagem, `video/*` usa vídeo e demais tipos/`null` usam documento/arquivo genérico;
   - processadores usam timeout absoluto de 2 horas no MVP; `loading` não renova o prazo; ausência de `finally` até o limite encerra o job em `timeout`;
@@ -70,7 +74,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - acesso local aos sockets usa owner `sabia`, group `abioma` e mode `0660`; membros de `abioma` podem usar as interfaces locais e o link configurado da aplicação, sem acesso direto implícito ao PostgreSQL ou aos diretórios internos.
 - Informação ausente:
   - caminhos finais dos sockets simples e fracionado;
-  - schema final da configuração `processors`.
 - Dependências afetadas:
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
   - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
@@ -201,7 +204,7 @@ Não são mais pendências arquiteturais:
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas, retry de leitura por `getUpdates` e seleção de apresentação de mídia por `content_type` estão definidos. O módulo e o fluxo permanecem em `refinement` por outras dependências ainda abertas.
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md): `refined`; argumentos, identidade, correlação, envelope de resultado/erro e regra normativa de `content_type` estão definidos.
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md): `refined`; `content_type` é opcional, normalizado e não é inferido pelo nome ou pelos bytes; Telegram usa o tipo apenas para escolher a apresentação da mídia.
-- ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
+- ADR-0011/CTR-0005: no MVP, processadores assíncronos são scripts Bash registrados; recebem `request_id` por stdin, argumentos via argv e devolvem `loading | finally` como JSON Lines em stdout; mídia permanece separada no CTR-0008.
 - ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o canal fracionado aceita arquivos de até 100 MB, sendo obrigatório acima de 20 MB. O segundo socket abre um `media_id` persistente, recebe chunks de até 5 MB com sequência estrita e determina completude por `total_bytes`. CTR-0007 voltou a `refined`; FLW-0008 define limpeza segura somente com fila de transmissão ociosa.
 
 ## Condição para liberar o MVP
