@@ -76,6 +76,14 @@ Retornar a resposta de `sending` para `pending` e tornar a próxima tentativa el
 
 Marcar a entrega em `sending` como `failed`, preservando código e descrição do erro. O estado final do processamento do job permanece separado do estado de entrega.
 
+### Timeout do processador
+
+Processadores CTR-0005 possuem timeout absoluto de 2 horas no MVP. Eventos `loading` não reiniciam o contador.
+
+Se não houver `finally` válido até o limite, o worker solicita encerramento do transporte e o job realiza `running → timeout` com motivo `processor_timeout`.
+
+Se o processo/transporte encerrar antes do prazo sem `finally`, o job termina em `failed` por falha de transporte.
+
 ### Cancelamento
 
 Aplicar as regras de CTR-0003 conforme o estado atual.
@@ -105,7 +113,7 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 - falha ambígua permite retry após restart;
 - mídia `pending` ou `transmitting` é retomada após restart quando o `media_id` existe;
 - erro permanente encerra a entrega em `failed` sem alterar o resultado de processamento do job;
-- permanece `refinement` enquanto CTR-0005 estiver incompleto para framing e mídia.
+- CTR-0005 define JSON Lines, separação de mídia e timeout absoluto de 2 horas; este fluxo permanece `refinement` enquanto suas demais dependências ainda estiverem em refinamento.
 
 ## Implementação relacionada
 
