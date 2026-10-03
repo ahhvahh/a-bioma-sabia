@@ -153,11 +153,11 @@ Quando a tarefa associada termina, a correlação passa a ser elegível para o p
 
 ### `request → job`
 
-**Cardinalidade proposta:** `1 : 0..N`.
+**Cardinalidade normativa:** `1 : 0..N`.
 
-Os contratos atuais não afirmam que uma requisição só pode criar um único job. Portanto a proposta não adiciona unicidade em `job.request_id`.
+Uma requisição pode criar zero ou vários jobs. Não existe restrição de unicidade em `job.request_id`.
 
-FK proposta:
+FK:
 
 `job.request_id → request.request_id`.
 
