@@ -1,7 +1,7 @@
 # Processadores assíncronos e transporte
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0007-1f883d?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
