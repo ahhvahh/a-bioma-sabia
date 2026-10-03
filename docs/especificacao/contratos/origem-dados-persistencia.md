@@ -21,28 +21,37 @@ Este contrato é o de-para entre **dado de origem** e **campo persistido**. O de
 
 ### Telegram
 
-Dados já documentados:
+Para comandos recebidos em `Update.message`, o de-para bruto já documentado em [Telegram discovery](../../../telegram-discovery.md) é:
 
-- `update_id`;
-- Telegram User ID;
-- Chat ID;
-- `message_id`;
-- comando e argumentos extraídos pelo adaptador;
-- mídia/anexos normalizados pelo adaptador;
-- `retry_after` quando fornecido;
-- `message_id` retornado no sucesso de envio.
+| Telegram Bot API | Campo normalizado/persistido |
+|---|---|
+| `Update.update_id` | `inbound_update.transport_update_id` |
+| `Update.message.from.id` | `request.principal_id` |
+| `Update.message.chat.id` | `request.destination_id` |
+| `Update.message.message_id` | `request.source_message_id` |
+| `Update.message.text` | fonte para comando e argumentos |
+| `Update.message.entities[]` com `type = bot_command` | identificação do comando dentro do texto |
 
-Conversões normativas existentes:
+Conversões normativas:
 
 - User ID → `principal_id: text`;
 - Chat ID → `destination_id: text`;
 - `update_id` → `transport_update_id: bigint`;
+- `message_id` → `source_message_id: text`;
 - cliente configurado → `client_id: text`;
 - transporte Telegram → `transport = "telegram"`;
-- argumentos tokenizados → `text[]`;
-- resposta remota `message_id` → `remote_message_id: text`.
+- argumentos tokenizados a partir de `message.text` → `text[]`;
+- resposta remota `Message.message_id` → `remote_message_id: text`.
 
-**BLOCKED:** os caminhos brutos exatos dentro do objeto Telegram ainda não estão documentados no projeto e não são definidos por este contrato por inferência.
+Para mídia recebida, a descoberta existente confirma:
+
+- `Update.message.photo[][].file_id` conceitualmente como `Update.message.photo[].file_id`;
+- `Update.message.video.file_id`;
+- `Update.message.document.file_id`;
+- `getFile(file_id) → File.file_path`;
+- download do conteúdo pelo endpoint de arquivo usando `file_path`.
+
+A seleção normativa entre tamanhos de foto e o de-para final de nome/`content_type` para cada tipo de mídia ainda não estão fechados.
 
 ### Unix socket — mídia integral CTR-0008
 
@@ -150,7 +159,8 @@ O resultado da conversão é um conjunto de valores normalizados apto a ser entr
 
 ## BLOCKED
 
-- caminhos exatos dos campos brutos Telegram;
+- seleção normativa do item de `Update.message.photo[]` quando houver múltiplos tamanhos;
+- de-para final de nome e `content_type` para mídia recebida do Telegram.
 
 ## Critérios de aceite
 
