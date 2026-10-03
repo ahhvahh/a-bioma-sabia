@@ -30,7 +30,7 @@ Produtor local conecta ao socket de mídia e envia um objeto MessagePack.
 
 1. aceitar conexão Unix local;
 2. decodificar um objeto MessagePack;
-3. validar `version`, `request_id`, `name`, `content_type` e `data`;
+3. validar `version`, `request_id`, `name` e `data`, e normalizar/validar `content_type` conforme CTR-0006;
 4. rejeitar `data` maior que `20000000` bytes com `media_too_large`;
 5. consultar o estado operacional e localizar a requisição e sua correlação de resposta pelo `request_id`;
 6. iniciar transação PostgreSQL;
@@ -50,6 +50,10 @@ Responder `unknown_request` e não persistir conteúdo.
 ### Payload inválido
 
 Responder `invalid_message`.
+
+### Content type inválido
+
+Se `content_type` não for `null` e não possuir sintaxe válida de media type, responder `invalid_content_type` e não persistir conteúdo. Valor vazio ou somente com espaços é normalizado para `null`.
 
 ### Falha de persistência
 
@@ -77,7 +81,8 @@ Mídia e transmissão existem de forma persistente e podem sobreviver a restart 
 - vários uploads podem usar o mesmo `request_id`, inclusive com mesmo nome ou conteúdo;
 - falha de conexão não corrompe registro parcialmente persistido;
 - retry do produtor após perda do ACK pode criar nova mídia e isso é comportamento aceito no MVP;
-- payload acima de 20 MB é recusado antes de qualquer persistência e direcionado conceitualmente ao contrato fracionado.
+- payload acima de 20 MB é recusado antes de qualquer persistência e direcionado conceitualmente ao contrato fracionado;
+- `content_type` inválido é recusado, vazio vira `null` e valor válido é persistido em minúsculas sem inferência por nome ou bytes.
 
 ## Implementação relacionada
 
