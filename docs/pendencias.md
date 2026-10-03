@@ -72,7 +72,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - ownership, grupo e modo de acesso dos sockets;
   - schema final da configuração `processors`.
 - Dependências afetadas:
-  - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
   - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md)
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -199,7 +198,7 @@ Não são mais pendências arquiteturais:
 - [PST-0003 — Claim concorrente de filas persistentes](especificacao/persistencia/claim-concorrente-filas.md): jobs, mensagens e transmissões usam claim atômico no PostgreSQL com `FOR UPDATE SKIP LOCKED`, transição de estado e commit antes do processamento externo; mensagens usam o estado intermediário `sending`.
 - `request.status`: definido como `received → processing → completed | failed`, representando apenas o processamento pelo Core; jobs e entregas mantêm estados independentes.
 - `request_id`: UUID v4 gerado pelo Sabiá, persistido como PostgreSQL `uuid` e propagado como string canônica em JSON/MessagePack; ao término da tarefa, a correlação torna-se elegível para limpeza, respeitando dependências ainda não terminais.
-- Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
+- Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas, retry de leitura por `getUpdates` e seleção de apresentação de mídia por `content_type` estão definidos. O módulo e o fluxo permanecem em `refinement` por outras dependências ainda abertas.
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md): `refined`; argumentos, identidade, correlação, envelope de resultado/erro e regra normativa de `content_type` estão definidos.
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md): `refined`; `content_type` é opcional, normalizado e não é inferido pelo nome ou pelos bytes; Telegram usa o tipo apenas para escolher a apresentação da mídia.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
