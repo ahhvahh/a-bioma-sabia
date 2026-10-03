@@ -117,7 +117,7 @@ O formato e framing do canal de controle são fixos pelo CTR-0005: JSON Lines UT
 A estrutura concreta por tipo de transporte ainda está `BLOCKED` e precisa definir, no mínimo:
 
 - como localizar/invocar o processador cadastrado;
-- timeout da requisição;
+- `timeout`: duração positiva obrigatória; no MVP, os registros iniciais usam `2h`;
 - parâmetros concretos necessários ao mecanismo de transporte, como caminho de executável ou socket.
 
 Nenhum endereço, caminho ou socket pode ser substituído por valor vindo do comando remoto.
@@ -190,6 +190,12 @@ Configuração ausente, inválida, campo obrigatório ausente, segredo referenci
 
 Para agendamentos, `interval` é obrigatório e deve ser uma duração positiva. `reminder_interval`, quando presente, também deve ser uma duração positiva. Configuração cron é inválida no MVP.
 
+Para processadores:
+
+- `timeout` é obrigatório e positivo;
+- o valor inicial adotado no MVP é `2h`;
+- o timeout é absoluto por execução e eventos `loading` não o renovam.
+
 Para scripts:
 
 - `path` deve ser absoluto;
@@ -236,7 +242,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
 - `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
-- CTR-0005 fixa JSON Lines como framing de controle; o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
+- CTR-0005 fixa JSON Lines e timeout absoluto inicial de `2h`; o schema restante de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
