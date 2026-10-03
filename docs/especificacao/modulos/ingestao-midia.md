@@ -27,6 +27,7 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 - rejeitar payload simples acima de `20000000` bytes;
 - rejeitar chunk acima de `5000000` bytes;
 - validar versão e `request_id`;
+- normalizar e validar `content_type` conforme CTR-0006, sem inferência por extensão ou inspeção dos bytes;
 - criar `media_id` a partir dos metadados antes de receber chunks;
 - persistir BLOB integral ou chunks ordenados e respectivos metadados;
 - controlar `next_sequence_id` por mídia fracionada;
@@ -76,7 +77,7 @@ PostgreSQL armazena metadados, BLOB integral ou chunks ordenados. A transmissão
 - restart mantém conteúdo confirmado;
 - payload integral acima de 20 MB é rejeitado com `media_too_large` e deve usar o canal fracionado;
 - chunk acima de 5 MB é rejeitado com `chunk_too_large`;
-- contrato permanece em `refinement` enquanto limite total do arquivo fracionado e caminho/permissões dos sockets estiverem abertos.
+- contrato permanece em `refinement` enquanto caminho/permissões dos sockets e demais dependências abertas não estiverem refinados.
 
 ## Implementação relacionada
 
