@@ -43,12 +43,12 @@ erDiagram
         text client_id
         text transport
         bigint transport_update_id
-        text request_id
+        uuid request_id
         timestamptz accepted_at
     }
 
     REQUEST {
-        text request_id PK
+        uuid request_id PK
         bigint inbound_update_id
         text client_id
         text principal_id
@@ -61,7 +61,7 @@ erDiagram
 
     JOB {
         bigint job_id PK
-        text request_id
+        uuid request_id
         text status
         text operation
     }
@@ -75,14 +75,14 @@ erDiagram
 
     OUTBOUND_MESSAGE {
         bigint outbound_message_id PK
-        text request_id
+        uuid request_id
         text status
         text remote_message_id
     }
 
     MEDIA {
         bigint media_id PK
-        text request_id
+        uuid request_id
         text storage_mode
         bigint total_bytes
         bigint received_bytes
@@ -98,7 +98,7 @@ erDiagram
     MEDIA_TRANSMISSION {
         bigint transmission_id PK
         bigint media_id
-        text request_id
+        uuid request_id
         text status
     }
 
@@ -146,6 +146,10 @@ Proposta:
 `request.status` usa `received → processing → completed | failed` e representa apenas o processamento pelo Core.
 
 O estado da request é independente do estado do job e das entregas. Uma request assíncrona pode estar `completed` enquanto seu job permanece `queued` ou `running`, e uma request concluída pode possuir mensagens ou mídias ainda pendentes de entrega.
+
+O `request_id` é UUID v4 persistido como PostgreSQL `uuid`.
+
+Quando a tarefa associada termina, a correlação passa a ser elegível para o processo de limpeza. A remoção efetiva deve respeitar as dependências: não remover request, job ou correlação enquanto existirem jobs não terminais, mensagens `pending/sending` ou transmissões `pending/transmitting` associadas.
 
 ### `request → job`
 
@@ -331,6 +335,8 @@ Nenhuma política abaixo é aprovada enquanto PST-0002 estiver em `refinement`.
 | request → media_transmission | `RESTRICT` | manter correlação |
 
 Não é proposta exclusão em cascata automática de dados operacionais históricos no MVP.
+
+A conclusão da tarefa apenas coloca a correlação no processo de limpeza. O processo deve validar que todas as dependências operacionais estão em estado terminal antes de qualquer purge. O prazo de retenção dos metadados concluídos continua pendente de definição.
 
 ## Pontos para revisão
 
