@@ -40,17 +40,18 @@ Objeto MessagePack:
 - `version: integer` — versão do contrato; MVP usa `1`;
 - `request_id: string` — UUID v4 da requisição, gerado pelo Sabiá e representado como string canônica;
 - `name: string` — nome lógico do arquivo;
-- `content_type: string | null` — tipo declarado, quando conhecido;
+- `content_type: string | null` — tipo declarado, quando conhecido; segue a normalização de CTR-0006;
 - `total_bytes: integer` — tamanho total esperado do arquivo lógico em bytes.
 
 O Sabiá:
 
 1. valida a mensagem;
 2. valida a existência de `request_id`;
-3. valida `0 < total_bytes <= 100000000`;
-4. cria o registro de mídia no banco com `received_bytes = 0` e `completed = false`;
-5. confirma a transação;
-6. devolve o identificador gerado pelo banco.
+3. normaliza e valida `content_type` conforme CTR-0006;
+4. valida `0 < total_bytes <= 100000000`;
+5. cria o registro de mídia no banco com `received_bytes = 0` e `completed = false`;
+6. confirma a transação;
+7. devolve o identificador gerado pelo banco.
 
 Resposta:
 
@@ -184,6 +185,7 @@ A ordem do arquivo lógico é dada pela sequência persistida para o `media_id`.
 - `unknown_request`;
 - `unknown_media`;
 - `invalid_message`;
+- `invalid_content_type`;
 - `media_too_large`;
 - `chunk_too_large`;
 - `sequence_gap`;
@@ -227,4 +229,5 @@ Antes de `refined`, ainda precisam ser definidos:
 - `completed` é definido automaticamente quando `received_bytes == total_bytes`;
 - chunk que ultrapassaria `total_bytes` é recusado;
 - conteúdo pode ser reconstruído em ordem sem manter o arquivo inteiro em memória;
-- arquivo lógico é entregue como um único arquivo ao transporte externo.
+- arquivo lógico é entregue como um único arquivo ao transporte externo;
+- `content_type` vazio vira `null`, valor válido é normalizado para minúsculas e valor inválido retorna `invalid_content_type`.
