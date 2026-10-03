@@ -179,6 +179,8 @@ Representa respostas textuais persistidas até confirmação de entrega.
 
 A persistência de `remote_message_id` e a mudança para `delivered` devem ocorrer de forma atômica. O estado `sending` representa o claim persistente da mensagem e segue PST-0003.
 
+`outbound_message.content` é `text` normativo no MVP e contém a apresentação textual já produzida pelo adaptador. Arquivos usam `media_transmission` e não são serializados nesta coluna.
+
 ### `alert_state`
 
 Mantém o estado necessário para o Scheduler/Alert Manager sobreviver a reinícios.
@@ -310,7 +312,6 @@ Antes de `PST-0001` atingir `refined`, revisar:
 
 - nomes físicos finais das tabelas;
 - tipos finais dos IDs numéricos;
-- se `outbound_message.content` é suficiente ou se precisa de envelope estruturado;
 - se `transport_cursor` deve permanecer genérico ou específico de Telegram;
 - mecanismo concreto de migração/versionamento;
 - modelo de `job_attempt` somente se retry automático entrar no MVP.
