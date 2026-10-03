@@ -68,7 +68,7 @@ A mídia já persistida continua disponível. CTR-0007 mantém a transmissão `p
 
 ### Processo termina sem finally
 
-Se processo, conexão ou transporte encerrar antes do timeout sem `finally`, o processamento termina em falha de transporte. O job realiza `running → failed` e registra motivo `missing_finally/transport_failure`. Não é necessário aguardar o restante das 2 horas.
+Se processo, conexão ou transporte encerrar antes do timeout sem `finally`, o processamento termina em falha de transporte. O job realiza `running → failed` e registra motivo `transport_failure`; a ausência de `finally` é preservada como detalhe diagnóstico. Não é necessário aguardar o restante das 2 horas.
 
 ### Timeout sem finally
 
