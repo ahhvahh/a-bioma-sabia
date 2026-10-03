@@ -15,7 +15,8 @@ Limitar quem pode acionar operações e quais privilégios o processo possui no 
 ## Restrições
 
 - processo não deve executar como root;
-- usuário Linux dedicado: `sabia`;
+- usuário Linux dedicado da aplicação: `sabia`;
+- grupo Linux autorizado para uso das interfaces locais: `abioma`;
 - cada cliente possui whitelist própria de Telegram User IDs;
 - chats também podem ser restringidos;
 - tokens, senhas e segredos não podem aparecer em logs;
@@ -33,7 +34,7 @@ Restringe identidade local e acesso remoto.
 
 ## Decisão
 
-Executar o serviço como usuário Linux `sabia` e autorizar comandos somente após validar as listas do cliente correspondente. Tokens vêm de variável de ambiente ou arquivo protegido, nunca de configuração versionada com valor real.
+Executar o serviço como usuário Linux `sabia` e autorizar comandos remotos somente após validar as listas do cliente correspondente. O usuário `sabia` mantém o acesso operacional necessário ao PostgreSQL e aos diretórios da aplicação. Interfaces locais destinadas a outras aplicações — sockets e o link local configurado para invocação — são acessíveis a identidades pertencentes ao grupo Linux `abioma`. Pertencer a `abioma` não concede acesso direto ao PostgreSQL nem aos diretórios internos. Tokens vêm de variável de ambiente ou arquivo protegido, nunca de configuração versionada com valor real.
 
 ## Justificativa
 
@@ -43,7 +44,9 @@ Limita impacto de comprometimento e aplica isolamento por cliente.
 
 - scripts que precisem privilégios extras exigirão mecanismo explícito fora deste ADR;
 - autorização ocorre antes do Command Router executar a operação;
-- auditoria registra identidade e resultado sem segredos.
+- auditoria registra identidade e resultado sem segredos;
+- sockets locais compartilhados com aplicações usam owner `sabia`, group `abioma` e mode `0660`;
+- usuários fora do grupo `abioma` não acessam essas interfaces locais.
 
 ## Dependências
 
@@ -54,4 +57,5 @@ Limita impacto de comprometimento e aplica isolamento por cliente.
 
 - usuário Telegram fora da whitelist não executa comando;
 - o processo principal não roda como root;
-- tokens reais não aparecem em YAML versionado nem em logs.
+- tokens reais não aparecem em YAML versionado nem em logs;
+- membros do grupo `abioma` conseguem usar as interfaces locais autorizadas sem receber acesso direto às credenciais, ao PostgreSQL ou aos diretórios internos da aplicação.
