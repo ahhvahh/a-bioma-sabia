@@ -22,7 +22,7 @@ Registrar cada update externo aceito para fornecer idempotência à entrada Tele
 | `transport` | `text` | não | adaptador | transporte normalizado | `telegram` |
 | `transport_update_id` | `bigint` | não | Telegram | `update_id` | inteiro → `bigint` |
 | `accepted_at` | `timestamptz` | não | Sabiá | instante do aceite persistente | instante absoluto |
-| `request_id` | `text` | sim | correlação interna | request criada posteriormente | **proposto para remoção** se a FK ficar somente em `request.inbound_update_id` |
+| `request_id` | `uuid` | sim | correlação interna | request criada posteriormente | **proposto para remoção** se a FK ficar somente em `request.inbound_update_id` |
 
 **UNIQUE proposta:** `(client_id, transport, transport_update_id)`.
 
