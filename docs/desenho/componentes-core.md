@@ -75,8 +75,8 @@ Logging/Audit <----------------- eventos operacionais
 - **Telegram Clients/Adapter:** long polling, tradução de updates e envio/edição de mensagens.
 - **Authorization:** valida usuário e, quando configurado, chat.
 - **Command Router:** resolve identificadores de comandos internos.
-- **Processor Registry:** associa identificadores permitidos às definições de processadores cadastrados, incluindo scripts, aplicações e serviços/socket.
-- **Processor Transport:** adapta cada mecanismo concreto de execução/comunicação ao protocolo interno de requisição, progresso e finalização; CTR-0002 continua sendo usado na execução local controlada.
+- **Processor Registry:** no MVP associa identificadores permitidos a scripts Bash cadastrados; aplicações dedicadas e serviços/socket são evolução futura conforme ADR-0011.
+- **Processor Transport:** no MVP adapta a execução do script Bash ao protocolo CTR-0005, com `request_id` em stdin e eventos JSON Lines em stdout.
 - **Job Manager/Queue/Workers:** executa operações demoradas fora do tratamento imediato do comando, preserva `request_id` e encaminha eventos de progresso/finalização.
 - **Media Ingest Socket:** recebe arquivos integrais de até 20 MB por Unix socket e MessagePack.
 - **Media Chunk Socket:** recebe arquivos maiores em chunks persistidos de até 5 MB.
@@ -97,4 +97,4 @@ O Command Router não conhece detalhes de Telegram, shell, socket, FFmpeg ou out
 - componentes de transporte, domínio operacional e execução não estão fundidos;
 - o Processor Transport separa protocolo interno de mecanismos concretos de execução/comunicação;
 - o canal de controle e o canal de mídia são separados;
-- detalhes ainda não refinados de identidade/completude da mídia fracionada e autorização concreta dos sockets não alteram este desenho estrutural.
+- os caminhos normativos dos sockets e demais parâmetros ainda em refinamento não alteram este desenho estrutural.
