@@ -50,6 +50,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Decisões já fechadas:
   - canal de controle do processador usa `loading | finally`;
   - canal de controle usa JSON Lines UTF-8, um objeto por linha, em stdin/stdout e serviços/socket;
+  - processadores usam timeout absoluto de 2 horas no MVP; `loading` não renova o prazo; ausência de `finally` até o limite encerra o job em `timeout`;
   - mídia não trafega no canal de controle;
   - mídia entra por Unix domain socket local;
   - envelope de mídia usa MessagePack;
