@@ -99,6 +99,9 @@ Quando o job for executado por processador conforme CTR-0005:
 - evento `finally` encerra semanticamente o processamento normal;
 - todo evento precisa usar o mesmo `request_id` do job;
 - término do processo sem `finally` não equivale automaticamente a `completed`.
+- CTR-0005 aplica timeout absoluto de 2 horas no MVP; `loading` não renova o prazo;
+- expiração sem `finally` realiza `running → timeout` com motivo `processor_timeout`;
+- encerramento antecipado do transporte sem `finally` realiza `running → failed` por falha de transporte.
 
 ## Mídia associada
 
@@ -148,4 +151,5 @@ A correlação de resposta deve permitir outros transportes futuramente sem torn
 - cancelamento respeita o estado atual;
 - resposta permanece pendente até ser entregue ao cliente/destino correto;
 - `loading` não conclui o job e `finally` é a finalização semântica normal para processadores CTR-0005;
-- mídia associada usa `media_id` e transmissão persistente separada do estado do job.
+- mídia associada usa `media_id` e transmissão persistente separada do estado do job;
+- processador que excede 2 horas sem `finally` termina em `timeout`.
