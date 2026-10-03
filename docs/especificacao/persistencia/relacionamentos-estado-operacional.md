@@ -237,6 +237,12 @@ A presença simultânea de `media_id` e `request_id` permite detectar inconsist�
 
 **Ponto para revisão:** decidir se essa consistência será garantida apenas pela aplicação ou por uma restrição adicional no banco.
 
+### `schedule → outbound_message`
+
+FLW-0003 produz notificações a partir de um `schedule_id`, mas o modelo atual exige `outbound_message.request_id → request.request_id`.
+
+Não existe hoje relação normativa entre um schedule e uma request. Portanto a persistência/correlação de mensagens produzidas pelo Scheduler permanece `BLOCKED` até decisão explícita.
+
 ### `schedule configuração → alert_state`
 
 **Cardinalidade conceitual:** `1 : 0..1`.
