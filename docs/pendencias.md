@@ -49,6 +49,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Estado atual: decisões arquiteturais `refined`; especificações ainda em `refinement` onde indicado.
 - Decisões já fechadas:
   - canal de controle do processador usa `loading | finally`;
+  - canal de controle usa JSON Lines UTF-8, um objeto por linha, em stdin/stdout e serviços/socket;
   - mídia não trafega no canal de controle;
   - mídia entra por Unix domain socket local;
   - envelope de mídia usa MessagePack;
@@ -82,7 +83,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - transmissões `pending | transmitting` são recuperáveis após restart;
   - nenhuma dependência de `/tmp` permanece no contrato de mídia.
 - Informação ausente:
-  - framing/protocolo concreto do canal de controle CTR-0005;
   - caminhos finais dos sockets simples e fracionado;
   - ownership, grupo e modo de acesso dos sockets;
   - regra para determinar/validar `content_type`;
