@@ -32,6 +32,10 @@ Registrar cada update externo aceito para fornecer idempotência à entrada Tele
 |---:|---|---|---:|---|---|
 | 1201 | `bioma` | `telegram` | 48291 | `2026-10-02T23:30:00Z` | `NULL` |
 
+## Origem Telegram
+
+`transport_update_id` é obtido de `Update.update_id`.
+
 ## Registro
 
 A tentativa de inserir uma combinação já existente representa update duplicado e não deve gerar nova execução.
