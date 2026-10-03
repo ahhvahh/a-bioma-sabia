@@ -36,7 +36,7 @@ Command Router identifica uma operação assíncrona válida.
 1. Job Manager cria e persiste o job preservando `request_id`, `client_id` e `reply_context` da requisição de origem;
 2. o job entra em `queued`;
 3. o cliente envia confirmação imediata ao destino de origem;
-4. um worker disponível muda o job para `running`;
+4. enquanto houver slot de execução dentro do limite de threads lógicas de CPU disponíveis ao processo, um worker realiza o claim do próximo job e muda `queued → running`;
 5. Worker delega a operação ao processador registrado quando aplicável;
 6. eventos `loading` válidos são correlacionados por `request_id` e encaminhados pelo cliente correto;
 7. mídias produzidas pelo processador são ingeridas por CTR-0008 e associadas ao mesmo `request_id` sem passar pelo canal de controle;
@@ -49,6 +49,10 @@ Command Router identifica uma operação assíncrona válida.
 14. somente depois dessa persistência o estado de entrega passa para `delivered`.
 
 ## Fluxos alternativos
+
+### Capacidade de execução ocupada
+
+Quando a quantidade de jobs `running` atinge a quantidade de threads lógicas de CPU disponíveis ao processo, novos jobs aceitos permanecem `queued` até que um slot seja liberado.
 
 ### Fila cheia
 
@@ -100,7 +104,7 @@ Job possui estado final persistido e sua resposta permanece rastreável até ati
 
 ## Critérios de aceite
 
-- fila e concorrência respeitam configuração;
+- fila respeita `jobs.max_pending` e concorrência não excede a quantidade de threads lógicas de CPU disponíveis ao processo;
 - queued sobrevive ao restart;
 - running interrompido não reinicia silenciosamente;
 - resposta é enviada pelo `client_id` correto para o `reply_context.destination_id` persistido;
