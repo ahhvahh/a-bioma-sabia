@@ -17,7 +17,7 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 | Campo | PostgreSQL | Nulo | Origem | Campo de origem | Conversão |
 |---|---|---:|---|---|---|
-| `request_id` | `text` | não | Adaptador/Sabiá | ID gerado na entrada | normalizar para string; formato ainda não definido |
+| `request_id` | `uuid` | não | Sabiá | UUID v4 gerado na entrada | validar UUID v4; serializar externamente como string canônica |
 | `inbound_update_id` | `bigint` | sim | PostgreSQL | PK de `inbound_update` | copiar FK quando a origem for update persistido |
 | `client_id` | `text` | não | configuração/adaptador | cliente lógico que recebeu | copiar |
 | `principal_id` | `text` | não | Telegram → adaptador | Telegram User ID | normalizar para string |
@@ -34,7 +34,19 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 | request_id | inbound_update_id | client_id | principal_id | transport | destination_id | source_message_id | command | arguments | status | received_at |
 |---|---:|---|---|---|---|---|---|---|---|---|
-| `req-example-001` | 1201 | `bioma` | `778899` | `telegram` | `-100123` | `451` | `status` | `[]` | `completed` | `2026-10-02T23:30:01Z` |
+| `550e8400-e29b-41d4-a716-446655440000` | 1201 | `bioma` | `778899` | `telegram` | `-100123` | `451` | `status` | `[]` | `completed` | `2026-10-02T23:30:01Z` |
+
+## Identidade da request
+
+O Sabiá gera `request_id` como **UUID v4** antes da primeira persistência da requisição.
+
+Regras:
+
+- a geração pertence ao Sabiá; adaptadores, processadores e produtores apenas propagam o valor;
+- o PostgreSQL persiste `request_id` usando o tipo nativo `uuid`;
+- contratos JSON e MessagePack representam o UUID como string canônica com hífens;
+- o mesmo UUID é reutilizado em jobs, mensagens, mídia e transmissões da mesma correlação;
+- colisão de chave não cria nova identidade e deve ser tratada como falha interna.
 
 ## Ciclo de vida de `request.status`
 
@@ -57,6 +69,16 @@ Da mesma forma, `request.status = completed` não significa que uma mensagem ou 
 
 Estados terminais de request são `completed` e `failed`.
 
+## Elegibilidade para limpeza
+
+O `request_id` existe para correlacionar o estado operacional enquanto a mensagem/tarefa está sendo administrada pelo Sabiá.
+
+Quando o processamento associado termina, a correlação entra no processo de limpeza. Isso significa tornar o conjunto elegível para limpeza; não autoriza remover dependências ainda necessárias.
+
+A remoção efetiva só pode ocorrer quando não existirem jobs em execução, mensagens pendentes de entrega ou transmissões de mídia pendentes/em andamento associadas ao `request_id`.
+
+O prazo de retenção dos metadados concluídos não é definido por esta entidade.
+
 ## Origem Telegram
 
 A documentação atual confirma conceitualmente `update_id`, User ID, Chat ID, `message_id`, comando e argumentos. O caminho bruto exato desses valores dentro do objeto Telegram ainda não está especificado em `/docs`.
@@ -72,5 +94,4 @@ A entidade é a fonte de correlação para:
 
 ## BLOCKED
 
-- definir formato/algoritmo de geração de `request_id`;
 - registrar em contrato os caminhos exatos dos campos do objeto Telegram usados pelo adaptador.
