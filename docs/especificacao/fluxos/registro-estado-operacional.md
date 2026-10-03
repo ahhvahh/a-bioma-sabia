@@ -49,7 +49,7 @@ Mudança de `job.status` e inserção em `job_state_history` pertencem à mesma 
 
 ### Resposta textual
 
-A resposta é criada em `pending` antes do envio. Confirmação remota e `delivered` são persistidas juntas.
+A resposta é criada em `pending` antes do envio. O claim de PST-0003 persiste `pending → sending` antes da chamada externa. Confirmação remota e `delivered` são persistidas juntas; falha temporária retorna a mensagem para `pending`.
 
 ### Mídia integral
 
