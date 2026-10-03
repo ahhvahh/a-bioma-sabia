@@ -66,10 +66,10 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - limpeza é elegível quando a fila fica ociosa ou após 1 hora desde a última limpeza, mas é adiada se houver transmissão ativa;
   - a limpeza remove BLOB/chunks entregues e preserva metadados de rastreabilidade;
   - transmissões `pending | transmitting` são recuperáveis após restart;
-  - nenhuma dependência de `/tmp` permanece no contrato de mídia.
+  - nenhuma dependência de `/tmp` permanece no contrato de mídia;
+  - acesso local aos sockets usa owner `sabia`, group `abioma` e mode `0660`; membros de `abioma` podem usar as interfaces locais e o link configurado da aplicação, sem acesso direto implícito ao PostgreSQL ou aos diretórios internos.
 - Informação ausente:
   - caminhos finais dos sockets simples e fracionado;
-  - ownership, grupo e modo de acesso dos sockets;
   - schema final da configuração `processors`.
 - Dependências afetadas:
   - [MOD-0004 — Jobs](especificacao/modulos/jobs.md)
