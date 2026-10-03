@@ -42,12 +42,13 @@ Atende ao requisito de reduzir ruído sem ocultar mudanças de saúde do sistema
 ## Consequências
 
 - o estado anterior precisa estar disponível ao avaliar uma checagem;
-- a persistência desse estado entre reinícios ainda não está decidida;
+- o estado entre reinícios é persistido no PostgreSQL conforme ADR-0009;
 - scripts de monitoramento devem produzir resultado interpretável.
 
 ## Dependências
 
 - [ADR-0004 — Registro explícito de scripts](../execucao/registro-explicito-de-scripts.md)
+- [ADR-0009 — Persistência do estado operacional](../persistencia/estado-operacional.md)
 
 ## Critérios de validação
 
