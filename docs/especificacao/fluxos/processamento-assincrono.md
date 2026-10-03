@@ -1,7 +1,7 @@
 # Processamento assíncrono por processador registrado
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0005-bf3989?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
@@ -60,7 +60,7 @@ Cada arquivo é um upload independente CTR-0008. Todos podem usar o mesmo `reque
 
 Se o upload não atingir commit, o produtor recebe erro e a mídia não é considerada aceita.
 
-Se o commit ocorreu mas o ACK não chegou ao produtor, uma repetição pode criar duplicidade; a idempotência desse retry permanece pendente.
+Se o commit ocorreu mas o ACK não chegou ao produtor, uma repetição pode criar outra mídia com `media_id` distinto; esse comportamento é aceito no MVP e não há deduplicação do upload.
 
 ### falha de entrega ao Telegram
 
