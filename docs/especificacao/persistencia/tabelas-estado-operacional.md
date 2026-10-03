@@ -200,7 +200,7 @@ Materializa a entidade de CTR-0006.
 | `media_id` | `bigint identity` | sim | PK |
 | `request_id` | `uuid` | sim | correlação |
 | `name` | `text` | sim | nome lógico |
-| `content_type` | `text` | não | regra de validação ainda BLOCKED |
+| `content_type` | `text` | não | `NULL` quando ausente; media type válido normalizado para minúsculas conforme CTR-0006 |
 | `size_bytes` | `bigint` | sim | bytes persistidos |
 | `total_bytes` | `bigint` | sim | tamanho esperado |
 | `received_bytes` | `bigint` | sim | bytes recebidos |
