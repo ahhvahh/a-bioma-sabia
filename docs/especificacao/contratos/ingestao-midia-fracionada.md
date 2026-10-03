@@ -26,6 +26,8 @@ Não existe listener TCP.
 
 O caminho é configuração obrigatória e absoluta.
 
+O socket pertence ao usuário `sabia`, ao grupo `abioma` e usa modo `0660`. Apenas o usuário da aplicação e processos cuja identidade efetiva pertença ao grupo `abioma` podem conectar.
+
 O mesmo socket aceita dois formatos de mensagem MessagePack:
 
 1. abertura da mídia;
@@ -202,7 +204,7 @@ Quando `received_bytes == total_bytes`, a mídia é marcada `completed` e CTR-00
 
 ## Segurança
 
-- socket acessível somente localmente;
+- socket acessível somente localmente, com owner `sabia`, group `abioma` e mode `0660`;
 - binários não aparecem em logs;
 - conhecer `request_id` ou `media_id` não substitui autorização do Unix socket;
 - `name` não representa caminho de filesystem;
@@ -210,9 +212,9 @@ Quando `received_bytes == total_bytes`, a mídia é marcada `completed` e CTR-00
 
 ## BLOCKED
 
-Antes de `refined`, ainda precisam ser definidos:
+Antes de `refined`, ainda precisa ser definido:
 
-- caminho, ownership, grupo e modo do socket.
+- caminho normativo do socket fracionado.
 
 ## Critérios de aceite
 
