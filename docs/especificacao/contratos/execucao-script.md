@@ -98,6 +98,7 @@ Quando um script cadastrado é usado como processador assíncrono de CTR-0005, a
 - o `request_id` UUID v4 é escrito no `stdin` como uma única linha terminada por `\n`;
 - os argumentos já validados continuam sendo fornecidos via argv;
 - o `stdout` é reservado ao protocolo JSON Lines de CTR-0005 e não é interpretado como texto livre de resultado;
+- o stdout assíncrono é consumido incrementalmente linha a linha e não é acumulado como o campo `stdout` do resultado convencional;
 - cada linha de `stdout` deve ser um objeto JSON válido de evento `loading | finally`;
 - `stderr` permanece separado e destinado a diagnóstico;
 - no MVP, scripts usados como processadores assíncronos possuem timeout cadastrado de `2h`;
@@ -139,6 +140,10 @@ O resultado conceitual contém:
 `exit_code` pode ser nulo quando o processo não chegou a iniciar ou quando não houver código de saída representável pela execução encerrada.
 
 ## Limite de stdout e stderr
+
+Para execução convencional, permanecem os limites de captura definidos abaixo.
+
+Quando o script atua como processador assíncrono CTR-0005, o `stdout` é um stream de protocolo consumido incrementalmente e **não** é acumulado como saída textual capturada. O limite de 1 MiB de stdout não se aplica ao stream CTR-0005. O `stderr` continua sujeito ao limite de diagnóstico deste contrato.
 
 No MVP, cada execução pode reter no máximo:
 
