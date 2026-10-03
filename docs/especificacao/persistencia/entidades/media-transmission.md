@@ -20,7 +20,7 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 |---|---|---:|---|---|---|
 | `transmission_id` | `bigint identity` | não | PostgreSQL | gerado | identity |
 | `media_id` | `bigint` | não | `media` | `media_id` | copiar |
-| `request_id` | `text` | não | `media/request` | `request_id` | copiar e validar correlação |
+| `request_id` | `uuid` | não | `media/request` | `request_id` | copiar e validar UUID v4/correlação |
 | `client_id` | `text` | não | `request` | `client_id` | copiar |
 | `transport` | `text` | não | `request` | `transport` | copiar |
 | `destination_id` | `text` | não | `request` | `destination_id` | copiar |
@@ -35,7 +35,7 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 
 | transmission_id | media_id | request_id | client_id | transport | destination_id | status | streamed_bytes | remote_message_id |
 |---:|---:|---|---|---|---|---|---:|---|
-| 701 | 501 | `req-example-001` | `bioma` | `telegram` | `-100123` | `delivered` | 145200 | `453` |
+| 701 | 501 | `550e8400-e29b-41d4-a716-446655440000` | `bioma` | `telegram` | `-100123` | `delivered` | 145200 | `453` |
 
 ## Registro
 
