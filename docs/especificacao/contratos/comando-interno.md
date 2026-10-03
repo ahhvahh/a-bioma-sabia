@@ -36,7 +36,7 @@ O comando interno usa o seguinte schema mínimo:
 
 ### Identidade e correlação
 
-`request_id` é gerado na entrada e permanece estável durante roteamento, criação de job, persistência, auditoria e entrega da resposta.
+`request_id` é um UUID v4 gerado pelo Sabiá na entrada e permanece estável durante roteamento, criação de job, persistência, auditoria e entrega da resposta. Em JSON/MessagePack ele é transportado como string UUID canônica com hífens.
 
 `client_id` identifica qual cliente lógico recebeu a solicitação e deve ser usado para selecionar o adaptador/credencial correto na resposta.
 
@@ -166,7 +166,7 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - argumentos chegam ao Core como `string[]` já tokenizado;
 - adaptadores não precisam conhecer as regras semânticas específicas de cada operação;
 - operações validam seus próprios argumentos;
-- uma requisição possui `request_id` estável ponta a ponta;
+- uma requisição possui `request_id` UUID v4 estável ponta a ponta;
 - o Core não depende de Telegram User ID ou Chat ID como tipos nativos;
 - a resposta pode ser roteada por `client_id` + `reply_context`;
 - resultados usam `type: message | job | file | error`;
