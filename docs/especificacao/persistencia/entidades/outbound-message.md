@@ -46,6 +46,12 @@ Antes do envio, criar a linha em `pending`. O entregador deve obter a mensagem e
 
 Entregador busca mensagens `pending` elegíveis por `available_at` através de PST-0003. No restart, mensagens encontradas em `sending` retornam para `pending` antes da retomada dos entregadores.
 
+## Integridade referencial
+
+`outbound_message.request_id → request.request_id` usa `ON DELETE RESTRICT`.
+
+Mensagens elegíveis são removidas explicitamente pelo processo de limpeza antes da `request`; a referência nunca é convertida para `NULL`.
+
 ## BLOCKED
 
 Definir se `content: text` é suficiente para todos os resultados textuais ou se será necessário envelope estruturado persistente.
