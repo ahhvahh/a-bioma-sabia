@@ -94,7 +94,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Pontos ainda `BLOCKED`:
   - caminhos brutos exatos dos campos Telegram usados pelo adaptador;
   - direção física final da relação `inbound_update/request`;
-  - política final de FKs e `ON DELETE`;
   - consistência entre `media.request_id` e `media_transmission.request_id`;
   - formato persistente final de `outbound_message.content`;
   - momento normativo de atualização de `alert_state.last_notified_at`;
@@ -197,6 +196,7 @@ Não são mais pendências arquiteturais:
 - `request.status`: definido como `received → processing → completed | failed`, representando apenas o processamento pelo Core; jobs e entregas mantêm estados independentes.
 - `request_id`: UUID v4 gerado pelo Sabiá, persistido como PostgreSQL `uuid` e propagado como string canônica em JSON/MessagePack; ao término da tarefa, a correlação torna-se elegível para limpeza, respeitando dependências ainda não terminais.
 - Jobs: uma `request` pode criar `0..N` jobs; `job.request_id` não é `UNIQUE`; no MVP, jobs simultaneamente em `running` são limitados à quantidade de threads lógicas de CPU disponíveis ao processo no startup, enquanto `jobs.max_pending` limita apenas a fila `queued`.
+- Persistência: FKs operacionais usam `ON DELETE RESTRICT`; não existe `CASCADE` nem `SET NULL` no MVP; purge remove dependências explicitamente das folhas para a raiz e `request` é removida por último.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas, retry de leitura por `getUpdates` e seleção de apresentação de mídia por `content_type` estão definidos. O módulo e o fluxo permanecem em `refinement` por outras dependências ainda abertas.
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md): `refined`; argumentos, identidade, correlação, envelope de resultado/erro e regra normativa de `content_type` estão definidos.
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md): `refined`; `content_type` é opcional, normalizado e não é inferido pelo nome ou pelos bytes; Telegram usa o tipo apenas para escolher a apresentação da mídia.
