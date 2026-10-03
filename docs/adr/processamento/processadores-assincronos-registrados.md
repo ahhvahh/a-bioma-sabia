@@ -6,7 +6,7 @@
 
 ## Contexto
 
-O Sabiá precisa delegar trabalhos a scripts Bash, aplicações locais e serviços acessíveis por socket. Esses processadores podem emitir progresso, finalizar semanticamente uma requisição e produzir imagens, vídeos ou outros arquivos destinados ao cliente.
+O Sabiá precisa delegar trabalhos assíncronos a scripts Bash no primeiro MVP. Esses scripts podem emitir progresso, finalizar semanticamente uma requisição e produzir imagens, vídeos ou outros arquivos destinados ao cliente. Aplicações dedicadas e serviços por socket ficam como evolução futura.
 
 ## Problema
 
@@ -33,13 +33,16 @@ Mantém progresso/finalização separados do conteúdo binário. A mídia usa Un
 
 ## Decisão
 
-O Sabiá mantém uma abstração de **processador registrado** para:
+O Sabiá mantém a abstração de **processador registrado**, mas no primeiro MVP ela possui uma única implementação concreta: **script Bash previamente cadastrado**.
 
-- script Bash;
-- aplicação/executável;
-- serviço acessível por socket.
+Cada processador referencia um `script_id` do Script Registry. Aplicações dedicadas e serviços acessíveis por socket não fazem parte do MVP e exigirão extensão explícita da arquitetura quando forem introduzidos.
 
-O **Processor Transport** adapta o mecanismo concreto ao protocolo de controle CTR-0005. O framing do controle foi refinado em CTR-0005 como JSON Lines UTF-8, usado igualmente em stdin/stdout e streams por socket.
+O protocolo CTR-0005 usa:
+
+- `stdin` para entregar o `request_id` UUID v4 em uma única linha;
+- argumentos validados da operação via argv;
+- `stdout` para eventos JSON Lines;
+- `stderr` para diagnóstico.
 
 O canal de controle usa somente:
 
@@ -62,11 +65,12 @@ Separar controle e mídia mantém o protocolo assíncrono simples, permite teste
 
 ## Consequências
 
-- Processor Transport continua responsável por progresso e finalização;
+- a integração assíncrona reutiliza o Script Registry e o executor local;
+- o stdout do script deixa de ser saída livre quando ele atua como processador assíncrono e passa a ser o canal de eventos CTR-0005;
 - Media Ingest fica responsável pelo recebimento binário;
 - jobs preservam `request_id` entre os dois canais;
 - uma requisição pode possuir várias mídias persistidas;
-- o canal de controle usa framing JSON Lines conforme CTR-0005;
+- o canal de controle usa `request_id` no stdin e JSON Lines no stdout conforme CTR-0005;
 - limites e autorização concreta do socket de mídia permanecem na especificação.
 
 ## Dependências
@@ -79,7 +83,7 @@ Separar controle e mídia mantém o protocolo assíncrono simples, permite teste
 
 ## Critérios de validação
 
-- script, aplicação e serviço podem ser cadastrados sem entrada arbitrária do Telegram;
+- scripts Bash assíncronos são previamente cadastrados e não podem ser substituídos por entrada arbitrária do Telegram;
 - todo evento de controle preserva `request_id`;
 - `loading` não encerra o job;
 - `finally` encerra semanticamente a requisição;
