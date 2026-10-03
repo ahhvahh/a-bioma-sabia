@@ -112,11 +112,11 @@ Representa a requisição normalizada entregue ao Core.
 | `source_message_id` | `text` | não | mensagem de origem quando existir |
 | `command` | `text` | sim | comando lógico |
 | `arguments` | `text[]` | sim | argumentos tokenizados |
-| `status` | `text` | sim | domínio ainda precisa de aprovação |
+| `status` | `text` | sim | `received/processing/completed/failed` |
 | `received_at` | `timestamptz` | sim | instante definido por CTR-0001 |
 | `updated_at` | `timestamptz` | sim | última alteração |
 
-**BLOCKED:** ADR-0009 exige persistir o estado de processamento da requisição, mas os estados e transições de `request.status` ainda não estão definidos nos contratos atuais. Não fixar um `CHECK` antes dessa decisão.
+**Restrição proposta:** `CHECK` para `request.status IN ('received', 'processing', 'completed', 'failed')`. O estado representa apenas o processamento pelo Core; jobs e entregas possuem ciclos independentes.
 
 ### `job`
 
@@ -293,7 +293,6 @@ Antes de habilitar retry automático, deve ser refinado um modelo contendo, no m
 
 Antes de `PST-0001` atingir `refined`, revisar:
 
-- domínio e transições de `request.status`;
 - nomes físicos finais das tabelas;
 - tipos finais dos IDs numéricos;
 - política de FK/`ON DELETE` definida em PST-0002;
