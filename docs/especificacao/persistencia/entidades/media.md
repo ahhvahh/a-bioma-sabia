@@ -43,6 +43,12 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 |---:|---|---|---|---:|---:|---|---:|---|
 | 502 | `550e8400-e29b-41d4-a716-446655440000` | `video.mp4` | `video/mp4` | 80000000 | 10000000 | `chunked` | 3 | `false` |
 
+## Integridade referencial
+
+`media.request_id → request.request_id` usa `ON DELETE RESTRICT`.
+
+A remoção física de uma mídia exige remoção explícita prévia de dependências elegíveis, como chunks e transmissões. Não existe `ON DELETE CASCADE` no MVP.
+
 ## Origem Telegram
 
 A documentação define que mídia recebida pelo Telegram deve ser normalizada para CTR-0006, mas ainda não define o de-para bruto dos objetos Telegram para `name`, `content_type` e binário.
