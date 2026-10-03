@@ -43,6 +43,16 @@ Definir o fluxo comum para converter uma informação de origem em estado Postgr
 
 `inbound_update` e avanço de `transport_cursor` pertencem à mesma unidade transacional. O offset remoto só pode avançar depois do commit.
 
+### Requisição
+
+A criação da `request` persiste o estado inicial `received`. Antes de entregar a requisição ao Core, o estado muda para `processing`.
+
+Quando o Core produz seu resultado imediato, a request muda para `completed`. Resultado imediato inclui a criação persistida de um job assíncrono; a conclusão futura do job não altera `request.status`.
+
+Erro controlado ou falha do processamento pelo Core muda a request para `failed`.
+
+Estados de entrega de mensagem e mídia não alteram `request.status`.
+
 ### Job
 
 Mudança de `job.status` e inserção em `job_state_history` pertencem à mesma transação.
