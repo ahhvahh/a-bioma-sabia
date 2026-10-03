@@ -42,9 +42,13 @@ Para Telegram, a correlação operacional preserva `client_id`, `reply_context.d
 ## Fila e concorrência
 
 - a fila é persistida no PostgreSQL;
-- `jobs.max_workers` define quantos jobs podem estar `running` simultaneamente;
-- `jobs.max_pending` define quantos jobs `queued` podem aguardar execução;
-- ambos são parâmetros obrigatórios, inteiros e maiores que zero;
+- uma mesma `request_id` pode estar associada a zero ou vários jobs;
+- não existe `UNIQUE(job.request_id)`;
+- no startup, o Sabiá determina a quantidade de threads lógicas de CPU disponíveis ao processo;
+- essa quantidade define o máximo de jobs simultaneamente em `running` no MVP;
+- não existe `jobs.max_workers` configurável no MVP;
+- `jobs.max_pending` define quantos jobs `queued` podem aguardar execução e permanece parâmetro obrigatório, inteiro e maior que zero;
+- quando todos os slots de execução estão ocupados, novos jobs aceitos permanecem `queued`;
 - ao atingir `max_pending`, nova solicitação de job é rejeitada com erro controlado de capacidade.
 
 ## Estados e transições
@@ -144,7 +148,8 @@ A correlação de resposta deve permitir outros transportes futuramente sem torn
 
 - IDs são persistentes e sequenciais;
 - fila respeita `max_pending`;
-- concorrência respeita `max_workers`;
+- concorrência nunca excede a quantidade de threads lógicas de CPU disponíveis ao processo no startup;
+- uma request pode possuir vários jobs;
 - queued sobrevive ao restart;
 - running interrompido por restart vira `failed/service_restart`;
 - não existe retry automático sem autorização explícita;
