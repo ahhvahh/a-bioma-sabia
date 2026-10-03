@@ -22,6 +22,44 @@ Conteúdo binário não trafega neste contrato; mídia usa CTR-0008.
 
 `mensagem`
 
+## Formato e framing
+
+O canal de controle usa **JSON Lines (JSONL/NDJSON)** em UTF-8.
+
+Cada mensagem lógica é serializada como um único objeto JSON em uma única linha, terminada por `\n`. O delimitador de mensagem é a quebra de linha; não há prefixo binário de tamanho.
+
+O mesmo framing é usado para:
+
+- stdin/stdout de scripts e aplicações executáveis;
+- streams de serviços acessíveis por socket.
+
+O payload de controle não usa MessagePack nem Protobuf.
+
+Exemplo de entrada:
+
+```json
+{"request_id":"req-123","command":"convert","arguments":["a","b"]}
+```
+
+Exemplos de saída:
+
+```json
+{"request_id":"req-123","status":"loading","message":"50%"}
+{"request_id":"req-123","status":"finally","message":"Concluído"}
+```
+
+Para scripts/aplicações:
+
+- o Sabiá envia a requisição pelo `stdin` como uma linha JSON;
+- o processador publica eventos CTR-0005 no `stdout`, uma linha JSON por evento;
+- `stderr` fica reservado para diagnóstico/log operacional e não participa do protocolo.
+
+Para serviços/socket:
+
+- requisição e eventos usam o mesmo envelope JSON e o mesmo delimitador `\n`;
+- uma conexão pode transportar uma sequência de mensagens, sempre uma por linha;
+- objeto JSON inválido ou linha que não corresponde ao contrato é erro de transporte/protocolo.
+
 ## Entrada do Sabiá para o processador
 
 Toda execução assíncrona recebe, no mínimo:
@@ -100,7 +138,7 @@ Erros de mídia pertencem a CTR-0008/CTR-0007.
 
 ## Compatibilidade
 
-Scripts, aplicações e serviços podem usar mecanismos concretos diferentes para controle, desde que o Processor Transport normalize eventos para este contrato.
+Scripts, aplicações e serviços usam o mesmo formato lógico e framing JSON Lines. O Processor Transport adapta apenas o mecanismo concreto de transporte, preservando o mesmo contrato.
 
 Mídia sempre usa a fronteira específica de CTR-0008.
 
@@ -108,8 +146,6 @@ Mídia sempre usa a fronteira específica de CTR-0008.
 
 Ainda precisam ser definidos antes de `refined`:
 
-- framing/protocolo concreto do canal de controle para scripts/aplicações;
-- framing/protocolo concreto do canal de controle para serviços/socket;
 - política de timeout sem `finally`.
 
 ## Critérios de aceite
@@ -119,4 +155,5 @@ Ainda precisam ser definidos antes de `refined`:
 - `loading` pode chegar ao cliente sem encerrar o job;
 - `finally` encerra semanticamente o processamento;
 - mídia não trafega no protocolo de controle;
-- vários arquivos podem ser associados ao mesmo `request_id` via CTR-0008.
+- vários arquivos podem ser associados ao mesmo `request_id` via CTR-0008;
+- scripts/aplicações e serviços/socket usam JSON Lines UTF-8, com um objeto por linha.
