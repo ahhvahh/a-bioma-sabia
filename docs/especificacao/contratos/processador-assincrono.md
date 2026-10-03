@@ -1,7 +1,7 @@
 # Protocolo de processador assíncrono
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0005-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
@@ -117,6 +117,25 @@ O Sabiá correlaciona ambos pelo mesmo `request_id`.
 
 Uploads de mídia podem ocorrer antes de `finally` e geram transmissões independentes. A entrega da mídia não altera por si só o estado terminal do job.
 
+## Timeout de execução
+
+Toda execução CTR-0005 possui timeout absoluto.
+
+No MVP, o valor inicial é **2 horas** por execução.
+
+Regras:
+
+- o contador começa quando o Sabiá entrega a requisição ao processador;
+- eventos `loading` não reiniciam nem prorrogam o prazo;
+- receber `finally` válido antes do prazo encerra normalmente o processamento;
+- atingir o prazo sem `finally` encerra a execução com `processor_timeout`;
+- o job associado realiza `running → timeout`;
+- após o job atingir estado terminal, eventos tardios daquele processamento não alteram o resultado;
+- o Sabiá solicita o encerramento/cancelamento do mecanismo de transporte associado ao atingir o timeout;
+- se processo, conexão ou transporte encerrar antes do prazo sem `finally`, o processamento termina em falha de transporte e não aguarda as 2 horas restantes.
+
+O timeout é de duração total da execução, não de inatividade.
+
 ## Erros
 
 - `unknown_request`;
@@ -142,12 +161,6 @@ Scripts, aplicações e serviços usam o mesmo formato lógico e framing JSON Li
 
 Mídia sempre usa a fronteira específica de CTR-0008.
 
-## BLOCKED
-
-Ainda precisam ser definidos antes de `refined`:
-
-- política de timeout sem `finally`.
-
 ## Critérios de aceite
 
 - toda execução recebe `request_id` gerado pelo Sabiá;
@@ -156,4 +169,7 @@ Ainda precisam ser definidos antes de `refined`:
 - `finally` encerra semanticamente o processamento;
 - mídia não trafega no protocolo de controle;
 - vários arquivos podem ser associados ao mesmo `request_id` via CTR-0008;
-- scripts/aplicações e serviços/socket usam JSON Lines UTF-8, com um objeto por linha.
+- scripts/aplicações e serviços/socket usam JSON Lines UTF-8, com um objeto por linha;
+- toda execução respeita timeout absoluto de 2 horas no MVP;
+- `loading` não renova o timeout;
+- ausência de `finally` até o limite resulta em `processor_timeout` e job `timeout`.
