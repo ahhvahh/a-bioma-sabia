@@ -1,7 +1,7 @@
 # Mídia persistida
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0006-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
@@ -42,6 +42,23 @@ Cada conteúdo de mídia possui registro persistente no PostgreSQL com, no míni
 
 Nenhum contrato interno usa caminho de filesystem como identidade de mídia.
 
+## Regra de `content_type`
+
+`content_type` é um metadado declarado e opcional.
+
+Normalização e validação:
+
+- `null` é aceito;
+- valor vazio ou somente com espaços torna-se `null`;
+- valor não nulo deve possuir sintaxe válida de media type;
+- o valor persistido é normalizado para minúsculas;
+- não existe inferência pela extensão de `name`;
+- não existe detecção por assinatura/conteúdo binário no MVP;
+- media type válido mas desconhecido permanece persistido;
+- valor inválido é rejeitado com `invalid_content_type`.
+
+O valor não é fonte de confiança para autorização, integridade ou validação de segurança do conteúdo.
+
 ## Entrada por processador local
 
 Scripts, aplicações e serviços enviam mídia por CTR-0008.
@@ -79,7 +96,8 @@ A entrega ao Telegram é controlada por CTR-0007.
 - `media_not_found`;
 - `media_persistence_failed`;
 - `media_too_large`;
-- `media_corrupt`.
+- `media_corrupt`;
+- `invalid_content_type`.
 
 ## Regras e restrições
 
@@ -112,12 +130,6 @@ A limpeza não remove metadados mínimos necessários à rastreabilidade, inclui
 
 A limpeza nunca pode ocorrer enquanto existir qualquer transmissão em `pending` ou `transmitting`.
 
-## BLOCKED
-
-Ainda precisam ser definidos antes de `refined`:
-
-- regra normativa para validar/determinar `content_type`.
-
 ## Compatibilidade
 
 Novos transportes devem referenciar a mídia por `media_id`, sem depender de Telegram ou filesystem.
@@ -134,4 +146,5 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - chunk acima de 5 MB é recusado pelo canal fracionado;
 - arquivo fracionado acima de 100 MB é recusado na abertura;
 - mídia fracionada fica `completed` automaticamente ao atingir `total_bytes`;
-- payload entregue pode ser limpo somente sem transmissões `pending` ou `transmitting`.
+- payload entregue pode ser limpo somente sem transmissões `pending` ou `transmitting`;
+- `content_type` inválido é rejeitado, vazio vira `null` e não há inferência pelo nome ou pelos bytes.
