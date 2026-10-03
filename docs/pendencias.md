@@ -118,7 +118,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - momento normativo de atualização de `alert_state.last_notified_at`;
   - retenção de `alert_state` após remoção de schedule;
   - mecanismo concreto de migração/versionamento;
-  - locking/claim concorrente de jobs, mensagens e transmissões;
   - modelo de `job_attempt` somente se retry automático for habilitado.
 - Dependências afetadas:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -215,6 +214,7 @@ Não são mais pendências arquiteturais:
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md): PostgreSQL, banco lógico/role próprios e recovery do estado operacional estão decididos; permanece pendente a especificação técnica do modelo persistente e do contrato concreto de conexão.
 - [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md): aviso aos clientes, espera por respostas e timeout estão `refined`.
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
+- [PST-0003 — Claim concorrente de filas persistentes](especificacao/persistencia/claim-concorrente-filas.md): jobs, mensagens e transmissões usam claim atômico no PostgreSQL com `FOR UPDATE SKIP LOCKED`, transição de estado e commit antes do processamento externo; mensagens usam o estado intermediário `sending`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
