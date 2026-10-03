@@ -36,7 +36,7 @@ Mantém o caminho simples pequeno e permite persistência progressiva de arquivo
 
 ## Decisão
 
-O Sabiá terá dois Unix domain sockets de mídia:
+O Sabiá terá dois Unix domain sockets de mídia, ambos pertencentes a `sabia:abioma` e com modo `0660`:
 
 1. **Media Ingest** — arquivo integral em uma mensagem MessagePack, limitado a `20000000` bytes;
 2. **Media Chunk Ingest** — arquivo de qualquer tamanho permitido pelo contrato, enviado em partes independentes e ordenáveis. Para arquivos acima de 20 MB, este canal é obrigatório.
