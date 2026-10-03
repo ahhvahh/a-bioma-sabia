@@ -21,7 +21,7 @@ Este contrato é o de-para entre **dado de origem** e **campo persistido**. O de
 
 ### Telegram
 
-Para comandos recebidos em `Update.message`, o de-para bruto já documentado em [Telegram discovery](../../../telegram-discovery.md) é:
+Para comandos recebidos em `Update.message`, o de-para bruto já documentado em [Telegram discovery](../../telegram-discovery.md) é:
 
 | Telegram Bot API | Campo normalizado/persistido |
 |---|---|
