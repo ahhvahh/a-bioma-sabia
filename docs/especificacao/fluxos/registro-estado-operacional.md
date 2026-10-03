@@ -61,6 +61,14 @@ A elegibilidade não implica exclusão imediata. Antes de remover metadados de c
 
 O prazo de retenção dos registros concluídos permanece fora deste fluxo até ser definido.
 
+### Purge explícito
+
+O processo de limpeza não usa exclusão em cascata.
+
+Quando uma correlação estiver elegível e a política de retenção permitir o purge, a aplicação deve remover explicitamente os registros dependentes em ordem compatível com PST-0002. A `request` é removida por último.
+
+Todas as FKs operacionais usam `ON DELETE RESTRICT`; se alguma dependência ainda existir, a exclusão do pai falha e o purge não pode forçar remoção por `CASCADE` ou `SET NULL`.
+
 ### Job
 
 Mudança de `job.status` e inserção em `job_state_history` pertencem à mesma transação.
