@@ -22,7 +22,8 @@ Resolver operações locais por identificador permitido e executá-las de forma 
 - aplicar timeout cadastrado;
 - executar somente definição resolvida pelo registro;
 - permitir execuções simultâneas independentes do mesmo script;
-- capturar stdout, stderr, exit code, duração, timeout, cancelamento e truncamento;
+- capturar stdout, stderr, exit code, duração, timeout, cancelamento e truncamento nas execuções convencionais;
+- quando o script atuar como processador CTR-0005, entregar `request_id` por stdin e tratar stdout como stream JSON Lines de eventos;
 - encerrar o grupo de processos da execução em timeout/cancelamento;
 - fornecer resultado para comando, job ou scheduler.
 
@@ -60,6 +61,7 @@ O módulo não precisa persistir estado próprio de execução; quando a execuç
 - definição inválida é rejeitada antes da execução;
 - timeout e cancelamento são observáveis;
 - stdout e stderr são separados e limitados;
+- em execução assíncrona CTR-0005, stdout é protocolo estruturado e stderr permanece diagnóstico;
 - exit code é preservado quando disponível;
 - exit code diferente de zero não é convertido automaticamente em falha de infraestrutura;
 - o mesmo script pode possuir execuções simultâneas;
