@@ -33,15 +33,15 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 
 1. o Sabiá cria/persiste o job e associa o `request_id`;
 2. o Processor Registry resolve o processador cadastrado;
-3. o Processor Transport envia `request_id`, comando e argumentos;
+3. o Processor Transport envia `request_id`, comando e argumentos como uma linha JSON UTF-8 conforme CTR-0005;
 4. o processador inicia o trabalho;
-5. a cada evento `loading`, o Sabiá valida o `request_id` e encaminha a mensagem ao cliente;
+5. a cada linha JSON válida com evento `loading`, o Sabiá valida o `request_id` e encaminha a mensagem ao cliente;
 6. quando o processador produzir mídia, ele abre o socket CTR-0008 e envia um objeto MessagePack usando o mesmo `request_id`;
 7. o Media Ingest persiste BLOB e metadados, cria a transmissão `pending` e retorna `media_id`;
 8. a fila de mídia pode iniciar a entrega independentemente do canal de controle;
 9. o processador pode repetir o upload para cada arquivo produzido;
 10. o job permanece em execução;
-11. o processador envia `finally` com a mensagem final;
+11. o processador envia uma linha JSON com `finally` e a mensagem final;
 12. o Sabiá persiste a resposta final;
 13. o adaptador envia a mensagem final;
 14. as transmissões de mídia seguem CTR-0007 até `delivered` ou `failed`.
@@ -91,7 +91,8 @@ O job possui estado final rastreável e toda mídia aceita possui `media_id` e t
 - ACK de mídia ocorre somente após persistência;
 - mídia pendente continua recuperável após restart do serviço;
 - término do processo sem `finally` não é confundido com sucesso;
-- canal de controle não transporta BLOB.
+- canal de controle não transporta BLOB;
+- canal de controle usa JSON Lines UTF-8 em qualquer mecanismo de transporte.
 
 ## Implementação relacionada
 
