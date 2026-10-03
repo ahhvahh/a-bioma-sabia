@@ -12,6 +12,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 - [CTR-0001 — Comando interno](../../contratos/comando-interno.md)
 - [MOD-0002 — Adaptador Telegram](../../modulos/telegram.md)
 - [FLW-0001 — Comando Telegram](../../fluxos/comando-telegram.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
 
 ## Estrutura e de-para propostos
 
@@ -23,7 +24,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 | `transport` | `text` | não | `request` | `reply_context.transport` | copiar |
 | `destination_id` | `text` | não | `request` | `reply_context.destination_id` | copiar |
 | `content` | `text` | não | adaptador | texto convertido do resultado | conversão de apresentação ainda parcialmente BLOCKED |
-| `status` | `text` | não | Sabiá | lifecycle de entrega | `pending/delivered/failed` |
+| `status` | `text` | não | Sabiá | lifecycle de entrega | `pending/sending/delivered/failed` |
 | `remote_message_id` | `text` | sim | Telegram | `message_id` da resposta de sucesso | normalizar para string |
 | `available_at` | `timestamptz` | sim | Telegram/Sabiá | `retry_after` + instante atual | calcular próxima elegibilidade |
 | `last_error_code` | `text` | sim | transporte | código de falha | normalizar código |
@@ -39,11 +40,11 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 
 ## Registro
 
-Antes do envio, criar a linha em `pending`. Após sucesso remoto, persistir `remote_message_id` e `delivered` na mesma transação.
+Antes do envio, criar a linha em `pending`. O entregador deve obter a mensagem exclusivamente pelo claim de PST-0003, realizando `pending → sending` antes da chamada ao transporte. Após sucesso remoto, persistir `remote_message_id` e `delivered` na mesma transação. Falha temporária ou ambígua retorna `sending → pending`; falha permanente realiza `sending → failed`.
 
 ## Consumo
 
-Entregador busca mensagens `pending` elegíveis por `available_at`. No restart, pendências retornam à etapa de envio.
+Entregador busca mensagens `pending` elegíveis por `available_at` através de PST-0003. No restart, mensagens encontradas em `sending` retornam para `pending` antes da retomada dos entregadores.
 
 ## BLOCKED
 
