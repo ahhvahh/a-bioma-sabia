@@ -117,7 +117,12 @@ Os valores são exemplos iniciais e devem ser configuráveis.
 - o disparo sobreposto é ignorado e registrado;
 - a periodicidade do MVP é expressa somente por `interval` positivo; cron não é suportado.
 
-O fluxo permanece em `refinement` até fechar as demais pendências específicas de Scheduler e Alertas.
+## BLOCKED
+
+- definir como uma notificação do Scheduler é persistida/correlacionada em `outbound_message`, já que o modelo atual exige `request_id` e o fluxo não cria uma request;
+- fechar o schema operacional de `schedules`, incluindo a política de relatório e a semântica do primeiro disparo/cadência.
+
+O fluxo permanece em `refinement` até fechar essas pendências e as regras de `alert_state`.
 
 ## Implementação relacionada
 
