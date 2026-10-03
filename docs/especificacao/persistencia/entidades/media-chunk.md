@@ -1,7 +1,7 @@
 # Entidade `media_chunk`
 
 **ID:** PST-0109  
-**Status:** refinement
+**Status:** refined
 
 ## Objetivo
 
