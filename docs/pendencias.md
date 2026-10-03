@@ -10,24 +10,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 
 ## BLOCKED
 
-### CTR-0001 — Comando interno
-
-- Documento: [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
-- Estado atual: `refinement`.
-- Estado necessário: `refined`.
-- Estado atual do conteúdo:
-  - argumentos usam `string[]`;
-  - identidade e correlação usam `request_id`, `client_id`, `principal_id`, `reply_context` e `received_at`;
-  - saída usa `message | job | file | error`;
-  - mídia de entrada e saída é referenciada por `media_id`;
-  - o Core não recebe BLOB nem caminho de filesystem.
-- Informação ausente:
-  - regra normativa para `content_type`.
-- Dependências afetadas:
-  - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
-  - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
-  - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
-
 ### Processadores assíncronos e ingestão de mídia
 
 - Decisões relacionadas:
@@ -50,6 +32,8 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Decisões já fechadas:
   - canal de controle do processador usa `loading | finally`;
   - canal de controle usa JSON Lines UTF-8, um objeto por linha, em stdin/stdout e serviços/socket;
+  - `content_type` é metadado declarado: `null` é válido, vazio vira `null`, valor informado precisa ser media type válido e é normalizado para minúsculas; não há inferência por extensão ou inspeção dos bytes;
+  - no Telegram, `image/*` usa envio de imagem, `video/*` usa vídeo e demais tipos/`null` usam documento/arquivo genérico;
   - processadores usam timeout absoluto de 2 horas no MVP; `loading` não renova o prazo; ausência de `finally` até o limite encerra o job em `timeout`;
   - mídia não trafega no canal de controle;
   - mídia entra por Unix domain socket local;
@@ -86,7 +70,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Informação ausente:
   - caminhos finais dos sockets simples e fracionado;
   - ownership, grupo e modo de acesso dos sockets;
-  - regra para determinar/validar `content_type`;
   - schema final da configuração `processors`.
 - Dependências afetadas:
   - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md)
@@ -112,7 +95,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - confirmar se uma request pode criar múltiplos jobs;
   - política final de FKs e `ON DELETE`;
   - consistência entre `media.request_id` e `media_transmission.request_id`;
-  - regra normativa de `content_type`;
   - formato persistente final de `outbound_message.content`;
   - momento normativo de atualização de `alert_state.last_notified_at`;
   - retenção de `alert_state` após remoção de schedule;
@@ -218,7 +200,8 @@ Não são mais pendências arquiteturais:
 - `request.status`: definido como `received → processing → completed | failed`, representando apenas o processamento pelo Core; jobs e entregas mantêm estados independentes.
 - `request_id`: UUID v4 gerado pelo Sabiá, persistido como PostgreSQL `uuid` e propagado como string canônica em JSON/MessagePack; ao término da tarefa, a correlação torna-se elegível para limpeza, respeitando dependências ainda não terminais.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
-- CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
+- [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md): `refined`; argumentos, identidade, correlação, envelope de resultado/erro e regra normativa de `content_type` estão definidos.
+- [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md): `refined`; `content_type` é opcional, normalizado e não é inferido pelo nome ou pelos bytes; Telegram usa o tipo apenas para escolher a apresentação da mídia.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
 - ADR-0012/ADR-0013 + CTR-0006/CTR-0007/CTR-0008/CTR-0009: mídia não depende de `/tmp`; canal simples é limitado a 20 MB e o canal fracionado aceita arquivos de até 100 MB, sendo obrigatório acima de 20 MB. O segundo socket abre um `media_id` persistente, recebe chunks de até 5 MB com sequência estrita e determina completude por `total_bytes`. CTR-0007 voltou a `refined`; FLW-0008 define limpeza segura somente com fila de transmissão ociosa.
 
