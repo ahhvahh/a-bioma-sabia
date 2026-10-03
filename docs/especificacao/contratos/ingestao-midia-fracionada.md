@@ -38,7 +38,7 @@ Antes de enviar chunks, o produtor envia os metadados do arquivo. Não existe ta
 Objeto MessagePack:
 
 - `version: integer` — versão do contrato; MVP usa `1`;
-- `request_id: string` — identificador da requisição conhecido pelo produtor;
+- `request_id: string` — UUID v4 da requisição, gerado pelo Sabiá e representado como string canônica;
 - `name: string` — nome lógico do arquivo;
 - `content_type: string | null` — tipo declarado, quando conhecido;
 - `total_bytes: integer` — tamanho total esperado do arquivo lógico em bytes.
