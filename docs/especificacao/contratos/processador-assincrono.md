@@ -64,7 +64,7 @@ Para serviços/socket:
 
 Toda execução assíncrona recebe, no mínimo:
 
-- `request_id: string`;
+- `request_id: string` — UUID v4 canônico gerado pelo Sabiá;
 - `command: string`;
 - `arguments: string[]`.
 
