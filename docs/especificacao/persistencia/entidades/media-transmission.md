@@ -12,6 +12,7 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 - [CTR-0007 — Transmissão persistente de mídia](../../contratos/transmissao-midia.md)
 - [PST-0108 — media](media.md)
 - [PST-0103 — request](request.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
 
 ## Estrutura e de-para
 
@@ -42,7 +43,7 @@ Na ingestão local CTR-0008, mídia e transmissão são persistidas antes do ACK
 
 ## Consumo
 
-A fila seleciona `pending` e `transmitting` elegíveis. A mídia é carregada por `media_id`.
+Novas tentativas em `pending` são obtidas pelo claim atômico de PST-0003, realizando `pending → transmitting` antes do streaming. Registros `transmitting` encontrados no recovery seguem CTR-0007. A mídia é carregada por `media_id`.
 
 ## BLOCKED
 
