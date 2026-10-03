@@ -44,3 +44,10 @@ Na transmissão, ler por `media_id` em `sequence_id ASC` e produzir stream cont�
 - `sequence_id` começa em 1;
 - máximo de 5.000.000 bytes por chunk;
 - duplicidade de sequência não cria nova linha.
+
+
+## Integridade referencial
+
+`media_chunk.media_id → media.media_id` usa `ON DELETE RESTRICT`.
+
+Chunks são removidos explicitamente pelo fluxo de limpeza; a exclusão da mídia não remove chunks automaticamente.
