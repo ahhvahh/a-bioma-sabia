@@ -80,6 +80,19 @@ Regras:
 - falha de polling nunca altera o `offset`;
 - o uso de pequeno jitter para reduzir reconexões simultâneas é permitido como detalhe de implementação, sem alterar os limites normativos acima.
 
+## Seleção do tipo de envio de mídia
+
+Ao transmitir uma mídia persistida, o adaptador usa `content_type` somente para escolher a apresentação no Telegram:
+
+- `image/*` → envio como imagem/foto;
+- `video/*` → envio como vídeo;
+- qualquer outro media type válido → envio como documento/arquivo genérico;
+- `content_type = null` → envio como documento/arquivo genérico.
+
+O adaptador não infere o tipo pela extensão do nome nem inspeciona o BLOB para escolher a forma de envio no MVP.
+
+`content_type` não participa de autorização ou decisão de segurança.
+
 ## Política de envio e retry
 
 A entrega pelo Telegram usa semântica `at-least-once`.
@@ -107,7 +120,7 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - referências de mídia seguem CTR-0006 por `media_id`;
 - lifecycle de transmissão segue CTR-0007;
 - Telegram não recebe caminho de filesystem como contrato interno;
-- tipo de mídia, limite e retenção do BLOB permanecem em `refinement`.
+- limite e retenção do BLOB seguem CTR-0006/CTR-0007/FLW-0008; `content_type` segue CTR-0006 e é usado apenas para apresentação do envio.
 
 ## Critérios de aceite
 
@@ -128,7 +141,8 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 - falha de polling não altera o `offset`;
 - imagens e vídeos recebidos podem ser associados ao `request_id` sem expor objetos da Bot API ao Core;
 - imagens e vídeos de resultado são referenciados por `media_id` e lidos do armazenamento persistente;
-- múltiplos arquivos da mesma requisição possuem transmissões independentes.
+- múltiplos arquivos da mesma requisição possuem transmissões independentes;
+- `image/*` é enviado como imagem, `video/*` como vídeo e demais tipos ou `null` como documento/arquivo genérico.
 
 ## Referência externa
 
