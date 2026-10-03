@@ -65,6 +65,18 @@ A transmissão deve ser criada na mesma transação lógica que torna a mídia r
 
 O produtor só recebe ACK de sucesso depois de mídia e transmissão estarem persistidas.
 
+## Seleção da apresentação no transporte
+
+A transmissão carrega a mídia por `media_id` e preserva o `content_type` normalizado de CTR-0006 como metadado.
+
+Para Telegram:
+
+- `image/*` usa apresentação nativa de imagem/foto;
+- `video/*` usa apresentação nativa de vídeo;
+- demais media types válidos e `null` usam documento/arquivo genérico.
+
+Essa seleção não altera o conteúdo persistido nem serve como validação de segurança.
+
 ## Envio
 
 1. selecionar transmissão `pending` ou elegível para retry;
@@ -110,7 +122,8 @@ Não existe reconciliação com `/tmp` ou filesystem para mídia persistida.
 - chunks não são entregues individualmente ao transporte externo;
 - chunks não são apagados durante uma transmissão ativa;
 - mídia fracionada só inicia entrega quando estiver completa;
-- binário não aparece em logs.
+- binário não aparece em logs;
+- `content_type` é metadado de apresentação e não é inferido novamente durante a transmissão.
 
 ## Compatibilidade
 
