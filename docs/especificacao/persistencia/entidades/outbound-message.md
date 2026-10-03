@@ -19,7 +19,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 | Campo | PostgreSQL | Nulo | Origem | Campo de origem | Conversão |
 |---|---|---:|---|---|---|
 | `outbound_message_id` | `bigint identity` | não | PostgreSQL | gerado | identity |
-| `request_id` | `text` | não | resultado interno | `request_id` CTR-0001 | copiar |
+| `request_id` | `uuid` | não | resultado interno | `request_id` CTR-0001 | validar/copiar UUID v4 |
 | `client_id` | `text` | não | `request` | `client_id` | copiar |
 | `transport` | `text` | não | `request` | `reply_context.transport` | copiar |
 | `destination_id` | `text` | não | `request` | `reply_context.destination_id` | copiar |
@@ -36,7 +36,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 
 | outbound_message_id | request_id | client_id | transport | destination_id | content | status | remote_message_id |
 |---:|---|---|---|---|---|---|---|
-| 901 | `req-example-001` | `bioma` | `telegram` | `-100123` | `Serviço operacional` | `delivered` | `452` |
+| 901 | `550e8400-e29b-41d4-a716-446655440000` | `bioma` | `telegram` | `-100123` | `Serviço operacional` | `delivered` | `452` |
 
 ## Registro
 
