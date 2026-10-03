@@ -16,7 +16,7 @@ A estratégia anterior baseada em arquivos temporários no filesystem não ofere
 
 ## Restrições
 
-- somente processos locais autorizados devem alcançar o canal;
+- somente o usuário operacional `sabia` e processos locais pertencentes ao grupo Linux `abioma` devem alcançar o canal;
 - o produtor precisa conhecer o `request_id` fornecido pelo Sabiá;
 - o Core não deve receber objetos específicos da Telegram Bot API;
 - o conteúdo só pode ser confirmado ao produtor depois de persistido;
@@ -36,7 +36,7 @@ O produtor envia metadados e binário por um socket local. O Sabiá valida a cor
 
 ## Decisão
 
-O Sabiá disponibilizará um **Unix domain socket para ingestão simples de mídia**. ADR-0013 complementa esta decisão com um segundo socket dedicado à ingestão fracionada.
+O Sabiá disponibilizará um **Unix domain socket para ingestão simples de mídia**. ADR-0013 complementa esta decisão com um segundo socket dedicado à ingestão fracionada. Os sockets pertencem a `sabia:abioma`, usam modo `0660` e não ficam acessíveis a usuários fora do grupo `abioma`.
 
 O protocolo de aplicação desse socket será **MessagePack**.
 
@@ -68,7 +68,7 @@ MessagePack oferece representação binária nativa e estrutura de mensagem comp
 
 - o PostgreSQL passa a armazenar BLOBs de mídia;
 - será necessário um contrato de ingestão MessagePack;
-- o socket precisa de política explícita de caminho, ownership e permissões locais;
+- o caminho normativo do socket precisa ser fechado em especificação; ownership e permissões locais ficam fixados em `sabia:abioma` com modo `0660`;
 - transmissões pendentes passam a referenciar `media_id`, não caminho de filesystem;
 - mídia recebida do Telegram também pode usar o mesmo modelo persistente;
 - o canal simples é limitado a 20 MB;
