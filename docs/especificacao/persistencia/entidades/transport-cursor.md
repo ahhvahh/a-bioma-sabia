@@ -1,7 +1,7 @@
 # Entidade `transport_cursor`
 
 **ID:** PST-0101  
-**Status:** refinement
+**Status:** refined
 
 ## Objetivo
 
@@ -45,7 +45,3 @@ No startup/polling, o adaptador lê o cursor e calcula:
 - nunca diminuir `last_update_id`;
 - falha antes do commit não altera o cursor;
 - um cliente não compartilha cursor com outro.
-
-## BLOCKED
-
-Nenhum bloqueio próprio além da aprovação do modelo físico.
