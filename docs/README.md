@@ -41,7 +41,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refinement`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
-- [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refinement`
+- [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refined`
 - [MOD-0008 — Ingestão e armazenamento de mídia](especificacao/modulos/ingestao-midia.md) — `refinement`
 
 ### Contratos
@@ -63,7 +63,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refinement`
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
 - [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
-- [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refinement`
+- [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refined`
 - [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
 - [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
 - [FLW-0008 — Limpeza de payloads de mídia transmitida](especificacao/fluxos/limpeza-midia.md) — `refined`
