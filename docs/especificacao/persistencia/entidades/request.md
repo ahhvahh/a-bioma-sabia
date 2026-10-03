@@ -81,7 +81,17 @@ O prazo de retenção dos metadados concluídos não é definido por esta entida
 
 ## Origem Telegram
 
-A documentação atual confirma conceitualmente `update_id`, User ID, Chat ID, `message_id`, comando e argumentos. O caminho bruto exato desses valores dentro do objeto Telegram ainda não está especificado em `/docs`.
+Para comandos recebidos por `Update.message`:
+
+- `Update.message.from.id → principal_id`;
+- `Update.message.chat.id → destination_id`;
+- `Update.message.message_id → source_message_id`;
+- `Update.message.text` é a fonte do comando e dos argumentos;
+- `Update.message.entities[]` com `type = bot_command` identifica a entidade de comando.
+
+`Update.update_id` pertence a `inbound_update.transport_update_id`, não à entidade `request`.
+
+Esses caminhos já estão documentados em [Telegram discovery](../../../telegram-discovery.md) e consolidados por CTR-0010.
 
 ## Consumo
 
@@ -91,7 +101,3 @@ A entidade é a fonte de correlação para:
 - ingestão de mídia por socket usando `request_id`;
 - construção de transmissões e respostas;
 - autorização de visibilidade de jobs.
-
-## BLOCKED
-
-- registrar em contrato os caminhos exatos dos campos do objeto Telegram usados pelo adaptador.
