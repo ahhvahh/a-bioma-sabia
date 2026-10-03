@@ -84,11 +84,12 @@ Regras:
 
 A entrega pelo Telegram usa semântica `at-least-once`.
 
-- sucesso da Bot API: persistir `message_id` e somente então marcar a entrega como `delivered`;
-- erro com `retry_after`: manter `pending` e aguardar pelo menos o intervalo indicado antes da próxima tentativa;
-- timeout, desconexão ou falha temporária sem confirmação: manter `pending` e permitir nova tentativa;
-- erro permanente de requisição: marcar a entrega como `failed`, preservando código e descrição para observabilidade;
-- após reinício, entregas textuais `pending` retornam à etapa de envio;
+- antes da Bot API, obter a mensagem pelo claim de PST-0003 e persistir `pending → sending`;
+- sucesso da Bot API: persistir `message_id` e somente então marcar `sending → delivered`;
+- erro com `retry_after`: retornar `sending → pending` e aguardar pelo menos o intervalo indicado antes da próxima tentativa;
+- timeout, desconexão ou falha temporária sem confirmação: retornar `sending → pending` e permitir nova tentativa;
+- erro permanente de requisição: marcar `sending → failed`, preservando código e descrição para observabilidade;
+- após reinício, entregas textuais encontradas em `sending` retornam para `pending` antes da retomada dos entregadores;
 - transmissões de mídia `pending` ou `transmitting` também são reconciliadas e reenviadas quando o `media_id` persistido existe;
 - em falha ambígua após o envio, priorizar eventual entrega: nova tentativa é permitida mesmo que isso possa produzir duplicidade rara.
 
