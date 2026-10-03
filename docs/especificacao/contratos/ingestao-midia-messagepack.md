@@ -42,7 +42,7 @@ Essa regra elimina necessidade de delimitador textual ou framing adicional para 
 Objeto MessagePack:
 
 - `version: integer` — versão do contrato; MVP usa `1`;
-- `request_id: string` — identificador gerado pelo Sabiá e conhecido pelo produtor;
+- `request_id: string` — UUID v4 gerado pelo Sabiá, representado como string canônica e conhecido pelo produtor;
 - `name: string` — nome lógico do arquivo;
 - `content_type: string | null` — tipo declarado pelo produtor, quando conhecido;
 - `data: binary` — conteúdo binário integral.
