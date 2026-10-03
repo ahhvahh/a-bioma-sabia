@@ -39,7 +39,7 @@ O Sabiá mantém uma abstração de **processador registrado** para:
 - aplicação/executável;
 - serviço acessível por socket.
 
-O **Processor Transport** adapta o mecanismo concreto ao protocolo de controle CTR-0005.
+O **Processor Transport** adapta o mecanismo concreto ao protocolo de controle CTR-0005. O framing do controle foi refinado em CTR-0005 como JSON Lines UTF-8, usado igualmente em stdin/stdout e streams por socket.
 
 O canal de controle usa somente:
 
@@ -66,7 +66,7 @@ Separar controle e mídia mantém o protocolo assíncrono simples, permite teste
 - Media Ingest fica responsável pelo recebimento binário;
 - jobs preservam `request_id` entre os dois canais;
 - uma requisição pode possuir várias mídias persistidas;
-- o framing do canal de controle ainda precisa ser refinado;
+- o canal de controle usa framing JSON Lines conforme CTR-0005;
 - limites e autorização concreta do socket de mídia permanecem na especificação.
 
 ## Dependências
