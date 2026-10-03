@@ -31,7 +31,7 @@ Separa aceitação do comando e execução demorada.
 
 ## Decisão
 
-Operações demoradas serão representadas por jobs assíncronos processados por fila e workers.
+Operações demoradas serão representadas por jobs assíncronos processados por fila e workers. Uma mesma `request` pode criar zero ou vários jobs. No MVP, a quantidade máxima de jobs simultaneamente em `running` é igual à quantidade de threads lógicas de CPU disponíveis ao processo no startup; jobs excedentes permanecem `queued`.
 
 Estados previstos: `queued`, `running`, `completed`, `failed`, `cancelled` e `timeout`.
 
@@ -43,7 +43,7 @@ Mantém o canal responsivo e permite observabilidade de progresso.
 
 - o sistema precisa correlacionar job e destino de resposta;
 - chat, mensagem e job precisam ser correlacionáveis para atualização de progresso;
-- persistência, concorrência, retries e recovery ainda precisam ser fechados em especificação.
+- persistência, retry e recovery são detalhados nas especificações dependentes; a concorrência do MVP é limitada pela quantidade de threads lógicas de CPU disponíveis ao processo no startup.
 
 ## Dependências
 
@@ -52,5 +52,7 @@ Mantém o canal responsivo e permite observabilidade de progresso.
 ## Critérios de validação
 
 - um job demorado não bloqueia o processamento de outro comando;
+- a quantidade de jobs simultaneamente em `running` não excede as threads lógicas de CPU disponíveis ao processo;
+- uma mesma request pode originar vários jobs sem unicidade em `job.request_id`;
 - o estado do job evolui por estados válidos;
 - progresso pode ser refletido na mensagem associada.
