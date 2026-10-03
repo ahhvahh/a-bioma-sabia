@@ -45,13 +45,21 @@ Definir o fluxo comum para converter uma informação de origem em estado Postgr
 
 ### Requisição
 
-A criação da `request` persiste o estado inicial `received`. Antes de entregar a requisição ao Core, o estado muda para `processing`.
+A criação da `request` gera um `request_id` UUID v4 no Sabiá e persiste o estado inicial `received`. Antes de entregar a requisição ao Core, o estado muda para `processing`.
 
 Quando o Core produz seu resultado imediato, a request muda para `completed`. Resultado imediato inclui a criação persistida de um job assíncrono; a conclusão futura do job não altera `request.status`.
 
 Erro controlado ou falha do processamento pelo Core muda a request para `failed`.
 
 Estados de entrega de mensagem e mídia não alteram `request.status`.
+
+### Entrada no processo de limpeza
+
+Quando a tarefa associada à correlação termina, o conjunto identificado pelo `request_id` torna-se elegível para limpeza.
+
+A elegibilidade não implica exclusão imediata. Antes de remover metadados de correlação, o processo de limpeza deve verificar que não existem jobs não terminais, mensagens `pending/sending` ou transmissões de mídia `pending/transmitting` ligadas ao mesmo `request_id`.
+
+O prazo de retenção dos registros concluídos permanece fora deste fluxo até ser definido.
 
 ### Job
 
