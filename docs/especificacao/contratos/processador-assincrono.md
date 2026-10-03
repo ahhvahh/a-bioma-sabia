@@ -47,11 +47,11 @@ Exemplo de entrada no `stdin`:
 Exemplos de saída no `stdout`:
 
 ```json
-{"request_id":"req-123","status":"loading","message":"50%"}
-{"request_id":"req-123","status":"finally","message":"Concluído"}
+{"request_id":"550e8400-e29b-41d4-a716-446655440000","status":"loading","message":"50%"}
+{"request_id":"550e8400-e29b-41d4-a716-446655440000","status":"finally","message":"Concluído"}
 ```
 
-Cada linha emitida em `stdout` deve conter exatamente um objeto JSON completo. Texto não JSON em `stdout` viola o protocolo.
+Cada linha emitida em `stdout` deve conter exatamente um objeto JSON completo. Texto não JSON em `stdout` viola o protocolo. O Sabiá consome cada linha assim que ela é emitida, para que eventos `loading` possam ser processados durante a execução sem aguardar o término do script.
 
 ## Entrada do Sabiá para o processador
 
@@ -145,7 +145,8 @@ Erros de mídia pertencem a CTR-0008/CTR-0007.
 - `loading` não finaliza processamento;
 - `finally` é terminal;
 - conteúdo binário não trafega neste protocolo;
-- stdout/stderr de CTR-0002 não substituem este protocolo assíncrono.
+- quando o script atua como processador assíncrono, o stdout é consumido incrementalmente como protocolo CTR-0005; não é tratado como resultado textual livre de CTR-0002;
+- stderr permanece o canal separado de diagnóstico definido por CTR-0002.
 
 ## Compatibilidade
 
