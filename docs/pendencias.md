@@ -107,7 +107,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Estado atual: cada entidade proposta possui documento próprio com campos, tipo PostgreSQL, origem, conversão e exemplo ilustrativo. O contrato CTR-0010 consolida origem → persistência e os fluxos FLW-0009/FLW-0010 separam registro e consumo.
 - Estado necessário: documentos de persistência necessários ao MVP em `refined`.
 - Pontos ainda `BLOCKED`:
-  - formato/geração de `request_id`;
   - caminhos brutos exatos dos campos Telegram usados pelo adaptador;
   - direção física final da relação `inbound_update/request`;
   - confirmar se uma request pode criar múltiplos jobs;
@@ -118,6 +117,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - momento normativo de atualização de `alert_state.last_notified_at`;
   - retenção de `alert_state` após remoção de schedule;
   - mecanismo concreto de migração/versionamento;
+  - política de retenção/purge dos registros operacionais concluídos depois que entram no processo de limpeza;
   - modelo de `job_attempt` somente se retry automático for habilitado.
 - Dependências afetadas:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
@@ -216,6 +216,7 @@ Não são mais pendências arquiteturais:
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md): invocação, working directory, ambiente permitido, concorrência, limites de saída e cancelamento estão `refined`.
 - [PST-0003 — Claim concorrente de filas persistentes](especificacao/persistencia/claim-concorrente-filas.md): jobs, mensagens e transmissões usam claim atômico no PostgreSQL com `FOR UPDATE SKIP LOCKED`, transição de estado e commit antes do processamento externo; mensagens usam o estado intermediário `sending`.
 - `request.status`: definido como `received → processing → completed | failed`, representando apenas o processamento pelo Core; jobs e entregas mantêm estados independentes.
+- `request_id`: UUID v4 gerado pelo Sabiá, persistido como PostgreSQL `uuid` e propagado como string canônica em JSON/MessagePack; ao término da tarefa, a correlação torna-se elegível para limpeza, respeitando dependências ainda não terminais.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas e retry de leitura por `getUpdates` estão definidos. O módulo e o fluxo permanecem em `refinement` enquanto dependências como CTR-0001 não estiverem refinadas.
 - CTR-0001: argumentos, identidade, correlação e envelope de resultado/erro foram definidos; mídia agora é referenciada por `media_id`.
 - ADR-0011: processadores registrados usam canal de controle `loading | finally`; mídia foi separada para o socket CTR-0008.
