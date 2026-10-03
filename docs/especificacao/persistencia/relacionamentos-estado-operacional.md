@@ -320,23 +320,37 @@ Para cada chunk aceito:
 5. commit;
 6. somente então enviar ACK.
 
-## Política de exclusão proposta para revisão
+## Política normativa de exclusão
 
-Nenhuma política abaixo é aprovada enquanto PST-0002 estiver em `refinement`.
+No MVP, relações operacionais com FK usam **`ON DELETE RESTRICT`**.
 
-| Relação | Proposta inicial | Motivo |
-|---|---|---|
-| request → job | `RESTRICT` | preservar rastreabilidade operacional |
-| job → job_state_history | `RESTRICT` | não apagar histórico implicitamente |
-| request → outbound_message | `RESTRICT` | preservar entregas e recovery |
-| request → media | `RESTRICT` | mídia possui retenção própria |
-| media → media_chunk | exclusão explícita pelo fluxo de limpeza | FLW-0008 controla quando chunks podem ser removidos |
-| media → media_transmission | `RESTRICT` | não perder histórico de entrega |
-| request → media_transmission | `RESTRICT` | manter correlação |
+Não são permitidos `ON DELETE CASCADE` nem `ON DELETE SET NULL` para as relações operacionais abaixo:
 
-Não é proposta exclusão em cascata automática de dados operacionais históricos no MVP.
+| Relação | Política |
+|---|---|
+| request → job | `ON DELETE RESTRICT` |
+| job → job_state_history | `ON DELETE RESTRICT` |
+| request → outbound_message | `ON DELETE RESTRICT` |
+| request → media | `ON DELETE RESTRICT` |
+| media → media_chunk | `ON DELETE RESTRICT` |
+| media → media_transmission | `ON DELETE RESTRICT` |
+| request → media_transmission | `ON DELETE RESTRICT` |
 
-A conclusão da tarefa apenas coloca a correlação no processo de limpeza. O processo deve validar que todas as dependências operacionais estão em estado terminal antes de qualquer purge. O prazo de retenção dos metadados concluídos continua pendente de definição.
+A exclusão é sempre explícita e controlada pelo processo de limpeza. A aplicação deve remover dependências das folhas para a raiz e excluir a `request` somente depois que todas as referências forem removidas.
+
+Ordem conceitual mínima:
+
+1. remover `job_state_history` elegível;
+2. remover `job` elegível;
+3. remover `media_chunk` elegível;
+4. remover `media_transmission` elegível;
+5. remover `media` elegível;
+6. remover `outbound_message` elegível;
+7. remover `request` por último.
+
+A FK com `RESTRICT` funciona como proteção adicional: se uma dependência ainda existir, a exclusão do registro pai deve falhar.
+
+A conclusão da tarefa apenas coloca a correlação no processo de limpeza. Antes de qualquer purge, o processo precisa validar os estados terminais exigidos pelos contratos. O prazo de retenção dos metadados concluídos continua pendente de definição.
 
 ## Pontos para revisão
 
@@ -346,7 +360,6 @@ Antes de `refined`, decidir:
 - se uma requisição pode criar mais de um job;
 - garantia de consistência entre `media.request_id` e `media_transmission.request_id`;
 - política de retenção de `alert_state` após remoção de um schedule;
-- políticas finais de `ON DELETE`;
 - se haverá retenção/purge de requests, jobs e mensagens finalizadas;
 - relacionamento futuro de `job_attempt` caso retry automático seja habilitado.
 
@@ -357,4 +370,4 @@ Antes de `refined`, decidir:
 - relações propostas são distinguíveis de decisões já aprovadas;
 - nenhuma FK exige tabela de configuração inexistente;
 - unidades transacionais críticas são identificadas;
-- políticas de exclusão permanecem em revisão até aprovação explícita.
+- relações operacionais aprovadas usam `ON DELETE RESTRICT`; não há `CASCADE` nem `SET NULL` no MVP.
