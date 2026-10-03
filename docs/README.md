@@ -74,6 +74,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 
 - [PST-0001 — Proposta de tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
 - [PST-0002 — Relacionamentos do estado operacional](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
+- [PST-0003 — Claim concorrente de filas persistentes](especificacao/persistencia/claim-concorrente-filas.md) — `refined`
 - [PST-0100 — Entidades persistentes](especificacao/persistencia/entidades/README.md) — `refinement`
 
 ### Configuração e requisitos
