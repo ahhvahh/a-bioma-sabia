@@ -94,7 +94,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 - Pontos ainda `BLOCKED`:
   - caminhos brutos exatos dos campos Telegram usados pelo adaptador;
   - direção física final da relação `inbound_update/request`;
-  - confirmar se uma request pode criar múltiplos jobs;
   - política final de FKs e `ON DELETE`;
   - consistência entre `media.request_id` e `media_transmission.request_id`;
   - formato persistente final de `outbound_message.content`;
@@ -179,10 +178,6 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 
 ## Inconsistências documentais a corrigir
 
-### ADR-0006 — informação desatualizada
-
-[ADR-0006 — Jobs assíncronos](adr/processamento/jobs-assincronos.md) ainda afirma que persistência, concorrência, retries e recovery precisam ser fechados em especificação. Parte desses pontos já foi definida em ADR-0009, ADR-0010 e CTR-0003. O texto precisa ser reconciliado sem alterar a decisão arquitetural.
-
 ### ADR-0007 — referência de persistência de alertas a reconciliar
 
 [ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) ainda afirma que a persistência do estado entre reinícios não está decidida. ADR-0009 já definiu PostgreSQL e recovery desse estado; qualquer referência anterior ao mecanismo de persistência deve apontar para a decisão vigente.
@@ -201,6 +196,7 @@ Não são mais pendências arquiteturais:
 - [PST-0003 — Claim concorrente de filas persistentes](especificacao/persistencia/claim-concorrente-filas.md): jobs, mensagens e transmissões usam claim atômico no PostgreSQL com `FOR UPDATE SKIP LOCKED`, transição de estado e commit antes do processamento externo; mensagens usam o estado intermediário `sending`.
 - `request.status`: definido como `received → processing → completed | failed`, representando apenas o processamento pelo Core; jobs e entregas mantêm estados independentes.
 - `request_id`: UUID v4 gerado pelo Sabiá, persistido como PostgreSQL `uuid` e propagado como string canônica em JSON/MessagePack; ao término da tarefa, a correlação torna-se elegível para limpeza, respeitando dependências ainda não terminais.
+- Jobs: uma `request` pode criar `0..N` jobs; `job.request_id` não é `UNIQUE`; no MVP, jobs simultaneamente em `running` são limitados à quantidade de threads lógicas de CPU disponíveis ao processo no startup, enquanto `jobs.max_pending` limita apenas a fila `queued`.
 - Telegram: confirmação de update, avanço de `offset`, confirmação de entrega, retry de envio, recovery de respostas, retry de leitura por `getUpdates` e seleção de apresentação de mídia por `content_type` estão definidos. O módulo e o fluxo permanecem em `refinement` por outras dependências ainda abertas.
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md): `refined`; argumentos, identidade, correlação, envelope de resultado/erro e regra normativa de `content_type` estão definidos.
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md): `refined`; `content_type` é opcional, normalizado e não é inferido pelo nome ou pelos bytes; Telegram usa o tipo apenas para escolher a apresentação da mídia.
