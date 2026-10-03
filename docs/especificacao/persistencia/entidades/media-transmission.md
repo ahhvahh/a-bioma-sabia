@@ -45,6 +45,12 @@ Na ingestão local CTR-0008, mídia e transmissão são persistidas antes do ACK
 
 Novas tentativas em `pending` são obtidas pelo claim atômico de PST-0003, realizando `pending → transmitting` antes do streaming. Registros `transmitting` encontrados no recovery seguem CTR-0007. A mídia é carregada por `media_id`.
 
+## Integridade referencial
+
+`media_transmission.media_id → media.media_id` e `media_transmission.request_id → request.request_id` usam `ON DELETE RESTRICT`.
+
+Transmissões elegíveis devem ser removidas explicitamente antes da mídia ou da `request`. Não existe `CASCADE` nem `SET NULL`.
+
 ## BLOCKED
 
 Decidir se a consistência `media.request_id == media_transmission.request_id` será garantida por restrição de banco ou apenas pela aplicação.
