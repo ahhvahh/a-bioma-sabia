@@ -63,6 +63,16 @@ A saída inicial é stdout/stderr para integração natural com systemd/journalc
 
 O formato deve permanecer estruturado mesmo quando novos componentes forem adicionados.
 
+## BLOCKED
+
+Antes de retornar a `refined`, definir:
+
+- tipos dos campos estruturados;
+- campos obrigatórios por família de evento;
+- identificador/nome estável de cada evento auditável;
+- resultado/estado permitido para cada família;
+- tratamento de identificadores potencialmente sensíveis, além da proibição já definida de segredos e BLOBs.
+
 ## Critérios de aceite
 
 - eventos incluem contexto suficiente para correlação;
