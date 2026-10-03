@@ -121,6 +121,8 @@ Representa a requisição normalizada entregue ao Core.
 
 ### `job`
 
+Uma `request_id` pode correlacionar zero ou vários jobs; `job.request_id` não possui restrição `UNIQUE`.
+
 Materializa CTR-0003.
 
 | Campo | Tipo proposto | Obrigatório | Regra |
