@@ -33,7 +33,7 @@ Update recebido por long polling em cliente habilitado.
 3. persiste transacionalmente o update e sua correlação com o cliente usando `update_id` como chave idempotente;
 4. somente após a persistência bem-sucedida, o ciclo de polling pode avançar para `offset = maior update_id persistido + 1`;
 5. a autorização valida whitelist do cliente e, quando configurado, chat;
-6. o adaptador gera `request_id`, persiste a request em `received`, persiste a mídia recebida conforme CTR-0006, normaliza anexos por `media_id`, define `principal_id`, `client_id`, `received_at` e `reply_context`, tokeniza os argumentos e constrói o comando interno sem aplicar validação semântica específica da operação;
+6. o adaptador solicita ao Sabiá a geração de `request_id` UUID v4, persiste a request em `received`, persiste a mídia recebida conforme CTR-0006, normaliza anexos por `media_id`, define `principal_id`, `client_id`, `received_at` e `reply_context`, tokeniza os argumentos e constrói o comando interno sem aplicar validação semântica específica da operação;
 7. antes de entregar ao Core, a request muda para `processing`; o Command Router resolve a operação cadastrada e a operação valida quantidade, formato e domínio dos argumentos;
 8. a operação retorna envelope conforme CTR-0001 com `type`, `request_id` e `payload`; resultado `message`, `job` ou `file` conclui a request como `completed`, enquanto resultado `error` conclui a request como `failed`;
 9. o adaptador converte `message`, `job` ou `error` para resposta Telegram; resultados `file` usam `media_id` de CTR-0006;
