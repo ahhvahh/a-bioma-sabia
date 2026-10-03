@@ -38,6 +38,12 @@ Nunca atualizar um histórico existente para representar outro estado. Cada tran
 
 Usado para rastreabilidade e diagnóstico da evolução do job; o estado corrente permanece em `job.status`.
 
+## Integridade referencial
+
+`job_state_history.job_id → job.job_id` usa `ON DELETE RESTRICT`.
+
+O histórico elegível deve ser removido explicitamente antes do job correspondente. Não existe exclusão implícita em cascata.
+
 ## BLOCKED
 
 A política de retenção histórica ainda não está definida.
