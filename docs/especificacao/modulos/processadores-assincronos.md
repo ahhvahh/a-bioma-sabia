@@ -25,7 +25,7 @@ Registrar processadores assíncronos e adaptar scripts, aplicações e serviços
 - selecionar o mecanismo de transporte cadastrado;
 - enviar comando e argumentos ao processador;
 - receber eventos de controle `loading` e `finally`;
-- normalizar mecanismos concretos para CTR-0005;
+- transportar CTR-0005 em JSON Lines UTF-8, adaptando stdin/stdout ou socket sem alterar o envelope lógico;
 - encaminhar progresso ao subsistema de jobs;
 - manter o canal de controle separado da ingestão de mídia;
 - permitir que processadores publiquem mídia pelo socket CTR-0008 usando o mesmo `request_id`;
@@ -54,7 +54,7 @@ Estado de requisição, job, progresso relevante, resultado final e entrega pert
 ## Restrições
 
 - nenhuma mensagem Telegram vira caminho, socket ou executável;
-- detalhes do mecanismo concreto ficam dentro do Processor Transport;
+- detalhes de abertura/fechamento do mecanismo concreto ficam dentro do Processor Transport; formato e framing do controle são JSON Lines conforme CTR-0005;
 - binários não trafegam no protocolo de controle e nunca são enviados para logs;
 - mídia produzida é enviada exclusivamente pelo socket de ingestão e persistida antes do ACK;
 - um `request_id` não pode ser reaproveitado por outra execução.
@@ -66,7 +66,8 @@ Estado de requisição, job, progresso relevante, resultado final e entrega pert
 - progresso preserva `request_id`;
 - vários arquivos podem ser publicados por CTR-0008 usando o mesmo `request_id`;
 - `finally` contém somente a mensagem final;
-- contrato permanece `refinement` enquanto o framing do canal de controle estiver aberto.
+- JSON Lines é o framing único do canal de controle para processos locais e serviços/socket;
+- o contrato permanece `refinement` enquanto a política de timeout sem `finally` estiver aberta.
 
 ## Implementação relacionada
 
