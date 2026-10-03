@@ -19,7 +19,7 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 | Campo | PostgreSQL | Nulo | Origem | Origem simples CTR-0008 | Origem fracionada CTR-0009 | Conversão |
 |---|---|---:|---|---|---|---|
 | `media_id` | `bigint identity` | não | PostgreSQL | — | — | identity |
-| `request_id` | `text` | não | produtor/Telegram normalizado | `request_id` | `request_id` | validar existência e copiar |
+| `request_id` | `uuid` | não | produtor/Telegram normalizado | `request_id` | `request_id` | validar UUID v4, existência e copiar |
 | `name` | `text` | não | produtor/adaptador | `name` | `name` | copiar nome lógico |
 | `content_type` | `text` | sim | produtor/adaptador | `content_type` | `content_type` | copiar; validação BLOCKED |
 | `size_bytes` | `bigint` | não | derivado | `len(data)` | bytes persistidos acumulados | calcular |
@@ -35,13 +35,13 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 
 | media_id | request_id | name | content_type | total_bytes | received_bytes | storage_mode | next_sequence_id | completed |
 |---:|---|---|---|---:|---:|---|---|---|
-| 501 | `req-example-001` | `foto.jpg` | `image/jpeg` | 145200 | 145200 | `inline` | `NULL` | `true` |
+| 501 | `550e8400-e29b-41d4-a716-446655440000` | `foto.jpg` | `image/jpeg` | 145200 | 145200 | `inline` | `NULL` | `true` |
 
 ## Exemplo — upload fracionado em andamento
 
 | media_id | request_id | name | content_type | total_bytes | received_bytes | storage_mode | next_sequence_id | completed |
 |---:|---|---|---|---:|---:|---|---:|---|
-| 502 | `req-example-001` | `video.mp4` | `video/mp4` | 80000000 | 10000000 | `chunked` | 3 | `false` |
+| 502 | `550e8400-e29b-41d4-a716-446655440000` | `video.mp4` | `video/mp4` | 80000000 | 10000000 | `chunked` | 3 | `false` |
 
 ## Origem Telegram
 
