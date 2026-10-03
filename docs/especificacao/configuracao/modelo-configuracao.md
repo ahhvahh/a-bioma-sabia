@@ -129,10 +129,9 @@ Configura o socket local exclusivo de ingestão de mídia.
 Campos necessários:
 
 - `socket_path`: caminho absoluto do Unix socket;
-- parâmetros de ownership/permissão local;
 - `max_payload_bytes`: limite máximo aceito por upload MessagePack; no MVP o valor normativo é `20000000` bytes (20 MB decimais).
 
-O caminho e ownership/grupo/modo permanecem `BLOCKED`. O limite não é livremente configurável no MVP: valores diferentes de `20000000` são inválidos.
+A política de acesso não é livremente configurável no MVP: o socket deve usar owner `sabia`, group `abioma` e mode `0660`. O caminho normativo permanece `BLOCKED`. O limite não é livremente configurável no MVP: valores diferentes de `20000000` são inválidos.
 
 Não existe endereço TCP para esta interface.
 
@@ -143,11 +142,10 @@ Configura o segundo Unix socket, exclusivo para ingestão fracionada.
 Campos necessários:
 
 - `socket_path`: caminho absoluto, diferente de `media_ingest.socket_path`;
-- parâmetros de ownership/permissão local;
 - `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes;
 - `max_total_bytes`: no MVP deve ser exatamente `100000000` bytes.
 
-Arquivos acima do limite do canal simples usam obrigatoriamente este canal. Arquivos menores ou iguais a 20 MB também podem usá-lo. A abertura gera `media_id` e a sequência é estrita; permanecem `BLOCKED` somente a completude e o limite total do arquivo lógico em CTR-0009.
+Arquivos acima do limite do canal simples usam obrigatoriamente este canal. Arquivos menores ou iguais a 20 MB também podem usá-lo. A abertura gera `media_id` e a sequência é estrita. A política de acesso é fixa: owner `sabia`, group `abioma`, mode `0660`. O caminho normativo do socket permanece `BLOCKED`.
 
 Não existe endereço TCP para esta interface.
 
@@ -189,6 +187,15 @@ A configuração completa é validada antes de iniciar:
 Configuração ausente, inválida, campo obrigatório ausente, segredo referenciado inexistente ou valor fora do domínio faz o processo falhar no startup.
 
 Para agendamentos, `interval` é obrigatório e deve ser uma duração positiva. `reminder_interval`, quando presente, também deve ser uma duração positiva. Configuração cron é inválida no MVP.
+
+Para sockets de mídia:
+
+- `socket_path` deve ser absoluto;
+- os dois caminhos devem ser diferentes;
+- owner deve ser `sabia`;
+- group deve ser `abioma`;
+- mode deve ser `0660`;
+- a configuração não pode ampliar acesso para usuários fora do grupo `abioma`.
 
 Para processadores:
 
@@ -242,7 +249,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
 - `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
-- CTR-0005 fixa JSON Lines e timeout absoluto inicial de `2h`; o schema restante de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
+- CTR-0005 fixa JSON Lines e timeout absoluto inicial de `2h`; a segurança dos sockets de mídia usa `sabia:abioma`/`0660`; o schema restante de `processors`, os caminhos normativos dos sockets e outras dependências abertas precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
