@@ -21,7 +21,7 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 | `media_id` | `bigint identity` | não | PostgreSQL | — | — | identity |
 | `request_id` | `uuid` | não | produtor/Telegram normalizado | `request_id` | `request_id` | validar UUID v4, existência e copiar |
 | `name` | `text` | não | produtor/adaptador | `name` | `name` | copiar nome lógico |
-| `content_type` | `text` | sim | produtor/adaptador | `content_type` | `content_type` | copiar; validação BLOCKED |
+| `content_type` | `text` | sim | produtor/adaptador | `content_type` | `content_type` | vazio → `NULL`; validar media type; normalizar para minúsculas |
 | `size_bytes` | `bigint` | não | derivado | `len(data)` | bytes persistidos acumulados | calcular |
 | `total_bytes` | `bigint` | não | derivado/produtor | `len(data)` | `total_bytes` | converter para `bigint` |
 | `received_bytes` | `bigint` | não | derivado | `len(data)` | inicia 0; acumula chunks | calcular atomicamente |
@@ -49,5 +49,4 @@ A documentação define que mídia recebida pelo Telegram deve ser normalizada p
 
 ## BLOCKED
 
-- regra normativa de `content_type`;
 - de-para bruto da mídia Telegram para esta entidade.
