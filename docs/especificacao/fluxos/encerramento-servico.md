@@ -1,7 +1,7 @@
 # Encerramento do serviço
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0004-bf3989?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
