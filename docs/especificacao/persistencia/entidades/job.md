@@ -1,7 +1,7 @@
 # Entidade `job`
 
 **ID:** PST-0104  
-**Status:** refinement
+**Status:** refined
 
 ## Objetivo
 
