@@ -44,7 +44,7 @@ Objeto MessagePack:
 - `version: integer` — versão do contrato; MVP usa `1`;
 - `request_id: string` — UUID v4 gerado pelo Sabiá, representado como string canônica e conhecido pelo produtor;
 - `name: string` — nome lógico do arquivo;
-- `content_type: string | null` — tipo declarado pelo produtor, quando conhecido;
+- `content_type: string | null` — tipo declarado pelo produtor, quando conhecido; segue a normalização de CTR-0006;
 - `data: binary` — conteúdo binário integral.
 
 Regras:
@@ -57,6 +57,8 @@ Regras:
 - uma conexão envia um arquivo;
 - vários arquivos para a mesma requisição usam várias conexões/uploads com o mesmo `request_id`;
 - dois uploads com mesmo `request_id`, mesmo `name` e mesmo conteúdo são aceitos como duas mídias independentes e recebem `media_id` distintos.
+- `content_type` vazio normaliza para `null`; valor não nulo deve ser um media type sintaticamente válido e é normalizado para minúsculas;
+- o serviço não infere tipo por `name` nem inspeciona `data` para detectar o tipo.
 
 ## Limite de tamanho
 
@@ -109,6 +111,7 @@ Códigos mínimos:
 - `unsupported_version`;
 - `unknown_request`;
 - `invalid_message`;
+- `invalid_content_type`;
 - `media_too_large`;
 - `persistence_failed`;
 - `not_authorized`.
@@ -145,4 +148,5 @@ Antes de `refined` ainda precisam ser definidos:
 - restart após ACK não perde o conteúdo persistido;
 - nenhum caminho de filesystem é aceito no payload;
 - binário não aparece em logs;
-- `data` com mais de `20000000` bytes é recusado antes da persistência.
+- `data` com mais de `20000000` bytes é recusado antes da persistência;
+- `content_type` segue CTR-0006 e valor inválido é recusado com `invalid_content_type`.
