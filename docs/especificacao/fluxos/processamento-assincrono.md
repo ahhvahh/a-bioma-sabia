@@ -34,7 +34,7 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 1. o Sabiá cria/persiste o job e associa o `request_id`;
 2. o Processor Registry resolve o processador cadastrado;
 3. o Processor Transport envia `request_id`, comando e argumentos como uma linha JSON UTF-8 conforme CTR-0005;
-4. o processador inicia o trabalho;
+4. o processador inicia o trabalho e começa o timeout absoluto de 2 horas;
 5. a cada linha JSON válida com evento `loading`, o Sabiá valida o `request_id` e encaminha a mensagem ao cliente;
 6. quando o processador produzir mídia, ele abre o socket CTR-0008 e envia um objeto MessagePack usando o mesmo `request_id`;
 7. o Media Ingest persiste BLOB e metadados, cria a transmissão `pending` e retorna `media_id`;
@@ -68,14 +68,27 @@ A mídia já persistida continua disponível. CTR-0007 mantém a transmissão `p
 
 ### Processo termina sem finally
 
-A requisição não é considerada concluída com sucesso apenas pelo término do processo. O tratamento depende da política de timeout de CTR-0005.
+Se processo, conexão ou transporte encerrar antes do timeout sem `finally`, o processamento termina em falha de transporte. O job realiza `running → failed` e registra motivo `missing_finally/transport_failure`. Não é necessário aguardar o restante das 2 horas.
+
+### Timeout sem finally
+
+O timeout é absoluto e começa quando a requisição é entregue ao processador.
+
+Eventos `loading` não renovam o prazo.
+
+Ao completar 2 horas sem `finally` válido:
+
+1. o Processor Transport solicita encerramento/cancelamento do mecanismo associado;
+2. o job realiza `running → timeout`;
+3. o motivo `processor_timeout` é persistido;
+4. eventos tardios dessa execução são ignorados para mudança de estado.
 
 ## Falhas e tratamento
 
 - `request_id` desconhecido no controle ou na mídia: rejeitar;
 - falha do Processor Transport: registrar falha de processamento;
 - falha do Media Ingest: não confirmar o conteúdo;
-- timeout sem `finally`: aplicar política de CTR-0005;
+- timeout sem `finally`: após 2 horas, encerrar a execução conforme CTR-0005 e marcar o job como `timeout`;
 - falha de entrega externa não remove o BLOB persistido nem altera, por si só, o resultado do processamento.
 
 ## Resultado
@@ -91,6 +104,8 @@ O job possui estado final rastreável e toda mídia aceita possui `media_id` e t
 - ACK de mídia ocorre somente após persistência;
 - mídia pendente continua recuperável após restart do serviço;
 - término do processo sem `finally` não é confundido com sucesso;
+- `loading` não renova o timeout absoluto de 2 horas;
+- timeout sem `finally` encerra o job em `timeout` com motivo `processor_timeout`;
 - canal de controle não transporta BLOB;
 - canal de controle usa JSON Lines UTF-8 em qualquer mecanismo de transporte.
 
