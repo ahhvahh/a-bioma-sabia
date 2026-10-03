@@ -263,6 +263,18 @@ Proposta mínima para cumprir CFG-0001 caso o mecanismo de migração escolhido 
 
 Se a biblioteca de migração adotar tabela equivalente, não devem existir duas fontes de versionamento.
 
+## Política de FKs e exclusão
+
+As FKs operacionais definidas em PST-0002 usam `ON DELETE RESTRICT`.
+
+No MVP:
+
+- não existe `ON DELETE CASCADE` para estado operacional;
+- não existe `ON DELETE SET NULL` para preservar registros órfãos;
+- purge remove registros explicitamente das folhas para a raiz;
+- a `request` é removida somente depois que jobs/histórico, mensagens, mídia/chunks e transmissões elegíveis tiverem sido removidos;
+- tentativa de excluir um pai ainda referenciado deve falhar pela FK.
+
 ## Índices propostos para revisão
 
 Além de PKs e `UNIQUE`:
@@ -298,7 +310,6 @@ Antes de `PST-0001` atingir `refined`, revisar:
 
 - nomes físicos finais das tabelas;
 - tipos finais dos IDs numéricos;
-- política de FK/`ON DELETE` definida em PST-0002;
 - se `outbound_message.content` é suficiente ou se precisa de envelope estruturado;
 - se `transport_cursor` deve permanecer genérico ou específico de Telegram;
 - mecanismo concreto de migração/versionamento;
