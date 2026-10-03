@@ -12,6 +12,7 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 - [CTR-0003 — Job](../../contratos/job.md)
 - [PST-0103 — request](request.md)
 - [PST-0105 — job_state_history](job-state-history.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
 
 ## Estrutura e de-para propostos
 
@@ -43,7 +44,7 @@ A criação do job e o primeiro `job_state_history` devem ocorrer na mesma trans
 
 ## Consumo
 
-Workers consultam jobs `queued`; recovery consulta `queued` e `running` segundo CTR-0003.
+Workers não consomem `queued` por leitura simples. O próximo job é obtido pelo claim atômico de PST-0003, que realiza `queued → running` e registra o histórico correspondente na mesma transação antes de devolver o job ao worker. Recovery continua consultando `queued` e `running` segundo CTR-0003.
 
 ## BLOCKED
 
