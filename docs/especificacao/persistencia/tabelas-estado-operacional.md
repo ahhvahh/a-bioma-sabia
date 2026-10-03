@@ -81,6 +81,8 @@ Mantém o maior identificador de entrada confirmado por cliente/transporte.
 
 Para Telegram, `last_update_id` representa o maior `update_id` aceito. A atualização deve respeitar FLW-0001: o cursor só avança depois que o update foi persistido.
 
+`transport_cursor` permanece genérico por transporte, usando a chave `(client_id, transport)`. No MVP o valor normativo de `transport` é `telegram`, mas o modelo não precisa ser alterado para adicionar outro adaptador.
+
 ### `inbound_update`
 
 Registra cada update aceito para garantir idempotência.
@@ -310,9 +312,6 @@ Antes de habilitar retry automático, deve ser refinado um modelo contendo, no m
 
 Antes de `PST-0001` atingir `refined`, revisar:
 
-- nomes físicos finais das tabelas;
-- tipos finais dos IDs numéricos;
-- se `transport_cursor` deve permanecer genérico ou específico de Telegram;
 - mecanismo concreto de migração/versionamento;
 - modelo de `job_attempt` somente se retry automático entrar no MVP.
 
