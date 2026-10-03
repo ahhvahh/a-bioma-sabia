@@ -19,7 +19,7 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 | Campo | PostgreSQL | Nulo | Origem | Campo de origem | Conversão |
 |---|---|---:|---|---|---|
 | `job_id` | `bigint identity` | não | PostgreSQL | gerado pelo banco | identity |
-| `request_id` | `text` | não | `request` | `request.request_id` | copiar |
+| `request_id` | `uuid` | não | `request` | `request.request_id` | copiar |
 | `client_id` | `text` | não | `request` | `request.client_id` | copiar |
 | `principal_id` | `text` | não | `request` | `request.principal_id` | copiar |
 | `transport` | `text` | não | `request` | `request.transport` | copiar |
@@ -36,7 +36,7 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 
 | job_id | request_id | client_id | operation | status | created_at | started_at | finished_at | terminal_reason |
 |---:|---|---|---|---|---|---|---|---|
-| 81 | `req-example-001` | `bioma` | `system.status` | `completed` | `2026-10-02T23:30:02Z` | `2026-10-02T23:30:03Z` | `2026-10-02T23:30:04Z` | `NULL` |
+| 81 | `550e8400-e29b-41d4-a716-446655440000` | `bioma` | `system.status` | `completed` | `2026-10-02T23:30:02Z` | `2026-10-02T23:30:03Z` | `2026-10-02T23:30:04Z` | `NULL` |
 
 ## Registro
 
