@@ -38,7 +38,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refinement`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
 - [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refined`
-- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refinement`
+- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refined`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
 - [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
 - [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refined`
