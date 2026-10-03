@@ -19,6 +19,7 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
 
 ## Gatilho
 
@@ -69,11 +70,11 @@ Transmissões de mídia `pending` ou `transmitting` são recuperadas conforme CT
 
 ### Erro com retry_after
 
-Manter a resposta `pending` e tornar a próxima tentativa elegível somente depois do intervalo informado pelo Telegram.
+Retornar a resposta de `sending` para `pending` e tornar a próxima tentativa elegível somente depois do intervalo informado pelo Telegram.
 
 ### Falha permanente de entrega
 
-Marcar a entrega como `failed`, preservando código e descrição do erro. O estado final do processamento do job permanece separado do estado de entrega.
+Marcar a entrega em `sending` como `failed`, preservando código e descrição do erro. O estado final do processamento do job permanece separado do estado de entrega.
 
 ### Cancelamento
 
@@ -83,7 +84,7 @@ Aplicar as regras de CTR-0003 conforme o estado atual.
 
 Falha de processamento e falha de entrega são registradas separadamente.
 
-Uma resposta processada não é considerada entregue enquanto a Bot API não retornar sucesso e a confirmação remota não for persistida. Timeout, desconexão ou outro resultado ambíguo mantém a resposta `pending` e permite retry. A política privilegia eventual entrega sobre eliminação absoluta de duplicidades.
+Uma resposta processada não é considerada entregue enquanto a Bot API não retornar sucesso e a confirmação remota não for persistida. Timeout, desconexão ou outro resultado ambíguo retorna a resposta de `sending` para `pending` e permite retry. A política privilegia eventual entrega sobre eliminação absoluta de duplicidades.
 
 ## Resultado
 
