@@ -15,7 +15,6 @@ Registrar scripts Bash assíncronos e adaptar sua execução ao protocolo comum 
 - [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 
 ## Responsabilidades
 
