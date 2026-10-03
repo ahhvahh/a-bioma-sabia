@@ -141,6 +141,12 @@ Proposta:
 
 **Ponto para revisão:** escolher somente uma direção física para evitar duplicação. A proposta preferida é manter a FK apenas em `request.inbound_update_id` e remover `inbound_update.request_id` de PST-0001 caso esta relação seja aprovada.
 
+### Ciclo de vida da request
+
+`request.status` usa `received → processing → completed | failed` e representa apenas o processamento pelo Core.
+
+O estado da request é independente do estado do job e das entregas. Uma request assíncrona pode estar `completed` enquanto seu job permanece `queued` ou `running`, e uma request concluída pode possuir mensagens ou mídias ainda pendentes de entrega.
+
 ### `request → job`
 
 **Cardinalidade proposta:** `1 : 0..N`.
