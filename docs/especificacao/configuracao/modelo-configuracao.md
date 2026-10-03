@@ -153,10 +153,11 @@ Não existe endereço TCP para esta interface.
 
 ### jobs
 
-Campos obrigatórios:
+Campo obrigatório:
 
-- `max_workers`: inteiro maior que zero;
 - `max_pending`: inteiro maior que zero.
+
+Não existe `max_workers` configurável no MVP. No startup, o Sabiá determina a quantidade de threads lógicas de CPU disponíveis ao processo e usa esse valor como limite máximo de jobs simultaneamente em `running`.
 
 ### schedules
 
@@ -255,7 +256,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
 - CTR-0005 fixa scripts Bash, `request_id` por stdin, JSON Lines em stdout e timeout absoluto de `2h`; a segurança dos sockets de mídia usa `sabia:abioma`/`0660`; os caminhos normativos dos sockets e outras dependências abertas precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
-- jobs possuem limites configuráveis;
+- jobs usam `max_pending` configurável para a fila; a concorrência de `running` é derivada das threads lógicas de CPU disponíveis ao processo;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
 - cron não é aceito no MVP;
 - `reminder_interval` é opcional, positivo quando presente e ausente significa sem lembretes periódicos;
