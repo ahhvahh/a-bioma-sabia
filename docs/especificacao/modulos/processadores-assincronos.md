@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Registrar processadores assíncronos e adaptar scripts, aplicações e serviços/socket ao protocolo comum de requisição, progresso e finalização.
+Registrar scripts Bash assíncronos e adaptar sua execução ao protocolo comum de progresso e finalização do MVP.
 
 ## Dependências
 
@@ -22,15 +22,16 @@ Registrar processadores assíncronos e adaptar scripts, aplicações e serviços
 - carregar registro de processadores permitidos;
 - resolver o processador de uma operação autorizada;
 - gerar/adotar o `request_id` da requisição;
-- selecionar o mecanismo de transporte cadastrado;
-- enviar comando e argumentos ao processador;
+- resolver o `script_id` cadastrado no Script Registry;
+- iniciar o script com os argumentos validados da operação;
+- escrever o `request_id` no stdin do processo;
 - receber eventos de controle `loading` e `finally`;
-- transportar CTR-0005 em JSON Lines UTF-8, adaptando stdin/stdout ou socket sem alterar o envelope lógico;
+- interpretar o stdout do script como JSON Lines UTF-8 conforme CTR-0005;
 - encaminhar progresso ao subsistema de jobs;
 - manter o canal de controle separado da ingestão de mídia;
 - permitir que processadores publiquem mídia pelo socket CTR-0008 usando o mesmo `request_id`;
 - entregar a mensagem `finally` ao pipeline de resposta;
-- impedir que endereço, executável ou socket arbitrário venha do usuário remoto.
+- impedir que identificador, caminho ou executável arbitrário venha do usuário remoto.
 
 ## Entradas
 
@@ -54,20 +55,22 @@ Estado de requisição, job, progresso relevante, resultado final e entrega pert
 ## Restrições
 
 - nenhuma mensagem Telegram vira caminho, socket ou executável;
-- detalhes de abertura/fechamento do mecanismo concreto ficam dentro do Processor Transport; formato e framing do controle são JSON Lines conforme CTR-0005;
+- no MVP existe apenas execução de script Bash; stdin carrega `request_id`, stdout carrega eventos JSON Lines e stderr permanece diagnóstico;
 - binários não trafegam no protocolo de controle e nunca são enviados para logs;
 - mídia produzida é enviada exclusivamente pelo socket de ingestão e persistida antes do ACK;
 - um `request_id` não pode ser reaproveitado por outra execução.
 
 ## Critérios de aceite
 
-- Bash, aplicação e socket service podem ser cadastrados sem alterar o Command Router;
+- somente scripts Bash previamente cadastrados podem atuar como processadores assíncronos no MVP;
+- cada processador referencia um `script_id` existente no Script Registry;
 - eventos de controle são normalizados para `loading | finally`;
 - progresso preserva `request_id`;
 - vários arquivos podem ser publicados por CTR-0008 usando o mesmo `request_id`;
 - `finally` contém somente a mensagem final;
-- JSON Lines é o framing único do canal de controle para processos locais e serviços/socket;
-- o contrato permanece `refinement` enquanto a política de timeout sem `finally` estiver aberta.
+- `request_id` é entregue por stdin e JSON Lines é o formato único do stdout de controle;
+- aplicações dedicadas e serviços por socket ficam fora do MVP;
+- timeout sem `finally` segue a política absoluta de 2 horas de CTR-0005.
 
 ## Implementação relacionada
 
