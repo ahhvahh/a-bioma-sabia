@@ -22,7 +22,7 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 
 - abrir o Unix socket de ingestão simples;
 - abrir um segundo Unix socket dedicado à ingestão fracionada;
-- aceitar apenas conexões locais permitidas pelo sistema operacional;
+- aceitar apenas conexões locais do usuário `sabia` ou de processos pertencentes ao grupo Linux `abioma`, conforme permissões `0660` dos sockets;
 - decodificar MessagePack;
 - rejeitar payload simples acima de `20000000` bytes;
 - rejeitar chunk acima de `5000000` bytes;
@@ -77,7 +77,7 @@ PostgreSQL armazena metadados, BLOB integral ou chunks ordenados. A transmissão
 - restart mantém conteúdo confirmado;
 - payload integral acima de 20 MB é rejeitado com `media_too_large` e deve usar o canal fracionado;
 - chunk acima de 5 MB é rejeitado com `chunk_too_large`;
-- contrato permanece em `refinement` enquanto caminho/permissões dos sockets e demais dependências abertas não estiverem refinados.
+- contrato permanece em `refinement` enquanto os caminhos normativos dos sockets e demais dependências abertas não estiverem refinados.
 
 ## Implementação relacionada
 
