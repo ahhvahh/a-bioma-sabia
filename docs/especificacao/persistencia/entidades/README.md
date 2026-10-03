@@ -29,6 +29,9 @@ Cada documento de entidade detalha:
 
 ## Entidades
 
+A política de reserva concorrente das filas persistentes é definida por [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md).
+
+
 - [PST-0101 — transport_cursor](transport-cursor.md)
 - [PST-0102 — inbound_update](inbound-update.md)
 - [PST-0103 — request](request.md)
