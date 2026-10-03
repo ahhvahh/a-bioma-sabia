@@ -49,3 +49,10 @@ Workers não consomem `queued` por leitura simples. O próximo job é obtido pel
 ## Cardinalidade
 
 Uma mesma `request_id` pode possuir zero ou vários jobs. `job.request_id` não possui restrição `UNIQUE`.
+
+
+## Integridade referencial
+
+`job.request_id → request.request_id` usa `ON DELETE RESTRICT`.
+
+O job deve ser removido explicitamente pelo processo de limpeza antes da remoção da `request`. Não existe `CASCADE` nem `SET NULL` no MVP.
