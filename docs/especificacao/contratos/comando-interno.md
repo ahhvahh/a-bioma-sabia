@@ -1,7 +1,7 @@
 # Comando interno
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0001-9a6700?style=flat-square)
-![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 
 ## Objetivo
 
@@ -75,6 +75,21 @@ Regras:
 - `content_type: string | null`.
 
 O adaptador ou produtor persiste a mídia antes de disponibilizá-la ao Core. O Core não recebe binário no envelope.
+
+### Regra de `content_type`
+
+`content_type` é metadado declarado, não uma fonte de autorização ou segurança.
+
+Regras normativas:
+
+- `null` é válido quando o tipo não for conhecido;
+- string vazia ou composta somente por espaços é normalizada para `null`;
+- valor não nulo deve possuir sintaxe válida de media type, como `image/jpeg`, `video/mp4` ou `application/pdf`;
+- o valor persistido e propagado é normalizado para minúsculas;
+- o Sabiá não infere `content_type` pela extensão de `name`;
+- o Sabiá não inspeciona os bytes para detectar o tipo no MVP;
+- media type válido, porém não reconhecido pelo transporte, continua válido como metadado;
+- valor sintaticamente inválido produz erro controlado `invalid_content_type`.
 
 ## Saída
 
@@ -175,4 +190,4 @@ Da mesma forma, adaptadores futuros devem conseguir converter o envelope de resu
 - `job` contém `job_id`;
 - `error` contém `code`, `message` e `retryable`;
 - referências de mídia de entrada e saída usam `media_id` conforme CTR-0006;
-- permanece `BLOCKED` apenas a regra normativa de `content_type` antes de `refined`; retenção do payload é tratada por CTR-0006/FLW-0008 e o limite fracionado pertence a CTR-0009.
+- `content_type` segue a regra normativa deste contrato; retenção do payload é tratada por CTR-0006/FLW-0008 e o limite fracionado pertence a CTR-0009.
