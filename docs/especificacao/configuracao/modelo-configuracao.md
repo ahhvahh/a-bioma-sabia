@@ -112,13 +112,13 @@ Processadores assíncronos podem representar:
 
 Cada entrada precisa possuir identificador lógico e tipo de processador.
 
+O formato e framing do canal de controle são fixos pelo CTR-0005: JSON Lines UTF-8, um objeto por linha. Não existe parâmetro de configuração para selecionar JSON, MessagePack ou Protobuf.
+
 A estrutura concreta por tipo de transporte ainda está `BLOCKED` e precisa definir, no mínimo:
 
 - como localizar/invocar o processador cadastrado;
 - timeout da requisição;
-- mecanismo de envio do comando;
-- mecanismo de recebimento dos eventos `loading` e `finally`;
-- parâmetros necessários ao framing do canal de controle.
+- parâmetros concretos necessários ao mecanismo de transporte, como caminho de executável ou socket.
 
 Nenhum endereço, caminho ou socket pode ser substituído por valor vindo do comando remoto.
 
@@ -236,7 +236,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
 - `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
-- o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
+- CTR-0005 fixa JSON Lines como framing de controle; o schema de `processors` e os valores de segurança de `media_ingest` precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
