@@ -62,7 +62,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md) — `refinement`
 - [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refinement`
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
-- [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refinement`
+- [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refined`
 - [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refined`
 - [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
 - [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
