@@ -54,6 +54,12 @@ Se uma transmissão se tornar elegível entre a primeira verificação e a aquis
 
 A implementação precisa serializar a entrada da limpeza com a ativação de transmissões.
 
+## Integridade referencial
+
+Os chunks são removidos explicitamente pelo fluxo de limpeza. A relação `media_chunk.media_id → media.media_id` usa `ON DELETE RESTRICT`; não existe remoção por `CASCADE`.
+
+Este fluxo remove payloads binários e preserva os registros de mídia e transmissão, portanto não depende de exclusão do registro pai para limpar chunks.
+
 ## Dados removidos
 
 A rotina pode remover somente conteúdo binário já entregue:
