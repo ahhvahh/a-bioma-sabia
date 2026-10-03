@@ -32,16 +32,16 @@ Command Router resolve uma operação cadastrada como processamento assíncrono.
 ## Fluxo principal
 
 1. o Sabiá cria/persiste o job e associa o `request_id`;
-2. o Processor Registry resolve o processador cadastrado;
-3. o Processor Transport envia `request_id`, comando e argumentos como uma linha JSON UTF-8 conforme CTR-0005;
-4. o processador inicia o trabalho e começa o timeout absoluto de 2 horas;
-5. a cada linha JSON válida com evento `loading`, o Sabiá valida o `request_id` e encaminha a mensagem ao cliente;
+2. o Processor Registry resolve o `script_id` cadastrado e o Script Registry devolve a definição do script Bash;
+3. o Sabiá inicia o script com os argumentos validados da operação via argv;
+4. o Sabiá escreve o `request_id` UUID v4 no stdin como uma única linha e inicia o timeout absoluto de 2 horas;
+5. a cada linha JSON válida emitida no stdout com evento `loading`, o Sabiá valida o `request_id` e encaminha a mensagem ao cliente;
 6. quando o processador produzir mídia, ele abre o socket CTR-0008 e envia um objeto MessagePack usando o mesmo `request_id`;
 7. o Media Ingest persiste BLOB e metadados, cria a transmissão `pending` e retorna `media_id`;
 8. a fila de mídia pode iniciar a entrega independentemente do canal de controle;
 9. o processador pode repetir o upload para cada arquivo produzido;
 10. o job permanece em execução;
-11. o processador envia uma linha JSON com `finally` e a mensagem final;
+11. o script escreve no stdout uma linha JSON com `finally` e a mensagem final;
 12. o Sabiá persiste a resposta final;
 13. o adaptador envia a mensagem final;
 14. as transmissões de mídia seguem CTR-0007 até `delivered` ou `failed`.
@@ -86,7 +86,7 @@ Ao completar 2 horas sem `finally` válido:
 ## Falhas e tratamento
 
 - `request_id` desconhecido no controle ou na mídia: rejeitar;
-- falha do Processor Transport: registrar falha de processamento;
+- stdout com linha não JSON ou evento incompatível com CTR-0005: registrar falha de protocolo/processamento;
 - falha do Media Ingest: não confirmar o conteúdo;
 - timeout sem `finally`: após 2 horas, encerrar a execução conforme CTR-0005 e marcar o job como `timeout`;
 - falha de entrega externa não remove o BLOB persistido nem altera, por si só, o resultado do processamento.
@@ -107,7 +107,11 @@ O job possui estado final rastreável e toda mídia aceita possui `media_id` e t
 - `loading` não renova o timeout absoluto de 2 horas;
 - timeout sem `finally` encerra o job em `timeout` com motivo `processor_timeout`;
 - canal de controle não transporta BLOB;
-- canal de controle usa JSON Lines UTF-8 em qualquer mecanismo de transporte.
+- stdin contém somente o `request_id` por linha;
+- argumentos da operação usam argv;
+- stdout contém somente JSON Lines UTF-8 do protocolo CTR-0005;
+- stderr permanece diagnóstico;
+- somente scripts Bash são processadores assíncronos no MVP.
 
 ## Implementação relacionada
 
