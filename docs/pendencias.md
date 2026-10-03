@@ -34,7 +34,7 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
   - no MVP, processadores assíncronos são somente scripts Bash previamente cadastrados;
   - cada processador referencia um `script_id` existente no Script Registry;
   - o Sabiá escreve `request_id` UUID v4 no stdin como uma linha; argumentos da operação seguem via argv;
-  - stdout é reservado a JSON Lines UTF-8 com eventos `loading | finally`; stderr permanece diagnóstico;
+  - stdout é reservado a JSON Lines UTF-8 com eventos `loading | finally`, consumidos incrementalmente linha a linha; stderr permanece diagnóstico;
   - aplicações dedicadas e serviços por socket ficam fora do MVP e serão tratados como evolução futura;
   - `content_type` é metadado declarado: `null` é válido, vazio vira `null`, valor informado precisa ser media type válido e é normalizado para minúsculas; não há inferência por extensão ou inspeção dos bytes;
   - no Telegram, `image/*` usa envio de imagem, `video/*` usa vídeo e demais tipos/`null` usam documento/arquivo genérico;
