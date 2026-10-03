@@ -1,7 +1,7 @@
 # Entidade `outbound_message`
 
 **ID:** PST-0106  
-**Status:** refinement
+**Status:** refined
 
 ## Objetivo
 
@@ -23,7 +23,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 | `client_id` | `text` | não | `request` | `client_id` | copiar |
 | `transport` | `text` | não | `request` | `reply_context.transport` | copiar |
 | `destination_id` | `text` | não | `request` | `reply_context.destination_id` | copiar |
-| `content` | `text` | não | adaptador | texto convertido do resultado | conversão de apresentação ainda parcialmente BLOCKED |
+| `content` | `text` | não | adaptador | texto final a entregar | copiar a apresentação textual produzida pelo adaptador |
 | `status` | `text` | não | Sabiá | lifecycle de entrega | `pending/sending/delivered/failed` |
 | `remote_message_id` | `text` | sim | Telegram | `message_id` da resposta de sucesso | normalizar para string |
 | `available_at` | `timestamptz` | sim | Telegram/Sabiá | `retry_after` + instante atual | calcular próxima elegibilidade |
@@ -52,6 +52,15 @@ Entregador busca mensagens `pending` elegíveis por `available_at` através de P
 
 Mensagens elegíveis são removidas explicitamente pelo processo de limpeza antes da `request`; a referência nunca é convertida para `NULL`.
 
-## BLOCKED
+## Formato persistente do conteúdo
 
-Definir se `content: text` é suficiente para todos os resultados textuais ou se será necessário envelope estruturado persistente.
+`outbound_message` persiste somente **entregas textuais**. Portanto `content: text` é o formato normativo do MVP.
+
+O envelope CTR-0001 não é persistido nesta coluna:
+
+- resultado `message` é convertido pelo adaptador para texto;
+- resultado `job` é convertido pelo adaptador para a mensagem textual de confirmação/referência;
+- resultado `error` é convertido pelo adaptador para texto preservando a semântica do erro;
+- resultado `file` não usa `outbound_message`; a entrega de arquivo pertence a `media_transmission`.
+
+Recovery reenvia o texto já materializado em `content`; não precisa reconstruir o envelope original do Core.
