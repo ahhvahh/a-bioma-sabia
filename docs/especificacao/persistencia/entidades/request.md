@@ -26,7 +26,7 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 | `source_message_id` | `text` | sim | Telegram | `message_id`, quando existir | normalizar para string |
 | `command` | `text` | não | adaptador | comando identificado no update | token principal normalizado |
 | `arguments` | `text[]` | não | adaptador | argumentos tokenizados | lista ordenada → `text[]`; sem argumentos = array vazio |
-| `status` | `text` | não | Sabiá | estado de processamento | domínio ainda BLOCKED |
+| `status` | `text` | não | Core/Sabiá | estado do processamento da requisição pelo Core | `received/processing/completed/failed` |
 | `received_at` | `timestamptz` | não | adaptador | instante de aceite | normalizar para instante absoluto |
 | `updated_at` | `timestamptz` | não | Sabiá | última alteração | relógio do serviço |
 
@@ -34,7 +34,28 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 | request_id | inbound_update_id | client_id | principal_id | transport | destination_id | source_message_id | command | arguments | status | received_at |
 |---|---:|---|---|---|---|---|---|---|---|---|
-| `req-example-001` | 1201 | `bioma` | `778899` | `telegram` | `-100123` | `451` | `status` | `[]` | `<BLOCKED>` | `2026-10-02T23:30:01Z` |
+| `req-example-001` | 1201 | `bioma` | `778899` | `telegram` | `-100123` | `451` | `status` | `[]` | `completed` | `2026-10-02T23:30:01Z` |
+
+## Ciclo de vida de `request.status`
+
+`request.status` representa exclusivamente o processamento da requisição pelo Core. Ele não representa a conclusão de jobs, o envio de mensagens nem a entrega de mídia.
+
+Estados:
+
+- `received` — requisição normalizada e persistida, ainda não entregue ao Core para processamento;
+- `processing` — processamento pelo Core iniciado;
+- `completed` — o Core terminou o processamento e produziu o resultado imediato esperado;
+- `failed` — o Core encerrou o processamento com erro controlado ou falha que impede produzir resultado válido.
+
+Transições permitidas:
+
+`received → processing → completed | failed`
+
+Para uma operação assíncrona, a criação e persistência bem-sucedida do job é o resultado imediato do Core. Portanto a requisição passa para `completed` após o job ser criado; o ciclo posterior do job permanece em `job.status`.
+
+Da mesma forma, `request.status = completed` não significa que uma mensagem ou mídia foi entregue ao cliente. Entregas usam seus próprios estados em `outbound_message` e `media_transmission`.
+
+Estados terminais de request são `completed` e `failed`.
 
 ## Origem Telegram
 
@@ -51,6 +72,5 @@ A entidade é a fonte de correlação para:
 
 ## BLOCKED
 
-- definir estados/transições de `request.status`;
 - definir formato/algoritmo de geração de `request_id`;
 - registrar em contrato os caminhos exatos dos campos do objeto Telegram usados pelo adaptador.
