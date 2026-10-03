@@ -240,6 +240,16 @@ Políticas de retenção não devem apagar:
 
 A duração de retenção de histórico finalizado poderá ser adicionada como parâmetro sem alterar o contrato base.
 
+## BLOCKED
+
+Antes de retornar a `refined`, ainda precisam ser fechados:
+
+- schema concreto de conexão PostgreSQL, incluindo endpoint, TLS e referência de credencial;
+- caminhos normativos de `media_ingest.socket_path` e `media_chunk_ingest.socket_path`;
+- schema final de `schedules` para a política de relatório e a semântica de primeiro disparo/cadência;
+- schema final de `logging`, incluindo valores aceitos e defaults necessários;
+- estrutura normativa de comandos/operações habilitados por cliente, dependente dos contratos operacionais dos comandos do MVP.
+
 ## Critérios de aceite
 
 - existe uma única fonte YAML operacional no MVP;
