@@ -104,23 +104,25 @@ O limite de captura definido por CTR-0002 é fixo no MVP em 1 MiB para stdout e 
 
 ### processors
 
-Processadores assíncronos podem representar:
+No primeiro MVP, todo processador assíncrono é um **script Bash previamente cadastrado** na seção `scripts`.
 
-- script Bash;
-- aplicação/executável;
-- serviço acessível por socket.
+Cada entrada de `processors` possui:
 
-Cada entrada precisa possuir identificador lógico e tipo de processador.
+- identificador lógico do processador;
+- `script_id`: referência obrigatória a uma entrada existente em `scripts`.
 
-O formato e framing do canal de controle são fixos pelo CTR-0005: JSON Lines UTF-8, um objeto por linha. Não existe parâmetro de configuração para selecionar JSON, MessagePack ou Protobuf.
+Não existe `type` no MVP porque somente scripts Bash são suportados como processadores assíncronos. Aplicações dedicadas e serviços por socket ficam fora do escopo inicial e poderão ampliar este schema futuramente.
 
-A estrutura concreta por tipo de transporte ainda está `BLOCKED` e precisa definir, no mínimo:
+O processador reutiliza integralmente a definição do script referenciado para `path`, `interpreter`, `working_directory`, `allowed_environment` e timeout. Para scripts usados como processadores assíncronos no MVP, o timeout cadastrado deve ser `2h`.
 
-- como localizar/invocar o processador cadastrado;
-- `timeout`: duração positiva obrigatória; no MVP, os registros iniciais usam `2h`;
-- parâmetros concretos necessários ao mecanismo de transporte, como caminho de executável ou socket.
+O canal de controle é fixo pelo CTR-0005:
 
-Nenhum endereço, caminho ou socket pode ser substituído por valor vindo do comando remoto.
+- `request_id` UUID v4 é escrito pelo Sabiá no `stdin` como uma única linha de texto;
+- argumentos validados continuam sendo fornecidos como argumentos do processo;
+- `stdout` é reservado a JSON Lines UTF-8 com eventos `loading | finally`;
+- `stderr` é reservado a diagnóstico e não participa do protocolo.
+
+Nenhum caminho, script ou identificador de processador pode ser substituído por valor vindo do comando remoto.
 
 ### media_ingest
 
@@ -199,9 +201,11 @@ Para sockets de mídia:
 
 Para processadores:
 
-- `timeout` é obrigatório e positivo;
-- o valor inicial adotado no MVP é `2h`;
-- o timeout é absoluto por execução e eventos `loading` não o renovam.
+- `script_id` é obrigatório e deve existir em `scripts`;
+- o script referenciado deve ser Bash no MVP;
+- o `timeout` do script referenciado deve ser `2h`;
+- o timeout é absoluto por execução e eventos `loading` não o renovam;
+- não são aceitos processadores por socket ou aplicação dedicada no MVP.
 
 Para scripts:
 
@@ -249,7 +253,7 @@ A duração de retenção de histórico finalizado poderá ser adicionada como p
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
 - `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
-- CTR-0005 fixa JSON Lines e timeout absoluto inicial de `2h`; a segurança dos sockets de mídia usa `sabia:abioma`/`0660`; o schema restante de `processors`, os caminhos normativos dos sockets e outras dependências abertas precisam ser refinados antes de retornar CFG-0001 a `refined`;
+- CTR-0005 fixa scripts Bash, `request_id` por stdin, JSON Lines em stdout e timeout absoluto de `2h`; a segurança dos sockets de mídia usa `sabia:abioma`/`0660`; os caminhos normativos dos sockets e outras dependências abertas precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs possuem limites configuráveis;
 - `interval` é obrigatório, positivo e é a única periodicidade aceita no MVP;
