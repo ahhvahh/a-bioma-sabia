@@ -27,7 +27,7 @@ Não existe listener TCP correspondente.
 
 O caminho do socket é configuração obrigatória e deve ser absoluto.
 
-O acesso ao socket é restringido pelas permissões do sistema operacional. A identidade Linux autorizada, ownership e modo concretos ainda precisam ser fechados antes de `refined`.
+O acesso ao socket é restringido pelas permissões do sistema operacional. O socket pertence ao usuário `sabia`, ao grupo `abioma` e usa modo `0660`: o usuário da aplicação e membros do grupo podem conectar; outros usuários não possuem permissão pelo socket.
 
 ## Codificação
 
@@ -119,7 +119,7 @@ Códigos mínimos:
 ## Segurança
 
 - socket disponível apenas localmente;
-- acesso depende de permissão do objeto Unix socket;
+- acesso depende de permissão do objeto Unix socket: owner `sabia`, group `abioma`, mode `0660`;
 - credenciais e role PostgreSQL devem permanecer acessíveis somente à identidade operacional autorizada do Sabiá;
 - conteúdo binário não é incluído em logs, auditoria ou mensagens de erro;
 - nome e content type fornecidos pelo produtor não são tratados como dados confiáveis para decidir autorização;
@@ -133,14 +133,13 @@ Receptores devem rejeitar versões desconhecidas em vez de interpretar parcialme
 
 ## BLOCKED
 
-Antes de `refined` ainda precisam ser definidos:
+Antes de `refined` ainda precisa ser definido:
 
-- caminho normativo do socket simples;
-- ownership, grupo e modo de acesso do socket simples.
+- caminho normativo do socket simples.
 
 ## Critérios de aceite
 
-- produtor local autorizado consegue enviar um BLOB MessagePack;
+- produtor local executado como `sabia` ou pertencente ao grupo `abioma` consegue enviar um BLOB MessagePack;
 - upload com `request_id` desconhecido é rejeitado;
 - sucesso só ocorre depois de persistência atômica;
 - vários arquivos podem usar o mesmo `request_id`;
