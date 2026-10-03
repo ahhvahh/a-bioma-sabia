@@ -45,7 +45,7 @@ Conversões normativas:
 
 Para mídia recebida, a descoberta existente confirma:
 
-- `Update.message.photo[][].file_id` conceitualmente como `Update.message.photo[].file_id`;
+- `Update.message.photo[].file_id`;
 - `Update.message.video.file_id`;
 - `Update.message.document.file_id`;
 - `getFile(file_id) → File.file_path`;
