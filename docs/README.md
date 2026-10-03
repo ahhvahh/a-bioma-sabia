@@ -55,6 +55,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](especificacao/contratos/ingestao-midia-messagepack.md) — `refinement`
 - [CTR-0009 — Ingestão fracionada de mídia por Unix socket](especificacao/contratos/ingestao-midia-fracionada.md) — `refinement`
+- [CTR-0010 — Origem e conversão dos dados persistentes](especificacao/contratos/origem-dados-persistencia.md) — `refinement`
 
 ### Fluxos
 
@@ -66,11 +67,14 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
 - [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
 - [FLW-0008 — Limpeza de payloads de mídia transmitida](especificacao/fluxos/limpeza-midia.md) — `refined`
+- [FLW-0009 — Registro do estado operacional](especificacao/fluxos/registro-estado-operacional.md) — `refinement`
+- [FLW-0010 — Consumo do estado operacional](especificacao/fluxos/consumo-estado-operacional.md) — `refinement`
 
 ### Persistência
 
 - [PST-0001 — Proposta de tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
 - [PST-0002 — Relacionamentos do estado operacional](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
+- [PST-0100 — Entidades persistentes](especificacao/persistencia/entidades/README.md) — `refinement`
 
 ### Configuração e requisitos
 

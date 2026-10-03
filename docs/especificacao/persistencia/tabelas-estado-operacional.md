@@ -20,6 +20,10 @@ Este documento é uma **proposta para revisão**. Nomes de tabelas, tipos físic
 - [FLW-0003 — Monitoramento agendado](../fluxos/monitoramento-agendado.md)
 - [CFG-0001 — Modelo de configuração](../configuracao/modelo-configuracao.md)
 - [PST-0002 — Relacionamentos do estado operacional](relacionamentos-estado-operacional.md)
+- [PST-0100 — Entidades persistentes](entidades/README.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](../contratos/origem-dados-persistencia.md)
+- [FLW-0009 — Registro do estado operacional](../fluxos/registro-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
 
 ## Escopo
 
@@ -53,6 +57,10 @@ Para revisão:
 - arrays de argumentos: `text[]`.
 
 Essas escolhas preservam os tipos conceituais existentes sem alterar os contratos externos.
+
+## Detalhamento por entidade
+
+A visão resumida das tabelas permanece neste documento. Tipos, origem por campo, regras de conversão e exemplos ficam em [PST-0100 — Entidades persistentes](entidades/README.md).
 
 ## Tabelas propostas
 

@@ -96,20 +96,29 @@ Além de documentos ainda em `refinement`, existem documentos marcados como `ref
 ### Persistência operacional em PostgreSQL — proposta em revisão
 
 - Decisão relacionada: [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
-- Propostas criadas:
-  - [PST-0001 — Proposta de tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
-  - [PST-0002 — Relacionamentos do estado operacional](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
-- Estado atual: o conjunto inicial de tabelas, campos, tipos, cardinalidades e unidades transacionais foi proposto para revisão. A proposta preserva os contratos existentes, mas ainda não constitui especificação liberada para implementação.
-- Estado necessário: PST-0001 e PST-0002 em `refined`.
-- Pontos que ainda precisam de decisão/revisão:
+- Documentos criados:
+  - [PST-0001 — Proposta de tabelas](especificacao/persistencia/tabelas-estado-operacional.md) — `refinement`
+  - [PST-0002 — Relacionamentos](especificacao/persistencia/relacionamentos-estado-operacional.md) — `refinement`
+  - [PST-0100 — Entidades persistentes](especificacao/persistencia/entidades/README.md) — `refinement`
+  - [CTR-0010 — Origem e conversão dos dados persistentes](especificacao/contratos/origem-dados-persistencia.md) — `refinement`
+  - [FLW-0009 — Registro do estado operacional](especificacao/fluxos/registro-estado-operacional.md) — `refinement`
+  - [FLW-0010 — Consumo do estado operacional](especificacao/fluxos/consumo-estado-operacional.md) — `refinement`
+- Estado atual: cada entidade proposta possui documento próprio com campos, tipo PostgreSQL, origem, conversão e exemplo ilustrativo. O contrato CTR-0010 consolida origem → persistência e os fluxos FLW-0009/FLW-0010 separam registro e consumo.
+- Estado necessário: documentos de persistência necessários ao MVP em `refined`.
+- Pontos ainda `BLOCKED`:
   - domínio e transições de `request.status`;
-  - direção física final da relação entre update recebido e request;
-  - confirmação de que uma request pode ou não criar múltiplos jobs;
+  - formato/geração de `request_id`;
+  - caminhos brutos exatos dos campos Telegram usados pelo adaptador;
+  - direção física final da relação `inbound_update/request`;
+  - confirmar se uma request pode criar múltiplos jobs;
   - política final de FKs e `ON DELETE`;
   - consistência entre `media.request_id` e `media_transmission.request_id`;
-  - formato persistente final de respostas textuais;
-  - política de retenção de `alert_state` quando um schedule é removido;
+  - regra normativa de `content_type`;
+  - formato persistente final de `outbound_message.content`;
+  - momento normativo de atualização de `alert_state.last_notified_at`;
+  - retenção de `alert_state` após remoção de schedule;
   - mecanismo concreto de migração/versionamento;
+  - locking/claim concorrente de jobs, mensagens e transmissões;
   - modelo de `job_attempt` somente se retry automático for habilitado.
 - Dependências afetadas:
   - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)

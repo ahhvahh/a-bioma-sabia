@@ -18,6 +18,14 @@ Este documento não altera contratos existentes. Enquanto estiver em `refinement
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
 - [FLW-0001 — Comando Telegram](../fluxos/comando-telegram.md)
 - [FLW-0003 — Monitoramento agendado](../fluxos/monitoramento-agendado.md)
+- [PST-0100 — Entidades persistentes](entidades/README.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](../contratos/origem-dados-persistencia.md)
+- [FLW-0009 — Registro do estado operacional](../fluxos/registro-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
+
+## Detalhamento das entidades
+
+O diagrama abaixo representa relacionamentos. A origem, conversão, tipos e exemplos de cada tabela ficam em [PST-0100 — Entidades persistentes](entidades/README.md).
 
 ## Visão geral
 
