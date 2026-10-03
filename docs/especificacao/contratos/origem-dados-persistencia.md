@@ -96,6 +96,9 @@ Configuração completa continua no YAML e não é copiada para tabelas apenas p
 
 ### Estado interno do Sabiá
 
+`request.status` usa o domínio `received | processing | completed | failed` e representa somente o processamento pelo Core. Estado de job e de entrega permanece nas respectivas entidades.
+
+
 São gerados internamente:
 
 - IDs identity do PostgreSQL;
@@ -138,7 +141,6 @@ O resultado da conversão é um conjunto de valores normalizados apto a ser entr
 - caminhos exatos dos campos brutos Telegram;
 - geração/formato de `request_id`;
 - regra normativa de `content_type`;
-- domínio de `request.status`.
 
 ## Critérios de aceite
 
