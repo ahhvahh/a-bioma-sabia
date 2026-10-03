@@ -100,7 +100,7 @@ Quando `interpreter` estiver ausente, `path` é executado diretamente.
 
 `allowed_environment` vazio significa não herdar variáveis do ambiente do Sabiá.
 
-O limite de captura definido por CTR-0002 é fixo no MVP em 1 MiB para stdout e 1 MiB para stderr por execução.
+Para execuções convencionais, o limite de captura definido por CTR-0002 é fixo no MVP em 1 MiB para stdout e 1 MiB para stderr por execução. Quando um script atua como processador CTR-0005, stdout é consumido incrementalmente como JSON Lines e não usa o limite de captura textual; stderr continua limitado a 1 MiB.
 
 ### processors
 
