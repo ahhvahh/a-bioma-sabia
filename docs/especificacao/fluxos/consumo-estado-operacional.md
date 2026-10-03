@@ -70,6 +70,8 @@ Filtro lógico:
 
 Saída: cliente, transporte, destino e conteúdo.
 
+O entregador recebe `content` como texto já materializado pelo adaptador; recovery não reconstrói o envelope CTR-0001.
+
 A mensagem deve ser reclamada conforme PST-0003, realizando `pending → sending` na mesma transação do claim antes de qualquer chamada ao transporte.
 
 ### Recuperar transmissão de mídia
@@ -118,7 +120,6 @@ O claim concorrente é definido por PST-0003. Jobs, mensagens de saída e transm
 
 ## BLOCKED
 
-- projeção persistente final de `outbound_message.content`;
 - comportamento quando dados persistidos violarem um domínio esperado após migração ou inconsistência.
 
 ## Critérios de aceite
