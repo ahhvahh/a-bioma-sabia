@@ -51,8 +51,19 @@ A remoção física de uma mídia exige remoção explícita prévia de dependê
 
 ## Origem Telegram
 
-A documentação define que mídia recebida pelo Telegram deve ser normalizada para CTR-0006, mas ainda não define o de-para bruto dos objetos Telegram para `name`, `content_type` e binário.
+A documentação de descoberta já identifica as fontes de arquivo:
+
+- foto: `Update.message.photo[].file_id`;
+- vídeo: `Update.message.video.file_id`;
+- documento: `Update.message.document.file_id`;
+- resolução do conteúdo: `getFile(file_id) → File.file_path`, seguida do download do arquivo.
+
+Ainda não está definido:
+
+- qual item de `photo[]` é selecionado quando houver vários tamanhos;
+- como obter/normalizar `name` para cada tipo de mídia;
+- como preencher `content_type` quando o objeto Telegram não fornecer MIME explícito.
 
 ## BLOCKED
 
-- de-para bruto da mídia Telegram para esta entidade.
+- seleção de foto e de-para final de `name`/`content_type` para mídia Telegram.
