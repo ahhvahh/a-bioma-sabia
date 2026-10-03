@@ -85,6 +85,17 @@ De-para:
 | sequência seguinte | `media.next_sequence_id` |
 | comparação com total | `media.completed` |
 
+### Normalização de `content_type`
+
+Para qualquer origem de mídia:
+
+- ausência ou `null` permanece `NULL`;
+- string vazia ou somente com espaços é convertida para `NULL`;
+- valor informado deve possuir sintaxe válida de media type;
+- valor válido é normalizado para minúsculas antes da persistência;
+- valor inválido produz `invalid_content_type`;
+- o Sabiá não deriva o valor por extensão do nome nem por inspeção do conteúdo binário no MVP.
+
 ### Configuração YAML
 
 Dados persistidos por referência lógica:
@@ -140,7 +151,6 @@ O resultado da conversão é um conjunto de valores normalizados apto a ser entr
 ## BLOCKED
 
 - caminhos exatos dos campos brutos Telegram;
-- regra normativa de `content_type`;
 
 ## Critérios de aceite
 
