@@ -22,7 +22,7 @@ Executar operações demoradas sem bloquear o recebimento de comandos e garantir
 
 - criar e persistir job;
 - enfileirar trabalho;
-- limitar concorrência por configuração;
+- limitar concorrência pela quantidade de threads lógicas de CPU disponíveis ao processo no startup;
 - executar por workers;
 - controlar estados e histórico;
 - receber e publicar progresso `loading` correlacionado por `request_id`;
@@ -55,12 +55,14 @@ PostgreSQL é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jo
 
 - estados e transições seguem CTR-0003;
 - não existe retry automático por padrão;
-- limites `max_workers` e `max_pending` vêm da configuração.
+- o limite de execução simultânea é derivado das threads lógicas de CPU disponíveis ao processo;
+- apenas `max_pending` vem da configuração para limitar a fila `queued`;
+- uma mesma `request_id` pode correlacionar zero ou vários jobs.
 
 ## Critérios de aceite
 
 - job não bloqueia o recebimento de comandos;
-- fila e concorrência respeitam configuração;
+- fila respeita `max_pending` e concorrência respeita as threads lógicas de CPU disponíveis ao processo;
 - resposta é entregue usando o cliente e destino persistidos;
 - queued sobrevive a restart;
 - running interrompido não é reexecutado silenciosamente;
@@ -69,7 +71,7 @@ PostgreSQL é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jo
 - uploads de mídia são independentes do canal de controle e usam o mesmo `request_id`;
 - `finally` correlacionado conclui semanticamente o processamento;
 - transmissão de mídia ativa permanece recuperável após restart enquanto o `media_id` existir;
-- permanece `refinement` enquanto CTR-0005 estiver incompleto para framing do canal de controle.
+- CTR-0005 está `refined`; o módulo usa scripts Bash registrados e concorrência derivada das threads lógicas disponíveis.
 
 ## Implementação relacionada
 
