@@ -49,7 +49,7 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 - [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md) — `refined`
 - [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refined`
 - [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
-- [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refined`
+- [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refinement`
 - [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refined`
 - [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md) — `refined`
 - [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
