@@ -61,7 +61,7 @@ O módulo não precisa persistir estado próprio de execução; quando a execuç
 - definição inválida é rejeitada antes da execução;
 - timeout e cancelamento são observáveis;
 - stdout e stderr são separados e limitados;
-- em execução assíncrona CTR-0005, stdout é protocolo estruturado e stderr permanece diagnóstico;
+- em execução assíncrona CTR-0005, stdout é protocolo estruturado consumido linha a linha e não é acumulado como saída textual; stderr permanece diagnóstico limitado;
 - exit code é preservado quando disponível;
 - exit code diferente de zero não é convertido automaticamente em falha de infraestrutura;
 - o mesmo script pode possuir execuções simultâneas;
