@@ -105,6 +105,7 @@ Saída: `last_update_id`; o adaptador calcula o próximo offset.
 ## Conversões PostgreSQL → domínio
 
 - `text` de IDs opacos permanece string;
+- PostgreSQL `uuid` de `request_id` é projetado nos contratos como string UUID canônica;
 - `timestamptz` torna-se instante absoluto;
 - `text[]` torna-se lista ordenada de strings;
 - `bytea` é exposto apenas ao componente autorizado a consumir mídia;
