@@ -357,7 +357,6 @@ A conclusão da tarefa apenas coloca a correlação no processo de limpeza. Ante
 Antes de `refined`, decidir:
 
 - direção física final da relação `inbound_update/request`;
-- se uma requisição pode criar mais de um job;
 - garantia de consistência entre `media.request_id` e `media_transmission.request_id`;
 - política de retenção de `alert_state` após remoção de um schedule;
 - se haverá retenção/purge de requests, jobs e mensagens finalizadas;
