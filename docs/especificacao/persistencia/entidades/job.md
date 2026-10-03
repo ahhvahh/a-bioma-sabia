@@ -46,6 +46,6 @@ A criação do job e o primeiro `job_state_history` devem ocorrer na mesma trans
 
 Workers não consomem `queued` por leitura simples. O próximo job é obtido pelo claim atômico de PST-0003, que realiza `queued → running` e registra o histórico correspondente na mesma transação antes de devolver o job ao worker. Recovery continua consultando `queued` e `running` segundo CTR-0003.
 
-## BLOCKED
+## Cardinalidade
 
-Confirmar se uma mesma request pode criar mais de um job. O modelo atual permite `1:N`.
+Uma mesma `request_id` pode possuir zero ou vários jobs. `job.request_id` não possui restrição `UNIQUE`.
