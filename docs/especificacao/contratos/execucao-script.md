@@ -91,6 +91,20 @@ O executor:
 
 Quando uma execução fizer parte de um job, o limite global de jobs concorrentes é controlado por `jobs.max_workers` conforme CTR-0003.
 
+## Uso como processador assíncrono
+
+Quando um script cadastrado é usado como processador assíncrono de CTR-0005, aplicam-se regras adicionais:
+
+- o `request_id` UUID v4 é escrito no `stdin` como uma única linha terminada por `\n`;
+- os argumentos já validados continuam sendo fornecidos via argv;
+- o `stdout` é reservado ao protocolo JSON Lines de CTR-0005 e não é interpretado como texto livre de resultado;
+- cada linha de `stdout` deve ser um objeto JSON válido de evento `loading | finally`;
+- `stderr` permanece separado e destinado a diagnóstico;
+- no MVP, scripts usados como processadores assíncronos possuem timeout cadastrado de `2h`;
+- as regras de cancelamento e encerramento do grupo de processos deste contrato continuam válidas.
+
+A execução assíncrona não altera o caminho, interpretador, working directory ou ambiente cadastrado do script.
+
 ## Timeout e cancelamento
 
 Cada execução possui contexto independente e cancelável.
@@ -175,6 +189,7 @@ Um exit code diferente de zero é resultado do processo, não erro de infraestru
 - nunca construir shell a partir de mensagem Telegram;
 - nunca aceitar caminho arbitrário de executável, interpretador ou diretório do usuário remoto;
 - manter stdout e stderr separados;
+- quando o script atuar como processador CTR-0005, reservar stdout exclusivamente aos eventos JSON Lines e stdin ao `request_id`;
 - aplicar limite de saída por execução;
 - não disponibilizar segredos por herança implícita de ambiente;
 - permitir execuções simultâneas do mesmo script;
