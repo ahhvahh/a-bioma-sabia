@@ -102,7 +102,7 @@ Configuração completa continua no YAML e não é copiada para tabelas apenas p
 São gerados internamente:
 
 - IDs identity do PostgreSQL;
-- `request_id`;
+- `request_id` UUID v4 gerado pelo Sabiá;
 - estados de request/job/entrega;
 - timestamps operacionais;
 - `storage_mode`;
@@ -115,6 +115,7 @@ Cada valor derivado deve possuir regra explícita no documento da entidade corre
 ## Regras de conversão
 
 - IDs externos que o Core trata como opacos são persistidos como `text`;
+- `request_id` é persistido como PostgreSQL `uuid` e representado nos contratos externos como string UUID canônica;
 - timestamps persistidos usam `timestamptz`;
 - binário MessagePack usa `bytea`;
 - contadores de bytes usam `bigint`;
@@ -139,7 +140,6 @@ O resultado da conversão é um conjunto de valores normalizados apto a ser entr
 ## BLOCKED
 
 - caminhos exatos dos campos brutos Telegram;
-- geração/formato de `request_id`;
 - regra normativa de `content_type`;
 
 ## Critérios de aceite
