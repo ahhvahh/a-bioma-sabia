@@ -51,3 +51,9 @@ A tentativa de inserir uma combinação já existente representa update duplicad
 ## BLOCKED
 
 Definir a direção física final da correlação com `request`. PST-0002 prefere manter apenas `request.inbound_update_id`.
+
+## Emenda normativa 2026-10-21 — recuperação sem perda
+
+Adicionar campos obrigatórios `raw_update jsonb NOT NULL` (objeto Telegram Update completo, sem token) e `processing_status text NOT NULL` (`accepted|processing|completed|ignored|failed`). A chave de unicidade `(client_id, transport, transport_update_id)` continua obrigatória.
+
+Inserir `raw_update` e avançar `transport_cursor.last_update_id` na **mesma transação**. O offset só avança após commit. Reprocessamentos após queda leem `raw_update` localmente. Um claim/lock por update impede processamento concorrente, e resultado existente não deve gerar segunda execução. `raw_update` contém dados pessoais: restringir acesso, excluir dos logs e definir purge seguro depois de todos os trabalhos correlacionados.
