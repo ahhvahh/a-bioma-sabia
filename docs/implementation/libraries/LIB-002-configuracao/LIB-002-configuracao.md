@@ -7,8 +7,8 @@ Leitura e validação de YAML e resolução protegida das referências de creden
 
 ## Contratos de origem
 
-- [FLW-005] (../../../01-Project_Charter/scope/flows/FLW-005-inicializacao-recovery-e-encerramento.md) — *refinement*.
-- [IN-009] (../../../01-Project_Charter/scope/in-scope/IN-009-operacao-segura-como-servico-linux.md) — *refinement*.
+- [FLW-005](../../../01-Project_Charter/scope/flows/FLW-005-inicializacao-recovery-e-encerramento.md) — *refinement*.
+- [IN-009](../../../01-Project_Charter/scope/in-scope/IN-009-operacao-segura-como-servico-linux.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.

@@ -7,8 +7,8 @@ Ingestão e entrega de mídia com controle de tamanho, formato e recuperação.
 
 ## Contratos de origem
 
-- [IN-007] (../../../01-Project_Charter/scope/in-scope/IN-007-ingestao-local-de-midia.md) — *refinement*.
-- [FLW-004] (../../../01-Project_Charter/scope/flows/FLW-004-ingestao-e-entrega-de-midia-local.md) — *refinement*.
+- [IN-007](../../../01-Project_Charter/scope/in-scope/IN-007-ingestao-local-de-midia.md) — *refinement*.
+- [FLW-004](../../../01-Project_Charter/scope/flows/FLW-004-ingestao-e-entrega-de-midia-local.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.

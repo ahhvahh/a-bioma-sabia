@@ -7,8 +7,8 @@ Autorização explícita por cliente, usuário, chat e operação; revalidação
 
 ## Contratos de origem
 
-- [IN-002] (../../../01-Project_Charter/scope/in-scope/IN-002-autorizacao-explicita.md) — *refinement*.
-- [IN-001] (../../../01-Project_Charter/scope/in-scope/IN-001-clientes-telegram-isolados.md) — *refinement*.
+- [IN-002](../../../01-Project_Charter/scope/in-scope/IN-002-autorizacao-explicita.md) — *refinement*.
+- [IN-001](../../../01-Project_Charter/scope/in-scope/IN-001-clientes-telegram-isolados.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.

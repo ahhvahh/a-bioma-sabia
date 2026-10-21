@@ -7,8 +7,8 @@ Persistência PostgreSQL do estado operacional, cursor e inbox transacional; rec
 
 ## Contratos de origem
 
-- [INT-004] (../../../01-Project_Charter/scope/integrations/INT-004-postgresql.md) — *refinement*.
-- [IN-006] (../../../01-Project_Charter/scope/in-scope/IN-006-persistencia-operacional-e-recovery.md) — *refinement*.
+- [INT-004](../../../01-Project_Charter/scope/integrations/INT-004-postgresql.md) — *refinement*.
+- [IN-006](../../../01-Project_Charter/scope/in-scope/IN-006-persistencia-operacional-e-recovery.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.

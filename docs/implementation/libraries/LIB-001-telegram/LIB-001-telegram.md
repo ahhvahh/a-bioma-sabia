@@ -7,8 +7,8 @@ Integração HTTPS com Telegram Bot API: long polling, callback_query, menus e e
 
 ## Contratos de origem
 
-- [INT-001] (../../../01-Project_Charter/scope/integrations/INT-001-telegram-bot-api.md) — *refinement*.
-- [FLW-001] (../../../01-Project_Charter/scope/flows/FLW-001-comando-telegram.md) — *refinement*.
+- [INT-001](../../../01-Project_Charter/scope/integrations/INT-001-telegram-bot-api.md) — *refinement*.
+- [FLW-001](../../../01-Project_Charter/scope/flows/FLW-001-comando-telegram.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.

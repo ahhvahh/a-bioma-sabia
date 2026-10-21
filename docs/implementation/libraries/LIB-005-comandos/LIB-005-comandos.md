@@ -7,8 +7,8 @@ Roteamento de operações previamente registradas; organização dos menus hier�
 
 ## Contratos de origem
 
-- [IN-011] (../../../01-Project_Charter/scope/in-scope/IN-011-catalogo-persistente-de-acoes-e-menu.md) — *refinement*.
-- [FLW-007] (../../../01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md) — *refinement*.
+- [IN-011](../../../01-Project_Charter/scope/in-scope/IN-011-catalogo-persistente-de-acoes-e-menu.md) — *refinement*.
+- [FLW-007](../../../01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md) — *refinement*.
 - [Regras técnicas do Sabiá](../../../telegram-operacao-2026.md) — orientação anterior; não substitui Scope refinado.
 
 **BLOCKED:** os contratos citados não estão `refined` nem `implemented`. A unidade define uma fronteira de responsabilidade aprovada para organização, **não** contrato operacional aprovado.
