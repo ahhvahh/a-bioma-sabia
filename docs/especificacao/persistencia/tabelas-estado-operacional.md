@@ -327,3 +327,7 @@ Antes de `PST-0001` atingir `refined`, revisar:
 - mídia integral e fracionada preserva os contratos CTR-0006/CTR-0009;
 - transmissão de mídia preserva CTR-0007;
 - nenhum ponto ainda sem decisão é apresentado como regra aprovada.
+
+## Emenda 2026-10-21 — inbox recuperável
+
+`inbound_update` passa a exigir `raw_update jsonb NOT NULL` e `processing_status text NOT NULL` com estados `accepted|processing|completed|ignored|failed`. A linha íntegra e o cursor são persistidos **no mesmo commit** antes do `getUpdates` seguinte. A frase anterior que sugeria que o payload bruto não seria obrigatório deixa de valer. Deduplicação por chave `(client_id, transport, transport_update_id)` e recuperação do payload armazenado são requisitos.
