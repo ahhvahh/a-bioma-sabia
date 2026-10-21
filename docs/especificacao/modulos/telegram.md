@@ -151,3 +151,21 @@ A aplicação não considera a ausência de resposta da Bot API como prova de qu
 ## Implementação relacionada
 
 Prevista para o pacote interno de integração Telegram.
+
+## Emenda 2026-10-21 — confiabilidade, menu e transporte
+
+### Inbox recuperável
+- Persistir o objeto `Update` completo em `inbound_update.raw_update jsonb` e o avanço de `transport_cursor` **no mesmo commit PostgreSQL**, antes de confirmar o update em `getUpdates`. Commit falho implica offset inalterado.
+- Worker local recupera updates `accepted` e reconciliáveis em `processing`, produzindo uma única requisição lógica por `(client_id, transport, update_id)`; o payload é mantido até estado terminal e retenção segura. Não basta salvar somente o identificador do update.
+- Mídia anexada pode ser recuperada por `file_id`; links de `getFile` expirados devem ser obtidos novamente. Nunca registrar o JSON bruto em log.
+
+### Menus navegáveis
+- `/start` ou `/menu` usa `InlineKeyboardMarkup` com categorias, ações, `Voltar` e `Início`.
+- `callback_query` percorre a mesma inbox transacional. Revalidar usuário, chat, cliente, ação e permissão em **cada clique**. `callback_data` é identificador lógico opaco, até 64 bytes UTF-8, nunca caminho local, token ou autorização.
+- Sempre responder `answerCallbackQuery`; preferir `editMessageText`/`editMessageReplyMarkup` para mudar a página, com fallback controlado para nova mensagem.
+
+### Escolha de mídia
+- `sendPhoto` apenas para fotos compatíveis (JPEG/PNG) e respeitando limites específicos de foto; `sendVideo` para MP4 compatível; para demais formatos usar `sendDocument`. Não decidir apenas pelo prefixo `image/*` ou `video/*`.
+- Limite total interno e de upload público: `50000000` bytes; o download via `getFile` da Bot API pública tem limite próprio de 20 MB. Validar **antes** de enviar/baixar; recusar casos incompatíveis com erro `media_too_large` ou `unsupported_media`.
+
+Referência: https://core.telegram.org/bots/api (10.3, 2026-08-24).
