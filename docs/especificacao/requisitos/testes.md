@@ -54,3 +54,7 @@ Interfaces externas devem permitir mocks/fakes para validar o Core de forma dete
 - chunk que ultrapassaria `total_bytes` é recusado;
 - limpeza de payload não executa com transmissão `pending` ou `transmitting`;
 - payload `delivered` é removível sem apagar metadados de rastreabilidade.
+
+## Plano de testes Telegram 2026-10-21
+
+Testar isoladamente (sem API real) os grupos: T01 inbox/commit/cursor/crash/replay; T02 menu/callback/voltar/início/autorização; T03 formatos de mídia e limites até 50 MB; T04 backoff/429/retry/restart; T05 isolamento entre três clientes. Fixtures, procedimentos e critérios de aceite: [testes/telegram/README.md](../../testes/telegram/README.md). Necessários mock Bot API HTTP, PostgreSQL temporário e testes de contrato automatizados ao implementar `/src`.
