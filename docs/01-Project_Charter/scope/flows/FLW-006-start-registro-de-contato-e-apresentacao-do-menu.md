@@ -51,3 +51,7 @@ O contato fica persistido e o usuário recebe uma representação do menu basead
 - persistência indisponível;
 - falha no envio do menu;
 - contato conhecido, porém sem autorização para ações restritas.
+
+## Complemento 2026-10-21 — navegação
+
+`/start` e `/menu` exibem árvore de ações autorizadas com `InlineKeyboardMarkup`. Seleção de categoria usa `callback_query` e atualiza a mensagem por `editMessageText`; botões `Voltar` e `Início` permitem navegar até o pai ou raiz. `answerCallbackQuery` responde a todo clique. Cada callback é persistido na inbox transacional; `callback_data` limita-se a 64 bytes e carrega identificador opaco, nunca caminho de script ou autorização. Revalidar cliente, usuário, chat e ação em cada interação. Seleção final deve passar pelo Command Router, sem execução por mera navegação.
