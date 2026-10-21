@@ -288,3 +288,7 @@ Para testar localmente sem depender do Telegram real, recomendamos criar um **ag
 
 > **Fontes:** Informações baseadas principalmente na [documentação oficial do Bot API](https://core.telegram.org/bots/api) do Telegram. Trechos citados foram traduzidos/adaptados para português para maior clareza. Para detalhes adicionais, consulte os links oficiais indicados em cada seção.
 
+
+## Atualização de compatibilidade — 2026-10-21
+
+Referência: Telegram Bot API 10.3 (24/08/2026). Valores históricos nesta discovery devem ser confrontados com a [decisão operacional](telegram-operacao-2026.md). Máximo interno 50 MB decimais, canal simples 20 MB e chunks 5 MB. A API Telegram hospedada aplica limite de 20 MB ao download com `getFile` e limites menores às fotos. Navegação usa botões inline/`callback_query`, com autorização por clique. Avanço do cursor exige commit atômico do `Update` recuperável.
