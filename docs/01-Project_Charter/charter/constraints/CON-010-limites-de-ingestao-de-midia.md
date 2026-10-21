@@ -29,3 +29,7 @@ Arquivos acima do limite simples precisam usar ingestão fracionada e arquivos a
 
 - IN-007
 - FLW-004
+
+## Decisão revisada — 2026-10-21
+
+A restrição de tamanho total do canal fracionado passa de 100 MB para **50 MB decimais (50000000 bytes)**. Canal simples 20 MB, chunk 5 MB. Limites específicos da Bot API pública continuam menores em certas operações e devem ser verificados antes de enviar/baixar. Esta decisão substitui o teto de 100 MB descrito acima.
