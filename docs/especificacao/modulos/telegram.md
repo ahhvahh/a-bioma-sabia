@@ -84,9 +84,9 @@ Regras:
 
 Ao transmitir uma mídia persistida, o adaptador usa `content_type` somente para escolher a apresentação no Telegram:
 
-- `image/*` → envio como imagem/foto;
-- `video/*` → envio como vídeo;
-- qualquer outro media type válido → envio como documento/arquivo genérico;
+- `image/jpeg` ou `image/png` válidos e dentro dos limites específicos de foto → `sendPhoto`;
+- `video/mp4` válido e compatível com os limites de vídeo → `sendVideo`;
+- outros tipos ou formatos incompatíveis com foto/vídeo → `sendDocument`, respeitando limites próprios;
 - `content_type = null` → envio como documento/arquivo genérico.
 
 O adaptador não infere o tipo pela extensão do nome nem inspeciona o BLOB para escolher a forma de envio no MVP.
