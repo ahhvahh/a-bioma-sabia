@@ -50,7 +50,7 @@ O Sabiá:
 1. valida a mensagem;
 2. valida a existência de `request_id`;
 3. normaliza e valida `content_type` conforme CTR-0006;
-4. valida `0 < total_bytes <= 100000000`;
+4. valida `0 < total_bytes <= 50000000`;
 5. cria o registro de mídia no banco com `received_bytes = 0` e `completed = false`;
 6. confirma a transação;
 7. devolve o identificador gerado pelo banco.
@@ -82,11 +82,11 @@ Não é necessário repetir nome, `request_id`, cliente ou destino em cada chunk
 
 O arquivo lógico pode possuir no máximo:
 
-`100000000` bytes
+`50000000` bytes
 
-equivalentes a 100 MB decimais.
+equivalentes a 50 MB decimais.
 
-A abertura com `total_bytes > 100000000` deve ser recusada antes da criação de `media_id` com erro `media_too_large`.
+A abertura com `total_bytes > 50000000` deve ser recusada antes da criação de `media_id` com erro `media_too_large`.
 
 ## Tamanho dos chunks
 
@@ -218,7 +218,7 @@ Antes de `refined`, ainda precisa ser definido:
 
 ## Critérios de aceite
 
-- abertura com `total_bytes` acima de 100 MB é recusada antes de criar `media_id`;
+- abertura com `total_bytes` acima de 50 MB é recusada antes de criar `media_id`;
 - metadados válidos criam um `media_id` persistente antes do primeiro chunk;
 - arquivos menores ou iguais a 20 MB também podem usar este contrato;
 - arquivos com mesmo nome podem possuir `media_id` diferentes;
@@ -236,4 +236,4 @@ Antes de `refined`, ainda precisa ser definido:
 
 ## Emenda normativa 2026-10-21
 
-O limite `max_total_bytes` passa a **50000000 bytes (50 MB decimais)**. Referências anteriores a 100 MB/`100000000` neste contrato estão substituídas. Recusar abertura acima de 50 MB antes de criar mídia. Limite individual de chunk permanece em 5 MB.
+O limite `max_total_bytes` passa a **50000000 bytes (50 MB decimais)**. Referências anteriores a 50 MB/`50000000` neste contrato estão substituídas. Recusar abertura acima de 50 MB antes de criar mídia. Limite individual de chunk permanece em 5 MB.
