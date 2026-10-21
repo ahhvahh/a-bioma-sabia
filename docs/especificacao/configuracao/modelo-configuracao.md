@@ -145,7 +145,7 @@ Campos necessários:
 
 - `socket_path`: caminho absoluto, diferente de `media_ingest.socket_path`;
 - `max_chunk_bytes`: no MVP deve ser exatamente `5000000` bytes;
-- `max_total_bytes`: no MVP deve ser exatamente `100000000` bytes.
+- `max_total_bytes`: no MVP deve ser exatamente `50000000` bytes.
 
 Arquivos acima do limite do canal simples usam obrigatoriamente este canal. Arquivos menores ou iguais a 20 MB também podem usá-lo. A abertura gera `media_id` e a sequência é estrita. A política de acesso é fixa: owner `sabia`, group `abioma`, mode `0660`. O caminho normativo do socket permanece `BLOCKED`.
 
@@ -263,7 +263,7 @@ Antes de retornar a `refined`, ainda precisam ser fechados:
 - `media_ingest.max_payload_bytes` deve ser exatamente `20000000` no MVP;
 - existe seção `media_chunk_ingest` com socket distinto;
 - `media_chunk_ingest.max_chunk_bytes` deve ser exatamente `5000000` no MVP;
-- `media_chunk_ingest.max_total_bytes` deve ser exatamente `100000000` no MVP;
+- `media_chunk_ingest.max_total_bytes` deve ser exatamente `50000000` no MVP;
 - CTR-0005 fixa scripts Bash, `request_id` por stdin, JSON Lines em stdout e timeout absoluto de `2h`; a segurança dos sockets de mídia usa `sabia:abioma`/`0660`; os caminhos normativos dos sockets e outras dependências abertas precisam ser refinados antes de retornar CFG-0001 a `refined`;
 - scripts não recebem ambiente completo por herança implícita;
 - jobs usam `max_pending` configurável para a fila; a concorrência de `running` é derivada das threads lógicas de CPU disponíveis ao processo;
@@ -275,4 +275,4 @@ Antes de retornar a `refined`, ainda precisam ser fechados:
 
 ## Emenda normativa 2026-10-21 — configuração de mídia
 
-Em `media_chunk_ingest.max_total_bytes`, substituir o valor obrigatório de `100000000` por **`50000000` bytes**. A validação do startup rejeita configurações antigas de 100 MB. Permanecem `media_ingest.max_payload_bytes=20000000` e `media_chunk_ingest.max_chunk_bytes=5000000`. Não transformar o limite interno em parâmetro maior que 50 MB.
+Em `media_chunk_ingest.max_total_bytes`, substituir o valor obrigatório de `50000000` por **`50000000` bytes**. A validação do startup rejeita configurações antigas de 50 MB. Permanecem `media_ingest.max_payload_bytes=20000000` e `media_chunk_ingest.max_chunk_bytes=5000000`. Não transformar o limite interno em parâmetro maior que 50 MB.
