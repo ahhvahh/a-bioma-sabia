@@ -272,3 +272,7 @@ Antes de retornar a `refined`, ainda precisam ser fechados:
 - `reminder_interval` é opcional, positivo quando presente e ausente significa sem lembretes periódicos;
 - PostgreSQL é a persistência oficial, com banco lógico e role próprios e schema versionado;
 - o contrato concreto de conexão PostgreSQL precisa ser refinado antes de CFG-0001 retornar a `refined`;
+
+## Emenda normativa 2026-10-21 — configuração de mídia
+
+Em `media_chunk_ingest.max_total_bytes`, substituir o valor obrigatório de `100000000` por **`50000000` bytes**. A validação do startup rejeita configurações antigas de 100 MB. Permanecem `media_ingest.max_payload_bytes=20000000` e `media_chunk_ingest.max_chunk_bytes=5000000`. Não transformar o limite interno em parâmetro maior que 50 MB.
