@@ -148,3 +148,7 @@ Novos transportes devem referenciar a mídia por `media_id`, sem depender de Tel
 - mídia fracionada fica `completed` automaticamente ao atingir `total_bytes`;
 - payload entregue pode ser limpo somente sem transmissões `pending` ou `transmitting`;
 - `content_type` inválido é rejeitado, vazio vira `null` e não há inferência pelo nome ou pelos bytes.
+
+## Emenda normativa 2026-10-21 — limite reduzido
+
+O limite `max_total_bytes` de qualquer mídia fracionada foi reduzido de 100 MB para **`50000000` bytes (50 MB decimais)**. Qualquer ocorrência anterior de `100000000` ou 100 MB neste documento deve ser considerada substituída por 50 MB. O limite de 20 MB do canal simples e de 5 MB por chunk não muda. Para mídia recebida do Telegram, respeitar também `getFile` público (download até 20 MB); para envio respeitar limites específicos do método Telegram (fotos menores). Nunca considerar o limite interno como garantia de aceitação pelo Telegram.
