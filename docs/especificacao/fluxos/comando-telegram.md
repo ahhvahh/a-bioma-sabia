@@ -147,3 +147,9 @@ Resposta controlada ao usuário ou referência de job criado, com estado de entr
 ## Implementação relacionada
 
 Adaptador Telegram, segurança e Command Router.
+
+## Emenda 2026-10-21 — aceite atômico e navegação
+
+A sequência normativa inicia persistindo **Update JSON integral e recuperável**, chave única `(client_id, transport, update_id)` e avanço do cursor **em uma única transação**. Só após commit deve ocorrer a próxima leitura com offset avançado. O consumidor retoma no PostgreSQL e nunca executa novamente um update duplicado; registrar estados de consumo e reconciliar `processing` no restart. Essa regra substitui qualquer leitura da sequência acima que admita cursor avançado com payload não recuperável.
+
+`/menu` e `/start` consultam a árvore de ações autorizadas e enviam teclado inline. Em `callback_query`, conferir usuário/chat, estado e permissões novamente; responder `answerCallbackQuery`; editar menu ou enviar novo menu caso a mensagem original não seja editável. `Voltar` navega ao pai, `Início` à raiz. Ações finais exigem validação pelo Router. Cliques forjados/antigos são recusados, e duplicatas não reexecutam operações.
