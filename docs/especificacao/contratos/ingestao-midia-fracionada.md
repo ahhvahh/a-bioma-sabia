@@ -233,3 +233,7 @@ Antes de `refined`, ainda precisa ser definido:
 - conteúdo pode ser reconstruído em ordem sem manter o arquivo inteiro em memória;
 - arquivo lógico é entregue como um único arquivo ao transporte externo;
 - `content_type` vazio vira `null`, valor válido é normalizado para minúsculas e valor inválido retorna `invalid_content_type`.
+
+## Emenda normativa 2026-10-21
+
+O limite `max_total_bytes` passa a **50000000 bytes (50 MB decimais)**. Referências anteriores a 100 MB/`100000000` neste contrato estão substituídas. Recusar abertura acima de 50 MB antes de criar mídia. Limite individual de chunk permanece em 5 MB.
