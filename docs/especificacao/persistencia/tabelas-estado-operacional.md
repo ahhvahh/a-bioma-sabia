@@ -98,7 +98,7 @@ Registra cada update aceito para garantir idempotência.
 
 **Restrição de unicidade proposta:** `UNIQUE (client_id, transport, transport_update_id)`.
 
-O payload bruto específico da Bot API não é proposto como coluna obrigatória.
+O payload integral da Bot API é obrigatório em `raw_update` para permitir recovery local após avanço do cursor.
 
 ### `request`
 
