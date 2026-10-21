@@ -88,3 +88,8 @@ A relação normativa e atualizada dos bloqueios permanece centralizada em [docs
 Os bloqueios e inconsistências que impedem considerar o gate do MVP satisfeito estão consolidados em [Pendências documentais](pendencias.md).
 
 O índice mantém apenas os estados declarados dos documentos; um status `refined` não deve ser interpretado isoladamente como liberação quando o documento de pendências identifica conteúdo insuficiente ou inconsistente.
+
+## Revisão Telegram 2026-10-21
+
+- [Contrato operacional e decisões de integração](telegram-operacao-2026.md)
+- [Caderno de testes locais organizado por grupos](testes/telegram/README.md)
