@@ -42,3 +42,7 @@ O Sabiá assume somente as responsabilidades de integração explicitamente desc
 
 **Estado:** DOCUMENTED  
 **Discovery:** -
+
+## Atualização 2026-10-21 — compatibilidade
+
+Base oficial: Bot API 10.3 (24/08/2026). Entrada `getUpdates` com mensagens e callbacks; saída `sendMessage`, `InlineKeyboardMarkup`, `answerCallbackQuery`, `editMessageText`, `sendPhoto`, `sendVideo`, `sendDocument`. Aceite de update exige JSON recuperável e avanço do cursor no mesmo commit; nenhuma confirmação antes disso. Limite operacional total 50 MB; download por `getFile` da API pública até 20 MB e fotos sujeitas a limites próprios. Fonte: https://core.telegram.org/bots/api.
