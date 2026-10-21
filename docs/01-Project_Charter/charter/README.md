@@ -18,6 +18,8 @@ O Sabiá existe para atuar como uma ponte controlada entre usuários autorizados
 
 O serviço também mantém contatos conhecidos e um catálogo persistente de ações, administrável localmente pelo próprio executável do Sabiá, para que menus e operações possam evoluir sem recompilação.
 
+O produto permite que usuários autorizados **assinem tópicos de eventos** e recebam notificações publicadas por aplicações locais autorizadas, mantendo a sequência de eventos e o histórico de entregas recuperáveis.
+
 ## Stakeholders
 
 | Stakeholder | Interesse / responsabilidade |
@@ -29,7 +31,7 @@ O serviço também mantém contatos conhecidos e um catálogo persistente de aç
 
 ## Responsabilidade resumida
 
-O Sabiá recebe interações de usuários autorizados pelo Telegram e entradas locais explicitamente permitidas, registra contatos conhecidos, mantém um catálogo persistente de ações, aplica autorização e roteamento, aciona operações cadastradas, coordena jobs e verificações agendadas, mantém o estado operacional necessário e entrega mensagens ou mídias ao destino correspondente.
+O Sabiá recebe interações de usuários autorizados pelo Telegram e entradas locais explicitamente permitidas, registra contatos conhecidos, mantém um catálogo persistente de ações e assinaturas de tópicos, aplica autorização e roteamento, aciona operações cadastradas, coordena jobs e verificações agendadas, mantém o estado operacional necessário e entrega mensagens, eventos ou mídias ao destino correspondente.
 
 O próprio executável `sabia` oferece uma interface administrativa local para manutenção desse catálogo.
 
@@ -55,6 +57,7 @@ O próprio executável `sabia` oferece uma interface administrativa local para m
 - `/start` registra ou atualiza um contato e permite apresentar as ações habilitadas para aquele contexto.
 - O operador consegue cadastrar pelo terminal uma ação como `/acoes/videoytb` associada a um script permitido, e o usuário consegue acioná-la sem fornecer o caminho do executável.
 - Uma ação assíncrona pode produzir progresso, resultado textual e arquivos correlacionados ao solicitante.
+- Um usuário autorizado pode assinar um tópico no Telegram, receber em sequência as publicações de aplicações locais autorizadas e cancelar a assinatura; o processamento pode ser retomado após reinicializações.
 
 ## Objetivos
 
@@ -66,6 +69,7 @@ O próprio executável `sabia` oferece uma interface administrativa local para m
 - [OBJ-006 — Limitar o acesso remoto e local às identidades e operações explicitamente autorizadas.](objectives/OBJ-006-restringir-acesso-e-execucao.md)
 - [OBJ-007 — Registrar e manter o contato de usuários que iniciem relacionamento com um cliente Telegram do Sabiá.](objectives/OBJ-007-registrar-contatos-telegram.md)
 - [OBJ-008 — Permitir que o operador administre um catálogo persistente e hierárquico de ações pelo terminal.](objectives/OBJ-008-administrar-catalogo-de-acoes.md)
+- [OBJ-009 — Permitir assinaturas de tópicos e notificações por evento no Telegram.](objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md)
 
 ## Não objetivos
 
