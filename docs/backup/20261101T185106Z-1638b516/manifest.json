@@ -1,0 +1,560 @@
+{
+  "schema": "a-bioma-backup-manifest/v1",
+  "snapshot_id": "20261101T185106Z-1638b516",
+  "source_repository": "ahhvahh/a-bioma-sabia",
+  "source_branch": "develop",
+  "source_head": "1638b516213264806646d901ae75e2da9899a428",
+  "normative_head": "20b49b182ea529f8b809e8e009132ab0fd5fe267",
+  "created_at": "2026-11-01T18:51:06Z",
+  "files": [
+    {
+      "source_path": "docs/01-Project_Charter/README.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/README.md",
+      "size_bytes": 402,
+      "sha256": "c5a511f596e1c58388bf7582298d703bce5a3cf5bcec63283cc542d18f12d95c",
+      "blob_sha": "b950f0579067626d19409849235390b4c6610fc4",
+      "classification": "mixed-index",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/backlog/README.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/backlog/README.md",
+      "size_bytes": 446,
+      "sha256": "99ebc072c45542fccba39719d1ef1f961e773fb2f21824ed02f7e18ac9577549",
+      "blob_sha": "5581f8232cbea8139a448f20d346587085e1eed8",
+      "classification": "mixed-index",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/NON-OBJECTIVES.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/NON-OBJECTIVES.md",
+      "size_bytes": 1767,
+      "sha256": "398b750878caf40a6fc88f96343c528e3d17c2fdbae382c320c277abb4012bd0",
+      "blob_sha": "b0b29d93685ea70a3a2f883dfb0a69566adf938b",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/non-objectives/README.md (desdobrar NOBJ-001 a NOBJ-005)"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/README.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/README.md",
+      "size_bytes": 10304,
+      "sha256": "04c231a4cc44957f0585b3fe10470f0da67774e861f0b7443509035775236555",
+      "blob_sha": "fac06cc43b52b92a38bb3a0f45a59ab12e6ed97b",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/README.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/assumptions/ASM-001-a-instalacao-possui-conectividade-de-saida-suficiente-para-a.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/assumptions/ASM-001-a-instalacao-possui-conectividade-de-saida-suficiente-para-a.md",
+      "size_bytes": 834,
+      "sha256": "ebbe640893eb17fefbd83b3f708ea450d898028b79e69c7ba9281955b13a3f6e",
+      "blob_sha": "642bbd9043228b9755fa09a04f115b1715ff0f3a",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/ASM-001-a-instalacao-possui-conectividade-de-saida-suficiente-para-a.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/assumptions/ASM-002-tokens-e-demais-credenciais-validas-serao-fornecidos-por-mec.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/assumptions/ASM-002-tokens-e-demais-credenciais-validas-serao-fornecidos-por-mec.md",
+      "size_bytes": 797,
+      "sha256": "fa793ab7316a43031560126ded7010a671f3cb5ef1e528c0afe39fd6bf956413",
+      "blob_sha": "8fc293664f41783a2c97037c5be7fb09953c6c26",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/ASM-002-tokens-e-demais-credenciais-validas-serao-fornecidos-por-mec.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/assumptions/ASM-003-operacoes-disponiveis-aos-usuarios-serao-cadastradas-previam.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/assumptions/ASM-003-operacoes-disponiveis-aos-usuarios-serao-cadastradas-previam.md",
+      "size_bytes": 925,
+      "sha256": "e4713a74da395f644cf093f085aa300bec3fc86c69ab3ac7d3fa901bf91cbf2e",
+      "blob_sha": "13142173ce9f9efe4136d3489c1cd8bd11fc9664",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/ASM-003-operacoes-disponiveis-aos-usuarios-serao-cadastradas-previam.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/assumptions/ASM-004-uma-instancia-postgresql-compativel-estara-disponivel-ao-ser.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/assumptions/ASM-004-uma-instancia-postgresql-compativel-estara-disponivel-ao-ser.md",
+      "size_bytes": 747,
+      "sha256": "f746d9d7801c21e0a8680527462b900a8ac81f7951d363dfcd6494373295fab0",
+      "blob_sha": "78c858f6bbc6cc967c6367c2dfc73ae438a62312",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/ASM-004-uma-instancia-postgresql-compativel-estara-disponivel-ao-ser.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/assumptions/ASM-005-aplicacoes-locais-que-utilizem-interfaces-compartilhadas-ser.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/assumptions/ASM-005-aplicacoes-locais-que-utilizem-interfaces-compartilhadas-ser.md",
+      "size_bytes": 866,
+      "sha256": "56d7f50f6b2443406632cfc7c9b26e5a85890288994516c6e2e42109dac96b79",
+      "blob_sha": "3ddd2d86cd1e19079a1b8139f9a889faad11836c",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/ASM-005-aplicacoes-locais-que-utilizem-interfaces-compartilhadas-ser.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-001-o-servico-opera-em-linux-e-o-executavel-principal-e-distribu.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-001-o-servico-opera-em-linux-e-o-executavel-principal-e-distribu.md",
+      "size_bytes": 824,
+      "sha256": "3e85e397f80bcb6e19b97b409f48d51dcef33a1b2e159892a9deba86f78a1010",
+      "blob_sha": "661c846878dd9b41fd8313960060622a81844057",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-001-o-servico-opera-em-linux-e-o-executavel-principal-e-distribu.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-002-o-primeiro-canal-telegram-recebe-updates-por-long-polling-e-.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-002-o-primeiro-canal-telegram-recebe-updates-por-long-polling-e-.md",
+      "size_bytes": 781,
+      "sha256": "0b0d0db140b123cb6d2e535e7f41c5a188c29247d07dac7fa9b4946885bc07e3",
+      "blob_sha": "78640f04fac288cec11fc2818c8d753037cb0bf2",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-002-o-primeiro-canal-telegram-recebe-updates-por-long-polling-e-.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-003-o-processo-principal-nao-executa-como-root-e-utiliza-identid.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-003-o-processo-principal-nao-executa-como-root-e-utiliza-identid.md",
+      "size_bytes": 805,
+      "sha256": "543ca03c82d57759d724145a31a63a063a303e060a62240ad89b0d7c16587d3d",
+      "blob_sha": "bcd42a5bd6602838ca57e90438eaf60b3c7b8a99",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-003-o-processo-principal-nao-executa-como-root-e-utiliza-identid.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-004-operacoes-remotas-somente-podem-resolver-identificadores-pre.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-004-operacoes-remotas-somente-podem-resolver-identificadores-pre.md",
+      "size_bytes": 891,
+      "sha256": "7a55592bc49777dd6eeac379f742f5542afe3f216fd5163ac505cd2b2da2e7c1",
+      "blob_sha": "5f55694e76988bc43e265a5de9799c56738ab79e",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-004-operacoes-remotas-somente-podem-resolver-identificadores-pre.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-005-postgresql-e-a-persistencia-oficial-do-estado-operacional-se.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-005-postgresql-e-a-persistencia-oficial-do-estado-operacional-se.md",
+      "size_bytes": 775,
+      "sha256": "2463956aff0f5d728de7c40669a5bbbaefa2d8bc80faf3903fe186e6d50ab4c2",
+      "blob_sha": "05133d433ad05ab21cabd454b6d6bbb17ed64c2b",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-005-postgresql-e-a-persistencia-oficial-do-estado-operacional-se.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-006-cada-cliente-telegram-mantem-identidade-autorizacao-e-catalo.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-006-cada-cliente-telegram-mantem-identidade-autorizacao-e-catalo.md",
+      "size_bytes": 757,
+      "sha256": "f65f856f3b8b145376bbf9395e1281c649cb78191007605d92534af74c8dba7e",
+      "blob_sha": "12b2892a1f2e8268b408125e503aa293cc8a1d8d",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-006-cada-cliente-telegram-mantem-identidade-autorizacao-e-catalo.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-007-interfaces-locais-compartilhadas-com-aplicacoes-sao-limitada.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-007-interfaces-locais-compartilhadas-com-aplicacoes-sao-limitada.md",
+      "size_bytes": 823,
+      "sha256": "f0ba731d5760d01618c1e3eb4eecb44312016cb68275b7d8f405fc3d3f168c24",
+      "blob_sha": "8d15a5ca0ebdece4d3ecde2c9db32a2e46d98b74",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-007-interfaces-locais-compartilhadas-com-aplicacoes-sao-limitada.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-008-contatos-e-catalogo-de-acoes-sao-persistidos-no-postgresql-o.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-008-contatos-e-catalogo-de-acoes-sao-persistidos-no-postgresql-o.md",
+      "size_bytes": 959,
+      "sha256": "57131e82ebcbc5f7a1e0d575f2d0c21c9db66aad2ef2c0643152c31ea91e2c5e",
+      "blob_sha": "0113205a822a2bbc2ed60b9ff226fd93f799ab35",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-008-contatos-e-catalogo-de-acoes-sao-persistidos-no-postgresql-o.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-009-cadastro-ou-alteracao-de-script-processador-associado-a-uma-.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-009-cadastro-ou-alteracao-de-script-processador-associado-a-uma-.md",
+      "size_bytes": 970,
+      "sha256": "fd024aef5a8c8838d6911b17ea7bbfd6603bc5acc6396faef4b0f9cbc92e2976",
+      "blob_sha": "4c9ea933ad27b093db3be10e1dc8dde3d0e51a84",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-009-cadastro-ou-alteracao-de-script-processador-associado-a-uma-.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/constraints/CON-010-limites-de-ingestao-de-midia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/constraints/CON-010-limites-de-ingestao-de-midia.md",
+      "size_bytes": 1125,
+      "sha256": "2a161174c03748de6fb1e1e80af9490e66dadedf0f99951677ad3ef17204bac5",
+      "blob_sha": "1a30ad8a2d486944c3dc1a5b0a8143aa0aaedaf4",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/conditions/CON-010-limites-de-ingestao-de-midia.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/non-objectives/NOBJ-006-assinaturas-excluidas-cancelado.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/non-objectives/NOBJ-006-assinaturas-excluidas-cancelado.md",
+      "size_bytes": 2125,
+      "sha256": "2da23d06056a01dfb003024c2172cb46cf211461bbf63d6b7446eebd9dcefece",
+      "blob_sha": "ebb4dcd3c8419a4a9d0f896619197128864b2f57",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/non-objectives/NOBJ-006-assinaturas-excluidas-cancelado.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-001-acionar-operacoes-locais-cadastradas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-001-acionar-operacoes-locais-cadastradas.md",
+      "size_bytes": 1072,
+      "sha256": "0c566407de6336f2ca7274ccc8cb6a4dbf88aa8b92baec1a099c2d3fe9430814",
+      "blob_sha": "c414a75b89fa262adf8833ab7cf46c734030e8de",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-001-acionar-operacoes-locais-cadastradas.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-002-processamento-assincrono.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-002-processamento-assincrono.md",
+      "size_bytes": 969,
+      "sha256": "feacf496577e1a7854d82c9e3f8e447979d04175b11b61b624df03e01d471836",
+      "blob_sha": "414f5af8f0f6ee08cb455ffdf338f5ed2f9f35fe",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-002-processamento-assincrono.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-003-verificacoes-agendadas-e-alertas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-003-verificacoes-agendadas-e-alertas.md",
+      "size_bytes": 989,
+      "sha256": "4abc18a448bcea31ce961e6dfe15aa5e4c80a3e96ba11893ffffb8a0433c2d9a",
+      "blob_sha": "1883f950f41ddfa5146ca251f49337ed41ddcc60",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-003-verificacoes-agendadas-e-alertas.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-004-ingestao-e-entrega-de-midia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-004-ingestao-e-entrega-de-midia.md",
+      "size_bytes": 1067,
+      "sha256": "32e7c61c83024b7954952bdd4d693854a283bdcee4bf9d754a4bb3af71880791",
+      "blob_sha": "60f067c2bb31af04b9129e7da3573fa4efd78918",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-004-ingestao-e-entrega-de-midia.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-005-preservar-estado-operacional.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-005-preservar-estado-operacional.md",
+      "size_bytes": 1026,
+      "sha256": "8c06db5a0ed6e0b727d6fab646a11acccc98a608118ae345a32f01cb583fecb8",
+      "blob_sha": "13730b87d3c1e0ceefb0edaf3bdff69bcad8b00a",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-005-preservar-estado-operacional.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-006-restringir-acesso-e-execucao.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-006-restringir-acesso-e-execucao.md",
+      "size_bytes": 1033,
+      "sha256": "1407b94213c9b3c1f40775bc1e6737806214c12563a050c3112efde02099ac67",
+      "blob_sha": "99b9b3c50ef3bd1e862d72b7350353476d0b3cab",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-006-restringir-acesso-e-execucao.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-007-registrar-contatos-telegram.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-007-registrar-contatos-telegram.md",
+      "size_bytes": 1007,
+      "sha256": "f654b012cd4bd58daf1c12b7b5da7cbf386fb82c63f81346b66d5e5ac3648629",
+      "blob_sha": "8e82d91517506936c160f9b3dd64f500c8a35069",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-007-registrar-contatos-telegram.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-008-administrar-catalogo-de-acoes.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-008-administrar-catalogo-de-acoes.md",
+      "size_bytes": 1130,
+      "sha256": "6da34f5981fc2141ede84366c41d7ceaf05d46badbcf7334717df56979077986",
+      "blob_sha": "c02f8e2e4ef73806f3f0b4962487bbeeb646ac01",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-008-administrar-catalogo-de-acoes.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md",
+      "size_bytes": 3715,
+      "sha256": "c9f662d664c090ac4bf5d2949a0b7b3d3087a3c4ad7d1d4740c2dbd2a73ce187",
+      "blob_sha": "f20992766dd80c65d78baf6ddaa459b0dc89bd0b",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/charter/open-questions/OPEN-001-autoridade-formal-de-aprovacao.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/charter/open-questions/OPEN-001-autoridade-formal-de-aprovacao.md",
+      "size_bytes": 688,
+      "sha256": "ec5f68690c580edc9e7ea691b2d85320821cf959309e0e26323ac2d15189f942",
+      "blob_sha": "c9c7445f17290838029b354a183afe1ab129411a",
+      "classification": "charter",
+      "proposed_destination": "docs/charter/open-questions/OPEN-001-autoridade-formal-de-aprovacao.md"
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/ACTORS.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/ACTORS.md",
+      "size_bytes": 676,
+      "sha256": "86d2b683ef2146f866f5ac0c538a75d9804619050410660992427dcd4fab29ec",
+      "blob_sha": "5a37d55c10a5e2941d724635f537c205c7f50588",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/CHANNELS.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/CHANNELS.md",
+      "size_bytes": 619,
+      "sha256": "2a80aa91b67e188279756361889897d92e71fed7722aaea5691ee3a585cb9958",
+      "blob_sha": "c4168fa5fa34b8561353fb02e35b1420e6ff8910",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/README.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/README.md",
+      "size_bytes": 4043,
+      "sha256": "881c7b9a3c94037f181dee98f2861c5fd81e2e90a96cc4d0d5cf956fd1e3d9ec",
+      "blob_sha": "5dbcc3b3078df225868394a8ba8bb8e2138a65e5",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/SYSTEM-BOUNDARY.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/SYSTEM-BOUNDARY.md",
+      "size_bytes": 1457,
+      "sha256": "1a896cdb266583363f5c9085f5b240cf60e7c71bff4bfabe667c7eb5104d30f8",
+      "blob_sha": "5f3555c07a2c3b446c326c5439a6f16dcb74bf71",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/SYSTEM-CONTEXT.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/SYSTEM-CONTEXT.md",
+      "size_bytes": 985,
+      "sha256": "5515c37b3c532aa6e5f6c4156d912545d959ea6aefc82caabc789d490017e328",
+      "blob_sha": "e3af599682617eff7973bf4d49abfbfd56cd3a89",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-001-comando-telegram.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-001-comando-telegram.md",
+      "size_bytes": 1542,
+      "sha256": "ecd5d06cd9f1f2c06628cedf03aafc468d7a5a72fab223ffa672499393520248",
+      "blob_sha": "aa6acb196801de0e34a851ac490f7d8993af5ad3",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-002-job-assincrono.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-002-job-assincrono.md",
+      "size_bytes": 1404,
+      "sha256": "c6294bebae35bc0c8eee24c1a4c39c25542bc7d7e4eee6de8aa34674570b0999",
+      "blob_sha": "18f269eb29bbfcf4c83fdbce3fa38c8d83b580e0",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-003-monitoramento-agendado-e-alerta.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-003-monitoramento-agendado-e-alerta.md",
+      "size_bytes": 1485,
+      "sha256": "a4eea4528f675af1f32f5d9e5fb55f15c6880412c02999d7779bd3e3d6d2ec84",
+      "blob_sha": "4466635280d12d03c9fb5ff0f3c0a990c94c2989",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-004-ingestao-e-entrega-de-midia-local.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-004-ingestao-e-entrega-de-midia-local.md",
+      "size_bytes": 1584,
+      "sha256": "0a09e0293f4d392f2e7ca43942d9d1f318b87fcd5ba6d7d6dd744dec034f36bf",
+      "blob_sha": "b8c237448d7c877c3c3ccd6ef5906ebb036849f5",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-005-inicializacao-recovery-e-encerramento.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-005-inicializacao-recovery-e-encerramento.md",
+      "size_bytes": 1464,
+      "sha256": "c58f19e9024416ebb7f98dd9c6d4df902595de508092396851f8dcddf781d62d",
+      "blob_sha": "9d692c96c3a7f69335aba32b4934e3e2b37d3b98",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-006-start-registro-de-contato-e-apresentacao-do-menu.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-006-start-registro-de-contato-e-apresentacao-do-menu.md",
+      "size_bytes": 2089,
+      "sha256": "b940de7f98dd039c5c6efc75790628d3b8eb0ce6f77b3a07022dbb148777c33b",
+      "blob_sha": "8eb5a9eeb5477fb55351360f1198c32a8d26aa8c",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md",
+      "size_bytes": 2122,
+      "sha256": "f4036c43937cabb7686f28be8141a2b9df1b25c94bc8e340dba63c7ea1d1b293",
+      "blob_sha": "f166fa689f06a6fbc16530c0ce2c653bc0e295e4",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-001-clientes-telegram-isolados.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-001-clientes-telegram-isolados.md",
+      "size_bytes": 752,
+      "sha256": "776779e340de95863a9895b59e15e1bf7bdf3ace0dca4c326f8c94713648f3a9",
+      "blob_sha": "7cce905b4621d6853117286d31a9cadca36b831a",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-002-autorizacao-explicita.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-002-autorizacao-explicita.md",
+      "size_bytes": 656,
+      "sha256": "33cdd246df6a0ae163a66a8df33357b958c95320a9ab64a61c68b10573dc1f75",
+      "blob_sha": "ba6df2ec5ec2ac0c57e51414cb393518d5094f2f",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-003-roteamento-de-operacoes-cadastradas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-003-roteamento-de-operacoes-cadastradas.md",
+      "size_bytes": 789,
+      "sha256": "ad077151a3a777cb8811fb90e5feb62490571004d111450db87116a84c5a9726",
+      "blob_sha": "1fec9552612d520cf6ab7875b43d830ebf74a0fb",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-004-jobs-assincronos.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-004-jobs-assincronos.md",
+      "size_bytes": 661,
+      "sha256": "1440b69173f36edca64bc8b42aaacbda67fb1a0a7ca9c73e5fbfe3d4abdaf98c",
+      "blob_sha": "7d1e8c7f65669aebf59a2b41ba32f63e61b141a4",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-005-scheduler-e-alertas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-005-scheduler-e-alertas.md",
+      "size_bytes": 713,
+      "sha256": "c6147d2f635f4f82d2f9cd44e0991930d22d2cedf2e90cc9198b5598d7f44abc",
+      "blob_sha": "b33347ff47227e19f379961a0a59d0cb1febff13",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-006-persistencia-operacional-e-recovery.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-006-persistencia-operacional-e-recovery.md",
+      "size_bytes": 765,
+      "sha256": "378cae48f00bc253a50a263759ed45dd680b5d66868e2612bac7c4699e19b38d",
+      "blob_sha": "a43e7faa70dcbfcc88e43a8437d2b4f156d28781",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-007-ingestao-local-de-midia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-007-ingestao-local-de-midia.md",
+      "size_bytes": 713,
+      "sha256": "34159943a44d9e6fdfb05b1e4934e03cf0e40887397d17bb654a89adedd725be",
+      "blob_sha": "0627f6fcba46fa4708b672b571a13ca22d7e376f",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-008-entrega-de-midia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-008-entrega-de-midia.md",
+      "size_bytes": 640,
+      "sha256": "d4e7baa2e371da357698dbfe601d849118b43548c1372893ee9833e23a0bea67",
+      "blob_sha": "802af429c930292ad365b7c23be3bff96735b00a",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-009-operacao-segura-como-servico-linux.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-009-operacao-segura-como-servico-linux.md",
+      "size_bytes": 747,
+      "sha256": "56b83286e2e8776e55ce70a60212b55c032928a1b6504ee404fd73681ed5b07c",
+      "blob_sha": "1d4212c5fe3f9835a29bdacb0d73eed7029eceb1",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-010-registro-persistente-de-contatos.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-010-registro-persistente-de-contatos.md",
+      "size_bytes": 800,
+      "sha256": "0fec89e630cc63ce51879ed97b8fbaca77e7acce788c2939bdb86ee07371ac65",
+      "blob_sha": "c3b0ca59a890a56e8ed863f11d585b58b021a620",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-011-catalogo-persistente-de-acoes-e-menu.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-011-catalogo-persistente-de-acoes-e-menu.md",
+      "size_bytes": 790,
+      "sha256": "ead55821d4557289824c4114f6ea6f1f986a60e11fd7f046586acc89348ccb89",
+      "blob_sha": "715c552f07864a967c88c0ca864ba915cb868974",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-012-administracao-de-acoes-por-cli.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-012-administracao-de-acoes-por-cli.md",
+      "size_bytes": 755,
+      "sha256": "b7ff6dff2e24aaf08da690906ad537e0ce47abf400cf56ef13f705a2b6355f6a",
+      "blob_sha": "07ceb352c01314928eddb6a28303c8bb9e4dabe7",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/in-scope/IN-013-assinaturas-periodicas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/in-scope/IN-013-assinaturas-periodicas.md",
+      "size_bytes": 1095,
+      "sha256": "8a60b56432f2a69c70be30a3432234f9b8424ea4f4a24207a7445be5fb65e414",
+      "blob_sha": "75dfabbef207a80575977c742fda60cdeb6d1b3a",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/integrations/INT-001-telegram-bot-api.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/integrations/INT-001-telegram-bot-api.md",
+      "size_bytes": 1405,
+      "sha256": "addd6936f5a6a5d0294bc21506943397a391221d5c5831191570785fcdf94370",
+      "blob_sha": "610805bb290a9b2068819645bf96860da41000ce",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/integrations/INT-002-operacoes-locais-cadastradas.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/integrations/INT-002-operacoes-locais-cadastradas.md",
+      "size_bytes": 914,
+      "sha256": "4523705c5b1d354df2671c6e938e821142490f4a604953c18cad9297c1953dbd",
+      "blob_sha": "645421640b916f5fba6ca204163c32772e4cf9ae",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/integrations/INT-003-sabia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/integrations/INT-003-sabia.md",
+      "size_bytes": 833,
+      "sha256": "790f5f312550dfdbd47e562b1b8f0c6a270e927c1a6f44804a49b7da4f2ffec0",
+      "blob_sha": "201da2017994e29dd0dbc6efe147bf23e7c95824",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/integrations/INT-004-postgresql.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/integrations/INT-004-postgresql.md",
+      "size_bytes": 878,
+      "sha256": "65af9b4dd392210ec5977943d88c26ae61d3edcf5df3247ddd5b59219693d6f5",
+      "blob_sha": "8f1e3c92e2311dddeca4c3e78bdfa1d603795d64",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/integrations/INT-005-sabia.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/integrations/INT-005-sabia.md",
+      "size_bytes": 801,
+      "sha256": "b6230ade8dc977c8a2f33c755e506d3eeeed987d22c78aaeec44eb9b5c4da260",
+      "blob_sha": "766b85de6f07659e639d6883ab01ee98016ac6d6",
+      "classification": "scope",
+      "proposed_destination": null
+    },
+    {
+      "source_path": "docs/01-Project_Charter/scope/out-of-scope/OUT-OF-SCOPE.md",
+      "backup_path": "docs/backup/20261101T185106Z-1638b516/original/docs/01-Project_Charter/scope/out-of-scope/OUT-OF-SCOPE.md",
+      "size_bytes": 1824,
+      "sha256": "896eb4498d8ce2ce5e2a84eb0963b1ce70297ba404a54427ed124a9ab2956606",
+      "blob_sha": "d833c7d0d114d55bf2146a717e0348abf13b455d",
+      "classification": "scope",
+      "proposed_destination": null
+    }
+  ]
+}
