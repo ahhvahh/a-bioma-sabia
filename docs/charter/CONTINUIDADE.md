@@ -59,7 +59,7 @@ O projeto atende operadores, usuários Telegram autorizados e aplicações locai
 | `discovery/integracoes-locais/README.md` | `refinement` | D-001 |
 | `discovery/integracoes-locais/DSC-004-viabilidade-de-integracoes-locais.md` | `refinement` | D-001 |
 | `discovery/postgresql/README.md` | `refinement` | D-001 |
-| `discovery/postgresql/DSC-002-viabilidade-do-postgresql.md` | `refinement` | D-001 |
+| `discovery/postgresql/DSC-002-viabilidade-do-postgresql.md` | `refinement` | D-003 |
 | `discovery/telegram-bot-api/README.md` | `refinement` | D-001 |
 | `discovery/telegram-bot-api/DSC-001-viabilidade-da-telegram-bot-api.md` | `refinement` | D-002 |
 | `non-objectives/NOBJ-001-nao-oferecer-shell-remoto-arbitrario.md` | `refinement` | D-001 |
@@ -92,7 +92,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 |---|---|---|---|---|---|
 | D-001 | Migrar Charter, índices, badges e refs canônicas | P0 | concluido | Backup Fase A — confirmado | Commit `3e6f0e4c` verificado |
 | D-002 | DSC-001 Telegram | P0 | em_analise | D-001 (concluído) | Realizar ensaio ambiental com perfil inicial; incorporar evidências e revisar se necessário |
-| D-003 | DSC-002 PostgreSQL | P0 | a_analisar | D-001 | Validar compatibilidade real |
+| D-003 | DSC-002 PostgreSQL | P0 | em_analise | D-001 (concluído) | PostgreSQL 17 escolhido; verificar instalação, conexão, backup e recuperação |
 | D-004 | DSC-003/004 ambiente Linux e integrações locais | P1 | a_analisar | D-001 | Validar ambiente e atores |
 | D-005 | ACT-001..003 só no Scope legado | P0 | a_analisar | D-001 | Materializar cadastro canônico em PCH-001 |
 | D-006 | NOBJ-001..005 somente em índice legado | P1 | a_analisar | D-001 | Desdobrar NOBJ e registrar consequências |
@@ -106,7 +106,8 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - 21/10/2026: CON-010 revisto para **50.000.000 bytes** como limite total fracionado.
 - Fase A autorizada pelo usuário e publicada em commit [638a8542](https://github.com/ahhvahh/a-bioma-sabia/commit/638a8542a7195b18debdce8c2f3c711c6f8b5357), com 61 originais e manifesto.
 - 01/11/2026: Fase B aprovada e publicada no commit [3e6f0e4c](https://github.com/ahhvahh/a-bioma-sabia/commit/3e6f0e4c0b8b7982b53d69faa545046dc8e331b1), 59 arquivos canônicos, sem exclusões.
-- 01/11/2026: para D-002, o usuário escolheu **valores iniciais padrão e ajustáveis posteriormente**. Os números recomendados e o plano de testes constam em DSC-001, sujeitos à validação ambiental.
+- 01/11/2026: para D-002, o usuário escolheu **valores iniciais padrão e ajustáveis posteriormente**. Os números recomendados e o plano de testes constam em DSC-001 (commit [c768aa47](https://github.com/ahhvahh/a-bioma-sabia/commit/c768aa47ca432941d78249534c4f95ff45f33cef)), sujeitos à validação ambiental.
+- 01/11/2026: para D-003, o usuário decidiu usar **PostgreSQL 17 na primeira versão e avaliar a evolução para 18 posteriormente**. A decisão é documentada no DSC-002; nenhum teste de ambiente foi executado.
 
 ## Progresso e próxima ação
 
@@ -114,7 +115,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - Migração: B_MIGRACAO_COMPLETA; commit `3e6f0e4c` verificado.
 - Limpeza: C_LIMPEZA_NAO_ELEGIVEL; originais intactos.
 - Universo: 28 fontes de Charter e decisões relacionadas, 31 fontes de Scope apenas como evidência da etapa posterior.
-- Próxima demanda: D-002, realizar ensaios em ambiente de teste com os parâmetros iniciais e registrar os resultados.
+- Próxima demanda: D-003, verificar o PostgreSQL 17 no ambiente previsto; D-002 mantém ensaios Telegram pendentes.
 
 ## Histórico de rodadas e reaberturas
 
@@ -127,11 +128,12 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 
 - Alvo: https://github.com/ahhvahh/a-bioma-sabia
 - Branch: develop
-- Baseline analisada: `3e6f0e4c0b8b7982b53d69faa545046dc8e331b1`
+- Baseline analisada: `c768aa47ca432941d78249534c4f95ff45f33cef`
 - Norma somente leitura: `20b49b182ea529f8b809e8e009132ab0fd5fe267`
 - Skill Charter: 1.5.0
 - Autorização da Fase B: diff aprovado pelo usuário e commit `3e6f0e4c` verificado.
-- Autorização do diff D-002: aguardando confirmação; a preferência pelos padrões não aprova automaticamente este texto.
+- Autorização do diff D-002: confirmada pelo usuário; publicado e verificado no commit `c768aa47`.
+- Autorização da D-003: a decisão de versão foi expressa pelo usuário; a publicação deste diff exige confirmação específica e verificação do commit remoto.
 
 ## Gate Charter → Scope
 
