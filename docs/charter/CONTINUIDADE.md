@@ -61,7 +61,7 @@ O projeto atende operadores, usuários Telegram autorizados e aplicações locai
 | `discovery/postgresql/README.md` | `refinement` | D-001 |
 | `discovery/postgresql/DSC-002-viabilidade-do-postgresql.md` | `refinement` | D-001 |
 | `discovery/telegram-bot-api/README.md` | `refinement` | D-001 |
-| `discovery/telegram-bot-api/DSC-001-viabilidade-da-telegram-bot-api.md` | `refinement` | D-001 |
+| `discovery/telegram-bot-api/DSC-001-viabilidade-da-telegram-bot-api.md` | `refinement` | D-002 |
 | `non-objectives/NOBJ-001-nao-oferecer-shell-remoto-arbitrario.md` | `refinement` | D-001 |
 | `non-objectives/NOBJ-002-nao-expor-webhook-publico-no-mvp.md` | `refinement` | D-001 |
 | `non-objectives/NOBJ-003-nao-criar-processadores-complexos-no-mvp.md` | `refinement` | D-001 |
@@ -84,14 +84,14 @@ O projeto atende operadores, usuários Telegram autorizados e aplicações locai
 | `project-context/PCH-001-contexto-e-atores-do-sabia.md` | `refinement` | D-001 |
 | `project-context/README.md` | `refinement` | D-001 |
 
-Todos são documentos PROPOSTOS na prévia; os status só serão confirmados após commit e verificação. Os SVGs devem ser recuperados da norma em SHA fixado.
+Todos os documentos foram publicados e verificados na Fase B; os itens em `refinement` ainda exigem revisões independentes. Os SVGs foram recuperados da norma no SHA registrado.
 
 ## Pontos a revisar e questões abertas
 
 | Demanda | Questão | Criticidade | Estado | Depende de | Próxima ação |
 |---|---|---|---|---|---|
-| D-001 | Migrar Charter, índices, badges e refs canônicas | P0 | aguardando diff e aprovação | Backup Fase A — confirmado | Conferir conteúdo integral e commit autorizado |
-| D-002 | DSC-001 Telegram | P0 | a_analisar | D-001 | Validar viabilidade e condições |
+| D-001 | Migrar Charter, índices, badges e refs canônicas | P0 | concluido | Backup Fase A — confirmado | Commit `3e6f0e4c` verificado |
+| D-002 | DSC-001 Telegram | P0 | em_analise | D-001 (concluído) | Realizar ensaio ambiental com perfil inicial; incorporar evidências e revisar se necessário |
 | D-003 | DSC-002 PostgreSQL | P0 | a_analisar | D-001 | Validar compatibilidade real |
 | D-004 | DSC-003/004 ambiente Linux e integrações locais | P1 | a_analisar | D-001 | Validar ambiente e atores |
 | D-005 | ACT-001..003 só no Scope legado | P0 | a_analisar | D-001 | Materializar cadastro canônico em PCH-001 |
@@ -105,32 +105,34 @@ Todos são documentos PROPOSTOS na prévia; os status só serão confirmados ap�
 - 21/10/2026: eventos por assinatura incluídos (OBJ-009); NOBJ-006 cancelado; IN-013 periódico continua em backlog.
 - 21/10/2026: CON-010 revisto para **50.000.000 bytes** como limite total fracionado.
 - Fase A autorizada pelo usuário e publicada em commit [638a8542](https://github.com/ahhvahh/a-bioma-sabia/commit/638a8542a7195b18debdce8c2f3c711c6f8b5357), com 61 originais e manifesto.
-- 01/11/2026: pedido de Fase B com índices, badges e análise de dependências. Não é autorização de conteúdo ainda não exibido.
+- 01/11/2026: Fase B aprovada e publicada no commit [3e6f0e4c](https://github.com/ahhvahh/a-bioma-sabia/commit/3e6f0e4c0b8b7982b53d69faa545046dc8e331b1), 59 arquivos canônicos, sem exclusões.
+- 01/11/2026: para D-002, o usuário escolheu **valores iniciais padrão e ajustáveis posteriormente**. Os números recomendados e o plano de testes constam em DSC-001, sujeitos à validação ambiental.
 
 ## Progresso e próxima ação
 
 - Backup: A_BACKUP_COMPLETO, verificado.
-- Migração: B_MIGRACAO_PENDENTE; prévia documental preparada, sem commit.
+- Migração: B_MIGRACAO_COMPLETA; commit `3e6f0e4c` verificado.
 - Limpeza: C_LIMPEZA_NAO_ELEGIVEL; originais intactos.
 - Universo: 28 fontes de Charter e decisões relacionadas, 31 fontes de Scope apenas como evidência da etapa posterior.
-- Próxima demanda: D-001, publicação de diff de migração após verificação editorial.
+- Próxima demanda: D-002, realizar ensaios em ambiente de teste com os parâmetros iniciais e registrar os resultados.
 
 ## Histórico de rodadas e reaberturas
 
 | Rodada | Resultado | Evidência |
 |---|---|---|
 | 2026-11-01, Fase A | Backup concluído | 638a8542 |
-| 2026-11-01, Fase B | Revisão e elaboração de prévia | D-001..009; publicação pendente |
+| 2026-11-01, Fase B | Migração aprovada e publicada | `3e6f0e4c`; D-001 concluída |
 
 ## Identificação, baseline e autorização
 
 - Alvo: https://github.com/ahhvahh/a-bioma-sabia
 - Branch: develop
-- Baseline analisada: `638a8542a7195b18debdce8c2f3c711c6f8b5357`
+- Baseline analisada: `3e6f0e4c0b8b7982b53d69faa545046dc8e331b1`
 - Norma somente leitura: `20b49b182ea529f8b809e8e009132ab0fd5fe267`
 - Skill Charter: 1.5.0
-- Autorização de commit da Fase B: **pendente de diff completo revisável**.
+- Autorização da Fase B: diff aprovado pelo usuário e commit `3e6f0e4c` verificado.
+- Autorização do diff D-002: aguardando confirmação; a preferência pelos padrões não aprova automaticamente este texto.
 
 ## Gate Charter → Scope
 
-`BLOCKED`: migração pendente, DSCs inconclusivos, documentos necessários ainda em `refinement`. Não promove-los por formatação.
+`BLOCKED`: migração concluída, mas DSCs obrigatórios permanecem inconclusivos no ambiente e documentos necessários ainda estão em `refinement`. A adoção de padrões não comprova viabilidade operacional.
