@@ -55,9 +55,9 @@ O projeto atende operadores, usuários Telegram autorizados e aplicações locai
 | `conditions/README.md` | `refinement` | D-001 |
 | `discovery/README.md` | `refinement` | D-001 |
 | `discovery/debian-systemd/README.md` | `refinement` | D-001 |
-| `discovery/debian-systemd/DSC-003-viabilidade-do-servico-linux.md` | `refinement` | D-001 |
+| `discovery/debian-systemd/DSC-003-viabilidade-do-servico-linux.md` | `refinement` | D-004 |
 | `discovery/integracoes-locais/README.md` | `refinement` | D-001 |
-| `discovery/integracoes-locais/DSC-004-viabilidade-de-integracoes-locais.md` | `refinement` | D-001 |
+| `discovery/integracoes-locais/DSC-004-viabilidade-de-integracoes-locais.md` | `refinement` | D-004 |
 | `discovery/postgresql/README.md` | `refinement` | D-001 |
 | `discovery/postgresql/DSC-002-viabilidade-do-postgresql.md` | `refinement` | D-003 |
 | `discovery/telegram-bot-api/README.md` | `refinement` | D-001 |
@@ -93,9 +93,9 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 | D-001 | Migrar Charter, índices, badges e refs canônicas | P0 | concluido | Backup Fase A — confirmado | Commit `3e6f0e4c` verificado |
 | D-002 | DSC-001 Telegram | P0 | em_analise | D-001 (concluído) | Realizar ensaio ambiental com perfil inicial; incorporar evidências e revisar se necessário |
 | D-003 | DSC-002 PostgreSQL | P0 | em_analise | D-001 (concluído) | PostgreSQL 17 escolhido; verificar instalação, conexão, backup e recuperação |
-| D-004 | DSC-003/004 ambiente Linux e integrações locais | P1 | a_analisar | D-001 | Validar ambiente e atores |
+| D-004 | DSC-003/004 ambiente Linux e integrações locais | P1 | em_analise | D-001 (concluído) | Opção A definida: Debian 13, systemd, usuários/grupos; ensaiar instalação e controle de acesso |
 | D-005 | ACT-001..003 já documentados no PCH-001 | P0 | concluido | D-001 (concluído) | Conferidos PCH-001 e índice project-context/README.md; sem duplicação |
-| D-006 | NOBJ-001..005 somente em índice legado | P1 | a_analisar | D-001 | Desdobrar NOBJ e registrar consequências |
+| D-006 | NOBJ-001..005: documentação individual já existente | P1 | a_analisar | D-001 | Conferir a cobertura/justificativas e reconciliar a fila, sem criar duplicatas |
 | D-007 | OBJ-009 ativo e OUT-009 legado não alinhado | P1 | bloqueado_outra_etapa | Migração Scope | Encaminhar revisão OUT-009 ao agente Scope |
 | D-008 | OPEN-001 — autoridade formal | P2 | aguardando_decisao | nenhuma | Identificar papel futuro sem bloquear esta migração |
 | D-009 | CON-010 — revisão de unidade e limite | P1 | a_analisar | D-001 | Usar 50.000.000 bytes como teto revisto |
@@ -109,6 +109,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - 01/11/2026: para D-002, o usuário escolheu **valores iniciais padrão e ajustáveis posteriormente**. Os números recomendados e o plano de testes constam em DSC-001 (commit [c768aa47](https://github.com/ahhvahh/a-bioma-sabia/commit/c768aa47ca432941d78249534c4f95ff45f33cef)), sujeitos à validação ambiental.
 - 01/11/2026: para D-003, o usuário decidiu usar **PostgreSQL 17 na primeira versão e avaliar a evolução para 18 posteriormente**. A decisão é documentada no DSC-002; nenhum teste de ambiente foi executado.
 - 01/11/2026: D-005, opção A escolhida: manter ACT-001, ACT-002 e ACT-003 no [PCH-001](project-context/PCH-001-contexto-e-atores-do-sabia.md), já indexado em [project-context/README.md](project-context/README.md). Não criar documentos duplicados nem alterar o PCH; corrigir somente a fila.
+- 01/11/2026: D-004, **opção A escolhida pelo usuário**: Debian 13 (Trixie), systemd e identidades/grupos Linux dedicados; ajustes futuros possíveis. DSC-003/004 documentam valores iniciais e os ensaios ainda necessários. A aprovação da escolha não substitui a autorização do diff concreto.
 
 ## Progresso e próxima ação
 
@@ -116,7 +117,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - Migração: B_MIGRACAO_COMPLETA; commit `3e6f0e4c` verificado.
 - Limpeza: C_LIMPEZA_NAO_ELEGIVEL; originais intactos.
 - Universo: 28 fontes de Charter e decisões relacionadas, 31 fontes de Scope apenas como evidência da etapa posterior.
-- Próxima demanda elegível: D-004, analisar o ambiente Linux e as integrações locais; D-002 e D-003 permanecem em análise, aguardando ensaios de ambiente.
+- Próxima demanda elegível após publicação da D-004: D-006, verificar os NOBJ-001..005 já separados na migração; D-002/003/004 aguardam ensaios ambientais.
 
 ## Histórico de rodadas e reaberturas
 
@@ -130,13 +131,14 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 
 - Alvo: https://github.com/ahhvahh/a-bioma-sabia
 - Branch: develop
-- Baseline analisada: `796e3b33f8dbcfdfc2dca289e2dce4a7de997c41`
+- Baseline analisada: `a7443de8bcff6a50cd3420c746410932f530f9c7`
 - Norma somente leitura: `20b49b182ea529f8b809e8e009132ab0fd5fe267`
 - Skill Charter: 1.5.0
 - Autorização da Fase B: diff aprovado pelo usuário e commit `3e6f0e4c` verificado.
 - Autorização do diff D-002: confirmada pelo usuário; publicado e verificado no commit `c768aa47`.
 - Autorização da D-003: diff confirmado pelo usuário; commit `796e3b33` publicado e verificado.
-- D-005: opção A escolhida pelo usuário; atualização restrita ao painel CONTINUIDADE.md e ao registro da decisão.
+- D-005: opção A publicada e verificada no commit `a7443de8`.
+- D-004: escolha A registrada nesta rodada; o diff dos DSC-003/004 e deste painel aguarda aprovação específica antes do commit.
 
 ## Gate Charter → Scope
 
