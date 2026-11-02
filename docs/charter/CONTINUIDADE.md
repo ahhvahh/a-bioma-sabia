@@ -81,7 +81,7 @@ O projeto atende operadores, usuários Telegram autorizados e aplicações locai
 | `objectives/README.md` | `refinement` | D-001 |
 | `open-questions/OPEN-001-autoridade-formal-de-aprovacao.md` | `refinement` | D-001 |
 | `open-questions/README.md` | `refinement` | D-001 |
-| `project-context/PCH-001-contexto-e-atores-do-sabia.md` | `refinement` | D-001 |
+| `project-context/PCH-001-contexto-e-atores-do-sabia.md` | `refinement` | D-005 |
 | `project-context/README.md` | `refinement` | D-001 |
 
 Todos os documentos foram publicados e verificados na Fase B; os itens em `refinement` ainda exigem revisões independentes. Os SVGs foram recuperados da norma no SHA registrado.
@@ -94,7 +94,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 | D-002 | DSC-001 Telegram | P0 | em_analise | D-001 (concluído) | Realizar ensaio ambiental com perfil inicial; incorporar evidências e revisar se necessário |
 | D-003 | DSC-002 PostgreSQL | P0 | em_analise | D-001 (concluído) | PostgreSQL 17 escolhido; verificar instalação, conexão, backup e recuperação |
 | D-004 | DSC-003/004 ambiente Linux e integrações locais | P1 | a_analisar | D-001 | Validar ambiente e atores |
-| D-005 | ACT-001..003 só no Scope legado | P0 | a_analisar | D-001 | Materializar cadastro canônico em PCH-001 |
+| D-005 | ACT-001..003 já documentados no PCH-001 | P0 | concluido | D-001 (concluído) | Conferidos PCH-001 e índice project-context/README.md; sem duplicação |
 | D-006 | NOBJ-001..005 somente em índice legado | P1 | a_analisar | D-001 | Desdobrar NOBJ e registrar consequências |
 | D-007 | OBJ-009 ativo e OUT-009 legado não alinhado | P1 | bloqueado_outra_etapa | Migração Scope | Encaminhar revisão OUT-009 ao agente Scope |
 | D-008 | OPEN-001 — autoridade formal | P2 | aguardando_decisao | nenhuma | Identificar papel futuro sem bloquear esta migração |
@@ -108,6 +108,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - 01/11/2026: Fase B aprovada e publicada no commit [3e6f0e4c](https://github.com/ahhvahh/a-bioma-sabia/commit/3e6f0e4c0b8b7982b53d69faa545046dc8e331b1), 59 arquivos canônicos, sem exclusões.
 - 01/11/2026: para D-002, o usuário escolheu **valores iniciais padrão e ajustáveis posteriormente**. Os números recomendados e o plano de testes constam em DSC-001 (commit [c768aa47](https://github.com/ahhvahh/a-bioma-sabia/commit/c768aa47ca432941d78249534c4f95ff45f33cef)), sujeitos à validação ambiental.
 - 01/11/2026: para D-003, o usuário decidiu usar **PostgreSQL 17 na primeira versão e avaliar a evolução para 18 posteriormente**. A decisão é documentada no DSC-002; nenhum teste de ambiente foi executado.
+- 01/11/2026: D-005, opção A escolhida: manter ACT-001, ACT-002 e ACT-003 no [PCH-001](project-context/PCH-001-contexto-e-atores-do-sabia.md), já indexado em [project-context/README.md](project-context/README.md). Não criar documentos duplicados nem alterar o PCH; corrigir somente a fila.
 
 ## Progresso e próxima ação
 
@@ -115,7 +116,7 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 - Migração: B_MIGRACAO_COMPLETA; commit `3e6f0e4c` verificado.
 - Limpeza: C_LIMPEZA_NAO_ELEGIVEL; originais intactos.
 - Universo: 28 fontes de Charter e decisões relacionadas, 31 fontes de Scope apenas como evidência da etapa posterior.
-- Próxima demanda: D-003, verificar o PostgreSQL 17 no ambiente previsto; D-002 mantém ensaios Telegram pendentes.
+- Próxima demanda elegível: D-004, analisar o ambiente Linux e as integrações locais; D-002 e D-003 permanecem em análise, aguardando ensaios de ambiente.
 
 ## Histórico de rodadas e reaberturas
 
@@ -123,17 +124,19 @@ Todos os documentos foram publicados e verificados na Fase B; os itens em `refin
 |---|---|---|
 | 2026-11-01, Fase A | Backup concluído | 638a8542 |
 | 2026-11-01, Fase B | Migração aprovada e publicada | `3e6f0e4c`; D-001 concluída |
+| 2026-11-01, D-005 | Opção A: reutilizar os três ACT já existentes no PCH-001 | PCH-001 e project-context/README.md verificados; continuidade corrigida |
 
 ## Identificação, baseline e autorização
 
 - Alvo: https://github.com/ahhvahh/a-bioma-sabia
 - Branch: develop
-- Baseline analisada: `c768aa47ca432941d78249534c4f95ff45f33cef`
+- Baseline analisada: `796e3b33f8dbcfdfc2dca289e2dce4a7de997c41`
 - Norma somente leitura: `20b49b182ea529f8b809e8e009132ab0fd5fe267`
 - Skill Charter: 1.5.0
 - Autorização da Fase B: diff aprovado pelo usuário e commit `3e6f0e4c` verificado.
 - Autorização do diff D-002: confirmada pelo usuário; publicado e verificado no commit `c768aa47`.
-- Autorização da D-003: a decisão de versão foi expressa pelo usuário; a publicação deste diff exige confirmação específica e verificação do commit remoto.
+- Autorização da D-003: diff confirmado pelo usuário; commit `796e3b33` publicado e verificado.
+- D-005: opção A escolhida pelo usuário; atualização restrita ao painel CONTINUIDADE.md e ao registro da decisão.
 
 ## Gate Charter → Scope
 
