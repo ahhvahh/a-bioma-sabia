@@ -33,7 +33,7 @@ flowchart TB
   S --> F[Diretórios internos e scripts]
 ```
 
-As regras de isolamento, usuários Linux e permissões dos sockets estão em [Regras consolidadas](docs/regras-consolidadas-sabia.md).
+As regras de isolamento, usuários Linux e permissões dos sockets estão em [Segurança e acessos](docs/seguranca-acessos.md).
 
 ## `sabiactl`: interface administrativa planejada
 
@@ -65,9 +65,18 @@ O operador selecionará um arquivo no `sabiactl`, que enviará o conteúdo pela 
 
 ## Documentação
 
-A documentação foi consolidada em um único documento para revisão e reestruturação:
-
-- [Regras consolidadas do Sabiá](docs/regras-consolidadas-sabia.md) — síntese das decisões, contratos, regras e pendências da documentação anterior.
+| Assunto | Documento |
+|---|---|
+| Requisitos de implantação | [Instalação](docs/instalacao.md) |
+| Criar e configurar um bot do Telegram | [Criar bot no Telegram](docs/criar-bot-telegram.md) |
+| Telas do `sabiactl` e do Telegram | [Guia do usuário](docs/guia-usuario.md) |
+| Dados e tabelas PostgreSQL | [Persistência](docs/persistencia.md) |
+| APIs UDS e contratos | [Interfaces e serviços](docs/interfaces-servicos.md) |
+| Contratos técnicos existentes | [Referência de contratos](docs/referencia-contratos.md) |
+| Contas Linux, grupos e segurança | [Segurança e acessos](docs/seguranca-acessos.md) |
+| Fluxos e componentes | [Arquitetura](docs/arquitetura.md) |
+| Acervo completo | [Documentação técnica](docs/README.md) |
+| Bloqueios atuais | [Pendências](docs/pendencias.md) |
 
 ## Limitações e decisões pendentes
 
