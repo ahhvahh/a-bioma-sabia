@@ -18,17 +18,6 @@
 - **`sabiactl`:** aplicação de terminal com telas navegáveis, indicadores, testes de conectividade e administração, usando apenas sockets do Sabiá.
 - **Telegram:** oferecer ações permitidas a clientes/usuários autorizados, sem execução remota de shell arbitrário.
 
-## Tecnologias
-
-| Tecnologia | Responsabilidade |
-|---|---|
-| Go | Serviço `sabia` e terminal administrativo `sabiactl`, planejados |
-| Debian Linux / systemd | Serviço isolado com usuário dedicado e sem root |
-| PostgreSQL + UDS | Persistência interna sem acesso SQL direto do usuário comum |
-| Unix domain sockets | APIs de controle/administração e ingestão de mídia |
-| MessagePack | Formato definido nos contratos anteriores de mídia; protocolo administrativo pendente |
-| Telegram Bot API / HTTPS | Long polling, mensagens e arquivos |
-| Bash / JSON Lines | Processadores cadastrados e eventos de progresso |
 
 ## Arquitetura e acesso
 
