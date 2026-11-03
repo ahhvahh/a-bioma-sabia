@@ -1,62 +1,59 @@
-# Arquitetura — visão de entrada
+# Arquitetura — serviço Sabiá e administração local
 
-> Esta página resume o **desenho documental** do Sabiá. O diagrama não representa componentes em execução: a branch `develop` não tem `/src`.
+> **Nova diretriz planejada**, sem implementação em `/src`. Complementa os desenhos e especificações já existentes, que continuam preservados.
 
-## Componentes e responsabilidades previstos
+## Componentes e canais
 
 ```mermaid
 flowchart TB
-    T[Telegram Bot API] <--> A[Adaptador Telegram]
-    A --> Z[Autorização]
-    Z --> R[Command Router]
-    R --> X[Registry / Executor de scripts]
-    R --> J[Job Manager]
-    S[Scheduler] --> J
-    S --> AL[Alert Manager]
-    J --> DB[(PostgreSQL)]
-    AL --> DB
-    A --> DB
-    M[Unix sockets MessagePack] --> MS[Media Store]
-    MS --> DB
-    DB --> D[Fila de entregas]
-    D --> A
+    OP[Operador - absabia] --> CLI[sabiactl - TUI]
+    CLIENT[Aplicação local - absabia] --> API[API UDS do Sabiá]
+    CLI --> API
+    API --> SERVICE[Serviço sabia - usuário próprio]
+    TG[Telegram Bot API] <--> SERVICE
+    SERVICE --> SCRIPTS[Scripts e arquivos internos]
+    SERVICE --> PGUDS[UDS do banco - abioma_db]
+    PGUDS --> PG[(PostgreSQL)]
 ```
 
-| Área | Responsabilidade documental |
+| Componente | Responsabilidade |
 |---|---|
-| Adaptador Telegram | Recepção por long polling e tradução de updates |
-| Autorização/Router | Restringir identidades e localizar comandos cadastrados |
-| Scripts e processadores | Executar apenas alvos autorizados, reportar progresso |
-| Jobs/Scheduler/Alert Manager | Assincronia, verificações e notificação por mudança de estado |
-| PostgreSQL | Persistir entradas, requisições, jobs, saídas, alertas e mídia |
-| Sockets de mídia | Receber arquivo integral/fracionado e correlacionar por `request_id` |
+| `sabia` | Processo systemd isolado; regras de negócio, persistência, autorização e Telegram |
+| `sabiactl` | Interface humana de terminal; comunica somente com API UDS |
+| APIs UDS do Sabiá | Status, conexões, testes, catálogo, menus, configurações e uploads |
+| UDS PostgreSQL | Canal exclusivo do serviço para o banco, protegido por `abioma_db` e autenticação SQL |
+| Processadores | Scripts previamente cadastrados, sem shell remoto arbitrário |
 
-## Fluxo de comando previsto
+## Sequência de uma operação administrativa
 
 ```mermaid
 sequenceDiagram
-    actor Pessoa
-    participant TG as Telegram
-    participant S as Sabiá
-    participant DB as PostgreSQL
-    participant P as Script cadastrado
-    Pessoa->>TG: /start ou ação
-    TG-->>S: getUpdates
-    S->>DB: Persistir update/correlação
-    S->>S: Autorizar e resolver ação
-    S->>P: Executar ação validada
-    P-->>S: Progresso / resultado
-    S->>DB: Registrar estado e entrega
-    S->>TG: Enviar resposta
-    TG-->>Pessoa: Exibir resultado
+    actor O as Operador
+    participant C as sabiactl
+    participant S as Serviço sabia via UDS
+    participant DB as PostgreSQL via UDS
+    O->>C: Seleciona operação no menu
+    C->>S: Solicitação pelo socket autorizado
+    S->>S: Valida identidade e autorização
+    S->>DB: Consulta ou transação
+    DB-->>S: Resultado
+    S-->>C: Resposta estruturada
+    C-->>O: Resultado formatado no terminal
 ```
 
-A sequência é **intencional e simplificada**. Idempotência, transações, estados de jobs, recuperação após falha e formatos são tratados nos documentos detalhados. O fluxo de mídia usa sockets independentes da entrada Telegram.
+## Scripts e configuração
 
-## Fontes e bloqueios
+O `sabiactl` enviará arquivos de scripts e solicitará alterações de configuração por sockets. O serviço fará toda validação, armazenamento interno e persistência, sem que o usuário tenha acesso direto ao banco ou às pastas de execução. **Upload, validação e ativação** devem constituir etapas distintas; regras finais de revisão e autorização ainda estão em aberto.
 
-- [Desenho dos componentes — DSG-0002](desenho/componentes-core.md)
-- [Desenho de contexto — DSG-0001](desenho/contexto-sabia.md)
-- [Decisões arquiteturais (ADRs)](README.md)
-- [Implementation proposta](implementation/README.md)
-- [Pendências que bloqueiam o MVP](pendencias.md)
+## Indicadores previstos
+
+O painel deverá diferenciar: conexões UDS ativas, sessões administrativas locais, contatos Telegram conhecidos/autorizados, clientes Telegram configurados e processadores/serviços cadastrados. Contatos Telegram não equivalem a conexões ativas ao daemon.
+
+## Referências
+
+- [Desenho anterior dos componentes](desenho/componentes-core.md)
+- [Fluxo Telegram](especificacao/fluxos/comando-telegram.md)
+- [Interfaces e contratos UDS](interfaces-servicos.md)
+- [Segurança e grupos Linux](seguranca-acessos.md)
+- [Persistência PostgreSQL](persistencia.md)
+- [Pendências de refinamento](pendencias.md)

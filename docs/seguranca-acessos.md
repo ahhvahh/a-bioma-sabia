@@ -1,39 +1,51 @@
-# Segurança e acessos — desenho e limites
+# Segurança e acessos — isolamento do Sabiá
 
-> **Planejamento, não configuração aplicada.** Esta branch não contém unidade systemd, contas provisionadas, scripts de instalação ou código de autorização.
+> **Diretriz de arquitetura, não configuração executada.** O projeto não possui código, contas provisionadas ou sockets ativos. Especificações antigas de mídia ainda citam o grupo `abioma` e precisam ser atualizadas para a nova decisão `absabia`.
 
-## Identidades e fronteiras
+## Grupos e usuários
 
-| Identidade | Função planejada | Acesso |
+| Identidade | Responsabilidade | Acesso |
 |---|---|---|
-| `sabia` (usuário Linux) | Processo principal do serviço, não root | Configuração protegida, recursos internos e conexão ao PostgreSQL |
-| `abioma` (grupo Linux) | Consumidores locais autorizados | Unix sockets de mídia e link de invocação local autorizado |
-| Usuário do Telegram | Consumidor remoto | Apenas ações autorizadas para o cliente, usuário e chat |
-| Role PostgreSQL do Sabiá | Identidade do banco de dados | Privilégios mínimos sobre o banco próprio; nome e provisão pendentes |
+| `sabia` (usuário dedicado) | Executar serviço sem root e sem login interativo | Associado a `absabia` e `abioma_db`; acessa dados e arquivos internos |
+| `absabia` (grupo) | Usuários e aplicações locais clientes do Sabiá | Sockets UDS da aplicação, não o banco |
+| `abioma_db` (grupo) | Restrição do socket PostgreSQL | Somente `sabia` e administração de banco estritamente necessária |
+| Operador local | Executar `sabiactl` | Membro de `absabia`, sem credenciais SQL |
+| Usuário Telegram | Ações autorizadas remotamente | Autorização por cliente lógico, usuário e chat |
 
-**Membro de `abioma` não recebe por essa condição acesso ao PostgreSQL**, credenciais SQL, diretórios internos ou permissão de assumir a identidade `sabia`. A documentação atual **não estabelece um grupo Linux separado chamado `abioma_db`**; criá-lo aqui seria uma decisão nova e não comprovada. Essa separação pode ser avaliada na etapa de implantação.
+Um usuário externo ao serviço, mas residente no mesmo servidor, poderá acessar os sockets da aplicação **depois de ser incluído em `absabia`**. Isso não lhe concederá acesso ao banco, à conta `sabia` nem aos diretórios internos.
 
-## Regras previstas para os sockets
+## Sockets e diretórios — valores pretendidos
 
-| Controle | Valor documental |
-|---|---|
-| Owner | `sabia` |
-| Group | `abioma` |
-| Mode | `0660` |
-| Transporte | Unix domain socket local, sem listener TCP |
-| Caminhos definitivos | **BLOCKED** em CFG-0001 |
+| Recurso | Dono/grupo | Permissões planejadas |
+|---|---|---|
+| Sockets UDS administrativos e de mídia | `sabia:absabia` | `0660`, em diretórios protegidos |
+| Socket PostgreSQL | `postgres:abioma_db` | A restringir, por exemplo `0770`; validar no cluster instalado |
+| Scripts, configurações secretas e diretórios internos | Identidade de serviço | Sem acesso direto pelo grupo consumidor `absabia` |
 
-O produtor precisa tanto de acesso ao socket quanto de um `request_id` válido. `request_id` isolado não é credencial de acesso.
+Os caminhos e modos definitivos permanecem pendentes. Além da permissão do arquivo socket, os diretórios pais devem permitir travessia apenas aos usuários adequados.
 
-## Telegram, configuração e segredos
+## PostgreSQL: acesso exclusivo por UDS
 
-- Clientes lógicos separados: `bioma`, `tools` e `alerts`.
-- Autorizar por Telegram User ID e, quando configurado, chat; revalidar callbacks.
-- Ações e scripts só podem ser resolvidos pelo cadastro local; nenhuma entrada Telegram pode virar shell arbitrário.
-- Arquivo YAML previsto em `/etc/sabia/sabia.yaml`, com `token_env` apontando para segredos protegidos; valores reais não vão ao Git ou aos logs.
-- O serviço deve operar sem root, com privilégios e acesso aos diretórios limitados.
-- A especificação de grupo, conta, permissões de diretório, conexão SQL e unit systemd **ainda precisa de implementação e validação operacional**.
+O serviço deverá usar conexão pelo socket local do PostgreSQL, com banco lógico e role SQL próprios. Configurar `unix_socket_directories`, `unix_socket_group`, `unix_socket_permissions` e regras `local` em `pg_hba.conf`. Preferir autenticação `peer` mapeada ao usuário de serviço, quando compatível, e privilégio mínimo SQL.
 
-Sem código ou serviço instalado, não há comandos de criação de conta, associação a grupo, `systemctl` ou validação de permissões que possam ser apresentados como procedimento testado.
+**Importante:** as opções de socket são da instância PostgreSQL, não de cada banco lógico. Se a instância for compartilhada, será preciso validar impacto em outros serviços ou usar cluster dedicado para obter isolamento estrito. Restringir também conexões TCP, pois permissões de UDS **não** protegem portas de rede nem substituem autenticação e privilégios SQL.
 
-Referências: [módulo de segurança](especificacao/modulos/seguranca.md), [ADR de menor privilégio](adr/seguranca/menor-privilegio-e-autorizacao.md), [CFG-0001](especificacao/configuracao/modelo-configuracao.md), [serviço planejado](implementation/services/SVC-001-sabia/SVC-001-sabia.md).
+Documentação: [configuração PostgreSQL](https://www.postgresql.org/docs/current/runtime-config-connection.html), [regras `pg_hba.conf`](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html), [permissões UDS no Linux](https://man7.org/linux/man-pages/man7/unix.7.html).
+
+## Operações administrativas e scripts
+
+O `sabiactl` usará apenas a API UDS do serviço. A aplicação não recebe credenciais SQL nem acesso direto às pastas internas. O serviço deve validar identidade do cliente, autorização por operação e dados enviados.
+
+- **Status, conexões e diagnósticos:** respostas sem segredos nem dados desnecessários.
+- **Menus e configurações:** autorização de alteração, validação, auditoria e proteção contra alterações concorrentes.
+- **Upload de scripts:** limitar tamanho, nome e conteúdo; impedir traversal (`../`), caminhos arbitrários, links perigosos e sobrescritas de arquivos.
+- **Ativação:** receber e validar arquivo não implica executá-lo. Exigir etapa de aprovação/ativação conforme política a ser definida.
+- **Autenticação local:** conferir permissão do UDS e considerar identificação Linux do par (como `SO_PEERCRED`), além de regras por operação.
+
+O grupo `absabia` autoriza **conexão**, não necessariamente qualquer alteração administrativa irrestrita. A política detalhada de operações privilegiadas está pendente.
+
+## Compatibilidade documental
+
+[CFG-0001](especificacao/configuracao/modelo-configuracao.md), [CTR-0008](especificacao/contratos/ingestao-midia-messagepack.md), [CTR-0009](especificacao/contratos/ingestao-midia-fracionada.md) e [MOD-0006](especificacao/modulos/seguranca.md) ainda fixam o grupo legado `abioma`. A decisão nova usa `absabia`. Reconciliar os contratos normativos antes de implementar.
+
+Veja também [interfaces](interfaces-servicos.md), [instalação](instalacao.md) e [pendências](pendencias.md).

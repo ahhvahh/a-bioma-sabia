@@ -1,10 +1,74 @@
-# Guia do usuário — interação prevista no Telegram
+# Guia do usuário — `sabiactl` e Telegram
+
+> **As telas a seguir são propostas, não capturas de software executável.** Não há `sabiactl` na branch `develop`. O programa de terminal será destinado aos usuários Linux do grupo `absabia` e fará todas as solicitações pelo socket UDS do serviço, nunca pelo PostgreSQL diretamente.
+
+## Terminal administrativo `sabiactl` — navegação planejada
+
+### Tela inicial
+
+```text
+SABIÁ | Administração local       [EXEMPLO PLANEJADO]
+
+Serviço: —       Conexões UDS: —
+Sessões locais: —     Contatos Telegram: —
+Clientes configurados: —  Processadores: —
+
+1. Estado e conexões
+2. Usuários e clientes
+3. Testar serviços e integrações
+4. Menus e ações
+5. Configuração
+6. Scripts (enviar, validar, ativar)
+0. Sair
+
+Escolha: _
+```
+
+### Inspeção de conexões
+
+```text
+SABIÁ > Estado e conexões
+
+Conexões UDS ativas: —
+Sessões administrativas locais: —
+Contatos Telegram cadastrados: —
+Clientes Telegram configurados: —
+
+1. Atualizar
+2. Detalhar
+0. Voltar
+```
+
+As contagens são distintas e não devem confundir contatos cadastrados com usuários online no Telegram. Os traços indicam valores não disponíveis no protótipo.
+
+### Gerenciar menus, configurações e scripts
+
+```text
+SABIÁ > Administração
+
+1. Listar e selecionar cliente
+2. Listar/editar menu e ações
+3. Consultar/alterar configuração permitida
+4. Enviar script ao serviço por UDS
+5. Verificar validação e solicitar ativação
+0. Voltar
+```
+
+O operador seleciona a opção, preenche os campos necessários e confirma. O Sabiá valida a operação e devolve sucesso/erro estruturado; a aplicação mostra mensagens legíveis com cores para ajudar a distinguir estados. Upload de script não significa ativação nem execução automática.
+
+**Erros previstos:** sem grupo `absabia`, mostrar acesso negado; serviço indisponível, mostrar falha de conexão sem buscar o banco diretamente; lista vazia, mostrar ausência de registros; opção inválida, manter o usuário no menu. Os textos finais, teclas de navegação e regras por operação estão pendentes.
+
+---
+
+## Telegram — interação prevista
+
+### Fluxos Telegram já especificados
 
 > **Ainda não é um manual de aplicação disponível.** O repositório contém fluxos e exemplos de menu, mas não há adaptador Telegram implementado em `/src`. As telas abaixo são **referências da especificação**, não capturas reais ou comprovação de funcionamento.
 
 ## Entrada e navegação documentadas
 
-No desenho atual, o usuário interage no **Telegram**, não em um programa terminal. O fluxo de referência prevê:
+No canal remoto, a interação ocorre no **Telegram**; no terminal local, o cliente será o `sabiactl` descrito acima. O fluxo de referência prevê:
 
 1. Abrir a conversa com um cliente Telegram autorizado e enviar `/start` (ou `/menu`).
 2. Receber o menu das ações permitidas ao usuário e ao chat.

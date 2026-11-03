@@ -1,64 +1,101 @@
 # A-Bioma Sabiá
 
-**Ponte planejada entre usuários do Telegram e operações locais autorizadas do ecossistema A-Bioma.** O Sabiá centraliza autorização, roteamento, processamento assíncrono, alertas e entrega de mensagens ou arquivos, sem oferecer execução arbitrária de comandos remotos.
+**Serviço Linux planejado para integrar clientes Telegram e aplicações locais com operações autorizadas do A-Bioma.** O Sabiá centralizará as regras de negócio e a persistência PostgreSQL. Usuários e aplicações locais se comunicarão com o serviço exclusivamente por APIs em Unix domain sockets (UDS).
 
 ![Go — previsto](https://img.shields.io/badge/Go-previsto-00ADD8?logo=go&logoColor=white)
-![Telegram Bot API — prevista](https://img.shields.io/badge/Telegram_Bot_API-prevista-26A5E4?logo=telegram&logoColor=white)
+![Telegram — previsto](https://img.shields.io/badge/Telegram_Bot_API-prevista-26A5E4?logo=telegram&logoColor=white)
 ![PostgreSQL — previsto](https://img.shields.io/badge/PostgreSQL-previsto-4169E1?logo=postgresql&logoColor=white)
 ![Debian 13 — previsto](https://img.shields.io/badge/Debian_13-previsto-A81D33?logo=debian&logoColor=white)
-![MessagePack — previsto](https://img.shields.io/badge/MessagePack-previsto-555555)
+![UDS — previsto](https://img.shields.io/badge/Unix_sockets-previstos-555555)
 
-> **Estado em 03/11/2026:** documentação em refinamento; gate do MVP **BLOCKED**. A branch `develop` ainda **não contém código-fonte em `/src`**. Tecnologias, fluxos e comandos abaixo são **decisões ou propostas documentais, não funcionalidades já executáveis**.
+> **Situação em 03/11/2026:** arquitetura em especificação; o gate do MVP permanece **BLOCKED**. A branch `develop` não contém `/src`, binário, sockets executáveis ou `sabiactl`. Os recursos abaixo são **requisitos planejados**, não implementação concluída.
 
-## O que o projeto pretende oferecer
+## Capacidades previstas
 
-- **Telegram:** clientes lógicos isolados, catálogo de ações e menus sujeitos a autorização por usuário e chat.
-- **Operações locais:** encaminhamento apenas para scripts/processadores previamente cadastrados, com controle de argumentos.
-- **Trabalho assíncrono:** jobs, acompanhamento de estado, verificações agendadas e alertas.
-- **Mídia:** recebimento local por Unix sockets e entrega correlacionada ao destino Telegram, com persistência antes da confirmação.
+- **Serviço `sabia`:** gerenciar conexões, regras de negócio, registros, menus, catálogo de ações, scripts cadastrados, jobs, alertas, mídia e integração com Telegram.
+- **PostgreSQL:** manter os dados persistentes e o estado operacional, com conexão do serviço **somente por UDS**.
+- **APIs do serviço por UDS:** receber consultas, testes, configurações, operações sobre menus e scripts e uploads autorizados de arquivos.
+- **`sabiactl`:** aplicação de terminal com telas navegáveis, indicadores, testes de conectividade e administração, usando apenas sockets do Sabiá.
+- **Telegram:** oferecer ações permitidas a clientes/usuários autorizados, sem execução remota de shell arbitrário.
 
-## Tecnologias e responsabilidades previstas
+## Tecnologias
 
-| Tecnologia | Responsabilidade no desenho |
+| Tecnologia | Responsabilidade |
 |---|---|
-| Go | Serviço `sabia`, pretendido como binário único |
-| Debian Linux / systemd | Execução supervisionada sob usuário de serviço, sem root |
-| Telegram Bot API (HTTPS) | `getUpdates` por long polling e envio de respostas |
-| PostgreSQL | Estado operacional, filas, histórico e mídia |
-| Unix domain sockets + MessagePack | Ingestão local de arquivos integrais e fracionados |
-| Bash / JSON Lines | Processadores iniciais cadastrados e eventos de progresso |
+| Go | Serviço `sabia` e terminal administrativo `sabiactl`, planejados |
+| Debian Linux / systemd | Serviço isolado com usuário dedicado e sem root |
+| PostgreSQL + UDS | Persistência interna sem acesso SQL direto do usuário comum |
+| Unix domain sockets | APIs de controle/administração e ingestão de mídia |
+| MessagePack | Formato definido nos contratos anteriores de mídia; protocolo administrativo pendente |
+| Telegram Bot API / HTTPS | Long polling, mensagens e arquivos |
+| Bash / JSON Lines | Processadores cadastrados e eventos de progresso |
 
-## Arquitetura em uma visão
+## Arquitetura e acesso
 
 ```mermaid
-flowchart LR
-    U[Usuário Telegram] <--> TG[Telegram Bot API]
-    TG <--> S[Sabiá Core]
-    S --> P[Scripts autorizados]
-    S <--> DB[(PostgreSQL)]
-    L[Produtor local autorizado] --> SOCK[Unix sockets de mídia]
-    SOCK --> S
-    S --> TG
+flowchart TB
+  O[Operador Linux: absabia] --> C[sabiactl - terminal]
+  A[Outra aplicação local: absabia] --> U[APIs Sabiá - UDS]
+  C --> U
+  U --> S[Serviço sabia - usuário próprio]
+  T[Telegram Bot API] <--> S
+  S --> D[UDS PostgreSQL - abioma_db]
+  D --> P[(PostgreSQL)]
+  S --> F[Diretórios internos e scripts]
 ```
 
-**Exemplo de interação especificada (ainda não disponível):** a pessoa envia `/start` ao bot, vê um menu de ações permitidas, seleciona uma ação cadastrada e recebe mensagem de progresso ou resultado. O cadastro de contato não concede automaticamente acesso a operações restritas.
+| Identidade ou grupo | Permissão prevista |
+|---|---|
+| `sabia` (usuário do serviço) | Executa daemon sem login; pertence a `absabia` e `abioma_db` |
+| `absabia` | Acessa os sockets de aplicação, conforme autorização das operações |
+| `abioma_db` | Acessa o UDS PostgreSQL; reservado ao serviço e à administração do banco |
+| Usuário local fora de `absabia` | Não se conecta aos sockets do Sabiá |
+| Usuário Telegram | Apenas operações remotas autorizadas por cliente, usuário e chat |
+
+**O `sabiactl` e outras aplicações não acessam o PostgreSQL nem escrevem diretamente nas pastas internas.** Apenas o processo Sabiá faz essas operações. O PostgreSQL também exigirá autenticação/role SQL restrita, além da permissão no socket e do bloqueio de rotas TCP não autorizadas.
+
+## `sabiactl`: interface administrativa planejada
+
+O `sabiactl` será disponibilizado para operadores locais autorizados. O terminal terá menus, cores e mensagens compreensíveis, com navegação e opções para voltar ou sair.
+
+```text
+SABIÁ — Painel de administração              [TELA PROPOSTA]
+
+Estado do serviço: —       Conexões UDS ativas: —
+Sessões administrativas: — Contatos Telegram: —
+Clientes configurados: —   Processadores: —
+
+1. Consultar estado e conexões
+2. Ver usuários, clientes e serviços configurados
+3. Executar testes de conectividade e operação
+4. Gerenciar menus e ações
+5. Consultar ou alterar configurações
+6. Enviar, validar e incorporar scripts
+0. Sair
+
+Escolha: _
+```
+
+Os traços não representam valores reais. **Conexões UDS ativas**, **sessões locais**, **contatos Telegram cadastrados** e **serviços/clientes configurados** são indicadores distintos; não se deve apresentar contatos Telegram como usuários permanentemente conectados.
+
+### Envio e incorporação de scripts
+
+O operador selecionará um arquivo no `sabiactl`, que enviará o conteúdo pela API UDS. **O serviço** validará identidade, tamanho, integridade, nome e formato e gravará em uma pasta interna controlada. A incorporação ou ativação será uma operação separada e autorizada; upload não significa autorização automática para executar o script. O usuário não fornecerá um caminho arbitrário de escrita no servidor.
 
 ## Documentação
 
 | Assunto | Documento |
 |---|---|
-| Requisitos e situação da instalação | [Instalação](docs/instalacao.md) |
-| Navegação e exemplos no Telegram | [Guia do usuário](docs/guia-usuario.md) |
-| Dados e relacionamentos planejados | [Persistência](docs/persistencia.md) |
-| Telegram, sockets, CLI e demais integrações | [Interfaces e serviços](docs/interfaces-servicos.md) |
-| Especificações técnicas dos envelopes | [Referência de contratos](docs/referencia-contratos.md) |
-| Identidades, permissões e autorização | [Segurança e acessos](docs/seguranca-acessos.md) |
-| Componentes e fluxos | [Arquitetura](docs/arquitetura.md) |
-| Índice técnico completo | [Documentação existente](docs/README.md) |
-| Bloqueios em aberto | [Pendências do MVP](docs/pendencias.md) |
+| Requisitos de implantação | [Instalação](docs/instalacao.md) |
+| Telas do `sabiactl` e do Telegram | [Guia do usuário](docs/guia-usuario.md) |
+| Dados e tabelas PostgreSQL | [Persistência](docs/persistencia.md) |
+| APIs UDS e contratos | [Interfaces e serviços](docs/interfaces-servicos.md) |
+| Contratos técnicos existentes | [Referência de contratos](docs/referencia-contratos.md) |
+| Contas Linux, grupos e segurança | [Segurança e acessos](docs/seguranca-acessos.md) |
+| Fluxos e componentes | [Arquitetura](docs/arquitetura.md) |
+| Acervo completo | [Documentação técnica](docs/README.md) |
+| Bloqueios atuais | [Pendências](docs/pendencias.md) |
 
-## Limitações atuais
+## Limitações e decisões pendentes
 
-Não existem binário, CLI, sockets, interface Telegram ou testes executáveis confirmados nesta branch. Caminhos definitivos dos sockets, configuração completa do PostgreSQL e contratos de comandos continuam pendentes. Os casos T01–T05 são **planos de teste**, não evidência de execução. Consulte o [estado dos testes](docs/testes/telegram/README.md) e as [pendências](docs/pendencias.md).
-
-O material de Charter, Scope, ADRs, especificações, Implementation e backups históricos foi preservado sob `/docs`.
+Ainda faltam implementar os dois executáveis, as APIs administrativas, o protocolo de `sabiactl`, o fluxo de scripts e a configuração efetiva do PostgreSQL por UDS. Os contratos antigos de mídia citam o grupo `abioma`; o novo desenho solicitado adota **`absabia`**, divergência que deverá ser reconciliada na especificação. Nomes definitivos de sockets, esquemas de autorização, contagens e telas também permanecem pendentes.

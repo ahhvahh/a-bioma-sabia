@@ -6,14 +6,36 @@
 
 | Interface | Consumidor e finalidade | Transporte/endereço | Acesso | Estado |
 |---|---|---|---|---|
+| API UDS administrativa | `sabiactl` e clientes locais; status, testes, menus, configurações e scripts | Socket Unix; caminho/protocolo pendentes | Grupo `absabia` e política por operação | Novo requisito; não implementado |
 | Telegram Bot API | Bots e pessoas; entrada e resposta | HTTPS externo, `getUpdates` por long polling | Token por cliente, whitelist de usuários/chats | Especificado parcialmente; não implementado |
-| Socket de mídia integral | Produtores locais; upload de até 20 MB | Unix socket + MessagePack; caminho pendente | `sabia:abioma`, `0660` previstos | CTR-0008 em `refinement` |
-| Socket de mídia fracionada | Produtores locais; arquivos até 50 MB | Outro Unix socket + MessagePack; caminho pendente | `sabia:abioma`, `0660` previstos | CTR-0009 em `refinement` |
+| Socket de mídia integral | Produtores locais; upload de até 20 MB | Unix socket + MessagePack; caminho pendente | `sabia:absabia`, `0660` solicitados; contrato antigo usa `abioma` | CTR-0008 em `refinement` |
+| Socket de mídia fracionada | Produtores locais; arquivos até 50 MB | Outro Unix socket + MessagePack; caminho pendente | `sabia:absabia`, `0660` solicitados; contrato antigo usa `abioma` | CTR-0009 em `refinement` |
 | Protocolo do processador | Scripts Bash cadastrados; progresso e resultado | `stdin` e `stdout` JSON Lines | Registro local obrigatório | CTR-0005 previsto |
-| CLI administrativa | Operador; cadastro do catálogo de ações | CLI local, sintaxe ainda não consolidada | Controle administrativo local a definir | Prevista em Scope; não implementada |
-| PostgreSQL (interno) | Persistência do serviço | Conexão de banco ainda a definir | Role e credenciais restritas ao serviço | Não exposto como interface final |
+| `sabiactl` | Operador autorizado; terminal navegável | Cliente da API UDS | Grupo `absabia` | Novo requisito; não implementado |
+| PostgreSQL (interno) | Exclusivo do serviço `sabia` | UDS PostgreSQL; caminho pendente | Grupo `abioma_db` + autenticação SQL | Novo requisito; não exposto aos usuários |
 
-Não existem endpoints REST/HTTP próprios, servidor MCP, gRPC, WebSocket, fila/broker de rede ou listener TCP **implementados ou especificados como interfaces públicas** nesta versão documental. O uso de HTTPS com a **Telegram Bot API externa** não representa uma API HTTP servida pelo Sabiá.
+Não existem endpoints REST/HTTP próprios, servidor MCP, gRPC, WebSocket, fila/broker de rede ou listener TCP **implementados ou especificados como interfaces públicas** nesta versão documental. O uso de HTTPS com a **Telegram Bot API externa** não representa uma API HTTP servida pelo Sabiá. A nova API UDS administrativa não é HTTP nem TCP por definição.
+
+## API UDS administrativa — novo requisito
+
+Esta API será consumida pelo `sabiactl` e por outras aplicações locais autorizadas pelo grupo `absabia`. **Não está implementada**, e nomes definitivos, envelope, framing, codificação, erros e caminhos ainda precisam de contrato.
+
+| Capacidade | Entrada prevista | Saída prevista | Falhas a tratar |
+|---|---|---|---|
+| Consultar saúde/estado | Identificador opcional do componente | Status, uptime e diagnósticos | Serviço indisponível, acesso negado |
+| Conexões e usuários | Filtros de tipo/estado | UDS ativos, sessões locais, contatos Telegram e clientes configurados, contados separadamente | Falha de medição, filtro inválido |
+| Serviços e processadores | Filtros e identificação | Configurações e estados conhecidos | Não encontrado, não autorizado |
+| Executar testes | Alvo e verificação permitida | Resultado, duração e erros | Timeout, permissão |
+| Gerenciar menus e ações | Ação, categoria e campos validados | Registro persistido/consultado | Conflito, dados inválidos |
+| Configurações | Chaves/valores permitidos | Resultado sem revelar segredos | Sem autorização, valor inválido |
+| Enviar script | Arquivo e metadados | Identificador de upload e validação | Nome, tamanho, conteúdo, armazenamento |
+| Incorporar/ativar script | Identificador já validado | Estado da incorporação | Não validado, não autorizado |
+
+A camada UDS é exclusivamente a **porta de entrada**. Somente o serviço `sabia` consulta o PostgreSQL (via UDS protegido por `abioma_db`) e grava diretórios internos. A inclusão em `absabia` permite estabelecer conexão; alterações sensíveis e ativação de scripts exigem política de autorização adicional.
+
+**Observação:** `MessagePack` é o protocolo já especificado para *mídia*, mas não foi definido como contrato da nova API administrativa. Não extrapolar sua codificação até aprovação formal.
+
+**Divergência:** os contratos antigos CTR-0008/0009 usam o grupo `abioma`. O novo requisito usa `absabia` e ainda exige atualização dos contratos originais.
 
 ## Telegram — comandos previstos
 

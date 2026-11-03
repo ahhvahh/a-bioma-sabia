@@ -6,6 +6,12 @@
 
 O desenho prevê um banco PostgreSQL lógico próprio do Sabiá, com role exclusiva. Mensagens, correlações, filas, alertas e mídia binária ficarão no banco; a configuração do serviço será lida do YAML `/etc/sabia/sabia.yaml`, não de tabelas de configuração.
 
+## Canal de acesso ao banco — requisito novo
+
+Somente o serviço `sabia` acessará o PostgreSQL diretamente, por **Unix domain socket** protegido pelo grupo Linux `abioma_db`, com autenticação e privilégios SQL mínimos. Operadores do grupo `absabia`, inclusive por `sabiactl`, realizarão consultas e alterações exclusivamente pelas APIs UDS do Sabiá, que validará e persistirá as operações. O `sabiactl` não acessará diretórios internos nem credenciais SQL.
+
+A configuração efetiva do socket PostgreSQL e o isolamento de conexões TCP ainda precisam ser definidos e testados; o grupo Linux sozinho não substitui autenticação do PostgreSQL.
+
 ## Entidades propostas
 
 | Entidade | Finalidade |

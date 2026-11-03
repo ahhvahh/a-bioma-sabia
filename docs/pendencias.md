@@ -185,3 +185,12 @@ O gate Especificação → Desenvolvimento permanece `BLOCKED` até que:
 2. os documentos dependentes sejam atualizados para `refined`;
 3. contratos e fluxos necessários ao escopo estejam `refined`;
 4. não reste decisão arquitetural ou de negócio que precise ser tomada durante a implementação.
+
+
+## Nova diretriz de acesso local e `sabiactl` — 03/11/2026
+
+**Requisito novo, ainda não implementado:** serviço `sabia` isolado; APIs locais UDS acessíveis ao grupo `absabia`; conexão do serviço ao PostgreSQL exclusivamente por UDS protegido pelo grupo `abioma_db`; cliente de terminal `sabiactl` com menus, status, contagens, testes, configurações e upload/validação/ativação de scripts.
+
+**Refinamentos pendentes:** harmonizar grupo legado `abioma` em CFG-0001/CTR-0008/CTR-0009/MOD-0006; definir caminhos e formatos dos UDS, autorização por operação, contratos das métricas e menus, protocolo para upload/validação/ativação de scripts e modelo persistente de catálogo; definir autenticação SQL (`pg_hba.conf`), diretório/socket PostgreSQL, role e bloqueio de conexões TCP indevidas. A pertença a `absabia` deve permitir conectar, mas mudanças sensíveis e ativação de scripts requerem autorização própria.
+
+Ver [README](../README.md), [arquitetura](arquitetura.md), [segurança](seguranca-acessos.md) e [interfaces](interfaces-servicos.md).
