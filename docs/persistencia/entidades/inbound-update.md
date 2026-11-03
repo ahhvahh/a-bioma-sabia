@@ -1,4 +1,8 @@
-# Entidade `inbound_update`
+# Entidade `sabia.inbound_update`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.inbound_update`
 
 **ID:** PST-0102  
 **Status:** refinement
@@ -9,7 +13,7 @@ Registrar cada update externo aceito para fornecer idempotência à entrada Tele
 
 ## Dependências
 
-- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
 - [PST-0101 — transport_cursor](transport-cursor.md)
 - [PST-0103 — request](request.md)
 
@@ -22,15 +26,16 @@ Registrar cada update externo aceito para fornecer idempotência à entrada Tele
 | `transport` | `text` | não | adaptador | transporte normalizado | `telegram` |
 | `transport_update_id` | `bigint` | não | Telegram | `update_id` | inteiro → `bigint` |
 | `accepted_at` | `timestamptz` | não | Sabiá | instante do aceite persistente | instante absoluto |
-| `request_id` | `uuid` | sim | correlação interna | request criada posteriormente | **proposto para remoção** se a FK ficar somente em `request.inbound_update_id` |
+| `raw_update` | `jsonb` | não | Telegram | objeto `Update` integral, sem token | persistir antes do avanço do cursor |
+| `processing_status` | `text` | não | Sabiá | `accepted/processing/completed/ignored/failed` | transição controlada |
 
 **UNIQUE proposta:** `(client_id, transport, transport_update_id)`.
 
 ## Exemplo ilustrativo
 
-| inbound_update_id | client_id | transport | transport_update_id | accepted_at | request_id |
-|---:|---|---|---:|---|---|
-| 1201 | `bioma` | `telegram` | 48291 | `2026-10-02T23:30:00Z` | `NULL` |
+| inbound_update_id | client_id | transport | transport_update_id | accepted_at | raw_update | processing_status |
+|---:|---|---|---:|---|---|---|
+| 1201 | `bioma` | `telegram` | 48291 | `2026-10-02T23:30:00Z` | `{ "update_id": 48291 }` | `accepted` |
 
 ## Origem Telegram
 
@@ -50,10 +55,18 @@ A tentativa de inserir uma combinação já existente representa update duplicad
 
 ## BLOCKED
 
-Definir a direção física final da correlação com `request`. PST-0002 prefere manter apenas `request.inbound_update_id`.
+**Proposta desta reorganização:** conservar a FK apenas em `request.inbound_update_id`, sem coluna redundante `inbound_update.request_id`. Esta escolha ainda requer aprovação da direção física final.
 
 ## Emenda normativa 2026-10-21 — recuperação sem perda
 
-Adicionar campos obrigatórios `raw_update jsonb NOT NULL` (objeto Telegram Update completo, sem token) e `processing_status text NOT NULL` (`accepted|processing|completed|ignored|failed`). A chave de unicidade `(client_id, transport, transport_update_id)` continua obrigatória.
+Os campos obrigatórios `raw_update jsonb NOT NULL` e `processing_status text NOT NULL` já foram incorporados à tabela de campos acima. O payload inclui o objeto Telegram Update integral, sem token. A chave de unicidade `(client_id, transport, transport_update_id)` continua obrigatória.
 
 Inserir `raw_update` e avançar `transport_cursor.last_update_id` na **mesma transação**. O offset só avança após commit. Reprocessamentos após queda leem `raw_update` localmente. Um claim/lock por update impede processamento concorrente, e resultado existente não deve gerar segunda execução. `raw_update` contém dados pessoais: restringir acesso, excluir dos logs e definir purge seguro depois de todos os trabalhos correlacionados.
+
+## Chaves, índices e integridade física
+
+- **PK:** `inbound_update_id`; **UNIQUE:** `(client_id, transport, transport_update_id)`.
+- **CHECK proposto:** `processing_status IN ('accepted','processing','completed','ignored','failed')`.
+- **Índice proposto:** `(processing_status, accepted_at)` para retomada; `raw_update` deve ser acessível apenas ao serviço.
+
+**Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.

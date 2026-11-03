@@ -1,4 +1,8 @@
-# Entidade `job`
+# Entidade `sabia.job`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.job`
 
 **ID:** PST-0104  
 **Status:** refined
@@ -9,10 +13,10 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 
 ## Dependências
 
-- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
+- [CTR-0003 — Job](../../especificacao/contratos/job.md)
 - [PST-0103 — request](request.md)
 - [PST-0105 — job_state_history](job-state-history.md)
-- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)
 
 ## Estrutura e de-para propostos
 
@@ -56,3 +60,11 @@ Uma mesma `request_id` pode possuir zero ou vários jobs. `job.request_id` não 
 `job.request_id → request.request_id` usa `ON DELETE RESTRICT`.
 
 O job deve ser removido explicitamente pelo processo de limpeza antes da remoção da `request`. Não existe `CASCADE` nem `SET NULL` no MVP.
+
+## Chaves, índices e integridade física
+
+- **PK:** `job_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT` (N jobs por request).
+- **CHECK proposto:** `status IN ('queued','running','completed','failed','cancelled','timeout')`.
+- **Índices propostos:** `(status, created_at, job_id)` para claim; `(request_id)` para correlação.
+
+**Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.

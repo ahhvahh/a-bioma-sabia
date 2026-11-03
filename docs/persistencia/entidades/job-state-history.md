@@ -1,4 +1,8 @@
-# Entidade `job_state_history`
+# Entidade `sabia.job_state_history`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.job_state_history`
 
 **ID:** PST-0105  
 **Status:** refinement
@@ -9,7 +13,7 @@ Preservar o histórico imutável das mudanças de estado de cada job.
 
 ## Dependências
 
-- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
+- [CTR-0003 — Job](../../especificacao/contratos/job.md)
 - [PST-0104 — job](job.md)
 
 ## Estrutura e de-para propostos
@@ -47,3 +51,11 @@ O histórico elegível deve ser removido explicitamente antes do job corresponde
 ## BLOCKED
 
 A política de retenção histórica ainda não está definida.
+
+## Chaves, índices e integridade física
+
+- **PK:** `job_state_history_id`; **FK:** `job_id → job.job_id ON DELETE RESTRICT`.
+- **Índice proposto:** `(job_id, changed_at, job_state_history_id)` para reproduzir transições.
+- **Imutabilidade:** histórico é somente inserido; alteração de status e inclusão do histórico são uma transação.
+
+**Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.

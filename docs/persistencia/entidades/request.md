@@ -1,4 +1,8 @@
-# Entidade `request`
+# Entidade `sabia.request`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.request`
 
 **ID:** PST-0103  
 **Status:** refinement
@@ -9,8 +13,8 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/comando-interno.md)
-- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [CTR-0001 — Comando interno](../../especificacao/contratos/comando-interno.md)
+- [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
 - [PST-0102 — inbound_update](inbound-update.md)
 
 ## Estrutura e de-para propostos
@@ -101,3 +105,11 @@ A entidade é a fonte de correlação para:
 - ingestão de mídia por socket usando `request_id`;
 - construção de transmissões e respostas;
 - autorização de visibilidade de jobs.
+
+## Chaves, índices e integridade física
+
+- **PK:** `request_id` (`uuid` gerado pelo Sabiá).
+- **FK proposta:** `inbound_update_id → inbound_update.inbound_update_id ON DELETE RESTRICT`, `UNIQUE(inbound_update_id)` para garantir no máximo uma requisição por update.
+- **Índices propostos:** `(client_id, principal_id, received_at DESC)`; `(status, updated_at)` para recovery.
+
+**Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.

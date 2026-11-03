@@ -1,4 +1,8 @@
-# Entidade `outbound_message`
+# Entidade `sabia.outbound_message`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.outbound_message`
 
 **ID:** PST-0106  
 **Status:** refinement
@@ -9,10 +13,10 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/comando-interno.md)
-- [MOD-0002 — Adaptador Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/modulos/telegram.md)
-- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
-- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
+- [CTR-0001 — Comando interno](../../especificacao/contratos/comando-interno.md)
+- [MOD-0002 — Adaptador Telegram](../../especificacao/modulos/telegram.md)
+- [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)
 
 ## Estrutura e de-para propostos
 
@@ -73,3 +77,11 @@ Recovery reenvia o texto já materializado em `content`; não precisa reconstrui
 `request_id` é obrigatório neste modelo, porém FLW-0003 pode gerar notificações do Scheduler sem uma `request` de origem documentada.
 
 Antes de refinar esta entidade é necessário decidir como mensagens de alerta são correlacionadas e persistidas. Não deve ser criada `request` sintética, tornar `request_id` nulo ou adicionar outra chave de correlação sem decisão explícita.
+
+## Chaves, índices e integridade física
+
+- **PK:** `outbound_message_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT`.
+- **CHECK proposto:** `status IN ('pending','sending','delivered','failed')`.
+- **Índice proposto:** `(status, available_at, outbound_message_id)` para claim de envios; `request_id` deve ser indexado.
+
+**Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
