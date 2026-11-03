@@ -9,7 +9,7 @@ Preservar o histórico imutável das mudanças de estado de cada job.
 
 ## Dependências
 
-- [CTR-0003 — Job](../../contratos/job.md)
+- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
 - [PST-0104 — job](job.md)
 
 ## Estrutura e de-para propostos

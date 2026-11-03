@@ -9,9 +9,9 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 
 ## Dependências
 
-- [CTR-0006 — Mídia persistida](../../contratos/midia-persistida.md)
-- [CTR-0008 — Ingestão MessagePack](../../contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada](../../contratos/ingestao-midia-fracionada.md)
+- [CTR-0006 — Mídia persistida](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/midia-persistida.md)
+- [CTR-0008 — Ingestão MessagePack](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-fracionada.md)
 - [PST-0103 — request](request.md)
 
 ## Estrutura proposta

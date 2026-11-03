@@ -9,7 +9,7 @@ Persistir cada pedaço de uma mídia recebida pelo canal fracionado.
 
 ## Dependências
 
-- [CTR-0009 — Ingestão fracionada](../../contratos/ingestao-midia-fracionada.md)
+- [CTR-0009 — Ingestão fracionada](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-fracionada.md)
 - [PST-0108 — media](media.md)
 
 ## Estrutura e de-para

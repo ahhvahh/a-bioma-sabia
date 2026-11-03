@@ -9,10 +9,10 @@ Definir como jobs, mensagens de saída e transmissões de mídia são reservados
 
 ## Dependências
 
-- [ADR-0009 — Persistência do estado operacional em PostgreSQL](../../adr/persistencia/estado-operacional.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
+- [ADR-0009 — Persistência do estado operacional em PostgreSQL](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/adr/persistencia/estado-operacional.md)
+- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
+- [CTR-0007 — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/transmissao-midia.md)
+- [FLW-0010 — Consumo do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/consumo-estado-operacional.md)
 - [PST-0001 — Tabelas do estado operacional](tabelas-estado-operacional.md)
 
 ## Regra

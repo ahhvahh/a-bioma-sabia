@@ -9,7 +9,7 @@ Registrar cada update externo aceito para fornecer idempotência à entrada Tele
 
 ## Dependências
 
-- [FLW-0001 — Comando Telegram](../../fluxos/comando-telegram.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
 - [PST-0101 — transport_cursor](transport-cursor.md)
 - [PST-0103 — request](request.md)
 

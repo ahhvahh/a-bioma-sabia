@@ -9,10 +9,10 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 
 ## Dependências
 
-- [CTR-0007 — Transmissão persistente de mídia](../../contratos/transmissao-midia.md)
+- [CTR-0007 — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/transmissao-midia.md)
 - [PST-0108 — media](media.md)
 - [PST-0103 — request](request.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
 
 ## Estrutura e de-para
 

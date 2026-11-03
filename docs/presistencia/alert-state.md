@@ -9,8 +9,8 @@ Persistir o estado mínimo necessário para decisões de alerta e lembrete sobre
 
 ## Dependências
 
-- [FLW-0003 — Monitoramento agendado](../../fluxos/monitoramento-agendado.md)
-- [CFG-0001 — Modelo de configuração](../../configuracao/modelo-configuracao.md)
+- [FLW-0003 — Monitoramento agendado](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/monitoramento-agendado.md)
+- [CFG-0001 — Modelo de configuração](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/configuracao/modelo-configuracao.md)
 
 ## Estrutura e de-para propostos
 

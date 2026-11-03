@@ -9,10 +9,10 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 
 ## Dependências
 
-- [CTR-0003 — Job](../../contratos/job.md)
+- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
 - [PST-0103 — request](request.md)
 - [PST-0105 — job_state_history](job-state-history.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
 
 ## Estrutura e de-para propostos
 
