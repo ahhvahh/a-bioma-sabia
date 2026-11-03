@@ -194,3 +194,10 @@ O gate Especificação → Desenvolvimento permanece `BLOCKED` até que:
 **Refinamentos pendentes:** harmonizar grupo legado `abioma` em CFG-0001/CTR-0008/CTR-0009/MOD-0006; definir caminhos e formatos dos UDS, autorização por operação, contratos das métricas e menus, protocolo para upload/validação/ativação de scripts e modelo persistente de catálogo; definir autenticação SQL (`pg_hba.conf`), diretório/socket PostgreSQL, role e bloqueio de conexões TCP indevidas. A pertença a `absabia` deve permitir conectar, mas mudanças sensíveis e ativação de scripts requerem autorização própria.
 
 Ver [README](../README.md), [arquitetura](arquitetura.md), [segurança](seguranca-acessos.md) e [interfaces](interfaces-servicos.md).
+
+
+## Fila de solicitações de acesso por cliente — 03/11/2026
+
+**Nova experiência desejada para o `sabiactl`, ainda não implementada:** selecionar bot, listar múltiplas solicitações criadas pelo fluxo `/start`, navegar por `↑/↓`, rejeitar por `←`, aprovar por `→`, exigir `Y` para confirmar **qualquer** decisão e aceitar `N/Esc` para cancelar. A rejeição sai da fila mantendo auditoria. Não se trata de solicitação nativa `chat_join_request` do Telegram nem de assinatura paga.
+
+**Bloqueios a refinar:** definir esquema de pedidos e autorizações por cliente no PostgreSQL, migração e política de rejeição/reenvio; compatibilidade com `allowed_users` no CFG-0001 (hoje no YAML com restart); operações e respostas UDS administrativas de listagem e decisão, paginação, autenticação do operador por bot, concorrência entre operadores, auditoria e notificações de decisão. Conferir [desenho da experiência](solicitacoes-acesso.md), [interfaces](interfaces-servicos.md) e [persistência](persistencia.md).

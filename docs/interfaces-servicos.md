@@ -37,6 +37,12 @@ A camada UDS é exclusivamente a **porta de entrada**. Somente o serviço `sabia
 
 **Divergência:** os contratos antigos CTR-0008/0009 usam o grupo `abioma`. O novo requisito usa `absabia` e ainda exige atualização dos contratos originais.
 
+## Solicitações de acesso por bot — requisito de administração
+
+A UI do `sabiactl` usará uma fila por bot, com consulta paginada de pedidos pendentes e ações de aprovação ou rejeição. A alteração exige confirmação humana (`Y` no terminal), autorização administrativa por cliente e gravação transacional pelo serviço. A API UDS deve suportar listar bots/pendências, listar solicitações de um bot, aprovar e rejeitar pedidos, tratar conflitos entre operadores e retornar estados auditáveis.
+
+**Esses são comportamentos propostos, não nomes de métodos, formato de transporte ou códigos aprovados.** O `sabiactl` não acessa PostgreSQL diretamente. O detalhe da experiência e dos dados necessários está em [Solicitações de acesso](solicitacoes-acesso.md).
+
 ## Telegram — comandos previstos
 
 | Operação | Entrada | Saída esperada | Erros/limitações |

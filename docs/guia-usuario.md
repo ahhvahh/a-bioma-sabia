@@ -24,6 +24,12 @@ Clientes configurados: —  Processadores: —
 Escolha: _
 ```
 
+### Solicitações de acesso — fila por cliente
+
+O administrador escolhe um bot e usa `↑`/`↓` para percorrer as solicitações pendentes. `→` prepara a aprovação; `←` prepara a rejeição/retirada da fila. **Toda decisão exige `Y` para confirmar**; `N` ou `Esc` cancela. A solicitação recusada sai da fila, mas permanece registrada para auditoria.
+
+As telas completas, as confirmações e os casos de erro estão em [Solicitações de acesso](solicitacoes-acesso.md).
+
 ### Inspeção de conexões
 
 ```text

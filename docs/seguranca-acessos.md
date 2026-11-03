@@ -44,6 +44,14 @@ O `sabiactl` usará apenas a API UDS do serviço. A aplicação não recebe cred
 
 O grupo `absabia` autoriza **conexão**, não necessariamente qualquer alteração administrativa irrestrita. A política detalhada de operações privilegiadas está pendente.
 
+## Autorizar solicitações de acesso Telegram
+
+Um usuário Telegram que envia `/start` torna-se contato conhecido, **não automaticamente autorizado**. O `sabiactl` deverá permitir ao operador selecionar o bot e decidir sobre solicitações em fila. Os botões de aprovação/rejeição são ações administrativas: `→` ou `←` **apenas preparam** uma decisão, e `Y` confirma após mostrar a identidade completa e o bot.
+
+O serviço deverá limitar a aprovação por bot e identidade Telegram estável, impor autorização administrativa além da participação em `absabia`, registrar a decisão e impedir aprovações concorrentes contraditórias. Rejeitar retira da lista de pendências, mas preserva histórico. O banco nunca será acessado diretamente pela aplicação de terminal.
+
+Detalhes do fluxo: [Solicitações de acesso](solicitacoes-acesso.md). O modelo de `allowed_users` no YAML ainda precisa ser reconciliado com aprovações dinâmicas no PostgreSQL.
+
 ## Compatibilidade documental
 
 [CFG-0001](especificacao/configuracao/modelo-configuracao.md), [CTR-0008](especificacao/contratos/ingestao-midia-messagepack.md), [CTR-0009](especificacao/contratos/ingestao-midia-fracionada.md) e [MOD-0006](especificacao/modulos/seguranca.md) ainda fixam o grupo legado `abioma`. A decisão nova usa `absabia`. Reconciliar os contratos normativos antes de implementar.

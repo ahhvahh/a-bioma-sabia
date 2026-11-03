@@ -12,6 +12,12 @@ Somente o serviço `sabia` acessará o PostgreSQL diretamente, por **Unix domain
 
 A configuração efetiva do socket PostgreSQL e o isolamento de conexões TCP ainda precisam ser definidos e testados; o grupo Linux sozinho não substitui autenticação do PostgreSQL.
 
+## Pendências para aprovações de acesso por cliente
+
+O fluxo `/start` registra contato, mas **não autoriza automaticamente** o Telegram User ID. A nova fila de solicitações do `sabiactl` precisa persistir pedidos com estados pendente/aprovado/rejeitado, decisões auditáveis e autorizações vinculadas ao cliente/bot. O operador seleciona e confirma pelo terminal, e **somente o Sabiá** grava no PostgreSQL via UDS.
+
+Essas estruturas ainda **não constam como entidades físicas validadas** no índice PST-0100. O desenho atual de `allowed_users` no YAML exige restart; a proposta de aprovação dinâmica exige conciliar o modelo de autorizações persistidas com essa configuração. Ver [fluxo das solicitações](solicitacoes-acesso.md).
+
 ## Entidades propostas
 
 | Entidade | Finalidade |
