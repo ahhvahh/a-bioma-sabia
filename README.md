@@ -70,7 +70,7 @@ O operador selecionará um arquivo no `sabiactl`, que enviará o conteúdo pela 
 | Requisitos de implantação | [Instalação](docs/instalacao.md) |
 | Criar e configurar um bot do Telegram | [Criar bot no Telegram](docs/criar-bot-telegram.md) |
 | Telas do `sabiactl` e do Telegram | [Guia do usuário](docs/guia-usuario.md) |
-| Dados e tabelas PostgreSQL | [Persistência](docs/persistencia.md) |
+| Dados e tabelas PostgreSQL | [Persistência](docs/persistencia/readme.md) |
 | APIs UDS e contratos | [Interfaces e serviços](docs/interfaces-servicos.md) |
 | Contratos técnicos existentes | [Referência de contratos](docs/referencia-contratos.md) |
 | Contas Linux, grupos e segurança | [Segurança e acessos](docs/seguranca-acessos.md) |

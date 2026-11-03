@@ -34,7 +34,7 @@ Falta definir:
 Documentos:
 
 - [CTR-0010 — Origem e conversão dos dados persistentes](especificacao/contratos/origem-dados-persistencia.md)
-- [PST-0108 — media](especificacao/persistencia/entidades/media.md)
+- [PST-0108 — media](persistencia/entidades/media.md)
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
 - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
 
@@ -50,9 +50,9 @@ Falta definir:
 
 Documentos:
 
-- [PST-0002 — Relacionamentos](especificacao/persistencia/relacionamentos-estado-operacional.md)
-- [PST-0102 — inbound_update](especificacao/persistencia/entidades/inbound-update.md)
-- [PST-0103 — request](especificacao/persistencia/entidades/request.md)
+- [PST-0002 — Relacionamentos](persistencia/relacionamentos.md)
+- [PST-0102 — inbound_update](persistencia/entidades/inbound-update.md)
+- [PST-0103 — request](persistencia/entidades/request.md)
 
 Falta decidir a direção física final da relação. O modelo atual contém a proposta de manter somente `request.inbound_update_id`, mas isso ainda não é decisão normativa.
 
@@ -60,8 +60,8 @@ Falta decidir a direção física final da relação. O modelo atual contém a p
 
 Documentos:
 
-- [PST-0002 — Relacionamentos](especificacao/persistencia/relacionamentos-estado-operacional.md)
-- [PST-0110 — media_transmission](especificacao/persistencia/entidades/media-transmission.md)
+- [PST-0002 — Relacionamentos](persistencia/relacionamentos.md)
+- [PST-0110 — media_transmission](persistencia/entidades/media-transmission.md)
 
 É obrigatório impedir que uma transmissão possua `request_id` diferente da mídia referenciada. Falta decidir se a garantia será implementada por restrição no PostgreSQL ou somente pela aplicação.
 
@@ -70,8 +70,8 @@ Documentos:
 Documentos:
 
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
-- [PST-0106 — outbound_message](especificacao/persistencia/entidades/outbound-message.md)
-- [PST-0001 — Tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md)
+- [PST-0106 — outbound_message](persistencia/entidades/outbound-message.md)
+- [PST-0001 — Tabelas do estado operacional](persistencia/readme.md)
 
 O Scheduler produz notificações sem uma `request` de origem documentada, enquanto `outbound_message.request_id` é obrigatório.
 
@@ -81,7 +81,7 @@ Falta decidir o modelo de correlação. A documentação não deve criar request
 
 Documentos:
 
-- [PST-0107 — alert_state](especificacao/persistencia/entidades/alert-state.md)
+- [PST-0107 — alert_state](persistencia/entidades/alert-state.md)
 - [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
 
 Falta decidir:
@@ -93,8 +93,8 @@ Falta decidir:
 
 Documentos:
 
-- [PST-0111 — schema_version](especificacao/persistencia/entidades/schema-version.md)
-- [PST-0001 — Tabelas do estado operacional](especificacao/persistencia/tabelas-estado-operacional.md)
+- [PST-0111 — schema_version](persistencia/entidades/schema-version.md)
+- [PST-0001 — Tabelas do estado operacional](persistencia/readme.md)
 - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
 
 PostgreSQL e migração no startup já estão definidos conceitualmente. Falta escolher o mecanismo concreto de migração/versionamento e, consequentemente, decidir se `schema_version` é tabela própria ou responsabilidade da ferramenta adotada.
@@ -103,10 +103,10 @@ PostgreSQL e migração no startup já estão definidos conceitualmente. Falta e
 
 Documentos:
 
-- [PST-0002 — Relacionamentos](especificacao/persistencia/relacionamentos-estado-operacional.md)
+- [PST-0002 — Relacionamentos](persistencia/relacionamentos.md)
 - [FLW-0009 — Registro do estado operacional](especificacao/fluxos/registro-estado-operacional.md)
-- [PST-0103 — request](especificacao/persistencia/entidades/request.md)
-- [PST-0105 — job_state_history](especificacao/persistencia/entidades/job-state-history.md)
+- [PST-0103 — request](persistencia/entidades/request.md)
+- [PST-0105 — job_state_history](persistencia/entidades/job-state-history.md)
 
 A forma de exclusão já está definida: FKs operacionais usam `ON DELETE RESTRICT` e o purge remove dependências explicitamente das folhas para a raiz.
 
@@ -200,4 +200,4 @@ Ver [README](../README.md), [arquitetura](arquitetura.md), [segurança](seguranc
 
 **Nova experiência desejada para o `sabiactl`, ainda não implementada:** selecionar bot, listar múltiplas solicitações criadas pelo fluxo `/start`, navegar por `↑/↓`, rejeitar por `←`, aprovar por `→`, exigir `Y` para confirmar **qualquer** decisão e aceitar `N/Esc` para cancelar. A rejeição sai da fila mantendo auditoria. Não se trata de solicitação nativa `chat_join_request` do Telegram nem de assinatura paga.
 
-**Bloqueios a refinar:** definir esquema de pedidos e autorizações por cliente no PostgreSQL, migração e política de rejeição/reenvio; compatibilidade com `allowed_users` no CFG-0001 (hoje no YAML com restart); operações e respostas UDS administrativas de listagem e decisão, paginação, autenticação do operador por bot, concorrência entre operadores, auditoria e notificações de decisão. Conferir [desenho da experiência](solicitacoes-acesso.md), [interfaces](interfaces-servicos.md) e [persistência](persistencia.md).
+**Bloqueios a refinar:** definir esquema de pedidos e autorizações por cliente no PostgreSQL, migração e política de rejeição/reenvio; compatibilidade com `allowed_users` no CFG-0001 (hoje no YAML com restart); operações e respostas UDS administrativas de listagem e decisão, paginação, autenticação do operador por bot, concorrência entre operadores, auditoria e notificações de decisão. Conferir [desenho da experiência](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/solicitacoes-acesso.md), [interfaces](interfaces-servicos.md) e [persistência](persistencia/readme.md).

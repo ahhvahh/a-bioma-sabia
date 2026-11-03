@@ -55,5 +55,5 @@ O painel deverá diferenciar: conexões UDS ativas, sessões administrativas loc
 - [Fluxo Telegram](especificacao/fluxos/comando-telegram.md)
 - [Interfaces e contratos UDS](interfaces-servicos.md)
 - [Segurança e grupos Linux](seguranca-acessos.md)
-- [Persistência PostgreSQL](persistencia.md)
+- [Persistência PostgreSQL](persistencia/readme.md)
 - [Pendências de refinamento](pendencias.md)
