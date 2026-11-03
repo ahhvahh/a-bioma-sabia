@@ -11,21 +11,21 @@ Este documento não altera contratos existentes. Enquanto estiver em `refinement
 
 ## Dependências
 
-- [ADR-0009 — Persistência do estado operacional em PostgreSQL](../../adr/persistencia/estado-operacional.md)
+- [ADR-0009 — Persistência do estado operacional em PostgreSQL](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/adr/persistencia/estado-operacional.md)
 - [PST-0001 — Proposta de tabelas do estado operacional](tabelas-estado-operacional.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [FLW-0001 — Comando Telegram](../fluxos/comando-telegram.md)
-- [FLW-0003 — Monitoramento agendado](../fluxos/monitoramento-agendado.md)
-- [PST-0100 — Entidades persistentes](entidades/README.md)
-- [CTR-0010 — Origem e conversão dos dados persistentes](../contratos/origem-dados-persistencia.md)
-- [FLW-0009 — Registro do estado operacional](../fluxos/registro-estado-operacional.md)
-- [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
+- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
+- [CTR-0006 — Mídia persistida](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/transmissao-midia.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [FLW-0003 — Monitoramento agendado](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/monitoramento-agendado.md)
+- [PST-0100 — Entidades persistentes](README.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/origem-dados-persistencia.md)
+- [FLW-0009 — Registro do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/registro-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/consumo-estado-operacional.md)
 
 ## Detalhamento das entidades
 
-O diagrama abaixo representa relacionamentos. A origem, conversão, tipos e exemplos de cada tabela ficam em [PST-0100 — Entidades persistentes](entidades/README.md).
+O diagrama abaixo representa relacionamentos. A origem, conversão, tipos e exemplos de cada tabela ficam em [PST-0100 — Entidades persistentes](README.md).
 
 ## Visão geral
 

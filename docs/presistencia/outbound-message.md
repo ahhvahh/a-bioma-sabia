@@ -9,10 +9,10 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](../../contratos/comando-interno.md)
-- [MOD-0002 — Adaptador Telegram](../../modulos/telegram.md)
-- [FLW-0001 — Comando Telegram](../../fluxos/comando-telegram.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md)
+- [CTR-0001 — Comando interno](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/comando-interno.md)
+- [MOD-0002 — Adaptador Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/modulos/telegram.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
 
 ## Estrutura e de-para propostos
 

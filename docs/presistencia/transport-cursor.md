@@ -9,9 +9,9 @@ Persistir o cursor confirmado de leitura de cada transporte/cliente, permitindo 
 
 ## Dependências
 
-- [FLW-0001 — Comando Telegram](../../fluxos/comando-telegram.md)
-- [MOD-0002 — Adaptador Telegram](../../modulos/telegram.md)
-- [CTR-0010 — Origem e conversão dos dados persistentes](../../contratos/origem-dados-persistencia.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [MOD-0002 — Adaptador Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/modulos/telegram.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/origem-dados-persistencia.md)
 
 ## Estrutura proposta
 

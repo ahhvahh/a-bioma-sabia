@@ -9,8 +9,8 @@ Representar o versionamento do schema somente se o mecanismo de migração escol
 
 ## Dependências
 
-- [CFG-0001 — Modelo de configuração](../../configuracao/modelo-configuracao.md)
-- [ADR-0009 — PostgreSQL](../../../adr/persistencia/estado-operacional.md)
+- [CFG-0001 — Modelo de configuração](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/configuracao/modelo-configuracao.md)
+- [ADR-0009 — PostgreSQL](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/adr/persistencia/estado-operacional.md)
 
 ## Estrutura proposta
 

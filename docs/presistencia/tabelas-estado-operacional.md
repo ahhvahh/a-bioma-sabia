@@ -11,19 +11,19 @@ Este documento é uma **proposta para revisão**. Nomes de tabelas, tipos físic
 
 ## Dependências
 
-- [ADR-0009 — Persistência do estado operacional em PostgreSQL](../../adr/persistencia/estado-operacional.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [CTR-0009 — Ingestão fracionada de mídia](../contratos/ingestao-midia-fracionada.md)
-- [FLW-0001 — Comando Telegram](../fluxos/comando-telegram.md)
-- [FLW-0003 — Monitoramento agendado](../fluxos/monitoramento-agendado.md)
-- [CFG-0001 — Modelo de configuração](../configuracao/modelo-configuracao.md)
+- [ADR-0009 — Persistência do estado operacional em PostgreSQL](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/adr/persistencia/estado-operacional.md)
+- [CTR-0003 — Job](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/job.md)
+- [CTR-0006 — Mídia persistida](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/transmissao-midia.md)
+- [CTR-0009 — Ingestão fracionada de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-fracionada.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
+- [FLW-0003 — Monitoramento agendado](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/monitoramento-agendado.md)
+- [CFG-0001 — Modelo de configuração](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/configuracao/modelo-configuracao.md)
 - [PST-0002 — Relacionamentos do estado operacional](relacionamentos-estado-operacional.md)
-- [PST-0100 — Entidades persistentes](entidades/README.md)
-- [CTR-0010 — Origem e conversão dos dados persistentes](../contratos/origem-dados-persistencia.md)
-- [FLW-0009 — Registro do estado operacional](../fluxos/registro-estado-operacional.md)
-- [FLW-0010 — Consumo do estado operacional](../fluxos/consumo-estado-operacional.md)
+- [PST-0100 — Entidades persistentes](README.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/origem-dados-persistencia.md)
+- [FLW-0009 — Registro do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/registro-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/consumo-estado-operacional.md)
 - [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
 
 ## Escopo
@@ -62,7 +62,7 @@ Essas escolhas preservam os tipos conceituais existentes sem alterar os contrato
 
 ## Detalhamento por entidade
 
-A visão resumida das tabelas permanece neste documento. Tipos, origem por campo, regras de conversão e exemplos ficam em [PST-0100 — Entidades persistentes](entidades/README.md).
+A visão resumida das tabelas permanece neste documento. Tipos, origem por campo, regras de conversão e exemplos ficam em [PST-0100 — Entidades persistentes](README.md).
 
 ## Tabelas propostas
 

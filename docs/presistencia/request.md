@@ -9,8 +9,8 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](../../contratos/comando-interno.md)
-- [FLW-0001 — Comando Telegram](../../fluxos/comando-telegram.md)
+- [CTR-0001 — Comando interno](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/comando-interno.md)
+- [FLW-0001 — Comando Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/comando-telegram.md)
 - [PST-0102 — inbound_update](inbound-update.md)
 
 ## Estrutura e de-para propostos
@@ -91,7 +91,7 @@ Para comandos recebidos por `Update.message`:
 
 `Update.update_id` pertence a `inbound_update.transport_update_id`, não à entidade `request`.
 
-Esses caminhos já estão documentados em [Telegram discovery](../../../telegram-discovery.md) e consolidados por CTR-0010.
+Esses caminhos já estão documentados em [Telegram discovery](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/telegram-discovery.md) e consolidados por CTR-0010.
 
 ## Consumo
 

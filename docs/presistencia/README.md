@@ -21,15 +21,15 @@ Cada documento de entidade detalha:
 
 ## Dependências
 
-- [PST-0001 — Proposta de tabelas](../tabelas-estado-operacional.md)
-- [PST-0002 — Relacionamentos](../relacionamentos-estado-operacional.md)
-- [CTR-0010 — Origem e conversão dos dados persistentes](../../contratos/origem-dados-persistencia.md)
-- [FLW-0009 — Registro do estado operacional](../../fluxos/registro-estado-operacional.md)
-- [FLW-0010 — Consumo do estado operacional](../../fluxos/consumo-estado-operacional.md)
+- [PST-0001 — Proposta de tabelas](tabelas-estado-operacional.md)
+- [PST-0002 — Relacionamentos](relacionamentos-estado-operacional.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/origem-dados-persistencia.md)
+- [FLW-0009 — Registro do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/registro-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/fluxos/consumo-estado-operacional.md)
 
 ## Entidades
 
-A política de reserva concorrente das filas persistentes é definida por [PST-0003 — Claim concorrente de filas persistentes](../claim-concorrente-filas.md).
+A política de reserva concorrente das filas persistentes é definida por [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md).
 
 
 - [PST-0101 — transport_cursor](transport-cursor.md)
