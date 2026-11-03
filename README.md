@@ -19,7 +19,7 @@
 - **Telegram:** oferecer ações permitidas a clientes/usuários autorizados, sem execução remota de shell arbitrário.
 
 
-## Arquitetura e acesso
+## Arquitetura
 
 ```mermaid
 flowchart TB
@@ -33,15 +33,7 @@ flowchart TB
   S --> F[Diretórios internos e scripts]
 ```
 
-| Identidade ou grupo | Permissão prevista |
-|---|---|
-| `sabia` (usuário do serviço) | Executa daemon sem login; pertence a `absabia` e `abioma_db` |
-| `absabia` | Acessa os sockets de aplicação, conforme autorização das operações |
-| `abioma_db` | Acessa o UDS PostgreSQL; reservado ao serviço e à administração do banco |
-| Usuário local fora de `absabia` | Não se conecta aos sockets do Sabiá |
-| Usuário Telegram | Apenas operações remotas autorizadas por cliente, usuário e chat |
-
-**O `sabiactl` e outras aplicações não acessam o PostgreSQL nem escrevem diretamente nas pastas internas.** Apenas o processo Sabiá faz essas operações. O PostgreSQL também exigirá autenticação/role SQL restrita, além da permissão no socket e do bloqueio de rotas TCP não autorizadas.
+As regras de isolamento, usuários Linux e permissões dos sockets estão em [Segurança e acessos](docs/seguranca-acessos.md).
 
 ## `sabiactl`: interface administrativa planejada
 
