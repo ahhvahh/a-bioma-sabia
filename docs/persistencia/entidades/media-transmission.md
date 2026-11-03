@@ -1,4 +1,8 @@
-# Entidade `media_transmission`
+# Entidade `sabia.media_transmission`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.media_transmission`
 
 **ID:** PST-0110  
 **Status:** refinement
@@ -9,10 +13,10 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 
 ## Dependências
 
-- [CTR-0007 — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/transmissao-midia.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../especificacao/contratos/transmissao-midia.md)
 - [PST-0108 — media](media.md)
 - [PST-0103 — request](request.md)
-- [PST-0003 — Claim concorrente de filas persistentes](claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)
 
 ## Estrutura e de-para
 
@@ -54,3 +58,12 @@ Transmissões elegíveis devem ser removidas explicitamente antes da mídia ou d
 ## BLOCKED
 
 Decidir se a consistência `media.request_id == media_transmission.request_id` será garantida por restrição de banco ou apenas pela aplicação.
+
+## Chaves, índices e integridade física
+
+- **PK:** `transmission_id`; **FKs:** `media_id → media.media_id` e `request_id → request.request_id` com `ON DELETE RESTRICT`.
+- **CHECK proposto:** `status IN ('pending','transmitting','delivered','failed')`, `streamed_bytes >= 0`.
+- **Índice proposto:** `(status, updated_at, transmission_id)` para claim; índices nos campos de correlação.
+- **BLOCKED:** garantir que `media_transmission.request_id` coincida com `media.request_id` (restrição composta ou validação transacional).
+
+**Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.

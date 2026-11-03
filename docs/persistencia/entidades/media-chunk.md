@@ -1,4 +1,8 @@
-# Entidade `media_chunk`
+# Entidade `sabia.media_chunk`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.media_chunk`
 
 **ID:** PST-0109  
 **Status:** refined
@@ -9,7 +13,7 @@ Persistir cada pedaço de uma mídia recebida pelo canal fracionado.
 
 ## Dependências
 
-- [CTR-0009 — Ingestão fracionada](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-fracionada.md)
+- [CTR-0009 — Ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md)
 - [PST-0108 — media](media.md)
 
 ## Estrutura e de-para
@@ -51,3 +55,11 @@ Na transmissão, ler por `media_id` em `sequence_id ASC` e produzir stream cont�
 `media_chunk.media_id → media.media_id` usa `ON DELETE RESTRICT`.
 
 Chunks são removidos explicitamente pelo fluxo de limpeza; a exclusão da mídia não remove chunks automaticamente.
+
+## Chaves, índices e integridade física
+
+- **PK:** `(media_id, sequence_id)`; **FK:** `media_id → media.media_id ON DELETE RESTRICT`.
+- **CHECKs propostos:** `sequence_id >= 1`, `size_bytes BETWEEN 1 AND 5000000`, `octet_length(data) = size_bytes`.
+- **Acesso:** leitura por `(media_id, sequence_id ASC)` usa a ordem da PK, sem índice duplicado.
+
+**Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.

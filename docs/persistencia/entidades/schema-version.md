@@ -1,4 +1,8 @@
-# Entidade `schema_version`
+# Entidade `sabia.schema_version`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.schema_version`
 
 **ID:** PST-0111  
 **Status:** refinement
@@ -9,8 +13,8 @@ Representar o versionamento do schema somente se o mecanismo de migração escol
 
 ## Dependências
 
-- [CFG-0001 — Modelo de configuração](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/configuracao/modelo-configuracao.md)
-- [ADR-0009 — PostgreSQL](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/adr/persistencia/estado-operacional.md)
+- [CFG-0001 — Modelo de configuração](../../especificacao/configuracao/modelo-configuracao.md)
+- [ADR-0009 — PostgreSQL](../../adr/persistencia/estado-operacional.md)
 
 ## Estrutura proposta
 
@@ -33,3 +37,11 @@ No startup, a versão persistida deve permitir validar/aplicar migrações compa
 ## BLOCKED
 
 O mecanismo concreto de migração não está definido. Se a ferramenta adotada já mantiver tabela própria, esta entidade deve ser cancelada para evitar duas fontes de verdade.
+
+## Chaves, índices e integridade física
+
+- **PK proposta:** `version` (`bigint`).
+- **Tabela condicional:** criar somente se a ferramenta de migração não oferecer controle equivalente.
+- **Sem FK operacional.**
+
+**Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.

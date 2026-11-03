@@ -1,4 +1,8 @@
-# Entidade `media`
+# Entidade `sabia.media`
+
+![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
+
+**Banco proposto:** `abioma_sabia` · **Schema proposto:** `sabia` · **Tabela:** `sabia.media`
 
 **ID:** PST-0108  
 **Status:** refinement
@@ -9,9 +13,9 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 
 ## Dependências
 
-- [CTR-0006 — Mídia persistida](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/midia-persistida.md)
-- [CTR-0008 — Ingestão MessagePack](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/especificacao/contratos/ingestao-midia-fracionada.md)
+- [CTR-0006 — Mídia persistida](../../especificacao/contratos/midia-persistida.md)
+- [CTR-0008 — Ingestão MessagePack](../../especificacao/contratos/ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md)
 - [PST-0103 — request](request.md)
 
 ## Estrutura proposta
@@ -41,7 +45,7 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 
 | media_id | request_id | name | content_type | total_bytes | received_bytes | storage_mode | next_sequence_id | completed |
 |---:|---|---|---|---:|---:|---|---:|---|
-| 502 | `550e8400-e29b-41d4-a716-446655440000` | `video.mp4` | `video/mp4` | 80000000 | 10000000 | `chunked` | 3 | `false` |
+| 502 | `550e8400-e29b-41d4-a716-446655440000` | `video.mp4` | `video/mp4` | 40000000 | 10000000 | `chunked` | 3 | `false` |
 
 ## Integridade referencial
 
@@ -67,3 +71,12 @@ Ainda não está definido:
 ## BLOCKED
 
 - seleção de foto e de-para final de `name`/`content_type` para mídia Telegram.
+
+## Chaves, índices e integridade física
+
+- **PK:** `media_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT`.
+- **CHECKs propostos:** `storage_mode IN ('inline','chunked')`, `total_bytes >= 0`, `received_bytes BETWEEN 0 AND total_bytes`, `size_bytes >= 0`.
+- **Índice proposto:** `(request_id, created_at)`; mídias incompletas não podem gerar transmissão.
+- **Regra de tamanho:** canal simples até 20.000.000 bytes; canal fracionado até 50.000.000 bytes no total.
+
+**Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.
