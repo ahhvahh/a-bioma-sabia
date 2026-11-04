@@ -1,8 +1,13 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Menor privilégio e autorização explícita
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0008-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 ![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
+
+> **Conteúdo lido e migrado para:** [DEC-008 — documento canônico](../../decisoes/DEC-008-menor-privilegio-autorizacao.md). Esta versão ADR permanece disponível para rastreabilidade histórica, sem alteração da decisão original.
 
 ## Contexto
 

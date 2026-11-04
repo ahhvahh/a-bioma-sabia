@@ -1,8 +1,13 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Política de encerramento de jobs
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0010-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
 ![Version](https://img.shields.io/badge/Version-1-6e7781?style=flat-square)
+
+> **Conteúdo lido e migrado para:** [DEC-010 — documento canônico](../../decisoes/DEC-010-encerramento-jobs.md). Esta versão ADR permanece disponível para rastreabilidade histórica, sem alteração da decisão original.
 
 ## Contexto
 

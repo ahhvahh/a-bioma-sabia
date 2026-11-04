@@ -28,22 +28,32 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 - [Concorrência das filas](persistencia/concorrencia.md)
 - [Pendências do modelo físico](persistencia/pendencias.md)
 
+## Prefixos documentais
+
+| Prefixo | Categoria | Exemplo real |
+|---|---|---|
+| `DEC` | Decisão arquitetural (MADR/ADR) | [DEC-001 — Go e binário único](decisoes/DEC-001-go-binario-unico-linux.md) |
+
+Os IDs originais `ADR-0001` a `ADR-0010` foram preservados como referências históricas; não são uma segunda numeração para documentos novos.
+
 ## Especificações técnicas recuperadas da `develop`
 
 Arquivos restaurados **integralmente**, com seus caminhos originais e estados documentais preservados. O índice inclui somente os documentos diretamente referenciados no `docs/README.md` da branch `develop`.
 
 ### Decisões
 
-- [ADR-0001 — Go, binário único e serviço Linux](adr/runtime/go-binario-unico.md) — `refined`
-- [ADR-0002 — Múltiplos clientes Telegram isolados](adr/telegram/multiplos-clientes-isolados.md) — `refined`
-- [ADR-0003 — Core independente do Telegram](adr/arquitetura/core-independente-do-telegram.md) — `refined`
-- [ADR-0004 — Registro explícito de scripts](adr/execucao/registro-explicito-de-scripts.md) — `refined`
-- [ADR-0005 — Telegram Long Polling](adr/telegram/long-polling.md) — `refined`
-- [ADR-0006 — Jobs assíncronos](adr/processamento/jobs-assincronos.md) — `refined`
-- [ADR-0007 — Scheduler e alertas orientados a estado](adr/monitoramento/scheduler-alertas-estado.md) — `refined`
-- [ADR-0008 — Menor privilégio e autorização explícita](adr/seguranca/menor-privilegio-e-autorizacao.md) — `refined`
-- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md) — `refined`
-- [ADR-0010 — Política de encerramento de jobs](adr/runtime/encerramento-de-jobs.md) — `refined`
+Os documentos `DEC` são as versões canônicas revisadas dos ADRs indicados. Os ADRs originais permanecem em `docs/adr/` como fontes legadas para rastreabilidade.
+
+- [DEC-001 (ADR-0001) — Go, binário único e serviço Linux](decisoes/DEC-001-go-binario-unico-linux.md) — `refined`
+- [DEC-002 (ADR-0002) — Múltiplos clientes Telegram isolados](decisoes/DEC-002-clientes-telegram-isolados.md) — `refined`
+- [DEC-003 (ADR-0003) — Core independente do Telegram](decisoes/DEC-003-core-independente-telegram.md) — `refined`
+- [DEC-004 (ADR-0004) — Registro explícito de scripts](decisoes/DEC-004-registro-explicito-scripts.md) — `refined`
+- [DEC-005 (ADR-0005) — Telegram Long Polling](decisoes/DEC-005-telegram-long-polling.md) — `refined`
+- [DEC-006 (ADR-0006) — Jobs assíncronos](decisoes/DEC-006-jobs-assincronos.md) — `refined`
+- [DEC-007 (ADR-0007) — Scheduler e alertas orientados a estado](decisoes/DEC-007-alertas-estado.md) — `refined`
+- [DEC-008 (ADR-0008) — Menor privilégio e autorização explícita](decisoes/DEC-008-menor-privilegio-autorizacao.md) — `refined`
+- [DEC-009 (ADR-0009) — Persistência do estado operacional](decisoes/DEC-009-postgresql-estado-operacional.md) — `refined`
+- [DEC-010 (ADR-0010) — Política de encerramento de jobs](decisoes/DEC-010-encerramento-jobs.md) — `refined`
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](adr/processamento/ingestao-midia-socket-messagepack.md) — `refined`
 - [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](adr/processamento/ingestao-midia-fracionada.md) — `refined`
@@ -101,4 +111,4 @@ Arquivos restaurados **integralmente**, com seus caminhos originais e estados do
 - [Contrato operacional e decisões de integração](telegram-operacao-2026.md)
 - [Caderno de testes locais organizado por grupos](testes/telegram/README.md)
 
-**Nota:** os arquivos de persistência já recuperados estão em [Tabelas e modelo PostgreSQL](#tabelas-e-modelo-postgresql), sem cópias redundantes. Referências internas dos documentos originais a arquivos fora deste conjunto podem continuar apontando para conteúdo ainda não recuperado.
+**Nota:** os arquivos de persistência já recuperados estão em [Tabelas e modelo PostgreSQL](#modelo-de-persistência-postgresql), sem cópias redundantes. Referências internas dos documentos originais a arquivos fora deste conjunto podem continuar apontando para conteúdo ainda não recuperado.
