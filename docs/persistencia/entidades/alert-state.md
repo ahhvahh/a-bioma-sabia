@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.alert_state`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -51,6 +54,10 @@ Antes de decidir alerta/lembrete, o Alert Manager lê o estado anterior e `last_
 - decidir se `last_notified_at` é atualizado ao criar a entrega ou somente após confirmação remota;
 - decidir retenção quando um `schedule_id` deixa de existir no YAML.
 
+## Verificação de consistência
+
+O agendamento é identificado por `schedule_id` no YAML, **sem tabela `schedule` ou FK correspondente**. O estado `UNKNOWN` inclui falhas técnicas e timeout. O instante de atualizar `last_notified_at` e a retenção de agendamentos removidos continuam em aberto. Consulte [fluxo do Scheduler](../../especificacao/fluxos/monitoramento-agendado.md) e [pendências](../pendencias.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `schedule_id` (identificador no YAML; sem FK física para `schedule`).
@@ -58,3 +65,5 @@ Antes de decidir alerta/lembrete, o Alert Manager lê o estado anterior e `last_
 - **Índice proposto:** `(last_evaluated_at)` para relatórios de monitoramento. O momento de atualizar `last_notified_at` está em aberto.
 
 **Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/alert-state.md).

@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.inbound_update`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -57,11 +60,15 @@ A tentativa de inserir uma combinação já existente representa update duplicad
 
 **Proposta desta reorganização:** conservar a FK apenas em `request.inbound_update_id`, sem coluna redundante `inbound_update.request_id`. Esta escolha ainda requer aprovação da direção física final.
 
-## Emenda normativa 2026-10-21 — recuperação sem perda
+## Regra de recuperação — decisão de 21/10/2026
 
-Os campos obrigatórios `raw_update jsonb NOT NULL` e `processing_status text NOT NULL` já foram incorporados à tabela de campos acima. O payload inclui o objeto Telegram Update integral, sem token. A chave de unicidade `(client_id, transport, transport_update_id)` continua obrigatória.
+A decisão de 21/10/2026 exige o objeto Telegram Update integral em `raw_update` e um ciclo controlado em `processing_status`. O quadro de campos acima incorpora ambos e mantém a unicidade por cliente, transporte e atualização.
 
 Inserir `raw_update` e avançar `transport_cursor.last_update_id` na **mesma transação**. O offset só avança após commit. Reprocessamentos após queda leem `raw_update` localmente. Um claim/lock por update impede processamento concorrente, e resultado existente não deve gerar segunda execução. `raw_update` contém dados pessoais: restringir acesso, excluir dos logs e definir purge seguro depois de todos os trabalhos correlacionados.
+
+## Verificação de consistência
+
+O exemplo acima ilustra apenas a estrutura mínima de `raw_update`; na operação, deve ser persistido o **objeto integral** recebido da API Telegram, sem token. A relação opcional com `request` está em revisão: não definir duas FKs opostas sem decisão explícita. Consulte [request](request.md), [cursor](transport-cursor.md) e [pendências](../pendencias.md).
 
 ## Chaves, índices e integridade física
 
@@ -70,3 +77,5 @@ Inserir `raw_update` e avançar `transport_cursor.last_update_id` na **mesma tra
 - **Índice proposto:** `(processing_status, accepted_at)` para retomada; `raw_update` deve ser acessível apenas ao serviço.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/inbound-update.md).

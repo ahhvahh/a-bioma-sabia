@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.media_transmission`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -59,6 +62,10 @@ Transmissões elegíveis devem ser removidas explicitamente antes da mídia ou d
 
 Decidir se a consistência `media.request_id == media_transmission.request_id` será garantida por restrição de banco ou apenas pela aplicação.
 
+## Verificação de consistência
+
+`streamed_bytes = media.total_bytes` indica término do streaming local, **não** confirmação remota: só registrar `delivered` depois de obter sucesso do transporte. É obrigatória a coerência entre `media.request_id` e `media_transmission.request_id`, mas sua implementação por FK composta ou validação transacional segue **BLOCKED**. Consulte [mídia](media.md) e [pendências](../pendencias.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `transmission_id`; **FKs:** `media_id → media.media_id` e `request_id → request.request_id` com `ON DELETE RESTRICT`.
@@ -67,3 +74,5 @@ Decidir se a consistência `media.request_id == media_transmission.request_id` s
 - **BLOCKED:** garantir que `media_transmission.request_id` coincida com `media.request_id` (restrição composta ou validação transacional).
 
 **Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/media-transmission.md).

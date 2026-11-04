@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.transport_cursor`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
@@ -50,6 +53,10 @@ No startup/polling, o adaptador lê o cursor e calcula:
 - falha antes do commit não altera o cursor;
 - um cliente não compartilha cursor com outro.
 
+## Verificação de consistência
+
+O identificador lógico `client_id` vem do adaptador configurado, não de uma FK para tabela de bots. A chave `(client_id, transport)` isola os cursores por cliente e transporte; o commit do update e do cursor deve ser atômico. Consulte [entrada recebida](inbound-update.md) e [relacionamentos](../relacionamentos.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `(client_id, transport)`; não criar índice redundante da PK.
@@ -57,3 +64,5 @@ No startup/polling, o adaptador lê o cursor e calcula:
 - **Consulta:** `(client_id, transport)` já é indexado pela PK.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refined` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/transport-cursor.md).

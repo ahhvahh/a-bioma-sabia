@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.job_state_history`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -52,6 +55,10 @@ O histórico elegível deve ser removido explicitamente antes do job corresponde
 
 A política de retenção histórica ainda não está definida.
 
+## Verificação de consistência
+
+O estado corrente pertence a [`job`](job.md); esta tabela conserva eventos de transição, sem substituir o registro anterior. A aplicação deve criar o estado inicial na mesma transação de criação do job. A política de retenção permanece sem decisão, como documentado em [pendências](../pendencias.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `job_state_history_id`; **FK:** `job_id → job.job_id ON DELETE RESTRICT`.
@@ -59,3 +66,5 @@ A política de retenção histórica ainda não está definida.
 - **Imutabilidade:** histórico é somente inserido; alteração de status e inclusão do histórico são uma transação.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/job-state-history.md).

@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.media`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -72,6 +75,10 @@ Ainda não está definido:
 
 - seleção de foto e de-para final de `name`/`content_type` para mídia Telegram.
 
+## Verificação de consistência
+
+`size_bytes` e `received_bytes` descrevem conteúdo persistido, enquanto `total_bytes` representa o total esperado. Mídia `chunked` somente pode ser entregue com `completed = true`. Os limites documentados são **20.000.000 bytes** para ingestão simples e **50.000.000 bytes** para total fracionado; cada chunk aceita até **5.000.000 bytes**. Consulte [chunks](media-chunk.md) e [transmissões](media-transmission.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `media_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT`.
@@ -80,3 +87,5 @@ Ainda não está definido:
 - **Regra de tamanho:** canal simples até 20.000.000 bytes; canal fracionado até 50.000.000 bytes no total.
 
 **Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/media.md).

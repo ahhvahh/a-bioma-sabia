@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.outbound_message`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -78,6 +81,10 @@ Recovery reenvia o texto já materializado em `content`; não precisa reconstrui
 
 Antes de refinar esta entidade é necessário decidir como mensagens de alerta são correlacionadas e persistidas. Não deve ser criada `request` sintética, tornar `request_id` nulo ou adicionar outra chave de correlação sem decisão explícita.
 
+## Verificação de consistência
+
+`delivered` exige confirmação do transporte registrada com `remote_message_id`; `sending` não prova entrega. Após falha ambígua e reinício, o reenvio pode ser repetido (semântica *at-least-once*). A geração de alertas sem `request_id` continua **BLOCKED**; nenhuma request sintética foi definida. Consulte [concorrência](../concorrencia.md) e [pendências](../pendencias.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `outbound_message_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT`.
@@ -85,3 +92,5 @@ Antes de refinar esta entidade é necessário decidir como mensagens de alerta s
 - **Índice proposto:** `(status, available_at, outbound_message_id)` para claim de envios; `request_id` deve ser indexado.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/outbound-message.md).

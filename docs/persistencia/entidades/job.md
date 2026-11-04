@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.job`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
@@ -61,6 +64,10 @@ Uma mesma `request_id` pode possuir zero ou vários jobs. `job.request_id` não 
 
 O job deve ser removido explicitamente pelo processo de limpeza antes da remoção da `request`. Não existe `CASCADE` nem `SET NULL` no MVP.
 
+## Verificação de consistência
+
+Um `request_id` pode originar **mais de um job**; por isso, não criar `UNIQUE(job.request_id)`. A criação inicial e as transições de estado atualizam [histórico](job-state-history.md) na mesma transação. A reserva concorrente segue [PST-0003](../concorrencia.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `job_id`; **FK:** `request_id → request.request_id ON DELETE RESTRICT` (N jobs por request).
@@ -68,3 +75,5 @@ O job deve ser removido explicitamente pelo processo de limpeza antes da remoç�
 - **Índices propostos:** `(status, created_at, job_id)` para claim; `(request_id)` para correlação.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refined` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/job.md).

@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.request`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -106,6 +109,10 @@ A entidade é a fonte de correlação para:
 - construção de transmissões e respostas;
 - autorização de visibilidade de jobs.
 
+## Verificação de consistência
+
+O campo `arguments` é obrigatório no modelo: sem parâmetros, registrar um array vazio. `request.status` descreve somente o tratamento pelo Core; a conclusão do job e das entregas é independente. A unicidade de `inbound_update_id` continua **proposta** até a aprovação da direção física da associação. Consulte [relacionamentos](../relacionamentos.md) e [pendências](../pendencias.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `request_id` (`uuid` gerado pelo Sabiá).
@@ -113,3 +120,5 @@ A entidade é a fonte de correlação para:
 - **Índices propostos:** `(client_id, principal_id, received_at DESC)`; `(status, updated_at)` para recovery.
 
 **Estado do DDL:** proposta de tabela; nenhum SQL de migração foi executado.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refinement` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/request.md).

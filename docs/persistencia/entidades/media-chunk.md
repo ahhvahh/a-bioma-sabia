@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Entidade `sabia.media_chunk`
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
@@ -56,6 +59,10 @@ Na transmissão, ler por `media_id` em `sequence_id ASC` e produzir stream cont�
 
 Chunks são removidos explicitamente pelo fluxo de limpeza; a exclusão da mídia não remove chunks automaticamente.
 
+## Verificação de consistência
+
+A chave composta `(media_id, sequence_id)` determina unicidade e ordem; rejeitar parte repetida ou fora da sequência esperada. Inserção de `media_chunk`, atualização dos contadores da [mídia](media.md) e avanço de `next_sequence_id` devem pertencer à mesma transação. Consulte o [contrato de ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md).
+
 ## Chaves, índices e integridade física
 
 - **PK:** `(media_id, sequence_id)`; **FK:** `media_id → media.media_id ON DELETE RESTRICT`.
@@ -63,3 +70,5 @@ Chunks são removidos explicitamente pelo fluxo de limpeza; a exclusão da mídi
 - **Acesso:** leitura por `(media_id, sequence_id ASC)` usa a ordem da PK, sem índice duplicado.
 
 **Estado do DDL:** proposta em revisão; nenhuma tabela foi criada.
+
+**Situação documental:** ficha revisada no A-Bioma Doc Standard; `refined` é o estado de refinamento original, não prova de implementação. **Origem histórica:** [PST correspondente em `develop`](https://github.com/ahhvahh/a-bioma-sabia/blob/96427358088a6663176f0fb96de6b14166f975e4/docs/especificacao/persistencia/entidades/media-chunk.md).
