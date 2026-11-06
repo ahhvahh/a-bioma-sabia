@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Requisitos de testes
+
+> **Conteúdo lido e migrado para:** [REF-003 — documento canônico](../../referencia/REF-003-requisitos-testes.md). A identificação histórica `REQ-0002` permanece preservada neste arquivo.
 
 **ID:** REQ-0002  
 **Status:** refined

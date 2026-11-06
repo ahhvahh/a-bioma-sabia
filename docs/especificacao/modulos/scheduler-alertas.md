@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Scheduler e Alert Manager
+
+> **Conteúdo lido e migrado para:** [ARQ-009 — documento canônico](../../arquitetura/ARQ-009-scheduler-alertas.md). A identificação histórica `MOD-0005` permanece preservada neste arquivo.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0005-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

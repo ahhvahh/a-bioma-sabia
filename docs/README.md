@@ -36,8 +36,9 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `ARQ` | Contexto, componentes e módulos de arquitetura | [ARQ-001 — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) |
 | `CONTR` | Contratos técnicos | [CONTR-001 — Comando interno](contratos/CONTR-001-comando-interno.md) |
 | `FLUX` | Fluxos de execução e sequência | [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) |
+| `REF` | Referências de configuração, escopo e testes | [REF-001 — Modelo de configuração](referencia/REF-001-modelo-configuracao.md) |
 
-Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` e `DSG-0002` permanecem como referências históricas; a documentação canônica utiliza prefixos `DEC` e `ARQ`.
+Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a `MOD-0008`, `CFG-0001` e `REQ-0001` a `REQ-0002` permanecem como referências históricas; os documentos canônicos usam prefixos `DEC`, `ARQ` e `REF` conforme a categoria.
 
 ## Especificações técnicas recuperadas da `develop`
 
@@ -70,16 +71,16 @@ Os arquivos `ARQ` concentram os desenhos canônicos; os `DSG` originais permanec
 
 ### Módulos
 
-As especificações de módulos migradas estão em `docs/arquitetura/`; as demais continuam em `docs/especificacao/modulos/` até revisão posterior.
+As oito especificações históricas `MOD` foram incorporadas aos documentos canônicos em `docs/arquitetura/`; os originais permanecem disponíveis para rastreabilidade.
 
 - [ARQ-003 (MOD-0001) — Core e Command Router](arquitetura/ARQ-003-core-command-router.md) — `refined`
-- [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
+- [ARQ-008 (MOD-0002) — Adaptador Telegram](arquitetura/ARQ-008-adaptador-telegram.md) — `refinement`
 - [ARQ-004 (MOD-0003) — Registro e execução de scripts](arquitetura/ARQ-004-registro-execucao-scripts.md) — `refined`
 - [ARQ-005 (MOD-0004) — Jobs](arquitetura/ARQ-005-jobs.md) — `refined`
-- [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
+- [ARQ-009 (MOD-0005) — Scheduler e Alert Manager](arquitetura/ARQ-009-scheduler-alertas.md) — `refinement`
 - [ARQ-006 (MOD-0006) — Segurança e autorização](arquitetura/ARQ-006-seguranca-autorizacao.md) — `refined`
 - [ARQ-007 (MOD-0007) — Processadores assíncronos e transporte](arquitetura/ARQ-007-processadores-assincronos.md) — `refined`
-- [MOD-0008 — Ingestão e armazenamento de mídia](especificacao/modulos/ingestao-midia.md) — `refinement`
+- [ARQ-010 (MOD-0008) — Ingestão e armazenamento de mídia](arquitetura/ARQ-010-ingestao-midia.md) — `refinement`
 
 ### Contratos
 
@@ -113,9 +114,11 @@ Os [fluxos canônicos](fluxos/README.md) contêm diagramas de sequência e prese
 
 ### Configuração e requisitos
 
-- [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md) — `refinement`
-- [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md) — `refined`
-- [REQ-0002 — Requisitos de testes](especificacao/requisitos/testes.md) — `refined`
+Os documentos canônicos correspondentes estão no [índice de referências técnicas](referencia/README.md). Configurações em `refinement` ainda contêm decisões `BLOCKED`.
+
+- [REF-001 (CFG-0001) — Modelo de configuração](referencia/REF-001-modelo-configuracao.md) — `refinement`
+- [REF-002 (REQ-0001) — Escopo do primeiro MVP](referencia/REF-002-escopo-primeiro-mvp.md) — `refined`
+- [REF-003 (REQ-0002) — Requisitos de testes](referencia/REF-003-requisitos-testes.md) — `refined`
 
 ## Revisão Telegram 2026-10-21
 

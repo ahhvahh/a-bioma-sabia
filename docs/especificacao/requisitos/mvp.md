@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Escopo do primeiro MVP
+
+> **Conteúdo lido e migrado para:** [REF-002 — documento canônico](../../referencia/REF-002-escopo-primeiro-mvp.md). A identificação histórica `REQ-0001` permanece preservada neste arquivo.
 
 **ID:** REQ-0001  
 **Status:** refined

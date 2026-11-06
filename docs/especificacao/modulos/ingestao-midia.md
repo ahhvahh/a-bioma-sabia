@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Ingestão e armazenamento de mídia
+
+> **Conteúdo lido e migrado para:** [ARQ-010 — documento canônico](../../arquitetura/ARQ-010-ingestao-midia.md). A identificação histórica `MOD-0008` permanece preservada neste arquivo.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0008-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

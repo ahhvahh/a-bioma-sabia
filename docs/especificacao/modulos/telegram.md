@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Adaptador Telegram
+
+> **Conteúdo lido e migrado para:** [ARQ-008 — documento canônico](../../arquitetura/ARQ-008-adaptador-telegram.md). A identificação histórica `MOD-0002` permanece preservada neste arquivo.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0002-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Modelo de configuração
+
+> **Conteúdo lido e migrado para:** [REF-001 — documento canônico](../../referencia/REF-001-modelo-configuracao.md). A identificação histórica `CFG-0001` permanece preservada neste arquivo.
 
 **ID:** CFG-0001  
 **Status:** refinement
