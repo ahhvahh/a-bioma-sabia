@@ -38,13 +38,13 @@ Representar ações e caminhos de menu específicos de cada bot, vinculados a sc
 
 Somente scripts aprovados e operações autorizadas podem ser executados; validade exige aplicação e checagem por cliente/bot. Permissões finas por ação ainda estão em definição.
 
-**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../pendencias.md) e [índice](README.md).
+**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../PERS-002-pendencias-modelo-fisico.md) e [índice](README.md).
 
 ## Limites da revisão
 
 **Pendente:** a relação com `script_registry` só é válida após aprovação do cadastro de scripts. Autorização fina por ação, publicação de menu e compatibilidade com YAML permanecem em definição.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 

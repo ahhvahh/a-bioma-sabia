@@ -61,7 +61,7 @@ Decidir se a consistência `media.request_id == media_transmission.request_id` s
 
 ## Verificação de consistência
 
-`streamed_bytes = media.total_bytes` indica término do streaming local, **não** confirmação remota: só registrar `delivered` depois de obter sucesso do transporte. É obrigatória a coerência entre `media.request_id` e `media_transmission.request_id`, mas sua implementação por FK composta ou validação transacional segue **BLOCKED**. Consulte [mídia](ENT-008-media.md) e [pendências](../pendencias.md).
+`streamed_bytes = media.total_bytes` indica término do streaming local, **não** confirmação remota: só registrar `delivered` depois de obter sucesso do transporte. É obrigatória a coerência entre `media.request_id` e `media_transmission.request_id`, mas sua implementação por FK composta ou validação transacional segue **BLOCKED**. Consulte [mídia](ENT-008-media.md) e [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -76,7 +76,7 @@ Decidir se a consistência `media.request_id == media_transmission.request_id` s
 
 **Bloqueio DB-05:** a coerência entre o `request_id` da transmissão e o da mídia referenciada precisa de restrição física ou validação transacional aprovada.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

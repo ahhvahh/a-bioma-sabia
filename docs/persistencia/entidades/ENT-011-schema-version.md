@@ -50,7 +50,7 @@ O mecanismo concreto de migração não está definido. Se a ferramenta adotada 
 
 **Decisão condicional:** a criação desta tabela depende da escolha do migrador. Se ele mantiver tabela própria de versionamento, a proposta deve ser descartada para impedir duas fontes de verdade. Não há migração executada ou mecanismo escolhido.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 

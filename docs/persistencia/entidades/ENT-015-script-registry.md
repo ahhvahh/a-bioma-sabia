@@ -39,13 +39,13 @@ Catalogar scripts submetidos pelo operador, validade e aprovação antes da asso
 
 Conteúdo binário do script não é definido aqui; armazenamento e política de teste/versões ainda precisam de decisão. Cadastro não executa o arquivo.
 
-**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../pendencias.md) e [índice](README.md).
+**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../PERS-002-pendencias-modelo-fisico.md) e [índice](README.md).
 
 ## Limites da revisão
 
 **Pendente:** o armazenamento físico, versionamento dos scripts, avaliação em sandbox e sincronização com o cadastro YAML precisam de contrato administrativo. Os status da tabela são proposta, não transições aprovadas.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 

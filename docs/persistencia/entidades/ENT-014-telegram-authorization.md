@@ -35,13 +35,13 @@ Persistir autorização efetiva por cliente e identidade Telegram.
 
 Não inferir autorização pela existência do contato. Reconciliar precedência com `telegram.clients.allowed_users` do YAML antes de implantar.
 
-**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../pendencias.md) e [índice](README.md).
+**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../PERS-002-pendencias-modelo-fisico.md) e [índice](README.md).
 
 ## Limites da revisão
 
 **Pendente:** nenhuma autorização pode ser inferida pelo cadastro do contato. A precedência entre `telegram.clients.allowed_users` (YAML) e autorizações persistentes ainda não foi aprovada.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 

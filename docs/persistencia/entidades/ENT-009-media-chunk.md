@@ -72,7 +72,7 @@ A chave composta `(media_id, sequence_id)` determina unicidade e ordem; rejeitar
 
 **Integridade de chunks:** sequência e atualização de contadores pertencem à mesma transação. O identificador composto mantém ordem; não assumir migração SQL disponível.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

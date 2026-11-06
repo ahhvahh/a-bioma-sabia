@@ -37,13 +37,13 @@ Guardar pedidos de autorização por bot e a decisão do operador.
 
 Confirmar Y/N é regra de interface; decisão precisa ser auditável e atômica. Política de reenvio depois da rejeição ainda pendente.
 
-**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../pendencias.md) e [índice](README.md).
+**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../PERS-002-pendencias-modelo-fisico.md) e [índice](README.md).
 
 ## Limites da revisão
 
 **Pendente:** o índice UNIQUE parcial evita mais de um pedido `pending` por bot/usuário, mas reenvio após rejeição e política de auditoria precisam de decisão. A confirmação Y/N é um requisito de interface, não uma regra SQL implementada.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 

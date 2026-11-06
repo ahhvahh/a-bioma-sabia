@@ -35,13 +35,13 @@ Registrar o contato reconhecido por `/start` sem aprová-lo automaticamente.
 
 Um contato não implica autorização. A necessidade de guardar múltiplos destinos por contato ainda precisa ser decidida.
 
-**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../pendencias.md) e [índice](README.md).
+**Não executar migração SQL com base nesta proposta antes da aprovação do modelo e da compatibilidade com YAML e contratos administrativos.** Ver [pendências](../PERS-002-pendencias-modelo-fisico.md) e [índice](README.md).
 
 ## Limites da revisão
 
 **Limite de autorização:** registrar um contato em `/start` não concede acesso. O identificador de bot permanece lógico, sem tabela de clientes aprovada. Múltiplos destinos por contato e retenção seguem pendentes.
 
-A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../pendencias.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
+A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações **propostos**. Não aprova DDL, chaves adicionais nem migrações. Consulte [pendências físicas](../PERS-002-pendencias-modelo-fisico.md), [relacionamentos](../PERS-001-relacionamentos.md) e [índice das entidades](README.md).
 
 ## Rastreabilidade
 
