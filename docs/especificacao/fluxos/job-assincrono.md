@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Job assíncrono
+
+> **Conteúdo lido e migrado para:** [FLUX-002 — documento canônico](../../fluxos/FLUX-002-job-assincrono.md). O original `FLW-0002` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0002-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -19,7 +24,7 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 - [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
 - [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
 
 ## Gatilho
 

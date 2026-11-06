@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Comando Telegram
+
+> **Conteúdo lido e migrado para:** [FLUX-001 — documento canônico](../../fluxos/FLUX-001-comando-telegram.md). O original `FLW-0001` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0001-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -13,7 +18,7 @@ Processar um comando recebido por um cliente Telegram até sua resposta, preserv
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 - [MOD-0001 — Core e Command Router](../modulos/core-command-router.md)
 - [CTR-0001 — Comando interno](../contratos/comando-interno.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
 - [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
 
 ## Gatilho

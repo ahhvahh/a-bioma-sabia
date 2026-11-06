@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Encerramento do serviço
+
+> **Conteúdo lido e migrado para:** [FLUX-004 — documento canônico](../../fluxos/FLUX-004-encerramento-servico.md). O original `FLW-0004` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0004-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

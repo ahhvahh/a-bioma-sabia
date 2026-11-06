@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Monitoramento agendado
+
+> **Conteúdo lido e migrado para:** [FLUX-003 — documento canônico](../../fluxos/FLUX-003-monitoramento-agendado.md). O original `FLW-0003` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0003-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

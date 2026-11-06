@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Processamento assíncrono por processador registrado
+
+> **Conteúdo lido e migrado para:** [FLUX-005 — documento canônico](../../fluxos/FLUX-005-processamento-assincrono.md). O original `FLW-0005` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0005-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
