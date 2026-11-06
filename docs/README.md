@@ -34,6 +34,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 |---|---|---|
 | `DEC` | Decisão arquitetural (MADR/ADR) | [DEC-001 — Go e binário único](decisoes/DEC-001-go-binario-unico-linux.md) |
 | `ARQ` | Contexto, componentes e módulos de arquitetura | [ARQ-001 — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) |
+| `CONTR` | Contratos técnicos | [CONTR-001 — Comando interno](contratos/CONTR-001-comando-interno.md) |
 
 Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` e `DSG-0002` permanecem como referências históricas; a documentação canônica utiliza prefixos `DEC` e `ARQ`.
 
@@ -81,16 +82,18 @@ As especificações de módulos migradas estão em `docs/arquitetura/`; as demai
 
 ### Contratos
 
-- [CTR-0001 — Comando interno](especificacao/contratos/comando-interno.md) — `refined`
-- [CTR-0002 — Execução de script](especificacao/contratos/execucao-script.md) — `refined`
-- [CTR-0003 — Job](especificacao/contratos/job.md) — `refined`
-- [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refinement`
-- [CTR-0005 — Protocolo de processador assíncrono](especificacao/contratos/processador-assincrono.md) — `refined`
-- [CTR-0006 — Mídia persistida](especificacao/contratos/midia-persistida.md) — `refined`
-- [CTR-0007 — Transmissão persistente de mídia](especificacao/contratos/transmissao-midia.md) — `refined`
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](especificacao/contratos/ingestao-midia-messagepack.md) — `refinement`
-- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](especificacao/contratos/ingestao-midia-fracionada.md) — `refinement`
-- [CTR-0010 — Origem e conversão dos dados persistentes](especificacao/contratos/origem-dados-persistencia.md) — `refinement`
+Os [contratos canônicos](contratos/README.md) foram revisados documentalmente. Os registros `CTR` originais permanecem preservados; contratos em `refinement` e cláusulas `BLOCKED` ainda exigem decisões técnicas.
+
+- [CONTR-001 (CTR-0001) — Comando interno](contratos/CONTR-001-comando-interno.md) — `refined`
+- [CONTR-002 (CTR-0002) — Execução de script](contratos/CONTR-002-execucao-script.md) — `refined`
+- [CONTR-003 (CTR-0003) — Job](contratos/CONTR-003-job.md) — `refined`
+- [CONTR-004 (CTR-0004) — Auditoria e logs](contratos/CONTR-004-auditoria-logs.md) — `refinement`
+- [CONTR-005 (CTR-0005) — Protocolo de processador assíncrono](contratos/CONTR-005-processador-assincrono.md) — `refined`
+- [CONTR-006 (CTR-0006) — Mídia persistida](contratos/CONTR-006-midia-persistida.md) — `refined`
+- [CONTR-007 (CTR-0007) — Transmissão persistente de mídia](contratos/CONTR-007-transmissao-midia.md) — `refined`
+- [CONTR-008 (CTR-0008) — Ingestão de mídia por Unix socket e MessagePack](contratos/CONTR-008-ingestao-midia-messagepack.md) — `refinement`
+- [CONTR-009 (CTR-0009) — Ingestão fracionada de mídia por Unix socket](contratos/CONTR-009-ingestao-midia-fracionada.md) — `refinement`
+- [CONTR-010 (CTR-0010) — Origem e conversão dos dados persistentes](contratos/CONTR-010-origem-dados-persistencia.md) — `refinement`
 
 ### Fluxos
 
