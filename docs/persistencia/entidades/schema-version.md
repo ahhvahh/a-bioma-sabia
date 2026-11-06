@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Entidade `sabia.schema_version`
+
+> **Conteúdo lido e migrado para:** [ENT-011 — `sabia.schema_version`](ENT-011-schema-version.md). O identificador histórico e as decisões pendentes permanecem preservados neste original.
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 

@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Entidade proposta `sabia.telegram_contact`
+
+> **Conteúdo lido e migrado para:** [ENT-012 — `sabia.telegram_contact`](ENT-012-telegram-contact.md). O identificador histórico e as decisões pendentes permanecem preservados neste original.
 
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-proposta_v0.1-6e7781?style=flat-square)
 

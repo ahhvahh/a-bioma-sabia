@@ -44,7 +44,7 @@ A versão mínima do PostgreSQL **não está fixada** na documentação. Os nome
 | `media` | [media](entidades/media.md) |
 | `media_chunk` | [media-chunk](entidades/media-chunk.md) |
 | `media_transmission` | [media-transmission](entidades/media-transmission.md) |
-| `schema_version` | [schema-version](entidades/schema-version.md) |
+| `schema_version` | [schema-version](entidades/ENT-011-schema-version.md) |
 
 `schema_version` é **condicional**: não deve existir se o mecanismo de migração possuir tabela própria.
 
@@ -52,11 +52,11 @@ A versão mínima do PostgreSQL **não está fixada** na documentação. Os nome
 
 | Modelo proposto | Ficha |
 |---|---|
-| `telegram_contact` | [Contatos Telegram](entidades/telegram-contact.md) |
-| `telegram_access_request` | [Solicitações de acesso](entidades/telegram-access-request.md) |
-| `telegram_authorization` | [Autorização por bot](entidades/telegram-authorization.md) |
-| `script_registry` | [Registro e validação de scripts](entidades/script-registry.md) |
-| `action_catalog` | [Catálogo persistente de ações](entidades/action-catalog.md) |
+| `telegram_contact` | [Contatos Telegram](entidades/ENT-012-telegram-contact.md) |
+| `telegram_access_request` | [Solicitações de acesso](entidades/ENT-013-telegram-access-request.md) |
+| `telegram_authorization` | [Autorização por bot](entidades/ENT-014-telegram-authorization.md) |
+| `script_registry` | [Registro e validação de scripts](entidades/ENT-015-script-registry.md) |
+| `action_catalog` | [Catálogo persistente de ações](entidades/ENT-016-action-catalog.md) |
 
 Esses **cinco modelos são sugestões físicas**, pois o [documento de origem](https://github.com/ahhvahh/a-bioma-sabia/blob/e1858c007f88974bc7968d16f7092b645d8d9d18/docs/persistencia.md) registra essas capacidades como ainda não definidas em nível de tabelas. Não são entidades aprovadas ou existentes. Assinaturas por evento, auditoria detalhada e arquivos administrativos continuam pendentes de contrato físico.
 
@@ -68,5 +68,7 @@ Esses **cinco modelos são sugestões físicas**, pois o [documento de origem](h
 - O Sabiá persiste estados, filas, mídia e correlações em PostgreSQL; `media.data` e `media_chunk.data` usam `bytea`.
 - Todas as relações operacionais propostas usam `ON DELETE RESTRICT`; não há cascata automática e retenção/purge ainda precisa de decisão.
 - **Não implementar** propostas com status `BLOCKED` sem resolver sua definição.
+
+**Classificação:** as propostas `PST-P01` a `PST-P05` e a tabela condicional `PST-0111` possuem fichas canônicas `ENT-011` a `ENT-016`; os originais foram preservados.
 
 **Referências internas:** [segurança](../arquitetura/ARQ-006-seguranca-autorizacao.md), [interfaces](../interfaces-servicos.md), [pendências gerais](../pendencias.md), [ADR-0009](../decisoes/DEC-009-postgresql-estado-operacional.md).
