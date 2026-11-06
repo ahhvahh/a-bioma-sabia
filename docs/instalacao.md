@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Instalação — situação e requisitos
+
+> **Conteúdo lido e migrado para:** [GUIA-001 — documento canônico](guias/GUIA-001-preparar-instalacao.md). O texto histórico permanece disponível para rastreabilidade; especificações em aberto não foram aprovadas.
 
 > **Não há instalação reproduzível nesta branch.** Em 03/11/2026, `develop` não possui `/src`, `go.mod`, executável, unit systemd ou migrações executáveis. Não executar comandos de compilação ou instalação como se estivessem validados.
 
@@ -38,7 +43,7 @@ Essas são etapas **planejadas**, sem comandos de instalação comprovados. Conf
 ## Referências técnicas
 
 - [Modelo de configuração — CFG-0001](especificacao/configuracao/modelo-configuracao.md)
-- [Serviço planejado — SVC-001](implementation/services/SVC-001-sabia/SVC-001-sabia.md)
-- [Viabilidade Debian/systemd — DSC-003](charter/discovery/debian-systemd/DSC-003-viabilidade-do-servico-linux.md)
+- `SVC-001 — Serviço planejado` (documento histórico não recuperado nesta branch)
+- `DSC-003 — Viabilidade Debian/systemd` (documento histórico não recuperado nesta branch)
 - [Pendências que impedem a implantação](pendencias.md)
 - [Segurança e permissões planejadas](seguranca-acessos.md)

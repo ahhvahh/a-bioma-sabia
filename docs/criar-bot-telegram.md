@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Criar um bot do Telegram para o Sabiá
+
+> **Conteúdo lido e migrado para:** [GUIA-002 — documento canônico](guias/GUIA-002-criar-bot-telegram.md). O texto histórico permanece disponível para rastreabilidade; especificações em aberto não foram aprovadas.
 
 Este guia mostra como **criar um bot no Telegram** e preparar suas informações para futura integração com o **A-Bioma Sabiá**. Criar o bot no Telegram já é possível; a integração automática com o Sabiá **ainda não está implementada** na branch `develop`.
 

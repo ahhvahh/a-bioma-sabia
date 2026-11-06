@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Guia do usuário — `sabiactl` e Telegram
+
+**Situação desta revisão:** guia de interação **proposta**; comandos, telas administrativas e autorizações ainda dependem de implementação. Links para três referências históricas ausentes foram explicitados, sem criar conteúdo presumido.
 
 > **As telas a seguir são propostas, não capturas de software executável.** Não há `sabiactl` na branch `develop`. O programa de terminal será destinado aos usuários Linux do grupo `absabia` e fará todas as solicitações pelo socket UDS do serviço, nunca pelo PostgreSQL diretamente.
 
@@ -28,11 +33,11 @@ Escolha: _
 
 O administrador escolhe um bot e usa `↑`/`↓` para percorrer as solicitações pendentes. `→` prepara a aprovação; `←` prepara a rejeição/retirada da fila. **Toda decisão exige `Y` para confirmar**; `N` ou `Esc` cancela. A solicitação recusada sai da fila, mas permanece registrada para auditoria.
 
-As telas completas, as confirmações e os casos de erro estão em [Solicitações de acesso](solicitacoes-acesso.md).
+As telas administrativas de solicitação de acesso ainda não possuem documento recuperado nesta branch. O [modelo de solicitação de acesso](persistencia/entidades/telegram-access-request.md) descreve apenas a persistência proposta, não o comportamento da interface.
 
 ## Como cadastrar um script e disponibilizar uma ação no bot
 
-> **Fluxo planejado para o `sabiactl`: as telas, atalhos e confirmações abaixo ainda não são executáveis.** O fluxo existente [FLW-007](01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md) prevê scripts cadastrados e ações persistidas; o **upload com validação prévia e a gestão pelo `sabiactl`** são requisitos novos, cujo contrato administrativo ainda precisa ser implementado.
+> **Fluxo planejado para o `sabiactl`: as telas, atalhos e confirmações abaixo ainda não são executáveis.** A referência histórica `FLW-007` não está disponível nesta branch; a [entidade proposta de catálogo de ações](persistencia/entidades/action-catalog.md) descreve apenas os vínculos de persistência, não o fluxo completo. A especificação prevê scripts cadastrados e ações persistidas; o **upload com validação prévia e a gestão pelo `sabiactl`** são requisitos novos, cujo contrato administrativo ainda precisa ser implementado.
 
 A sequência para o operador será: **selecionar arquivo → verificar → enviar para área de validação → aprovar cadastro do script → escolher bot → cadastrar ação → publicar**. Se o script já tiver sido validado e cadastrado, é possível **pular o envio** e simplesmente selecioná-lo ao criar uma nova ação.
 
@@ -165,8 +170,8 @@ Os contratos existentes distinguem dois modos:
 
 | Modo | Entrada | Saída |
 |---|---|---|
-| Convencional — [CTR-0002](especificacao/contratos/execucao-script.md) | Argumentos validados em `argv` | Texto livre em `stdout`, diagnóstico em `stderr` e código de saída |
-| Processador assíncrono — [CTR-0005](especificacao/contratos/processador-assincrono.md) | `request_id` UUID v4 em uma linha de `stdin`; argumentos validados em `argv` | **Uma mensagem JSON Lines por linha em `stdout`**, com `request_id`, `status` (`loading` ou `finally`) e `message`; diagnóstico em `stderr` |
+| Convencional — [CTR-0002](contratos/CONTR-002-execucao-script.md) | Argumentos validados em `argv` | Texto livre em `stdout`, diagnóstico em `stderr` e código de saída |
+| Processador assíncrono — [CTR-0005](contratos/CONTR-005-processador-assincrono.md) | `request_id` UUID v4 em uma linha de `stdin`; argumentos validados em `argv` | **Uma mensagem JSON Lines por linha em `stdout`**, com `request_id`, `status` (`loading` ou `finally`) e `message`; diagnóstico em `stderr` |
 
 Exemplo de saída válida de um processador assíncrono (o `request_id` deve ser o mesmo que o Sabiá forneceu):
 
@@ -191,7 +196,7 @@ No MVP, o timeout de processador assíncrono é de **2 horas**. Mídia binária 
 | Mudança concorrente por outro operador | Informar conflito e exigir nova revisão |
 | Cancelamento com `N` ou `Esc` | Não aceitar script nem publicar ação |
 
-**Falta implementar:** contratos de upload e validação administrativa, critérios seguros de teste, armazenamento e versionamento de scripts, catálogo persistente de ações e publicação dinâmica. A [configuração atual](especificacao/configuracao/modelo-configuracao.md) ainda descreve registro de scripts no YAML carregado na inicialização; essa regra precisará ser conciliada com a administração pelo `sabiactl` antes de implementar o fluxo acima.
+**Falta implementar:** contratos de upload e validação administrativa, critérios seguros de teste, armazenamento e versionamento de scripts, catálogo persistente de ações e publicação dinâmica. A [configuração atual](referencia/REF-001-modelo-configuracao.md) ainda descreve registro de scripts no YAML carregado na inicialização; essa regra precisará ser conciliada com a administração pelo `sabiactl` antes de implementar o fluxo acima.
 
 
 ### Inspeção de conexões
@@ -274,8 +279,8 @@ Esses comandos constam do escopo, mas seus argumentos, mensagens de retorno e re
 
 ## Fontes da experiência prevista
 
-- [Contrato operacional Telegram e exemplos de botões](telegram-operacao-2026.md)
-- [Fluxo de `/start` e menu — FLW-006](01-Project_Charter/scope/flows/FLW-006-start-registro-de-contato-e-apresentacao-do-menu.md)
-- [Cadastro de ações e execução — FLW-007](01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md)
-- [Escopo do MVP](especificacao/requisitos/mvp.md)
+- [Contrato operacional Telegram e exemplos de botões](referencia/REF-004-operacao-telegram.md)
+- [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) — fluxo disponível; não substitui integralmente o documento histórico `FLW-006`, ausente nesta branch
+- `FLW-007` — referência histórica ausente nesta branch; ver [modelo proposto de ações](persistencia/entidades/action-catalog.md), que não substitui o fluxo administrativo
+- [Escopo do MVP](referencia/REF-002-escopo-primeiro-mvp.md)
 - [Pendências dos contratos operacionais](pendencias.md)

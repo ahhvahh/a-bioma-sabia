@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Relacionamentos das entidades — PostgreSQL
+
+> **Conteúdo lido e migrado para:** [PERS-001 — documento canônico](PERS-001-relacionamentos.md). O texto histórico permanece disponível para rastreabilidade; especificações em aberto não foram aprovadas.
 
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-proposta_v0.1-6e7781?style=flat-square)
 

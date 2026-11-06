@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Sabiá — Contrato operacional Telegram (2026-10-21)
+
+> **Conteúdo lido e migrado para:** [REF-004 — documento canônico](referencia/REF-004-operacao-telegram.md). O texto histórico permanece disponível para rastreabilidade; especificações em aberto não foram aprovadas.
 
 **Referência oficial:** [Telegram Bot API 10.3](https://core.telegram.org/bots/api), publicada em 24/08/2026.
 
