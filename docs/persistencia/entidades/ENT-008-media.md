@@ -89,7 +89,7 @@ Ainda não está definido:
 
 **Limites documentais:** ingestão integral até 20.000.000 bytes; fracionada até 50.000.000 bytes, com chunk até 5.000.000. Entrega fracionada somente após `completed = true`.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

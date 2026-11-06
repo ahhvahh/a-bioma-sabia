@@ -108,7 +108,7 @@ A entidade é a fonte de correlação para:
 
 ## Verificação de consistência
 
-O campo `arguments` é obrigatório no modelo: sem parâmetros, registrar um array vazio. `request.status` descreve somente o tratamento pelo Core; a conclusão do job e das entregas é independente. A unicidade de `inbound_update_id` continua **proposta** até a aprovação da direção física da associação. Consulte [relacionamentos](../PERS-001-relacionamentos.md) e [pendências](../pendencias.md).
+O campo `arguments` é obrigatório no modelo: sem parâmetros, registrar um array vazio. `request.status` descreve somente o tratamento pelo Core; a conclusão do job e das entregas é independente. A unicidade de `inbound_update_id` continua **proposta** até a aprovação da direção física da associação. Consulte [relacionamentos](../PERS-001-relacionamentos.md) e [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -122,7 +122,7 @@ O campo `arguments` é obrigatório no modelo: sem parâmetros, registrar um arr
 
 **Correlação:** não confundir conclusão da request com a dos jobs e entregas associados. A opção `request.inbound_update_id` e sua unicidade permanecem sujeitas à decisão `DB-03`.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

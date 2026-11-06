@@ -54,7 +54,7 @@ A política de retenção histórica ainda não está definida.
 
 ## Verificação de consistência
 
-O estado corrente pertence a [`job`](ENT-004-job.md); esta tabela conserva eventos de transição, sem substituir o registro anterior. A aplicação deve criar o estado inicial na mesma transação de criação do job. A política de retenção permanece sem decisão, como documentado em [pendências](../pendencias.md).
+O estado corrente pertence a [`job`](ENT-004-job.md); esta tabela conserva eventos de transição, sem substituir o registro anterior. A aplicação deve criar o estado inicial na mesma transação de criação do job. A política de retenção permanece sem decisão, como documentado em [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -68,7 +68,7 @@ O estado corrente pertence a [`job`](ENT-004-job.md); esta tabela conserva event
 
 **Histórico:** não substituir nem editar o histórico de transições para refletir o estado corrente. Retenção e integridade transacional dependem de decisões operacionais.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

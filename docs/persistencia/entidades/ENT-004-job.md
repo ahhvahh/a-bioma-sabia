@@ -77,7 +77,7 @@ Um `request_id` pode originar **mais de um job**; por isso, não criar `UNIQUE(j
 
 **Cardinalidade:** uma `request` pode originar vários jobs. O claim e a inclusão de histórico inicial são requisitos documentados; workers não foram verificados nesta branch.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

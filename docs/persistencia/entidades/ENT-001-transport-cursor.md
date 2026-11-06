@@ -66,7 +66,7 @@ O identificador lógico `client_id` vem do adaptador configurado, não de uma FK
 
 **Consistência transacional:** o avanço do cursor e a aceitação durável de `inbound_update` devem integrar uma única transação; esta documentação não comprova transações executadas.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

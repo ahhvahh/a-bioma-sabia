@@ -80,7 +80,7 @@ Antes de refinar esta entidade é necessário decidir como mensagens de alerta s
 
 ## Verificação de consistência
 
-`delivered` exige confirmação do transporte registrada com `remote_message_id`; `sending` não prova entrega. Após falha ambígua e reinício, o reenvio pode ser repetido (semântica *at-least-once*). A geração de alertas sem `request_id` continua **BLOCKED**; nenhuma request sintética foi definida. Consulte [concorrência](../concorrencia.md) e [pendências](../pendencias.md).
+`delivered` exige confirmação do transporte registrada com `remote_message_id`; `sending` não prova entrega. Após falha ambígua e reinício, o reenvio pode ser repetido (semântica *at-least-once*). A geração de alertas sem `request_id` continua **BLOCKED**; nenhuma request sintética foi definida. Consulte [concorrência](../concorrencia.md) e [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -94,7 +94,7 @@ Antes de refinar esta entidade é necessário decidir como mensagens de alerta s
 
 **Bloqueio DB-04:** mensagens do Scheduler sem `request_id` original ainda exigem correlação física. Não pressupor requisição sintética nem entrega garantida.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

@@ -65,7 +65,7 @@ Inserir `raw_update` e avançar `transport_cursor.last_update_id` na **mesma tra
 
 ## Verificação de consistência
 
-O exemplo acima ilustra apenas a estrutura mínima de `raw_update`; na operação, deve ser persistido o **objeto integral** recebido da API Telegram, sem token. A relação opcional com `request` está em revisão: não definir duas FKs opostas sem decisão explícita. Consulte [request](ENT-003-request.md), [cursor](ENT-001-transport-cursor.md) e [pendências](../pendencias.md).
+O exemplo acima ilustra apenas a estrutura mínima de `raw_update`; na operação, deve ser persistido o **objeto integral** recebido da API Telegram, sem token. A relação opcional com `request` está em revisão: não definir duas FKs opostas sem decisão explícita. Consulte [request](ENT-003-request.md), [cursor](ENT-001-transport-cursor.md) e [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -79,7 +79,7 @@ O exemplo acima ilustra apenas a estrutura mínima de `raw_update`; na operaçã
 
 **Recuperação e vínculo:** preservar o `raw_update` integral e o estado de processamento. A direção definitiva da FK para `request` permanece na pendência `DB-03`; não criar duas relações redundantes.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 

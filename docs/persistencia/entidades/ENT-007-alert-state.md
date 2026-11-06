@@ -53,7 +53,7 @@ Antes de decidir alerta/lembrete, o Alert Manager lê o estado anterior e `last_
 
 ## Verificação de consistência
 
-O agendamento é identificado por `schedule_id` no YAML, **sem tabela `schedule` ou FK correspondente**. O estado `UNKNOWN` inclui falhas técnicas e timeout. O instante de atualizar `last_notified_at` e a retenção de agendamentos removidos continuam em aberto. Consulte [fluxo do Scheduler](../../fluxos/FLUX-003-monitoramento-agendado.md) e [pendências](../pendencias.md).
+O agendamento é identificado por `schedule_id` no YAML, **sem tabela `schedule` ou FK correspondente**. O estado `UNKNOWN` inclui falhas técnicas e timeout. O instante de atualizar `last_notified_at` e a retenção de agendamentos removidos continuam em aberto. Consulte [fluxo do Scheduler](../../fluxos/FLUX-003-monitoramento-agendado.md) e [pendências](../PERS-002-pendencias-modelo-fisico.md).
 
 ## Chaves, índices e integridade física
 
@@ -67,7 +67,7 @@ O agendamento é identificado por `schedule_id` no YAML, **sem tabela `schedule`
 
 **Configuração do agendamento:** `schedule_id` vem do YAML, sem FK para tabela de schedules. `last_notified_at`, retries e retenção ainda exigem definição.
 
-Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../pendencias.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
+Todas as decisões físicas pendentes permanecem registradas em [pendências PostgreSQL](../PERS-002-pendencias-modelo-fisico.md). A ficha descreve uma **especificação documental**, não comprova instalação do banco nem aprovação do DDL.
 
 ## Rastreabilidade
 
