@@ -1,4 +1,8 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+
 # A-Bioma Sabiá — Regras consolidadas
+
+> **Absorção parcial:** [REF-005 — Mapa de rastreabilidade](referencia/REF-005-rastreabilidade-regras.md). Os 14 assuntos foram mapeados, mas contratos administrativos e de assinaturas por eventos permanecem incompletos. **Esta origem ainda não recebeu o marcador MIGRADO.**
 
 ![Tipo](https://img.shields.io/badge/Documento-Regras_consolidadas-555555?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-s%C3%ADntese_em_revis%C3%A3o-d4a72c?style=flat-square)

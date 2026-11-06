@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Pendências documentais
+
+> **Conteúdo lido e migrado para:** [REF-006 — Gate de especificação](referencia/REF-006-gate-mvp.md). O original permanece para rastreabilidade histórica.
 
 Este documento consolida somente as lacunas que ainda impedem considerar o gate completo de especificação do MVP satisfeito.
 

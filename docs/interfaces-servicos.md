@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Interfaces e serviços — inventário
+
+> **Conteúdo lido e migrado para:** [ARQ-011 — Canais](arquitetura/ARQ-011-inventario-canais-servicos.md) e [INTF-TERM-001 — Terminal](interfaces/terminal/INTF-TERM-001-sabiactl.md). Os contratos UDS administrativos seguem pendentes.
 
 > **Estado:** interfaces **planejadas/documentadas**, nenhuma comprovadamente executável na branch `develop`, que não contém `/src`. Caminhos, detalhes de implantação e contratos em `refinement` não devem ser tratados como API estável.
 
@@ -41,7 +46,7 @@ A camada UDS é exclusivamente a **porta de entrada**. Somente o serviço `sabia
 
 A UI do `sabiactl` usará uma fila por bot, com consulta paginada de pedidos pendentes e ações de aprovação ou rejeição. A alteração exige confirmação humana (`Y` no terminal), autorização administrativa por cliente e gravação transacional pelo serviço. A API UDS deve suportar listar bots/pendências, listar solicitações de um bot, aprovar e rejeitar pedidos, tratar conflitos entre operadores e retornar estados auditáveis.
 
-**Esses são comportamentos propostos, não nomes de métodos, formato de transporte ou códigos aprovados.** O `sabiactl` não acessa PostgreSQL diretamente. O detalhe da experiência e dos dados necessários está em [Solicitações de acesso](solicitacoes-acesso.md).
+**Esses são comportamentos propostos, não nomes de métodos, formato de transporte ou códigos aprovados.** O `sabiactl` não acessa PostgreSQL diretamente. O detalhe da experiência e dos dados necessários está em `solicitacoes-acesso.md` (documento visual histórico ausente na branch; a [entidade proposta de solicitação](persistencia/entidades/ENT-013-telegram-access-request.md) não substitui o fluxo de interface).
 
 ## Telegram — comandos previstos
 
@@ -52,7 +57,7 @@ A UI do `sabiactl` usará uma fila por bot, com consulta paginada de pedidos pen
 | `/cpu`, `/memory`, `/disk`, `/uptime` | Comando do cliente Bioma | Resultado de operação cadastrada | Argumentos, validações e erros pendentes |
 | `/run`, `/jobs`, `/job` | Comando e possíveis argumentos | Execução/consulta conforme cliente | Sem sintaxe e resposta finais |
 
-Nenhum dos comandos acima está disponível para teste nesta branch. Lista de escopo e navegação: [MVP](especificacao/requisitos/mvp.md) e [uso humano](guia-usuario.md).
+Nenhum dos comandos acima está disponível para teste nesta branch. Lista de escopo e navegação: [MVP](referencia/REF-002-escopo-primeiro-mvp.md) e [uso humano](guia-usuario.md).
 
 ## Socket de mídia integral — CTR-0008 (proposta)
 
@@ -60,7 +65,7 @@ Nenhum dos comandos acima está disponível para teste nesta branch. Lista de es
 |---|---|---|---|
 | Upload integral | `version=1`, `request_id` UUID v4, `name`, `content_type` opcional, `data` binário (até 20.000.000 bytes) | `status=accepted`, `request_id`, `media_id` | `unsupported_version`, `unknown_request`, `invalid_message`, `invalid_content_type`, `media_too_large`, `persistence_failed`, `not_authorized` |
 
-Uma conexão prevê um objeto de pedido e um objeto de resposta. O ACK deve ser posterior ao commit. A mensagem não contém caminho de arquivo, cliente Telegram nem destino de entrega. [Contrato completo](especificacao/contratos/ingestao-midia-messagepack.md).
+Uma conexão prevê um objeto de pedido e um objeto de resposta. O ACK deve ser posterior ao commit. A mensagem não contém caminho de arquivo, cliente Telegram nem destino de entrega. [Contrato completo](contratos/CONTR-008-ingestao-midia-messagepack.md).
 
 ## Socket de mídia fracionada — CTR-0009 (proposta)
 
@@ -69,7 +74,7 @@ Uma conexão prevê um objeto de pedido e um objeto de resposta. O ACK deve ser 
 | Abrir mídia | `version=1`, `request_id`, `name`, `content_type` opcional, `total_bytes` (até 50.000.000) | `accepted`, `media_id`, `next_sequence_id`, contadores | `unknown_request`, `media_too_large`, `invalid_content_type` |
 | Enviar parte | `media_id`, `sequence_id`, `data` (até 5.000.000 bytes) | `accepted`, sequência seguinte, `received_bytes`, `completed` | `unknown_media`, `chunk_too_large`, `sequence_gap`, `sequence_already_received`, `total_bytes_exceeded`, `persistence_failed` |
 
-A ordem começa em `sequence_id=1`; completude é reconhecida automaticamente ao alcançar `total_bytes`. [Contrato completo](especificacao/contratos/ingestao-midia-fracionada.md).
+A ordem começa em `sequence_id=1`; completude é reconhecida automaticamente ao alcançar `total_bytes`. [Contrato completo](contratos/CONTR-009-ingestao-midia-fracionada.md).
 
 ## Processador interno e administração
 
@@ -78,6 +83,6 @@ A ordem começa em `sequence_id=1`; completude é reconhecida automaticamente ao
 | Executar processador registrado | `request_id` UUID v4 em uma linha no `stdin`; argumentos já validados | Eventos `loading` / `finally` em JSON Lines UTF-8 no `stdout` | Somente Bash cadastrado no MVP; timeout documentado de 2h |
 | Cadastrar ação via CLI | Contrato de comando não definido | Retorno não definido | Fluxo conceitual, nenhum comando executável para copiar |
 
-Referências: [CTR-0005](especificacao/contratos/processador-assincrono.md), [fluxo administrativo FLW-007](01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md) e [detalhamento técnico](referencia-contratos.md).
+Referências: [CTR-0005](contratos/CONTR-005-processador-assincrono.md), `FLW-007` (documento histórico ausente nesta branch; ver [terminal proposto](interfaces/terminal/INTF-TERM-001-sabiactl.md)) e [detalhamento técnico](referencia-contratos.md).
 
 **Categorias de falha:** erros de protocolo/validação (MessagePack, versão, sequência), autorização (`not_authorized`), domínio/correlação (`unknown_request`, `unknown_media`) e persistência (`persistence_failed`). Tratamento de falhas reais de transporte ainda não é verificável.

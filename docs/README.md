@@ -13,11 +13,17 @@ Os [guias organizados](guias/README.md) descrevem procedimentos planejados, não
 | Interações do operador e do usuário | [Guia do usuário](guia-usuario.md) |
 | Arquitetura | [Arquitetura](arquitetura.md) |
 | Banco de dados — visão geral | [Persistência](persistencia/readme.md) |
-| Interfaces, sockets e serviços | [Interfaces e serviços](interfaces-servicos.md) |
+| Interfaces, sockets e serviços | [Interfaces e serviços](arquitetura/ARQ-011-inventario-canais-servicos.md) |
 | Contratos técnicos | [Referência de contratos](referencia-contratos.md) |
 | Segurança e grupos Linux | [Segurança e acessos](arquitetura/ARQ-006-seguranca-autorizacao.md) |
-| Regras consolidadas | [Regras consolidadas](regras-consolidadas-sabia.md) |
-| Questões e bloqueios | [Pendências](pendencias.md) |
+| Regras consolidadas | [Rastreabilidade das regras](referencia/REF-005-rastreabilidade-regras.md) · [original legado](regras-consolidadas-sabia.md) |
+| Questões e bloqueios | [Pendências](referencia/REF-006-gate-mvp.md) |
+
+## Interfaces administrativas
+
+- [Inventário de canais e serviços](arquitetura/ARQ-011-inventario-canais-servicos.md)
+- [Terminal administrativo `sabiactl`](interfaces/terminal/INTF-TERM-001-sabiactl.md)
+- [Índice de interfaces](interfaces/README.md)
 
 ## Modelo de persistência PostgreSQL
 
@@ -42,6 +48,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `GUIA` | Procedimentos de preparação e operação | [GUIA-001 — Preparar instalação](guias/GUIA-001-preparar-instalacao.md) |
 | `PERS` | Modelos e relacionamentos de dados | [PERS-001 — Relacionamentos PostgreSQL](persistencia/PERS-001-relacionamentos.md) |
 | `ENT` | Fichas de entidades e campos SQL | [ENT-001 — transport_cursor](persistencia/entidades/ENT-001-transport-cursor.md) |
+| `INTF-TERM` | Interface administrativa de terminal | [INTF-TERM-001 — sabiactl](interfaces/terminal/INTF-TERM-001-sabiactl.md) |
 
 Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a `MOD-0008`, `CFG-0001`, `REQ-0001` a `REQ-0002` e os identificadores `PST` permanecem rastreáveis. Os novos documentos usam `DEC`, `ARQ`, `CONTR`, `FLUX`, `REF`, `GUIA` e `PERS` conforme o assunto.
 

@@ -283,4 +283,4 @@ Esses comandos constam do escopo, mas seus argumentos, mensagens de retorno e re
 - [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) — fluxo disponível; não substitui integralmente o documento histórico `FLW-006`, ausente nesta branch
 - `FLW-007` — referência histórica ausente nesta branch; ver [modelo proposto de ações](persistencia/entidades/action-catalog.md), que não substitui o fluxo administrativo
 - [Escopo do MVP](referencia/REF-002-escopo-primeiro-mvp.md)
-- [Pendências dos contratos operacionais](pendencias.md)
+- [Pendências dos contratos operacionais](referencia/REF-006-gate-mvp.md)

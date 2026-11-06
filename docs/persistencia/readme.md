@@ -71,4 +71,4 @@ Esses **cinco modelos são sugestões físicas**, pois o [documento de origem](h
 
 **Classificação:** as dez fichas operacionais `PST-0101` a `PST-0110` possuem destinos `ENT-001` a `ENT-010`. A proposta condicional `PST-0111` e as cinco propostas `PST-P01` a `PST-P05` possuem destinos `ENT-011` a `ENT-016`. Os 16 originais foram preservados.
 
-**Referências internas:** [segurança](../arquitetura/ARQ-006-seguranca-autorizacao.md), [interfaces](../interfaces-servicos.md), [pendências gerais](../pendencias.md), [ADR-0009](../decisoes/DEC-009-postgresql-estado-operacional.md).
+**Referências internas:** [segurança](../arquitetura/ARQ-006-seguranca-autorizacao.md), [interfaces](../arquitetura/ARQ-011-inventario-canais-servicos.md), [pendências gerais](../referencia/REF-006-gate-mvp.md), [ADR-0009](../decisoes/DEC-009-postgresql-estado-operacional.md).
