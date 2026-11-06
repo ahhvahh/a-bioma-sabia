@@ -56,6 +56,6 @@ O painel deverá diferenciar: conexões UDS ativas, sessões administrativas loc
 - [Componentes do Core](arquitetura/ARQ-002-componentes-core.md)
 - [Fluxo Telegram](fluxos/FLUX-001-comando-telegram.md)
 - [Interfaces e contratos UDS](interfaces-servicos.md)
-- [Segurança e grupos Linux](seguranca-acessos.md)
+- [Segurança e grupos Linux](arquitetura/ARQ-006-seguranca-autorizacao.md)
 - [Persistência PostgreSQL](persistencia/readme.md)
 - [Pendências de refinamento](pendencias.md)

@@ -7,6 +7,7 @@
 | [REF-001 — Modelo de configuração](REF-001-modelo-configuracao.md) | `CFG-0001` | `refinement` | [Original](../especificacao/configuracao/modelo-configuracao.md) |
 | [REF-002 — Escopo do primeiro MVP](REF-002-escopo-primeiro-mvp.md) | `REQ-0001` | `refined` | [Original](../especificacao/requisitos/mvp.md) |
 | [REF-003 — Requisitos de testes](REF-003-requisitos-testes.md) | `REQ-0002` | `refined` | [Original](../especificacao/requisitos/testes.md) |
+| [REF-004 — Regras operacionais do Telegram](REF-004-operacao-telegram.md) | Operação Telegram (21/10/2026) | Histórico; não revalidado nesta revisão | [Original](../telegram-operacao-2026.md) |
 
 ## Pendências documentais
 

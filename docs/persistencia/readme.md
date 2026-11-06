@@ -25,7 +25,7 @@ A versão mínima do PostgreSQL **não está fixada** na documentação. Os nome
 | Documento | Conteúdo |
 |---|---|
 | [Configuração do banco](configuracao-banco.md) | Banco, schema, roles, permissões e UDS, com exemplo de inicialização |
-| [Relacionamentos](relacionamentos.md) | Diagrama Mermaid, PK, FK, cardinalidades e decisões em aberto |
+| [Relacionamentos](PERS-001-relacionamentos.md) | Diagrama Mermaid, PK, FK, cardinalidades e decisões em aberto |
 | [Concorrência e filas](concorrencia.md) | Claim transacional, recuperação e ordem de processamento |
 | [Entidades](entidades/README.md) | Campos, tipos, nulabilidade, índices e regras por tabela |
 | [Pendências físicas](pendencias.md) | Restrições ainda não aprovadas para implementação |
@@ -69,4 +69,4 @@ Esses **cinco modelos são sugestões físicas**, pois o [documento de origem](h
 - Todas as relações operacionais propostas usam `ON DELETE RESTRICT`; não há cascata automática e retenção/purge ainda precisa de decisão.
 - **Não implementar** propostas com status `BLOCKED` sem resolver sua definição.
 
-**Referências internas:** [segurança](../seguranca-acessos.md), [interfaces](../interfaces-servicos.md), [pendências gerais](../pendencias.md), [ADR-0009](../adr/persistencia/estado-operacional.md).
+**Referências internas:** [segurança](../arquitetura/ARQ-006-seguranca-autorizacao.md), [interfaces](../interfaces-servicos.md), [pendências gerais](../pendencias.md), [ADR-0009](../decisoes/DEC-009-postgresql-estado-operacional.md).

@@ -4,16 +4,18 @@ Documentação do projeto **A-Bioma Sabiá**. Os documentos descrevem a soluçã
 
 ## Guias e referências
 
+Os [guias organizados](guias/README.md) descrevem procedimentos planejados, não instalação validada. A documentação de [persistência](persistencia/readme.md) identifica explicitamente os modelos propostos.
+
 | Assunto | Documento |
 |---|---|
-| Instalação e implantação | [Instalação](instalacao.md) |
-| Criar bot Telegram | [Criar bot no Telegram](criar-bot-telegram.md) |
+| Instalação e implantação | [Instalação](guias/GUIA-001-preparar-instalacao.md) |
+| Criar bot Telegram | [Criar bot no Telegram](guias/GUIA-002-criar-bot-telegram.md) |
 | Interações do operador e do usuário | [Guia do usuário](guia-usuario.md) |
 | Arquitetura | [Arquitetura](arquitetura.md) |
 | Banco de dados — visão geral | [Persistência](persistencia/readme.md) |
 | Interfaces, sockets e serviços | [Interfaces e serviços](interfaces-servicos.md) |
 | Contratos técnicos | [Referência de contratos](referencia-contratos.md) |
-| Segurança e grupos Linux | [Segurança e acessos](seguranca-acessos.md) |
+| Segurança e grupos Linux | [Segurança e acessos](arquitetura/ARQ-006-seguranca-autorizacao.md) |
 | Regras consolidadas | [Regras consolidadas](regras-consolidadas-sabia.md) |
 | Questões e bloqueios | [Pendências](pendencias.md) |
 
@@ -23,7 +25,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 
 - [Visão geral, banco e schema](persistencia/readme.md)
 - [Configuração de banco, UDS, roles e permissões](persistencia/configuracao-banco.md)
-- [Relacionamentos e diagrama ER](persistencia/relacionamentos.md)
+- [Relacionamentos e diagrama ER](persistencia/PERS-001-relacionamentos.md)
 - [Entidades e campos PostgreSQL](persistencia/entidades/README.md)
 - [Concorrência das filas](persistencia/concorrencia.md)
 - [Pendências do modelo físico](persistencia/pendencias.md)
@@ -37,8 +39,10 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `CONTR` | Contratos técnicos | [CONTR-001 — Comando interno](contratos/CONTR-001-comando-interno.md) |
 | `FLUX` | Fluxos de execução e sequência | [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) |
 | `REF` | Referências de configuração, escopo e testes | [REF-001 — Modelo de configuração](referencia/REF-001-modelo-configuracao.md) |
+| `GUIA` | Procedimentos de preparação e operação | [GUIA-001 — Preparar instalação](guias/GUIA-001-preparar-instalacao.md) |
+| `PERS` | Modelos e relacionamentos de dados | [PERS-001 — Relacionamentos PostgreSQL](persistencia/PERS-001-relacionamentos.md) |
 
-Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a `MOD-0008`, `CFG-0001` e `REQ-0001` a `REQ-0002` permanecem como referências históricas; os documentos canônicos usam prefixos `DEC`, `ARQ` e `REF` conforme a categoria.
+Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a `MOD-0008`, `CFG-0001`, `REQ-0001` a `REQ-0002` e os identificadores `PST` permanecem rastreáveis. Os novos documentos usam `DEC`, `ARQ`, `CONTR`, `FLUX`, `REF`, `GUIA` e `PERS` conforme o assunto.
 
 ## Especificações técnicas recuperadas da `develop`
 
@@ -122,7 +126,7 @@ Os documentos canônicos correspondentes estão no [índice de referências téc
 
 ## Revisão Telegram 2026-10-21
 
-- [Contrato operacional e decisões de integração](telegram-operacao-2026.md)
+- [Contrato operacional e decisões de integração](referencia/REF-004-operacao-telegram.md)
 - [Caderno de testes locais organizado por grupos](testes/telegram/README.md)
 
 **Nota:** os arquivos de persistência já recuperados estão em [Tabelas e modelo PostgreSQL](#modelo-de-persistência-postgresql), sem cópias redundantes. Referências internas dos documentos originais a arquivos fora deste conjunto podem continuar apontando para conteúdo ainda não recuperado.
