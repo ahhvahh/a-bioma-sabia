@@ -16,6 +16,10 @@ Permitir consulta e administração do serviço sem acesso SQL direto, preservan
 - **Não há caminho de socket, sintaxe CLI, flags, envelope, framing, serialização, códigos de saída, formato stdout/stderr ou implementação confirmada**. Não oferecer comandos de invocação como se fossem executáveis.
 - `sabiactl` não acessa PostgreSQL nem arquivos privados diretamente. O Sabiá aplica validações, persistência e auditoria.
 
+## Contrato e fluxos de apoio
+
+O [CONTR-011 — API UDS administrativa](../../contratos/CONTR-011-api-administrativa-uds.md) preserva os requisitos funcionais e suas lacunas. O ciclo de [aprovação de acesso](../../fluxos/FLUX-011-aprovacao-acesso-telegram.md) e o de [validação/publicação de scripts](../../fluxos/FLUX-012-validacao-publicacao-script.md) são fluxos em refinamento. Não há sintaxe de comando, códigos de saída ou protocolo de fio aprovado.
+
 ## Ações previstas e contratos
 
 | Área / interação | Dados necessários | Contrato ou referência | Resultado esperado | Situação |

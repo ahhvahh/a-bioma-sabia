@@ -17,6 +17,13 @@ O prefixo `CONTR` identifica o destino revisado; `CTR` indica a fonte preservada
 | [CONTR-009 — Ingestão fracionada de mídia por Unix socket](CONTR-009-ingestao-midia-fracionada.md) | `CTR-0009` | `refinement` | [Original](../especificacao/contratos/ingestao-midia-fracionada.md) |
 | [CONTR-010 — Origem e conversão dos dados persistentes](CONTR-010-origem-dados-persistencia.md) | `CTR-0010` | `refinement` | [Original](../especificacao/contratos/origem-dados-persistencia.md) |
 
+## Contratos funcionais acrescentados — requisitos em refinamento
+
+- [CONTR-011 — API administrativa UDS](CONTR-011-api-administrativa-uds.md) — requisitos herdados das seções 2–4 e 11 das [regras consolidadas](../regras-consolidadas-sabia.md); transporte/payloads/operações ainda indefinidos.
+- [CONTR-012 — Assinatura e entrega por eventos](CONTR-012-assinaturas-eventos.md) — objetivo `OBJ-009` da seção 9; interface, autorização, persistência e confirmação ainda em `refinement`.
+
+A inclusão no índice não significa contrato técnico aprovado nem implementação executada.
+
 ## Pendências da revisão
 
 - `CONTR-004`, `CONTR-008`, `CONTR-009` e `CONTR-010` permanecem em `refinement` e contêm decisões `BLOCKED`.

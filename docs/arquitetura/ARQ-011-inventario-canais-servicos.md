@@ -34,6 +34,10 @@
 
 O grupo `absabia` concede **possibilidade de conexão**, não permissão automática para executar mutações. A camada UDS chama o serviço; **não abre acesso direto ao banco**. O MessagePack dos sockets de mídia **não é contrato** da API administrativa.
 
+## Requisitos administrativos específicos
+
+O [CONTR-011](../contratos/CONTR-011-api-administrativa-uds.md) detalha capacidades previstas e lacunas do UDS administrativo. Não extrapolar o MessagePack de mídia para a API do operador; não há framing nem nomes de operações aprovados.
+
 ## Pendências e segurança
 
 - Caminhos definitivos, framing, serialização, operações, erros, limites e autenticação da API administrativa são **não verificados**.

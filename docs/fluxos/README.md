@@ -17,6 +17,13 @@
 | [FLUX-009 — Registro do estado operacional](FLUX-009-registro-estado-operacional.md) | `FLW-0009` | `refinement` | [Original](../especificacao/fluxos/registro-estado-operacional.md) |
 | [FLUX-010 — Consumo do estado operacional](FLUX-010-consumo-estado-operacional.md) | `FLW-0010` | `refinement` | [Original](../especificacao/fluxos/consumo-estado-operacional.md) |
 
+## Fluxos administrativos absorvidos
+
+- [FLUX-011 — Cadastro de contato e aprovação por bot](FLUX-011-aprovacao-acesso-telegram.md) — `refinement`; origem na seção 3 do [consolidado](../regras-consolidadas-sabia.md).
+- [FLUX-012 — Validação e publicação de scripts e ações](FLUX-012-validacao-publicacao-script.md) — `refinement`; origem na seção 4.
+
+**Versão aprovada:** nenhuma. Diagramas representam os requisitos históricos, não execução observada.
+
 ## Pendências conhecidas
 
 - `FLUX-003`: correlação de alertas sem `request_id` e especificação do Scheduler ainda estão `BLOCKED`.

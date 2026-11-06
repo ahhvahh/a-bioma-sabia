@@ -8,7 +8,7 @@
 | [REF-002 — Escopo do primeiro MVP](REF-002-escopo-primeiro-mvp.md) | `REQ-0001` | `refined` | [Original](../especificacao/requisitos/mvp.md) |
 | [REF-003 — Requisitos de testes](REF-003-requisitos-testes.md) | `REQ-0002` | `refined` | [Original](../especificacao/requisitos/testes.md) |
 | [REF-004 — Regras operacionais do Telegram](REF-004-operacao-telegram.md) | Operação Telegram (21/10/2026) | Histórico; não revalidado nesta revisão | [Original](../telegram-operacao-2026.md) |
-| [REF-005 — Rastreabilidade das regras](REF-005-rastreabilidade-regras.md) | Consolidação histórica | Mapa revisado; origem migrada parcialmente | [Original legado](../regras-consolidadas-sabia.md) |
+| [REF-005 — Rastreabilidade das regras](REF-005-rastreabilidade-regras.md) | Consolidação histórica | Cobertura de 14 seções verificada; contratos novos seguem em `refinement` | [Original preservado](../regras-consolidadas-sabia.md) |
 | [REF-006 — Gate do MVP](REF-006-gate-mvp.md) | Pendências documentais | `BLOCKED` histórico; não resolvido pela revisão | [Original](../pendencias.md) |
 
 ## Pendências documentais

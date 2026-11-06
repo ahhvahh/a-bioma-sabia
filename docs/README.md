@@ -19,6 +19,16 @@ Os [guias organizados](guias/README.md) descrevem procedimentos planejados, não
 | Regras consolidadas | [Rastreabilidade das regras](referencia/REF-005-rastreabilidade-regras.md) · [original legado](regras-consolidadas-sabia.md) |
 | Questões e bloqueios | [Pendências](referencia/REF-006-gate-mvp.md) |
 
+## Absorção das regras consolidadas
+
+- [REF-005 — Mapeamento das 14 seções](referencia/REF-005-rastreabilidade-regras.md)
+- [CONTR-011 — API administrativa UDS](contratos/CONTR-011-api-administrativa-uds.md)
+- [CONTR-012 — Assinatura por eventos](contratos/CONTR-012-assinaturas-eventos.md)
+- [FLUX-011 — Aprovação de acesso Telegram](fluxos/FLUX-011-aprovacao-acesso-telegram.md)
+- [FLUX-012 — Validação e publicação de scripts](fluxos/FLUX-012-validacao-publicacao-script.md)
+
+A absorção histórica foi documentada; os novos contratos e fluxos continuam em `refinement`, e o gate do MVP permanece `BLOCKED`.
+
 ## Interfaces administrativas
 
 - [Inventário de canais e serviços](arquitetura/ARQ-011-inventario-canais-servicos.md)
