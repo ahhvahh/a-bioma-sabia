@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Contexto do Sabiá
+
+> **Conteúdo lido e migrado para:** [ARQ-001 — documento canônico](../arquitetura/ARQ-001-contexto-sabia.md). Este original permanece como referência histórica `DSG-0001`.
 
 ![DSG](https://img.shields.io/badge/DSG-DSG--0001-0550ae?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-finalized-0a7ea4?style=flat-square)

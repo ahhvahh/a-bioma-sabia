@@ -51,7 +51,9 @@ O painel deverá diferenciar: conexões UDS ativas, sessões administrativas loc
 
 ## Referências
 
-- [Desenho anterior dos componentes](desenho/componentes-core.md)
+- [Contexto do sistema](arquitetura/ARQ-001-contexto-sabia.md)
+
+- [Componentes do Core](arquitetura/ARQ-002-componentes-core.md)
 - [Fluxo Telegram](especificacao/fluxos/comando-telegram.md)
 - [Interfaces e contratos UDS](interfaces-servicos.md)
 - [Segurança e grupos Linux](seguranca-acessos.md)

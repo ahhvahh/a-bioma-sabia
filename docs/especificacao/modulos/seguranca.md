@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Segurança e autorização
+
+> **Conteúdo lido e migrado para:** [ARQ-006 — documento canônico](../../arquitetura/ARQ-006-seguranca-autorizacao.md). Este original permanece como referência histórica `MOD-0006`.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0006-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

@@ -33,16 +33,17 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | Prefixo | Categoria | Exemplo real |
 |---|---|---|
 | `DEC` | Decisão arquitetural (MADR/ADR) | [DEC-001 — Go e binário único](decisoes/DEC-001-go-binario-unico-linux.md) |
+| `ARQ` | Contexto, componentes e módulos de arquitetura | [ARQ-001 — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) |
 
-Os IDs originais `ADR-0001` a `ADR-0010` foram preservados como referências históricas; não são uma segunda numeração para documentos novos.
+Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` e `DSG-0002` permanecem como referências históricas; a documentação canônica utiliza prefixos `DEC` e `ARQ`.
 
 ## Especificações técnicas recuperadas da `develop`
 
-Arquivos restaurados **integralmente**, com seus caminhos originais e estados documentais preservados. O índice inclui somente os documentos diretamente referenciados no `docs/README.md` da branch `develop`.
+O índice inclui documentos originalmente referenciados na `develop`. Os arquivos migrados permanecem preservados como legados, e os documentos canônicos passam a concentrar as versões revisadas.
 
 ### Decisões
 
-Os documentos `DEC` são as versões canônicas revisadas dos ADRs indicados. Os ADRs originais permanecem em `docs/adr/` como fontes legadas para rastreabilidade.
+Os documentos `DEC` são versões canônicas revisadas dos ADRs. Os originais em `docs/adr/` permanecem como fontes legadas; decisões históricas conflitantes estão identificadas nos destinos.
 
 - [DEC-001 (ADR-0001) — Go, binário único e serviço Linux](decisoes/DEC-001-go-binario-unico-linux.md) — `refined`
 - [DEC-002 (ADR-0002) — Múltiplos clientes Telegram isolados](decisoes/DEC-002-clientes-telegram-isolados.md) — `refined`
@@ -54,24 +55,28 @@ Os documentos `DEC` são as versões canônicas revisadas dos ADRs indicados. Os
 - [DEC-008 (ADR-0008) — Menor privilégio e autorização explícita](decisoes/DEC-008-menor-privilegio-autorizacao.md) — `refined`
 - [DEC-009 (ADR-0009) — Persistência do estado operacional](decisoes/DEC-009-postgresql-estado-operacional.md) — `refined`
 - [DEC-010 (ADR-0010) — Política de encerramento de jobs](decisoes/DEC-010-encerramento-jobs.md) — `refined`
-- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](adr/processamento/processadores-assincronos-registrados.md) — `refined`
-- [ADR-0012 — Ingestão persistente de mídia por Unix socket](adr/processamento/ingestao-midia-socket-messagepack.md) — `refined`
-- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](adr/processamento/ingestao-midia-fracionada.md) — `refined`
+- [DEC-011 (ADR-0011) — Processadores assíncronos registrados e transporte de progresso](decisoes/DEC-011-processadores-assincronos-registrados.md) — `refined`
+- [DEC-012 (ADR-0012) — Ingestão persistente de mídia por Unix socket](decisoes/DEC-012-ingestao-midia-socket-messagepack.md) — `refined`
+- [DEC-013 (ADR-0013) — Dois canais de ingestão de mídia e upload fracionado](decisoes/DEC-013-ingestao-midia-fracionada.md) — `refined`
 
-### Desenhos
+### Desenhos de arquitetura
 
-- [DSG-0001 — Contexto do Sabiá](desenho/contexto-sabia.md) — `finalized`
-- [DSG-0002 — Componentes do Sabiá Core](desenho/componentes-core.md) — `finalized`
+Os arquivos `ARQ` concentram os desenhos canônicos; os `DSG` originais permanecem preservados em `docs/desenho/`.
+
+- [ARQ-001 (DSG-0001) — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) — `finalized`
+- [ARQ-002 (DSG-0002) — Componentes do Sabiá Core](arquitetura/ARQ-002-componentes-core.md) — `finalized`
 
 ### Módulos
 
-- [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md) — `refined`
+As especificações de módulos migradas estão em `docs/arquitetura/`; as demais continuam em `docs/especificacao/modulos/` até revisão posterior.
+
+- [ARQ-003 (MOD-0001) — Core e Command Router](arquitetura/ARQ-003-core-command-router.md) — `refined`
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md) — `refinement`
-- [MOD-0003 — Registro e execução de scripts](especificacao/modulos/scripts.md) — `refined`
-- [MOD-0004 — Jobs](especificacao/modulos/jobs.md) — `refined`
+- [ARQ-004 (MOD-0003) — Registro e execução de scripts](arquitetura/ARQ-004-registro-execucao-scripts.md) — `refined`
+- [ARQ-005 (MOD-0004) — Jobs](arquitetura/ARQ-005-jobs.md) — `refined`
 - [MOD-0005 — Scheduler e Alert Manager](especificacao/modulos/scheduler-alertas.md) — `refinement`
-- [MOD-0006 — Segurança e autorização](especificacao/modulos/seguranca.md) — `refined`
-- [MOD-0007 — Processadores assíncronos e transporte](especificacao/modulos/processadores-assincronos.md) — `refined`
+- [ARQ-006 (MOD-0006) — Segurança e autorização](arquitetura/ARQ-006-seguranca-autorizacao.md) — `refined`
+- [ARQ-007 (MOD-0007) — Processadores assíncronos e transporte](arquitetura/ARQ-007-processadores-assincronos.md) — `refined`
 - [MOD-0008 — Ingestão e armazenamento de mídia](especificacao/modulos/ingestao-midia.md) — `refinement`
 
 ### Contratos

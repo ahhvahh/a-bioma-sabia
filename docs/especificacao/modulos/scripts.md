@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Registro e execução de scripts
+
+> **Conteúdo lido e migrado para:** [ARQ-004 — documento canônico](../../arquitetura/ARQ-004-registro-execucao-scripts.md). Este original permanece como referência histórica `MOD-0003`.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0003-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

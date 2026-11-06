@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Processadores assíncronos e transporte
+
+> **Conteúdo lido e migrado para:** [ARQ-007 — documento canônico](../../arquitetura/ARQ-007-processadores-assincronos.md). Este original permanece como referência histórica `MOD-0007`.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0007-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

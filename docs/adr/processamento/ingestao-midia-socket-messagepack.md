@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Ingestão persistente de mídia por Unix socket
+
+> **Conteúdo lido e migrado para:** [DEC-012 — documento canônico](../../decisoes/DEC-012-ingestao-midia-socket-messagepack.md). Este original permanece como referência histórica `ADR-0012`.
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0012-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

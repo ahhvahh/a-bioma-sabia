@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Processadores assíncronos registrados e transporte de progresso
+
+> **Conteúdo lido e migrado para:** [DEC-011 — documento canônico](../../decisoes/DEC-011-processadores-assincronos-registrados.md). Este original permanece como referência histórica `ADR-0011`.
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0011-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

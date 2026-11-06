@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Dois canais de ingestão de mídia e upload fracionado
+
+> **Conteúdo lido e migrado para:** [DEC-013 — documento canônico](../../decisoes/DEC-013-ingestao-midia-fracionada.md). Este original permanece como referência histórica `ADR-0013`.
 
 ![ADR](https://img.shields.io/badge/ADR-ADR--0013-7a3e9d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

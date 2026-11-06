@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Componentes do Sabiá Core
+
+> **Conteúdo lido e migrado para:** [ARQ-002 — documento canônico](../arquitetura/ARQ-002-componentes-core.md). Este original permanece como referência histórica `DSG-0002`.
 
 ![DSG](https://img.shields.io/badge/DSG-DSG--0002-0550ae?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-finalized-0a7ea4?style=flat-square)

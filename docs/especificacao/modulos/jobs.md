@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Jobs
+
+> **Conteúdo lido e migrado para:** [ARQ-005 — documento canônico](../../arquitetura/ARQ-005-jobs.md). Este original permanece como referência histórica `MOD-0004`.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0004-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Core e Command Router
+
+> **Conteúdo lido e migrado para:** [ARQ-003 — documento canônico](../../arquitetura/ARQ-003-core-command-router.md). Este original permanece como referência histórica `MOD-0001`.
 
 ![MOD](https://img.shields.io/badge/MOD-MOD--0001-1f883d?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
