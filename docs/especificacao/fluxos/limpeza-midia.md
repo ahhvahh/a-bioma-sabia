@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Limpeza de payloads de mídia transmitida
+
+> **Conteúdo lido e migrado para:** [FLUX-008 — documento canônico](../../fluxos/FLUX-008-limpeza-midia.md). O original `FLW-0008` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0008-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

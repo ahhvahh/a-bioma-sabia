@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Consumo do estado operacional
+
+> **Conteúdo lido e migrado para:** [FLUX-010 — documento canônico](../../fluxos/FLUX-010-consumo-estado-operacional.md). O original `FLW-0010` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0010-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -10,10 +15,10 @@ Definir como componentes consultam o PostgreSQL e convertem registros persistido
 ## Dependências
 
 - [CTR-0010 — Origem e conversão](../contratos/origem-dados-persistencia.md)
-- [PST-0100 — Entidades persistentes](../persistencia/entidades/README.md)
+- [PST-0100 — Entidades persistentes](../../persistencia/entidades/README.md)
 - [CTR-0003 — Job](../contratos/job.md)
 - [CTR-0007 — Transmissão de mídia](../contratos/transmissao-midia.md)
-- [PST-0003 — Claim concorrente de filas persistentes](../persistencia/claim-concorrente-filas.md)
+- [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
 
 ## Princípio
 

@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Registro do estado operacional
+
+> **Conteúdo lido e migrado para:** [FLUX-009 — documento canônico](../../fluxos/FLUX-009-registro-estado-operacional.md). O original `FLW-0009` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0009-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
@@ -10,8 +15,8 @@ Definir o fluxo comum para converter uma informação de origem em estado Postgr
 ## Dependências
 
 - [CTR-0010 — Origem e conversão](../contratos/origem-dados-persistencia.md)
-- [PST-0100 — Entidades persistentes](../persistencia/entidades/README.md)
-- [PST-0002 — Relacionamentos](../persistencia/relacionamentos-estado-operacional.md)
+- [PST-0100 — Entidades persistentes](../../persistencia/entidades/README.md)
+- [PST-0002 — Relacionamentos](../../persistencia/relacionamentos.md)
 
 ## Gatilhos
 

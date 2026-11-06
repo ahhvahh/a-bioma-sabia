@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Ingestão fracionada de mídia
+
+> **Conteúdo lido e migrado para:** [FLUX-007 — documento canônico](../../fluxos/FLUX-007-ingestao-midia-fracionada.md). O original `FLW-0007` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0007-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

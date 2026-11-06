@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Ingestão local de mídia
+
+> **Conteúdo lido e migrado para:** [FLUX-006 — documento canônico](../../fluxos/FLUX-006-ingestao-midia.md). O original `FLW-0006` é mantido para rastreabilidade histórica.
 
 ![FLW](https://img.shields.io/badge/FLW-FLW--0006-bf3989?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
