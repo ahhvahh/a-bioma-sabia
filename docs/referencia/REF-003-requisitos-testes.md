@@ -67,6 +67,17 @@ Testar isoladamente (sem API real) os grupos: T01 inbox/commit/cursor/crash/repl
 
 A cobertura proposta não comprova execução. O [caderno Telegram](../testes/telegram/README.md) referencia grupos T01–T05, mas a existência de fixtures e testes automatizados deve ser verificada antes de declarar conformidade. Ver [escopo](REF-002-escopo-primeiro-mvp.md).
 
+## Critérios de aceite administrativos herdados da consolidação
+
+Os seguintes critérios complementam [T01–T05](../testes/telegram/README.md), mas **não representam testes executados**:
+
+- Operador sem autorização específica não publica ação, ativa script ou aprova acesso, mesmo com conexão UDS permitida pelo grupo Linux.
+- Upload inválido não incorpora script; script validado não se publica automaticamente. A confirmação `Y` e a verificação de isolamento do [FLUX-012](../fluxos/FLUX-012-validacao-publicacao-script.md) são distintas de `bash -n`.
+- Aprovar ou rejeitar por bot requer revalidação no serviço e auditoria; `N`/`Esc` cancelam sem mudar o estado, conforme [FLUX-011](../fluxos/FLUX-011-aprovacao-acesso-telegram.md).
+- Credenciais, BLOBs e variáveis de ambiente não autorizadas não devem vazar para logs/processos filhos.
+- As provas funcionais históricas previstas são comando de sistema pelo bot `bioma` e `disk-check` pelo Scheduler com aviso do bot `alerts` na mudança de estado; não há prova de execução disponível.
+- A cobertura de [assinaturas por eventos](../contratos/CONTR-012-assinaturas-eventos.md) depende da aprovação do contrato, sem inventar fixtures ou resultados.
+
 ## Rastreabilidade
 
 Documento original preservado: [REQ-0002 — Requisitos de testes](../especificacao/requisitos/testes.md).

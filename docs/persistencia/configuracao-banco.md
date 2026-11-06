@@ -80,6 +80,10 @@ A seção `database` de `/etc/sabia/sabia.yaml` precisa ser refinada para repres
 
 **Estado:** exemplo para revisão, **não é migração executada**.
 
+## Versão citada no Discovery histórico
+
+A [consolidação de regras](../regras-consolidadas-sabia.md), seção 1, registra **PostgreSQL 17** como versão inicial escolhida no Discovery, com avaliação futura da 18. Essa indicação é **histórica**, não verificação da versão instalada, do cluster ou da compatibilidade com um migrador. Este documento mantém a versão efetiva como pendência de configuração.
+
 ## Revisão documental e limites
 
 Este texto documenta um **provisionamento ilustrativo não executado**. Versão do PostgreSQL, cluster, diretório do socket, identidade de migração, backup, `pg_hba.conf` e impacto em instâncias compartilhadas precisam de verificação antes de executar os exemplos. Os valores `abioma_sabia`, `sabia` e `sabia_owner` são **propostas**, não nomes de objetos encontrados em um servidor.

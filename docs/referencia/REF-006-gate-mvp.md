@@ -209,6 +209,17 @@ Ver [README](../../README.md), [arquitetura](../arquitetura.md), [segurança](..
 
 **Bloqueios a refinar:** definir esquema de pedidos e autorizações por cliente no PostgreSQL, migração e política de rejeição/reenvio; compatibilidade com `allowed_users` no CFG-0001 (hoje no YAML com restart); operações e respostas UDS administrativas de listagem e decisão, paginação, autenticação do operador por bot, concorrência entre operadores, auditoria e notificações de decisão. Conferir [desenho da experiência](https://github.com/ahhvahh/a-bioma-sabia/blob/develop/docs/solicitacoes-acesso.md), [interfaces](../arquitetura/ARQ-011-inventario-canais-servicos.md) e [persistência](../persistencia/readme.md).
 
+## Requisitos adicionais absorvidos da consolidação
+
+A absorção documental **não remove o gate `BLOCKED`**. Antes de aprovar implementação, ainda precisam ser decididos:
+
+- [CONTR-011 — UDS administrativo](../contratos/CONTR-011-api-administrativa-uds.md): caminho, framing, serialização, operações, autorização por ação, erros, paginação, concorrência e auditoria.
+- [CONTR-012 — assinatura e entrega por eventos](../contratos/CONTR-012-assinaturas-eventos.md): identidade de tópico, publicadores/assinantes autorizados, persistência, ordem, confirmação e retenção. O histórico distingue `OBJ-009` do mailing periódico `IN-013`, em backlog.
+- [FLUX-011 — aprovação por bot](../fluxos/FLUX-011-aprovacao-acesso-telegram.md): reenvio, conflitos, política de acesso persistido versus `allowed_users` no YAML.
+- [FLUX-012 — scripts e ações](../fluxos/FLUX-012-validacao-publicacao-script.md): upload e armazenamento, isolamento de validação, versionamento, aprovação e publicação por bot.
+
+Esses requisitos são **propostos**, não contratos de transporte aprovados; o formato de MessagePack de mídia não define o UDS administrativo.
+
 ## Precedência e rastreabilidade
 
 - O [modelo físico PostgreSQL](../persistencia/pendencias.md) é a fonte específica das pendências de banco `DB-01` a `DB-12`; esta referência registra seu impacto no gate geral.
