@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Mídia persistida
+
+> **Conteúdo lido e migrado para:** [CONTR-006 — documento canônico](../../contratos/CONTR-006-midia-persistida.md). A versão CTR-0006 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0006-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

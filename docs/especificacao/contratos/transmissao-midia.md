@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Transmissão persistente de mídia
+
+> **Conteúdo lido e migrado para:** [CONTR-007 — documento canônico](../../contratos/CONTR-007-transmissao-midia.md). A versão CTR-0007 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0007-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

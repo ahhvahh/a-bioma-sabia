@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Origem e conversão dos dados persistentes
+
+> **Conteúdo lido e migrado para:** [CONTR-010 — documento canônico](../../contratos/CONTR-010-origem-dados-persistencia.md). A versão CTR-0010 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0010-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)

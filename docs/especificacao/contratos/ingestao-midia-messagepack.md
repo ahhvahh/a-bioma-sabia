@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Ingestão de mídia por Unix socket e MessagePack
+
+> **Conteúdo lido e migrado para:** [CONTR-008 — documento canônico](../../contratos/CONTR-008-ingestao-midia-messagepack.md). A versão CTR-0008 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0008-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
