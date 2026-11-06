@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Configuração e isolamento do PostgreSQL
 
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-proposta_v0.1-6e7781?style=flat-square)
@@ -76,3 +79,9 @@ A seção `database` de `/etc/sabia/sabia.yaml` precisa ser refinada para repres
 **Fontes oficiais:** [CREATE SCHEMA](https://www.postgresql.org/docs/current/sql-createschema.html), [Tipos](https://www.postgresql.org/docs/current/datatype.html), [Restrições e FKs](https://www.postgresql.org/docs/current/ddl-constraints.html), [Conexões por socket](https://www.postgresql.org/docs/current/runtime-config-connection.html) e [pg_hba.conf](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html).
 
 **Estado:** exemplo para revisão, **não é migração executada**.
+
+## Revisão documental e limites
+
+Este texto documenta um **provisionamento ilustrativo não executado**. Versão do PostgreSQL, cluster, diretório do socket, identidade de migração, backup, `pg_hba.conf` e impacto em instâncias compartilhadas precisam de verificação antes de executar os exemplos. Os valores `abioma_sabia`, `sabia` e `sabia_owner` são **propostas**, não nomes de objetos encontrados em um servidor.
+
+Relacionamentos físicos: [PERS-001](PERS-001-relacionamentos.md). Diretriz complementar: [Segurança e autorização](../arquitetura/ARQ-006-seguranca-autorizacao.md).

@@ -1,3 +1,6 @@
+<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+
 # Claim concorrente de filas persistentes — `sabia`
 
 **ID:** PST-0003  
@@ -9,10 +12,10 @@ Definir como jobs, mensagens de saída e transmissões de mídia são reservados
 
 ## Dependências
 
-- [ADR-0009 — Persistência do estado operacional em PostgreSQL](../adr/persistencia/estado-operacional.md)
-- [CTR-0003 — Job](../especificacao/contratos/job.md)
-- [CTR-0007 — Transmissão persistente de mídia](../especificacao/contratos/transmissao-midia.md)
-- [FLW-0010 — Consumo do estado operacional](../especificacao/fluxos/consumo-estado-operacional.md)
+- [ADR-0009 — Persistência do estado operacional em PostgreSQL](../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [CTR-0003 — Job](../contratos/CONTR-003-job.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
+- [FLW-0010 — Consumo do estado operacional](../fluxos/FLUX-010-consumo-estado-operacional.md)
 - [PST-0001 — Tabelas do estado operacional](readme.md)
 
 ## Regra
@@ -104,3 +107,7 @@ Workers não devem implementar uma segunda estratégia independente de reserva e
 
 
 **Contexto SQL proposto:** banco `abioma_sabia`, schema `sabia`, usando claims em transações curtas. Os exemplos SQL devem referenciar tabelas qualificadas por schema, conforme [configuração](configuracao-banco.md).
+
+## Escopo e evidência
+
+Especificação de concorrência **documental**, não rotina SQL executada nem teste de workers concorrentes. A regra depende do schema proposto `sabia`, da configuração em [PostgreSQL](configuracao-banco.md) e dos estados dos [contratos canônicos](../contratos/README.md). Persistir o claim e o histórico na mesma transação permanece requisito, não fato de execução.
