@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Job
+
+> **Conteúdo lido e migrado para:** [CONTR-003 — documento canônico](../../contratos/CONTR-003-job.md). A versão CTR-0003 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0003-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Comando interno
+
+> **Conteúdo lido e migrado para:** [CONTR-001 — documento canônico](../../contratos/CONTR-001-comando-interno.md). A versão CTR-0001 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0001-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

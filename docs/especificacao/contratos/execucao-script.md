@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Execução de script
+
+> **Conteúdo lido e migrado para:** [CONTR-002 — documento canônico](../../contratos/CONTR-002-execucao-script.md). A versão CTR-0002 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0002-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)

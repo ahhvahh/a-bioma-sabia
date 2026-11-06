@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Protocolo de processador assíncrono
+
+> **Conteúdo lido e migrado para:** [CONTR-005 — documento canônico](../../contratos/CONTR-005-processador-assincrono.md). A versão CTR-0005 permanece aqui para rastreabilidade histórica.
 
 ![CTR](https://img.shields.io/badge/CTR-CTR--0005-9a6700?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-refined-0969da?style=flat-square)
