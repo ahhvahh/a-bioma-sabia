@@ -1,7 +1,9 @@
-<!-- A-BIOMA-DOC-STANDARD -->
-<!-- A-BIOMA-DOC-REVISADO -->
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
 
 # Entidade `sabia.request`
+
+> **Conteúdo lido e migrado para:** [ENT-003 — documento canônico](ENT-003-request.md). Esta ficha `PST` permanece como fonte histórica; o DDL segue não verificado.
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
