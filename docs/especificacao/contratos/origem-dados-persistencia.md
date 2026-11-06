@@ -16,7 +16,7 @@ Este contrato é o de-para entre **dado de origem** e **campo persistido**. O de
 
 ## Dependências
 
-- [PST-0100 — Entidades persistentes](../persistencia/entidades/README.md)
+- [PST-0100 — Entidades persistentes](../../persistencia/entidades/README.md)
 - [CTR-0001 — Comando interno](comando-interno.md)
 - [CTR-0008 — Ingestão MessagePack](ingestao-midia-messagepack.md)
 - [CTR-0009 — Ingestão fracionada](ingestao-midia-fracionada.md)
@@ -26,7 +26,7 @@ Este contrato é o de-para entre **dado de origem** e **campo persistido**. O de
 
 ### Telegram
 
-Para comandos recebidos em `Update.message`, o de-para bruto já documentado em [Telegram discovery](../../telegram-discovery.md) é:
+Para comandos recebidos em `Update.message`, o de-para bruto abaixo foi originalmente atribuído a `docs/telegram-discovery.md` (fonte histórica ausente nesta branch e **não revalidada**):
 
 | Telegram Bot API | Campo normalizado/persistido |
 |---|---|
