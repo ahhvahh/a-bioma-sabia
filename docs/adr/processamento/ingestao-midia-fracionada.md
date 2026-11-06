@@ -81,9 +81,9 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 ## Dependências
 
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](ingestao-midia-socket-messagepack.md)
-- [CTR-0006 — Mídia persistida](../../especificacao/contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../../especificacao/contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../especificacao/contratos/ingestao-midia-messagepack.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
 
 ## Critérios de validação
 

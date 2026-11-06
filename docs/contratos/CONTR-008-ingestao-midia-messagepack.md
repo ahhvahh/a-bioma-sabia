@@ -160,4 +160,4 @@ Antes de `refined` ainda precisa ser definido:
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0008` — Ingestão de mídia por Unix socket e MessagePack](../especificacao/contratos/ingestao-midia-messagepack.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.
+Fonte integral: [`CTR-0008` — Ingestão de mídia por Unix socket e MessagePack](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/ingestao-midia-messagepack.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.

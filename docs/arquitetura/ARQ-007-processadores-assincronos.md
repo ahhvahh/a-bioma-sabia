@@ -62,10 +62,10 @@ Estado de requisição, job, progresso relevante, resultado final e entrega pert
 
 - [DSG-0002 — Componentes do Sabiá Core](ARQ-002-componentes-core.md)
 - [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../decisoes/DEC-011-processadores-assincronos-registrados.md)
-- [CTR-0002 — Execução de script](../especificacao/contratos/execucao-script.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../especificacao/contratos/processador-assincrono.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../especificacao/contratos/ingestao-midia-messagepack.md)
-- [CTR-0006 — Mídia persistida](../especificacao/contratos/midia-persistida.md)
+- [CTR-0002 — Execução de script](../contratos/CONTR-002-execucao-script.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0006 — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
 
 ## Implementação prevista
 
@@ -73,7 +73,7 @@ Prevista para Processor Registry, Processor Transport e integração com Jobs. *
 
 ## Pendências de integração
 
-O MVP prevê somente processadores Bash com `request_id` por stdin e eventos JSON Lines por stdout. Serviços externos por socket são evolução futura. Consulte [DEC-011](../decisoes/DEC-011-processadores-assincronos-registrados.md) e [CTR-0005](../especificacao/contratos/processador-assincrono.md).
+O MVP prevê somente processadores Bash com `request_id` por stdin e eventos JSON Lines por stdout. Serviços externos por socket são evolução futura. Consulte [DEC-011](../decisoes/DEC-011-processadores-assincronos-registrados.md) e [CTR-0005](../contratos/CONTR-005-processador-assincrono.md).
 
 ## Rastreabilidade
 

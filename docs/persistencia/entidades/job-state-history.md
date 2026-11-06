@@ -18,7 +18,7 @@ Preservar o histórico imutável das mudanças de estado de cada job.
 
 ## Dependências
 
-- [CTR-0003 — Job](../../especificacao/contratos/job.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
 - [PST-0104 — job](job.md)
 
 ## Estrutura e de-para propostos

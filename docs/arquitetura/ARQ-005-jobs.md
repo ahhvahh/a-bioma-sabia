@@ -64,9 +64,9 @@ PostgreSQL é o armazenamento oficial. Jobs `queued` sobrevivem ao reinício; jo
 - [ADR-0006 — Jobs assíncronos](../decisoes/DEC-006-jobs-assincronos.md)
 - [ADR-0009 — Persistência do estado operacional](../decisoes/DEC-009-postgresql-estado-operacional.md)
 - [ADR-0010 — Política de encerramento de jobs](../decisoes/DEC-010-encerramento-jobs.md)
-- [CTR-0003 — Job](../especificacao/contratos/job.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../especificacao/contratos/processador-assincrono.md)
-- [CTR-0007 — Transmissão persistente de mídia](../especificacao/contratos/transmissao-midia.md)
+- [CTR-0003 — Job](../contratos/CONTR-003-job.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
 - [MOD-0007 — Processadores assíncronos e transporte](ARQ-007-processadores-assincronos.md)
 
 ## Implementação prevista
@@ -75,7 +75,7 @@ Prevista para os pacotes internos de jobs, fila e workers. **Não verificada no 
 
 ## Pendências de integração
 
-Estados, recovery e concorrência são especificados por [CTR-0003](../especificacao/contratos/job.md) e pela [entidade job](../persistencia/entidades/job.md). Não há testes de execução ou workers verificáveis nesta branch.
+Estados, recovery e concorrência são especificados por [CTR-0003](../contratos/CONTR-003-job.md) e pela [entidade job](../persistencia/entidades/job.md). Não há testes de execução ou workers verificáveis nesta branch.
 
 ## Rastreabilidade
 

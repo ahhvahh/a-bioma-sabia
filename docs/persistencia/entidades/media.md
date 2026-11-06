@@ -18,9 +18,9 @@ Persistir a mídia lógica e seus metadados independentemente da origem ser sock
 
 ## Dependências
 
-- [CTR-0006 — Mídia persistida](../../especificacao/contratos/midia-persistida.md)
-- [CTR-0008 — Ingestão MessagePack](../../especificacao/contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0008 — Ingestão MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada](../../contratos/CONTR-009-ingestao-midia-fracionada.md)
 - [PST-0103 — request](request.md)
 
 ## Estrutura proposta

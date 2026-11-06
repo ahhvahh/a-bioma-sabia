@@ -64,7 +64,7 @@ Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a 
 
 ## Especificações técnicas recuperadas da `develop`
 
-O índice inclui documentos originalmente referenciados na `develop`. Os arquivos migrados permanecem preservados como legados, e os documentos canônicos passam a concentrar as versões revisadas.
+O índice inclui documentos originalmente referenciados na `develop`. Os documentos canônicos concentram as versões revisadas; os contratos `CTR` excluídos da árvore atual permanecem consultáveis pelo histórico Git.
 
 ### Decisões
 
@@ -106,7 +106,7 @@ As oito especificações históricas `MOD` foram incorporadas aos documentos can
 
 ### Contratos
 
-Os [contratos canônicos](contratos/README.md) foram revisados documentalmente. Os registros `CTR` originais permanecem preservados; contratos em `refinement` e cláusulas `BLOCKED` ainda exigem decisões técnicas.
+Os [contratos canônicos](contratos/README.md) foram revisados documentalmente. Os registros `CTR` originais são recuperáveis no histórico Git anterior à limpeza; contratos em `refinement` e cláusulas `BLOCKED` ainda exigem decisões técnicas.
 
 - [CONTR-001 (CTR-0001) — Comando interno](contratos/CONTR-001-comando-interno.md) — `refined`
 - [CONTR-002 (CTR-0002) — Execução de script](contratos/CONTR-002-execucao-script.md) — `refined`

@@ -244,11 +244,11 @@ Este documento é **autossuficiente quanto às regras resumidas**. Os caminhos a
 | Propósito, escopo e exclusões | `docs/01-Project_Charter/charter/README.md`, `docs/01-Project_Charter/scope/README.md`, `docs/especificacao/requisitos/mvp.md` |
 | Arquitetura, bots, segurança | `docs/adr/telegram/multiplos-clientes-isolados.md`, `docs/adr/seguranca/menor-privilegio-e-autorizacao.md`, `docs/seguranca-acessos.md` |
 | Contatos e solicitações | `docs/01-Project_Charter/scope/flows/FLW-006-start-registro-de-contato-e-apresentacao-do-menu.md`, `docs/solicitacoes-acesso.md` |
-| Administração e validação de scripts | `docs/guia-usuario.md`, `docs/especificacao/contratos/execucao-script.md`, `docs/especificacao/configuracao/modelo-configuracao.md` |
-| Comandos e ações | `docs/especificacao/contratos/comando-interno.md`, `docs/01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md` |
+| Administração e validação de scripts | `docs/guia-usuario.md`, `docs/contratos/CONTR-002-execucao-script.md`, `docs/especificacao/configuracao/modelo-configuracao.md` |
+| Comandos e ações | `docs/contratos/CONTR-001-comando-interno.md`, `docs/01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md` |
 | Telegram e filas | `docs/especificacao/modulos/telegram.md`, `docs/telegram-operacao-2026.md`, `docs/especificacao/persistencia/claim-concorrente-filas.md` |
-| Jobs e shutdown | `docs/especificacao/contratos/job.md`, `docs/especificacao/contratos/processador-assincrono.md`, `docs/adr/runtime/encerramento-de-jobs.md` |
-| Mídia | `docs/especificacao/contratos/ingestao-midia-messagepack.md`, `docs/especificacao/contratos/ingestao-midia-fracionada.md`, `docs/especificacao/contratos/transmissao-midia.md` |
+| Jobs e shutdown | `docs/contratos/CONTR-003-job.md`, `docs/contratos/CONTR-005-processador-assincrono.md`, `docs/adr/runtime/encerramento-de-jobs.md` |
+| Mídia | `docs/contratos/CONTR-008-ingestao-midia-messagepack.md`, `docs/contratos/CONTR-009-ingestao-midia-fracionada.md`, `docs/contratos/CONTR-007-transmissao-midia.md` |
 | Scheduler e assinatura de eventos | `docs/especificacao/fluxos/monitoramento-agendado.md`, `docs/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md` |
 | Modelo relacional e bloqueios | `docs/especificacao/persistencia/tabelas-estado-operacional.md`, `docs/especificacao/persistencia/relacionamentos-estado-operacional.md`, `docs/pendencias.md` |
 

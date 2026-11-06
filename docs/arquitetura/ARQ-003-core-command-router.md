@@ -58,9 +58,9 @@ Nenhuma persistência própria foi definida para o roteador.
 
 - [DSG-0002 — Componentes do Sabiá Core](ARQ-002-componentes-core.md)
 - [ADR-0003 — Core independente do Telegram](../decisoes/DEC-003-core-independente-telegram.md)
-- [CTR-0001 — Comando interno](../especificacao/contratos/comando-interno.md)
-- [CTR-0002 — Execução de script](../especificacao/contratos/execucao-script.md)
-- [CTR-0003 — Job](../especificacao/contratos/job.md)
+- [CTR-0001 — Comando interno](../contratos/CONTR-001-comando-interno.md)
+- [CTR-0002 — Execução de script](../contratos/CONTR-002-execucao-script.md)
+- [CTR-0003 — Job](../contratos/CONTR-003-job.md)
 
 ## Implementação prevista
 

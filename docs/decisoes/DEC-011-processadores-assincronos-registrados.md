@@ -95,7 +95,7 @@ Separar controle e mídia mantém o protocolo assíncrono simples, permite teste
 
 ## Pendências e precedência documental
 
-No MVP, o processador assíncrono é um script Bash previamente registrado; serviços por socket e executáveis dedicados permanecem fora do escopo. Não foi encontrada implementação verificável na branch desta revisão. Consulte [CTR-0005](../especificacao/contratos/processador-assincrono.md).
+No MVP, o processador assíncrono é um script Bash previamente registrado; serviços por socket e executáveis dedicados permanecem fora do escopo. Não foi encontrada implementação verificável na branch desta revisão. Consulte [CTR-0005](../contratos/CONTR-005-processador-assincrono.md).
 
 ## Rastreabilidade
 

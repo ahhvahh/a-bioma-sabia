@@ -149,4 +149,4 @@ O registro usa `transport` e `destination_id`, portanto não depende exclusivame
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0007` — Transmissão persistente de mídia](../especificacao/contratos/transmissao-midia.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.
+Fonte integral: [`CTR-0007` — Transmissão persistente de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/transmissao-midia.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.

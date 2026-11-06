@@ -94,13 +94,13 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 ## Dependências
 
 - [ADR-0012 — Ingestão persistente de mídia por Unix socket](DEC-012-ingestao-midia-socket-messagepack.md)
-- [CTR-0006 — Mídia persistida](../especificacao/contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../especificacao/contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../especificacao/contratos/ingestao-midia-messagepack.md)
+- [CTR-0006 — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/CONTR-008-ingestao-midia-messagepack.md)
 
 ## Pendências e precedência documental
 
-**Atualização posterior à decisão histórica:** o ADR registra teto de `100000000` bytes para mídia fracionada; o [CTR-0009](../especificacao/contratos/ingestao-midia-fracionada.md) e a [ficha de mídia](../persistencia/entidades/media.md) estabelecem **`50000000` bytes (50 MB decimais)**. O limite mais recente substitui a proposta anterior. O conflito de grupo Linux `abioma`/`absabia` permanece indicado em [segurança](../seguranca-acessos.md).
+**Atualização posterior à decisão histórica:** o ADR registra teto de `100000000` bytes para mídia fracionada; o [CTR-0009](../contratos/CONTR-009-ingestao-midia-fracionada.md) e a [ficha de mídia](../persistencia/entidades/media.md) estabelecem **`50000000` bytes (50 MB decimais)**. O limite mais recente substitui a proposta anterior. O conflito de grupo Linux `abioma`/`absabia` permanece indicado em [segurança](../seguranca-acessos.md).
 
 ## Rastreabilidade
 

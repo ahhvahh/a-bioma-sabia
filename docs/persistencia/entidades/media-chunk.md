@@ -18,7 +18,7 @@ Persistir cada pedaço de uma mídia recebida pelo canal fracionado.
 
 ## Dependências
 
-- [CTR-0009 — Ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md)
+- [CTR-0009 — Ingestão fracionada](../../contratos/CONTR-009-ingestao-midia-fracionada.md)
 - [PST-0108 — media](media.md)
 
 ## Estrutura e de-para
@@ -63,7 +63,7 @@ Chunks são removidos explicitamente pelo fluxo de limpeza; a exclusão da mídi
 
 ## Verificação de consistência
 
-A chave composta `(media_id, sequence_id)` determina unicidade e ordem; rejeitar parte repetida ou fora da sequência esperada. Inserção de `media_chunk`, atualização dos contadores da [mídia](media.md) e avanço de `next_sequence_id` devem pertencer à mesma transação. Consulte o [contrato de ingestão fracionada](../../especificacao/contratos/ingestao-midia-fracionada.md).
+A chave composta `(media_id, sequence_id)` determina unicidade e ordem; rejeitar parte repetida ou fora da sequência esperada. Inserção de `media_chunk`, atualização dos contadores da [mídia](media.md) e avanço de `next_sequence_id` devem pertencer à mesma transação. Consulte o [contrato de ingestão fracionada](../../contratos/CONTR-009-ingestao-midia-fracionada.md).
 
 ## Chaves, índices e integridade física
 

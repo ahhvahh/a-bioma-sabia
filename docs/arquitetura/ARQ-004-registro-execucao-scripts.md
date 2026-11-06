@@ -29,7 +29,7 @@ Resolver operações locais por identificador permitido e executá-las de forma 
 
 Caminho do executável, interpretador, diretório de trabalho e política de ambiente são resolvidos a partir da configuração e não da solicitação remota.
 
-**Saída:** Resultado de execução conforme [CTR-0002 — Execução de script](../especificacao/contratos/execucao-script.md).
+**Saída:** Resultado de execução conforme [CTR-0002 — Execução de script](../contratos/CONTR-002-execucao-script.md).
 
 ## Persistência
 
@@ -62,7 +62,7 @@ O módulo não precisa persistir estado próprio de execução; quando a execuç
 
 - [DSG-0002 — Componentes do Sabiá Core](ARQ-002-componentes-core.md)
 - [ADR-0004 — Registro explícito de scripts](../decisoes/DEC-004-registro-explicito-scripts.md)
-- [CTR-0002 — Execução de script](../especificacao/contratos/execucao-script.md)
+- [CTR-0002 — Execução de script](../contratos/CONTR-002-execucao-script.md)
 - [CFG-0001 — Modelo de configuração](../especificacao/configuracao/modelo-configuracao.md)
 
 ## Implementação prevista

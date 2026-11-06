@@ -59,6 +59,6 @@ Detalhes do fluxo administrativo: a referência histórica `docs/solicitacoes-ac
 
 ## Compatibilidade documental
 
-[CFG-0001](especificacao/configuracao/modelo-configuracao.md), [CTR-0008](especificacao/contratos/ingestao-midia-messagepack.md), [CTR-0009](especificacao/contratos/ingestao-midia-fracionada.md) e [MOD-0006](especificacao/modulos/seguranca.md) ainda fixam o grupo legado `abioma`. A decisão nova usa `absabia`. Reconciliar os contratos normativos antes de implementar.
+[CFG-0001](especificacao/configuracao/modelo-configuracao.md), [CTR-0008](contratos/CONTR-008-ingestao-midia-messagepack.md), [CTR-0009](contratos/CONTR-009-ingestao-midia-fracionada.md) e [MOD-0006](especificacao/modulos/seguranca.md) ainda fixam o grupo legado `abioma`. A decisão nova usa `absabia`. Reconciliar os contratos normativos antes de implementar.
 
 Veja também [interfaces](interfaces-servicos.md), [instalação](instalacao.md) e [pendências](pendencias.md).

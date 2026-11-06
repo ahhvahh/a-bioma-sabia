@@ -230,4 +230,4 @@ Executores futuros podem implementar a mesma semântica sem alterar o Command Ro
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0002` — Execução de script](../especificacao/contratos/execucao-script.md). As entradas, saídas, estados, erros e restrições anteriores foram preservados; referências relativas foram adaptadas à estrutura canônica.
+Fonte integral: [`CTR-0002` — Execução de script](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/execucao-script.md). As entradas, saídas, estados, erros e restrições anteriores foram preservados; referências relativas foram adaptadas à estrutura canônica.

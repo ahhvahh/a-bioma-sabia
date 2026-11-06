@@ -18,7 +18,7 @@ Persistir a fila e o estado de entrega externa de cada mídia.
 
 ## Dependências
 
-- [CTR-0007 — Transmissão persistente de mídia](../../especificacao/contratos/transmissao-midia.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 - [PST-0108 — media](media.md)
 - [PST-0103 — request](request.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)

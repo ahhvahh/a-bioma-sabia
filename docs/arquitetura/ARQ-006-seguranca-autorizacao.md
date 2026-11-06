@@ -60,8 +60,8 @@ O módulo não concede shell arbitrário nem eleva o processo principal a root. 
 - [DSG-0002 — Componentes do Sabiá Core](ARQ-002-componentes-core.md)
 - [ADR-0008 — Menor privilégio e autorização explícita](../decisoes/DEC-008-menor-privilegio-autorizacao.md)
 - [ADR-0004 — Registro explícito de scripts](../decisoes/DEC-004-registro-explicito-scripts.md)
-- [CTR-0004 — Auditoria e logs](../especificacao/contratos/auditoria-logs.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../especificacao/contratos/ingestao-midia-messagepack.md)
+- [CTR-0004 — Auditoria e logs](../contratos/CONTR-004-auditoria-logs.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/CONTR-008-ingestao-midia-messagepack.md)
 
 ## Implementação prevista
 

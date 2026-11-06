@@ -248,4 +248,4 @@ O limite `max_total_bytes` passa a **50000000 bytes (50 MB decimais)**. Referên
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0009` — Ingestão fracionada de mídia por Unix socket](../especificacao/contratos/ingestao-midia-fracionada.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.
+Fonte integral: [`CTR-0009` — Ingestão fracionada de mídia por Unix socket](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/ingestao-midia-fracionada.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.

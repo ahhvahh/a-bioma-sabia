@@ -179,4 +179,4 @@ O resultado da conversão é um conjunto de valores normalizados apto a ser entr
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0010` — Origem e conversão dos dados persistentes](../especificacao/contratos/origem-dados-persistencia.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.
+Fonte integral: [`CTR-0010` — Origem e conversão dos dados persistentes](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/origem-dados-persistencia.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.

@@ -163,4 +163,4 @@ O limite `max_total_bytes` de qualquer mídia fracionada foi reduzido de 50 MB p
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0006` — Mídia persistida](../especificacao/contratos/midia-persistida.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.
+Fonte integral: [`CTR-0006` — Mídia persistida](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/midia-persistida.md). Conteúdo técnico preservado, com referências relativas atualizadas; pendências originais permanecem explícitas.

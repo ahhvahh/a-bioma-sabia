@@ -18,7 +18,7 @@ Persistir a requisição normalizada entregue ao Core, independente do formato e
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](../../especificacao/contratos/comando-interno.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
 - [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
 - [PST-0102 — inbound_update](inbound-update.md)
 

@@ -18,7 +18,7 @@ Persistir o estado atual de uma operação assíncrona conforme CTR-0003.
 
 ## Dependências
 
-- [CTR-0003 — Job](../../especificacao/contratos/job.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
 - [PST-0103 — request](request.md)
 - [PST-0105 — job_state_history](job-state-history.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)

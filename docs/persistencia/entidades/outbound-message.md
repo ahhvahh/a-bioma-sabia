@@ -18,7 +18,7 @@ Persistir respostas textuais até confirmação de entrega pelo transporte.
 
 ## Dependências
 
-- [CTR-0001 — Comando interno](../../especificacao/contratos/comando-interno.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
 - [MOD-0002 — Adaptador Telegram](../../especificacao/modulos/telegram.md)
 - [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../concorrencia.md)

@@ -23,8 +23,8 @@ Documentos:
 
 - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
 - [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
-- [CTR-0008 — Ingestão de mídia](especificacao/contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada](especificacao/contratos/ingestao-midia-fracionada.md)
+- [CTR-0008 — Ingestão de mídia](contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada](contratos/CONTR-009-ingestao-midia-fracionada.md)
 
 Falta definir:
 
@@ -38,7 +38,7 @@ Falta definir:
 
 Documentos:
 
-- [CTR-0010 — Origem e conversão dos dados persistentes](especificacao/contratos/origem-dados-persistencia.md)
+- [CTR-0010 — Origem e conversão dos dados persistentes](contratos/CONTR-010-origem-dados-persistencia.md)
 - [PST-0108 — media](persistencia/entidades/media.md)
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
 - [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
@@ -148,7 +148,7 @@ Para os comandos aplicáveis, falta definir:
 
 Documento:
 
-- [CTR-0004 — Auditoria e logs](especificacao/contratos/auditoria-logs.md) — `refinement`
+- [CTR-0004 — Auditoria e logs](contratos/CONTR-004-auditoria-logs.md) — `refinement`
 
 Falta definir:
 

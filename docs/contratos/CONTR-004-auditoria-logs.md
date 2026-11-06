@@ -90,4 +90,4 @@ Antes de retornar a `refined`, definir:
 
 ## Rastreabilidade
 
-Fonte integral: [`CTR-0004` — Auditoria e logs](../especificacao/contratos/auditoria-logs.md). As entradas, saídas, estados, erros e restrições anteriores foram preservados; referências relativas foram adaptadas à estrutura canônica.
+Fonte integral: [`CTR-0004` — Auditoria e logs](https://github.com/ahhvahh/a-bioma-sabia/blob/31c396fed760db93a5abcfefcfeefe6e25bf9ee3/docs/especificacao/contratos/auditoria-logs.md). As entradas, saídas, estados, erros e restrições anteriores foram preservados; referências relativas foram adaptadas à estrutura canônica.
