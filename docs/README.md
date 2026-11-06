@@ -35,6 +35,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `DEC` | Decisão arquitetural (MADR/ADR) | [DEC-001 — Go e binário único](decisoes/DEC-001-go-binario-unico-linux.md) |
 | `ARQ` | Contexto, componentes e módulos de arquitetura | [ARQ-001 — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) |
 | `CONTR` | Contratos técnicos | [CONTR-001 — Comando interno](contratos/CONTR-001-comando-interno.md) |
+| `FLUX` | Fluxos de execução e sequência | [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) |
 
 Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` e `DSG-0002` permanecem como referências históricas; a documentação canônica utiliza prefixos `DEC` e `ARQ`.
 
@@ -97,16 +98,18 @@ Os [contratos canônicos](contratos/README.md) foram revisados documentalmente. 
 
 ### Fluxos
 
-- [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md) — `refinement`
-- [FLW-0002 — Job assíncrono](especificacao/fluxos/job-assincrono.md) — `refinement`
-- [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md) — `refinement`
-- [FLW-0004 — Encerramento do serviço](especificacao/fluxos/encerramento-servico.md) — `refined`
-- [FLW-0005 — Processamento assíncrono por processador registrado](especificacao/fluxos/processamento-assincrono.md) — `refined`
-- [FLW-0006 — Ingestão local de mídia](especificacao/fluxos/ingestao-midia.md) — `refinement`
-- [FLW-0007 — Ingestão fracionada de mídia](especificacao/fluxos/ingestao-midia-fracionada.md) — `refinement`
-- [FLW-0008 — Limpeza de payloads de mídia transmitida](especificacao/fluxos/limpeza-midia.md) — `refined`
-- [FLW-0009 — Registro do estado operacional](especificacao/fluxos/registro-estado-operacional.md) — `refinement`
-- [FLW-0010 — Consumo do estado operacional](especificacao/fluxos/consumo-estado-operacional.md) — `refinement`
+Os [fluxos canônicos](fluxos/README.md) contêm diagramas de sequência e preservam os identificadores originais `FLW`. A revisão documental não comprova implementação, nem encerra estados `refinement` ou `BLOCKED`.
+
+- [FLUX-001 (FLW-0001) — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) — `refinement`
+- [FLUX-002 (FLW-0002) — Job assíncrono](fluxos/FLUX-002-job-assincrono.md) — `refinement`
+- [FLUX-003 (FLW-0003) — Monitoramento agendado](fluxos/FLUX-003-monitoramento-agendado.md) — `refinement`
+- [FLUX-004 (FLW-0004) — Encerramento do serviço](fluxos/FLUX-004-encerramento-servico.md) — `refined`
+- [FLUX-005 (FLW-0005) — Processamento assíncrono por processador registrado](fluxos/FLUX-005-processamento-assincrono.md) — `refined`
+- [FLUX-006 (FLW-0006) — Ingestão local de mídia](fluxos/FLUX-006-ingestao-midia.md) — `refinement`
+- [FLUX-007 (FLW-0007) — Ingestão fracionada de mídia](fluxos/FLUX-007-ingestao-midia-fracionada.md) — `refinement`
+- [FLUX-008 (FLW-0008) — Limpeza de payloads de mídia transmitida](fluxos/FLUX-008-limpeza-midia.md) — `refined`
+- [FLUX-009 (FLW-0009) — Registro do estado operacional](fluxos/FLUX-009-registro-estado-operacional.md) — `refinement`
+- [FLUX-010 (FLW-0010) — Consumo do estado operacional](fluxos/FLUX-010-consumo-estado-operacional.md) — `refinement`
 
 ### Configuração e requisitos
 
