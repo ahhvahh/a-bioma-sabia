@@ -1,7 +1,9 @@
-<!-- A-BIOMA-DOC-STANDARD -->
-<!-- A-BIOMA-DOC-REVISADO -->
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
 
 # Entidade `sabia.media_chunk`
+
+> **Conteúdo lido e migrado para:** [ENT-009 — documento canônico](ENT-009-media-chunk.md). Esta ficha `PST` permanece como fonte histórica; o DDL segue não verificado.
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refined-2da44e?style=flat-square)
 

@@ -1,7 +1,9 @@
-<!-- A-BIOMA-DOC-STANDARD -->
-<!-- A-BIOMA-DOC-REVISADO -->
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
 
 # Entidade `sabia.alert_state`
+
+> **Conteúdo lido e migrado para:** [ENT-007 — documento canônico](ENT-007-alert-state.md). Esta ficha `PST` permanece como fonte histórica; o DDL segue não verificado.
 
 ![Tipo](https://img.shields.io/badge/Tipo-entidade-0550ae?style=flat-square) ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square)
 
