@@ -26,7 +26,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 - [Visão geral, banco e schema](persistencia/readme.md)
 - [Configuração de banco, UDS, roles e permissões](persistencia/configuracao-banco.md)
 - [Relacionamentos e diagrama ER](persistencia/PERS-001-relacionamentos.md)
-- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — seis fichas condicionais/propostas revisadas como `ENT-011` a `ENT-016`
+- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas
 - [Concorrência das filas](persistencia/concorrencia.md)
 - [Pendências do modelo físico](persistencia/pendencias.md)
 
@@ -41,7 +41,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `REF` | Referências de configuração, escopo e testes | [REF-001 — Modelo de configuração](referencia/REF-001-modelo-configuracao.md) |
 | `GUIA` | Procedimentos de preparação e operação | [GUIA-001 — Preparar instalação](guias/GUIA-001-preparar-instalacao.md) |
 | `PERS` | Modelos e relacionamentos de dados | [PERS-001 — Relacionamentos PostgreSQL](persistencia/PERS-001-relacionamentos.md) |
-| `ENT` | Fichas de entidades e campos SQL | [ENT-011 — schema_version condicional](persistencia/entidades/ENT-011-schema-version.md) |
+| `ENT` | Fichas de entidades e campos SQL | [ENT-001 — transport_cursor](persistencia/entidades/ENT-001-transport-cursor.md) |
 
 Os IDs originais `ADR-0001` a `ADR-0013`, `DSG-0001` a `DSG-0002`, `MOD-0001` a `MOD-0008`, `CFG-0001`, `REQ-0001` a `REQ-0002` e os identificadores `PST` permanecem rastreáveis. Os novos documentos usam `DEC`, `ARQ`, `CONTR`, `FLUX`, `REF`, `GUIA` e `PERS` conforme o assunto.
 

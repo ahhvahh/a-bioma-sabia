@@ -4,20 +4,20 @@
 
 Cada ficha define nome de tabela no schema **proposto** `sabia`, campos, tipos PostgreSQL, nulabilidade, origem dos dados e integridade documental. Nenhuma tabela ou migração foi verificada na branch. As propostas podem exigir alterações antes de serem aprovadas.
 
-## Onze entidades herdadas do modelo de estado operacional
+## Onze entidades do modelo operacional (dez migradas e uma condicional)
 
 | ID | Entidade | Estado do documento de origem |
 |---|---|---|
-| PST-0101 | [`sabia.transport_cursor`](transport-cursor.md) | refined |
-| PST-0102 | [`sabia.inbound_update`](inbound-update.md) | refinement |
-| PST-0103 | [`sabia.request`](request.md) | refinement |
-| PST-0104 | [`sabia.job`](job.md) | refined |
-| PST-0105 | [`sabia.job_state_history`](job-state-history.md) | refinement |
-| PST-0106 | [`sabia.outbound_message`](outbound-message.md) | refinement |
-| PST-0107 | [`sabia.alert_state`](alert-state.md) | refinement |
-| PST-0108 | [`sabia.media`](media.md) | refinement |
-| PST-0109 | [`sabia.media_chunk`](media-chunk.md) | refined |
-| PST-0110 | [`sabia.media_transmission`](media-transmission.md) | refinement |
+| ENT-001 (PST-0101) | [`sabia.transport_cursor`](ENT-001-transport-cursor.md) | refined |
+| ENT-002 (PST-0102) | [`sabia.inbound_update`](ENT-002-inbound-update.md) | refinement |
+| ENT-003 (PST-0103) | [`sabia.request`](ENT-003-request.md) | refinement |
+| ENT-004 (PST-0104) | [`sabia.job`](ENT-004-job.md) | refined |
+| ENT-005 (PST-0105) | [`sabia.job_state_history`](ENT-005-job-state-history.md) | refinement |
+| ENT-006 (PST-0106) | [`sabia.outbound_message`](ENT-006-outbound-message.md) | refinement |
+| ENT-007 (PST-0107) | [`sabia.alert_state`](ENT-007-alert-state.md) | refinement |
+| ENT-008 (PST-0108) | [`sabia.media`](ENT-008-media.md) | refinement |
+| ENT-009 (PST-0109) | [`sabia.media_chunk`](ENT-009-media-chunk.md) | refined |
+| ENT-010 (PST-0110) | [`sabia.media_transmission`](ENT-010-media-transmission.md) | refinement |
 | PST-0111 | [`sabia.schema_version`](ENT-011-schema-version.md) | refinement |
 
 ## Cinco propostas administrativas, ainda não aprovadas
@@ -30,8 +30,8 @@ Cada ficha define nome de tabela no schema **proposto** `sabia`, campos, tipos P
 | PST-P04 | [`sabia.script_registry`](ENT-015-script-registry.md) |
 | PST-P05 | [`sabia.action_catalog`](ENT-016-action-catalog.md) |
 
-As fichas `ENT-012` a `ENT-016` são revisões documentais das propostas `PST-P01` a `PST-P05`; **não representam schema existente**, não aprovam DDL e preservam os arquivos históricos. `ENT-011` continua condicional à escolha de migrador. Não criar tabelas de assinatura de eventos, logging, processamento de arquivos administrativos ou versão do schema sem os contratos correspondentes.
+As fichas `ENT-001` a `ENT-010` preservam os dez modelos operacionais `PST-0101` a `PST-0110`, incluindo estados `refined` e `refinement` da origem. As fichas `ENT-012` a `ENT-016` são revisões documentais das propostas `PST-P01` a `PST-P05`; **não representam schema existente**, não aprovam DDL e preservam os arquivos históricos. `ENT-011` continua condicional à escolha de migrador. Não criar tabelas de assinatura de eventos, logging, processamento de arquivos administrativos ou versão do schema sem os contratos correspondentes.
 
-**Fonte histórica:** as 6 fichas originais (sem prefixo `ENT`) permanecem no mesmo diretório, com links de retorno para os destinos canônicos.
+**Fonte histórica:** as 16 fichas originais (sem prefixo `ENT`) permanecem no mesmo diretório, com links de retorno para os destinos canônicos. A migração documental não aprova o DDL.
 
 **Documentos de apoio:** [visão geral](../readme.md), [configuração SQL](../configuracao-banco.md), [relacionamentos](../PERS-001-relacionamentos.md), [pendências](../pendencias.md).

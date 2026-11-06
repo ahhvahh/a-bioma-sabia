@@ -30,20 +30,20 @@ A versão mínima do PostgreSQL **não está fixada** na documentação. Os nome
 | [Entidades](entidades/README.md) | Campos, tipos, nulabilidade, índices e regras por tabela |
 | [Pendências físicas](pendencias.md) | Restrições ainda não aprovadas para implementação |
 
-## Entidades operacionais (origem documental PST)
+## Entidades operacionais (ENT-001 a ENT-011; origem documental PST)
 
 | Tabela no schema `sabia` | Ficha |
 |---|---|
-| `transport_cursor` | [transport-cursor](entidades/transport-cursor.md) |
-| `inbound_update` | [inbound-update](entidades/inbound-update.md) |
-| `request` | [request](entidades/request.md) |
-| `job` | [job](entidades/job.md) |
-| `job_state_history` | [job-state-history](entidades/job-state-history.md) |
-| `outbound_message` | [outbound-message](entidades/outbound-message.md) |
-| `alert_state` | [alert-state](entidades/alert-state.md) |
-| `media` | [media](entidades/media.md) |
-| `media_chunk` | [media-chunk](entidades/media-chunk.md) |
-| `media_transmission` | [media-transmission](entidades/media-transmission.md) |
+| `transport_cursor` | [transport-cursor](entidades/ENT-001-transport-cursor.md) |
+| `inbound_update` | [inbound-update](entidades/ENT-002-inbound-update.md) |
+| `request` | [request](entidades/ENT-003-request.md) |
+| `job` | [job](entidades/ENT-004-job.md) |
+| `job_state_history` | [job-state-history](entidades/ENT-005-job-state-history.md) |
+| `outbound_message` | [outbound-message](entidades/ENT-006-outbound-message.md) |
+| `alert_state` | [alert-state](entidades/ENT-007-alert-state.md) |
+| `media` | [media](entidades/ENT-008-media.md) |
+| `media_chunk` | [media-chunk](entidades/ENT-009-media-chunk.md) |
+| `media_transmission` | [media-transmission](entidades/ENT-010-media-transmission.md) |
 | `schema_version` | [schema-version](entidades/ENT-011-schema-version.md) |
 
 `schema_version` é **condicional**: não deve existir se o mecanismo de migração possuir tabela própria.
@@ -69,6 +69,6 @@ Esses **cinco modelos são sugestões físicas**, pois o [documento de origem](h
 - Todas as relações operacionais propostas usam `ON DELETE RESTRICT`; não há cascata automática e retenção/purge ainda precisa de decisão.
 - **Não implementar** propostas com status `BLOCKED` sem resolver sua definição.
 
-**Classificação:** as propostas `PST-P01` a `PST-P05` e a tabela condicional `PST-0111` possuem fichas canônicas `ENT-011` a `ENT-016`; os originais foram preservados.
+**Classificação:** as dez fichas operacionais `PST-0101` a `PST-0110` possuem destinos `ENT-001` a `ENT-010`. A proposta condicional `PST-0111` e as cinco propostas `PST-P01` a `PST-P05` possuem destinos `ENT-011` a `ENT-016`. Os 16 originais foram preservados.
 
 **Referências internas:** [segurança](../arquitetura/ARQ-006-seguranca-autorizacao.md), [interfaces](../interfaces-servicos.md), [pendências gerais](../pendencias.md), [ADR-0009](../decisoes/DEC-009-postgresql-estado-operacional.md).
