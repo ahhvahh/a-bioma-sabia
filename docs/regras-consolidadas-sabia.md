@@ -1,8 +1,9 @@
 <!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
 
 # A-Bioma Sabiá — Regras consolidadas
 
-> **Absorção parcial:** [REF-005 — Mapa de rastreabilidade](referencia/REF-005-rastreabilidade-regras.md). Os 14 assuntos foram mapeados, mas contratos administrativos e de assinaturas por eventos permanecem incompletos. **Esta origem ainda não recebeu o marcador MIGRADO.**
+> **Conteúdo lido e migrado para:** [REF-005 — mapa de rastreabilidade das 14 seções](referencia/REF-005-rastreabilidade-regras.md), [CONTR-011 — API administrativa UDS](contratos/CONTR-011-api-administrativa-uds.md), [CONTR-012 — assinaturas por eventos](contratos/CONTR-012-assinaturas-eventos.md), [FLUX-011 — aprovação de acesso por bot](fluxos/FLUX-011-aprovacao-acesso-telegram.md) e [FLUX-012 — validação/publicação de scripts](fluxos/FLUX-012-validacao-publicacao-script.md). Os requisitos que já tinham fontes canônicas permanecem nelas, relacionados em REF-005. **Esta origem agora é histórica; os contratos e decisões ainda em `refinement` não foram aprovados nem implementados pela migração.**
 
 ![Tipo](https://img.shields.io/badge/Documento-Regras_consolidadas-555555?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-s%C3%ADntese_em_revis%C3%A3o-d4a72c?style=flat-square)
