@@ -44,7 +44,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 - [Relacionamentos e diagrama ER](persistencia/PERS-001-relacionamentos.md)
 - [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas
 - [Concorrência das filas](persistencia/concorrencia.md)
-- [Pendências do modelo físico](persistencia/pendencias.md)
+- [PERS-002 — Pendências do modelo físico](persistencia/PERS-002-pendencias-modelo-fisico.md)
 
 ## Prefixos documentais
 
@@ -56,7 +56,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 | `FLUX` | Fluxos de execução e sequência | [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) |
 | `REF` | Referências de configuração, escopo e testes | [REF-001 — Modelo de configuração](referencia/REF-001-modelo-configuracao.md) |
 | `GUIA` | Procedimentos de preparação e operação | [GUIA-001 — Preparar instalação](guias/GUIA-001-preparar-instalacao.md) |
-| `PERS` | Modelos e relacionamentos de dados | [PERS-001 — Relacionamentos PostgreSQL](persistencia/PERS-001-relacionamentos.md) |
+| `PERS` | Modelos e relacionamentos de dados | [PERS-001 — Relacionamentos PostgreSQL](persistencia/PERS-001-relacionamentos.md), [PERS-002 — Pendências físicas](persistencia/PERS-002-pendencias-modelo-fisico.md) |
 | `ENT` | Fichas de entidades e campos SQL | [ENT-001 — transport_cursor](persistencia/entidades/ENT-001-transport-cursor.md) |
 | `INTF-TERM` | Interface administrativa de terminal | [INTF-TERM-001 — sabiactl](interfaces/terminal/INTF-TERM-001-sabiactl.md) |
 

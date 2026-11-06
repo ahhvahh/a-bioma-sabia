@@ -23,7 +23,7 @@
 | 10. Persistência e consistência | [readme.md](../persistencia/readme.md) | [PERS-001-relacionamentos.md](../persistencia/PERS-001-relacionamentos.md), [concorrencia.md](../persistencia/concorrencia.md) |
 | 11. Configuração e operação local | [REF-001-modelo-configuracao.md](REF-001-modelo-configuracao.md) | [INTF-TERM-001-sabiactl.md](../interfaces/terminal/INTF-TERM-001-sabiactl.md), [GUIA-001-preparar-instalacao.md](../guias/GUIA-001-preparar-instalacao.md), [CONTR-011 — API administrativa UDS](../contratos/CONTR-011-api-administrativa-uds.md) |
 | 12. Testes e critérios mínimos de aceite | [REF-003-requisitos-testes.md](REF-003-requisitos-testes.md) | [README.md](../testes/telegram/README.md) |
-| 13. Pendências e conflitos que não podem ser inferidos | [REF-006-gate-mvp.md](REF-006-gate-mvp.md) | [pendencias.md](../persistencia/pendencias.md) |
+| 13. Pendências e conflitos que não podem ser inferidos | [REF-006-gate-mvp.md](REF-006-gate-mvp.md) | [pendencias.md](../persistencia/PERS-002-pendencias-modelo-fisico.md) |
 | 14. Rastreabilidade compacta | [README.md](../README.md) | [README.md](README.md) |
 
 ## Divergências que precisam de decisão

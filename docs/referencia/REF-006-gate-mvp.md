@@ -222,6 +222,6 @@ Esses requisitos são **propostos**, não contratos de transporte aprovados; o f
 
 ## Precedência e rastreabilidade
 
-- O [modelo físico PostgreSQL](../persistencia/pendencias.md) é a fonte específica das pendências de banco `DB-01` a `DB-12`; esta referência registra seu impacto no gate geral.
+- O [modelo físico PostgreSQL](../persistencia/PERS-002-pendencias-modelo-fisico.md) é a fonte específica das pendências de banco `DB-01` a `DB-12`; esta referência registra seu impacto no gate geral.
 - Os [canais administrativos](../arquitetura/ARQ-011-inventario-canais-servicos.md) e a [interface do operador](../interfaces/terminal/INTF-TERM-001-sabiactl.md) estão propostos, sem contrato UDS completo.
 - Fonte histórica preservada: [Pendências documentais](../pendencias.md).

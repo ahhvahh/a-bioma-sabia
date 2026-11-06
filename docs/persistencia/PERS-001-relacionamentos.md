@@ -47,7 +47,7 @@ erDiagram
     SCRIPT_REGISTRY ||--o{ ACTION_CATALOG : "vinculado"
 ```
 
-`telegram_contact`, `telegram_access_request`, `telegram_authorization`, `script_registry` e `action_catalog` **não constavam** no PST-0100 original. São propostas documentais para requisitos já descritos de cadastro `/start`, aprovação manual e catálogo por bot. Os identificadores `client_id` não são FKs para uma tabela de bot aprovada: a configuração de clientes ainda reside em YAML. Ver [pendências](pendencias.md).
+`telegram_contact`, `telegram_access_request`, `telegram_authorization`, `script_registry` e `action_catalog` **não constavam** no PST-0100 original. São propostas documentais para requisitos já descritos de cadastro `/start`, aprovação manual e catálogo por bot. Os identificadores `client_id` não são FKs para uma tabela de bot aprovada: a configuração de clientes ainda reside em YAML. Ver [pendências](PERS-002-pendencias-modelo-fisico.md).
 
 ## Regras transacionais
 
@@ -58,7 +58,7 @@ erDiagram
 - Confirmar envio de mensagem e `remote_message_id` na mesma transação.
 - Não excluir pais enquanto houver filhos ativos; limpeza e retenção seguem pendentes.
 
-**Detalhamento:** [entidades](entidades/README.md), [concorrência](concorrencia.md), [integridade pendente](pendencias.md).
+**Detalhamento:** [entidades](entidades/README.md), [concorrência](concorrencia.md), [integridade pendente](PERS-002-pendencias-modelo-fisico.md).
 
 ## Rastreabilidade e limites da revisão
 

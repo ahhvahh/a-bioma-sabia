@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Pendências do modelo físico de persistência
+
+> **Conteúdo lido e migrado para:** [PERS-002 — Pendências do modelo físico](PERS-002-pendencias-modelo-fisico.md). As 12 decisões `DB-01` a `DB-12` permanecem abertas; este arquivo é conservado como origem histórica.
 
 ![Status](https://img.shields.io/badge/Status-refinement-d4a72c?style=flat-square) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-proposta_v0.1-6e7781?style=flat-square)
 

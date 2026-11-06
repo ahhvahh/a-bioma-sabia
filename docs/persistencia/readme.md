@@ -18,7 +18,7 @@
 | Arquivo de configuração | `/etc/sabia/sabia.yaml` | Configuração fora das tabelas SQL |
 | Tipos | `uuid`, `bigint identity`, `text`, `text[]`, `timestamptz`, `jsonb`, `bytea`, `boolean` | Tipos usados pelas propostas existentes |
 
-A versão mínima do PostgreSQL **não está fixada** na documentação. Os nomes de banco, schema e roles acima são escolhas **propostas**, não decisões pré-existentes.
+O [consolidado histórico](../regras-consolidadas-sabia.md) registra **PostgreSQL 17** como versão escolhida no Discovery, sem comprovar versão instalada, versão mínima operacional ou instalação. Banco, schema e roles acima permanecem **propostos**.
 
 ## Organização
 
@@ -28,7 +28,7 @@ A versão mínima do PostgreSQL **não está fixada** na documentação. Os nome
 | [Relacionamentos](PERS-001-relacionamentos.md) | Diagrama Mermaid, PK, FK, cardinalidades e decisões em aberto |
 | [Concorrência e filas](concorrencia.md) | Claim transacional, recuperação e ordem de processamento |
 | [Entidades](entidades/README.md) | Campos, tipos, nulabilidade, índices e regras por tabela |
-| [Pendências físicas](pendencias.md) | Restrições ainda não aprovadas para implementação |
+| [PERS-002 — Pendências físicas](PERS-002-pendencias-modelo-fisico.md) | Restrições ainda não aprovadas para implementação |
 
 ## Entidades operacionais (ENT-001 a ENT-011; origem documental PST)
 

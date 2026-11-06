@@ -33,7 +33,7 @@ flowchart TB
   S --> F[Diretórios internos e scripts]
 ```
 
-As regras de isolamento, usuários Linux e permissões dos sockets estão em [Segurança e acessos](docs/seguranca-acessos.md).
+As regras de isolamento, usuários Linux e permissões dos sockets estão em [Segurança e acessos](docs/arquitetura/ARQ-006-seguranca-autorizacao.md).
 
 ## `sabiactl`: interface administrativa planejada
 
@@ -67,16 +67,16 @@ O operador selecionará um arquivo no `sabiactl`, que enviará o conteúdo pela 
 
 | Assunto | Documento |
 |---|---|
-| Requisitos de implantação | [Instalação](docs/instalacao.md) |
-| Criar e configurar um bot do Telegram | [Criar bot no Telegram](docs/criar-bot-telegram.md) |
+| Requisitos de implantação | [Instalação](docs/guias/GUIA-001-preparar-instalacao.md) |
+| Criar e configurar um bot do Telegram | [Criar bot no Telegram](docs/guias/GUIA-002-criar-bot-telegram.md) |
 | Telas do `sabiactl` e do Telegram | [Guia do usuário](docs/guia-usuario.md) |
 | Dados e tabelas PostgreSQL | [Persistência](docs/persistencia/readme.md) |
-| APIs UDS e contratos | [Interfaces e serviços](docs/interfaces-servicos.md) |
-| Contratos técnicos existentes | [Referência de contratos](docs/referencia-contratos.md) |
-| Contas Linux, grupos e segurança | [Segurança e acessos](docs/seguranca-acessos.md) |
+| APIs UDS e contratos | [Interfaces e serviços](docs/arquitetura/ARQ-011-inventario-canais-servicos.md) |
+| Contratos técnicos existentes | [Referência de contratos](docs/contratos/README.md) |
+| Contas Linux, grupos e segurança | [Segurança e acessos](docs/arquitetura/ARQ-006-seguranca-autorizacao.md) |
 | Fluxos e componentes | [Arquitetura](docs/arquitetura.md) |
 | Acervo completo | [Documentação técnica](docs/README.md) |
-| Bloqueios atuais | [Pendências](docs/pendencias.md) |
+| Bloqueios atuais | [Pendências](docs/referencia/REF-006-gate-mvp.md) |
 
 ## Limitações e decisões pendentes
 

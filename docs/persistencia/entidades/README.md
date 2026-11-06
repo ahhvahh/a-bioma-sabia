@@ -34,4 +34,4 @@ As fichas `ENT-001` a `ENT-010` preservam os dez modelos operacionais `PST-0101`
 
 **Fonte histórica:** as 16 fichas originais (sem prefixo `ENT`) permanecem no mesmo diretório, com links de retorno para os destinos canônicos. A migração documental não aprova o DDL.
 
-**Documentos de apoio:** [visão geral](../readme.md), [configuração SQL](../configuracao-banco.md), [relacionamentos](../PERS-001-relacionamentos.md), [pendências](../pendencias.md).
+**Documentos de apoio:** [visão geral](../readme.md), [configuração SQL](../configuracao-banco.md), [relacionamentos](../PERS-001-relacionamentos.md), [pendências](../PERS-002-pendencias-modelo-fisico.md).
