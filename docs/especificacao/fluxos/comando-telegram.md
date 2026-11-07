@@ -17,9 +17,9 @@ Processar um comando recebido por um cliente Telegram até sua resposta, preserv
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [MOD-0006 — Segurança e autorização](../modulos/seguranca.md)
 - [MOD-0001 — Core e Command Router](../modulos/core-command-router.md)
-- [CTR-0001 — Comando interno](../contratos/comando-interno.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
 
 ## Gatilho
 

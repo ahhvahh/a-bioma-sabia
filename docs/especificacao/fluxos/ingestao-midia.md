@@ -15,10 +15,10 @@ Receber um arquivo de um produtor local, persistir o conteúdo e prepará-lo par
 ## Dependências
 
 - [MOD-0008 — Ingestão e armazenamento de mídia](../modulos/ingestao-midia.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../../contratos/CONTR-009-ingestao-midia-fracionada.md)
 
 ## Gatilho
 

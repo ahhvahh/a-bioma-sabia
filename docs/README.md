@@ -68,7 +68,7 @@ O índice inclui documentos originalmente referenciados na `develop`. Os documen
 
 ### Decisões
 
-Os documentos `DEC` são versões canônicas revisadas dos ADRs. Os originais em `docs/adr/` permanecem como fontes legadas; decisões históricas conflitantes estão identificadas nos destinos.
+Os documentos `DEC` são as referências canônicas dos ADRs. Os 13 originais históricos foram retirados da árvore ativa após conferência e permanecem disponíveis no [histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr); conflitos de decisões estão documentados nos destinos.
 
 - [DEC-001 (ADR-0001) — Go, binário único e serviço Linux](decisoes/DEC-001-go-binario-unico-linux.md) — `refined`
 - [DEC-002 (ADR-0002) — Múltiplos clientes Telegram isolados](decisoes/DEC-002-clientes-telegram-isolados.md) — `refined`
@@ -86,7 +86,7 @@ Os documentos `DEC` são versões canônicas revisadas dos ADRs. Os originais em
 
 ### Desenhos de arquitetura
 
-Os arquivos `ARQ` concentram os desenhos canônicos; os `DSG` originais permanecem preservados em `docs/desenho/`.
+Os arquivos `ARQ` concentram os desenhos canônicos; os dois `DSG` originais podem ser consultados no [histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/desenho).
 
 - [ARQ-001 (DSG-0001) — Contexto do Sabiá](arquitetura/ARQ-001-contexto-sabia.md) — `finalized`
 - [ARQ-002 (DSG-0002) — Componentes do Sabiá Core](arquitetura/ARQ-002-componentes-core.md) — `finalized`

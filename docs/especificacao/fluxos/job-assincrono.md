@@ -15,15 +15,15 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 ## Dependências
 
 - [MOD-0004 — Jobs](../modulos/jobs.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [ADR-0010 — Política de encerramento de jobs](../../decisoes/DEC-010-encerramento-jobs.md)
 - [MOD-0002 — Adaptador Telegram](../modulos/telegram.md)
 - [MOD-0007 — Processadores assíncronos e transporte](../modulos/processadores-assincronos.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
 
 ## Gatilho

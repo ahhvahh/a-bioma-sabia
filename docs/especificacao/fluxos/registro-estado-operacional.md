@@ -14,7 +14,7 @@ Definir o fluxo comum para converter uma informação de origem em estado Postgr
 
 ## Dependências
 
-- [CTR-0010 — Origem e conversão](../contratos/origem-dados-persistencia.md)
+- [CTR-0010 — Origem e conversão](../../contratos/CONTR-010-origem-dados-persistencia.md)
 - [PST-0100 — Entidades persistentes](../../persistencia/entidades/README.md)
 - [PST-0002 — Relacionamentos](../../persistencia/relacionamentos.md)
 

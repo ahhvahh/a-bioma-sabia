@@ -14,12 +14,12 @@ Integrar cada cliente configurado com a Telegram Bot API sem acoplar o Core ao p
 
 ## Dependências
 
-- [DSG-0001 — Contexto do Sabiá](../../desenho/contexto-sabia.md)
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0005 — Telegram Long Polling](../../adr/telegram/long-polling.md)
-- [ADR-0008 — Menor privilégio e autorização explícita](../../adr/seguranca/menor-privilegio-e-autorizacao.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
+- [DSG-0001 — Contexto do Sabiá](../../arquitetura/ARQ-001-contexto-sabia.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0005 — Telegram Long Polling](../../decisoes/DEC-005-telegram-long-polling.md)
+- [ADR-0008 — Menor privilégio e autorização explícita](../../decisoes/DEC-008-menor-privilegio-autorizacao.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [ADR-0010 — Política de encerramento de jobs](../../decisoes/DEC-010-encerramento-jobs.md)
 
 ## Responsabilidades
 
@@ -46,11 +46,11 @@ Comandos internos e chamadas de envio/edição de mensagens.
 
 ## Interfaces e contratos
 
-- [CTR-0001 — Comando interno](../contratos/comando-interno.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 
 ## Persistência
 

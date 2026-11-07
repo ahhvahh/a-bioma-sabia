@@ -14,9 +14,9 @@ Resolver operações locais por identificador permitido e executá-las de forma 
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0004 — Registro explícito de scripts](../../adr/execucao/registro-explicito-de-scripts.md)
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0004 — Registro explícito de scripts](../../decisoes/DEC-004-registro-explicito-scripts.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
 - [CFG-0001 — Modelo de configuração](../configuracao/modelo-configuracao.md)
 
 ## Responsabilidades
@@ -40,11 +40,11 @@ Caminho do executável, interpretador, diretório de trabalho e política de amb
 
 ## Saídas
 
-Resultado de execução conforme [CTR-0002 — Execução de script](../contratos/execucao-script.md).
+Resultado de execução conforme [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md).
 
 ## Interfaces e contratos
 
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
 
 ## Persistência
 

@@ -14,11 +14,11 @@ Impedir que clientes não autorizados ou entradas arbitrárias alcancem operaç�
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0008 — Menor privilégio e autorização explícita](../../adr/seguranca/menor-privilegio-e-autorizacao.md)
-- [ADR-0004 — Registro explícito de scripts](../../adr/execucao/registro-explicito-de-scripts.md)
-- [CTR-0004 — Auditoria e logs](../contratos/auditoria-logs.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0008 — Menor privilégio e autorização explícita](../../decisoes/DEC-008-menor-privilegio-autorizacao.md)
+- [ADR-0004 — Registro explícito de scripts](../../decisoes/DEC-004-registro-explicito-scripts.md)
+- [CTR-0004 — Auditoria e logs](../../contratos/CONTR-004-auditoria-logs.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
 
 ## Responsabilidades
 
@@ -44,7 +44,7 @@ Autorizado ou negado.
 
 ## Interfaces e contratos
 
-- [CTR-0004 — Auditoria e logs](../contratos/auditoria-logs.md)
+- [CTR-0004 — Auditoria e logs](../../contratos/CONTR-004-auditoria-logs.md)
 
 ## Eventos
 

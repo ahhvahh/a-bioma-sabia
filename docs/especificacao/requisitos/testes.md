@@ -14,7 +14,7 @@ Definir a cobertura mínima de testes necessária para o primeiro MVP.
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
 - [REQ-0001 — Escopo do primeiro MVP](mvp.md)
 
 ## Cobertura mínima

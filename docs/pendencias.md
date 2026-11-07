@@ -22,7 +22,7 @@ ADRs necessários ao MVP estão `refined` e os desenhos estão `finalized`. O bl
 Documentos:
 
 - [CFG-0001 — Modelo de configuração](especificacao/configuracao/modelo-configuracao.md)
-- [ADR-0009 — Persistência do estado operacional](adr/persistencia/estado-operacional.md)
+- [ADR-0009 — Persistência do estado operacional](decisoes/DEC-009-postgresql-estado-operacional.md)
 - [CTR-0008 — Ingestão de mídia](contratos/CONTR-008-ingestao-midia-messagepack.md)
 - [CTR-0009 — Ingestão fracionada](contratos/CONTR-009-ingestao-midia-fracionada.md)
 

@@ -104,4 +104,4 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 
 ## Rastreabilidade
 
-Documento original preservado: [ADR-0013](../adr/processamento/ingestao-midia-fracionada.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.
+Documento original preservado: [ADR-0013](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr/processamento/ingestao-midia-fracionada.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.

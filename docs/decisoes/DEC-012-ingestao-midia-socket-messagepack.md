@@ -101,4 +101,4 @@ MessagePack oferece representação binária nativa e estrutura de mensagem comp
 
 ## Rastreabilidade
 
-Documento original preservado: [ADR-0012](../adr/processamento/ingestao-midia-socket-messagepack.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.
+Documento original preservado: [ADR-0012](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr/processamento/ingestao-midia-socket-messagepack.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.

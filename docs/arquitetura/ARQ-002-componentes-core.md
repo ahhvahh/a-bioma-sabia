@@ -92,4 +92,4 @@ O desenho representa componentes planejados. O canal por socket dedicado a proce
 
 ## Rastreabilidade
 
-[DSG-0002 — desenho original](../desenho/componentes-core.md). A versão original mantém o diagrama textual, preservado para comparação histórica.
+[DSG-0002 — desenho original](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/desenho/componentes-core.md). A versão original mantém o diagrama textual, preservado para comparação histórica.

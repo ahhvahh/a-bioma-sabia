@@ -15,9 +15,9 @@ Executar verificações periódicas e enviar alertas apenas quando a avaliação
 ## Dependências
 
 - [MOD-0005 — Scheduler e Alert Manager](../modulos/scheduler-alertas.md)
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
-- [ADR-0007 — Scheduler e alertas orientados a estado](../../adr/monitoramento/scheduler-alertas-estado.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
+- [ADR-0007 — Scheduler e alertas orientados a estado](../../decisoes/DEC-007-alertas-estado.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
 
 ## Gatilho
 

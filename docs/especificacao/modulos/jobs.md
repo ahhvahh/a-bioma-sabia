@@ -14,13 +14,13 @@ Executar operações demoradas sem bloquear o recebimento de comandos e garantir
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0006 — Jobs assíncronos](../../adr/processamento/jobs-assincronos.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0006 — Jobs assíncronos](../../decisoes/DEC-006-jobs-assincronos.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [ADR-0010 — Política de encerramento de jobs](../../decisoes/DEC-010-encerramento-jobs.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 - [MOD-0007 — Processadores assíncronos e transporte](processadores-assincronos.md)
 
 ## Responsabilidades
@@ -49,8 +49,8 @@ Identificador de job, mudanças de estado, eventos `loading`, resposta `finally`
 
 ## Interfaces e contratos
 
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
 
 ## Persistência
 

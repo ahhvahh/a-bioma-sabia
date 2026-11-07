@@ -14,8 +14,8 @@ Remover do PostgreSQL conteúdos binários já entregues sem interferir em trans
 
 ## Dependências
 
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 - [MOD-0008 — Ingestão e armazenamento de mídia](../modulos/ingestao-midia.md)
 
 ## Gatilhos

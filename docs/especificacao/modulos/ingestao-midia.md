@@ -14,13 +14,13 @@ Receber mídia de produtores locais por Unix socket, validar a correlação, per
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../decisoes/DEC-012-ingestao-midia-socket-messagepack.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../../contratos/CONTR-009-ingestao-midia-fracionada.md)
 - [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/limpeza-midia.md)
 
 ## Responsabilidades
@@ -57,10 +57,10 @@ Uploads integrais CTR-0008, chunks CTR-0009 e mídia recebida internamente pelo 
 
 ## Interfaces e contratos
 
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../contratos/ingestao-midia-fracionada.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0009 — Ingestão fracionada de mídia por Unix socket](../../contratos/CONTR-009-ingestao-midia-fracionada.md)
 
 ## Persistência
 

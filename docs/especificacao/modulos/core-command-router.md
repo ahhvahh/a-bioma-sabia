@@ -14,9 +14,9 @@ Receber comandos internos já autorizados, localizar a operação cadastrada e d
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0003 — Core independente do Telegram](../../adr/arquitetura/core-independente-do-telegram.md)
-- [CTR-0001 — Comando interno](../contratos/comando-interno.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0003 — Core independente do Telegram](../../decisoes/DEC-003-core-independente-telegram.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
 
 ## Responsabilidades
 
@@ -40,9 +40,9 @@ Envelope conforme CTR-0001 com `type: message | job | file | error`, `request_id
 
 ## Interfaces e contratos
 
-- [CTR-0001 — Comando interno](../contratos/comando-interno.md)
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
-- [CTR-0003 — Job](../contratos/job.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
 
 ## Eventos
 

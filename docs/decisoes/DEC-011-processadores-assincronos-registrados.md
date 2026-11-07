@@ -99,4 +99,4 @@ No MVP, o processador assíncrono é um script Bash previamente registrado; serv
 
 ## Rastreabilidade
 
-Documento original preservado: [ADR-0011](../adr/processamento/processadores-assincronos-registrados.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.
+Documento original preservado: [ADR-0011](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr/processamento/processadores-assincronos-registrados.md). A revisão documental não comprova implementação, execução ou aprovação de novos contratos.

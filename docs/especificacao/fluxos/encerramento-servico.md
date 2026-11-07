@@ -14,13 +14,13 @@ Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativo
 
 ## Dependências
 
-- [ADR-0001 — Go, binário único e serviço Linux](../../adr/runtime/go-binario-unico.md)
-- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
+- [ADR-0001 — Go, binário único e serviço Linux](../../decisoes/DEC-001-go-binario-unico-linux.md)
+- [ADR-0010 — Política de encerramento de jobs](../../decisoes/DEC-010-encerramento-jobs.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
 - [MOD-0004 — Jobs](../modulos/jobs.md)
 - [MOD-0005 — Scheduler e Alert Manager](../modulos/scheduler-alertas.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 
 ## Gatilho
 

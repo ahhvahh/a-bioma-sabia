@@ -14,7 +14,7 @@ Delimitar o primeiro MVP para impedir implementação prematura de processadores
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
 
 ## Capacidades obrigatórias
 

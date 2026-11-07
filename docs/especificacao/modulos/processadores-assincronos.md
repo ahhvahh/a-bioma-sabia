@@ -14,12 +14,12 @@ Registrar scripts Bash assíncronos e adaptar sua execução ao protocolo comum 
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../decisoes/DEC-011-processadores-assincronos-registrados.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
 
 ## Responsabilidades
 
@@ -47,8 +47,8 @@ Eventos normalizados conforme CTR-0005.
 
 ## Interfaces e contratos
 
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
 
 ## Persistência
 

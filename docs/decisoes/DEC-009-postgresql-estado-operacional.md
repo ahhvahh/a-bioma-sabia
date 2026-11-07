@@ -99,7 +99,7 @@ O uso de banco e role próprios mantém o Sabiá isolado mesmo quando a infraest
 - [ADR-0005 — Telegram Long Polling](DEC-005-telegram-long-polling.md)
 - [ADR-0006 — Jobs assíncronos](DEC-006-jobs-assincronos.md)
 - [ADR-0007 — Scheduler e alertas orientados a estado](DEC-007-alertas-estado.md)
-- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../adr/processamento/ingestao-midia-socket-messagepack.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](DEC-012-ingestao-midia-socket-messagepack.md)
 
 ## Limitações da revisão
 
@@ -109,4 +109,4 @@ A revisão documental não demonstra implementação, execução de testes ou ap
 
 ## Fonte e rastreabilidade
 
-Documento histórico preservado: [`ADR-0009` original](../adr/persistencia/estado-operacional.md). O identificador e a versão original foram mantidos para rastrear a decisão, sem renumerar outros ADRs.
+Documento histórico preservado: [`ADR-0009` original](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr/persistencia/estado-operacional.md). O identificador e a versão original foram mantidos para rastrear a decisão, sem renumerar outros ADRs.

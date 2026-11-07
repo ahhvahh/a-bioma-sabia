@@ -17,11 +17,11 @@ Executar um comando em processador assíncrono registrado, encaminhar progresso 
 - [MOD-0007 — Processadores assíncronos e transporte](../modulos/processadores-assincronos.md)
 - [MOD-0008 — Ingestão e armazenamento de mídia](../modulos/ingestao-midia.md)
 - [MOD-0004 — Jobs](../modulos/jobs.md)
-- [CTR-0005 — Protocolo de processador assíncrono](../contratos/processador-assincrono.md)
-- [CTR-0006 — Mídia persistida](../contratos/midia-persistida.md)
-- [CTR-0007 — Transmissão persistente de mídia](../contratos/transmissao-midia.md)
-- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../contratos/ingestao-midia-messagepack.md)
-- [CTR-0001 — Comando interno](../contratos/comando-interno.md)
+- [CTR-0005 — Protocolo de processador assíncrono](../../contratos/CONTR-005-processador-assincrono.md)
+- [CTR-0006 — Mídia persistida](../../contratos/CONTR-006-midia-persistida.md)
+- [CTR-0007 — Transmissão persistente de mídia](../../contratos/CONTR-007-transmissao-midia.md)
+- [CTR-0008 — Ingestão de mídia por Unix socket e MessagePack](../../contratos/CONTR-008-ingestao-midia-messagepack.md)
+- [CTR-0001 — Comando interno](../../contratos/CONTR-001-comando-interno.md)
 
 ## Gatilho
 

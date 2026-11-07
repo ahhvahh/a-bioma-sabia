@@ -56,4 +56,4 @@ Desenho conceitual: os três clientes Telegram são previstos, mas não há serv
 
 ## Rastreabilidade
 
-[DSG-0001 — desenho original](../desenho/contexto-sabia.md). A versão original mantém o diagrama textual, preservado para comparação histórica.
+[DSG-0001 — desenho original](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/desenho/contexto-sabia.md). A versão original mantém o diagrama textual, preservado para comparação histórica.

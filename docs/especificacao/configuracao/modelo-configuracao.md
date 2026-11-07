@@ -14,14 +14,14 @@ Definir a fonte, estrutura e regras de validação da configuração operacional
 
 ## Dependências
 
-- [ADR-0002 — Múltiplos clientes Telegram isolados](../../adr/telegram/multiplos-clientes-isolados.md)
-- [ADR-0004 — Registro explícito de scripts](../../adr/execucao/registro-explicito-de-scripts.md)
-- [ADR-0008 — Menor privilégio e autorização explícita](../../adr/seguranca/menor-privilegio-e-autorizacao.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [ADR-0010 — Política de encerramento de jobs](../../adr/runtime/encerramento-de-jobs.md)
-- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../adr/processamento/processadores-assincronos-registrados.md)
-- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../adr/processamento/ingestao-midia-socket-messagepack.md)
-- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](../../adr/processamento/ingestao-midia-fracionada.md)
+- [ADR-0002 — Múltiplos clientes Telegram isolados](../../decisoes/DEC-002-clientes-telegram-isolados.md)
+- [ADR-0004 — Registro explícito de scripts](../../decisoes/DEC-004-registro-explicito-scripts.md)
+- [ADR-0008 — Menor privilégio e autorização explícita](../../decisoes/DEC-008-menor-privilegio-autorizacao.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [ADR-0010 — Política de encerramento de jobs](../../decisoes/DEC-010-encerramento-jobs.md)
+- [ADR-0011 — Processadores assíncronos registrados e transporte de progresso](../../decisoes/DEC-011-processadores-assincronos-registrados.md)
+- [ADR-0012 — Ingestão persistente de mídia por Unix socket](../../decisoes/DEC-012-ingestao-midia-socket-messagepack.md)
+- [ADR-0013 — Dois canais de ingestão de mídia e upload fracionado](../../decisoes/DEC-013-ingestao-midia-fracionada.md)
 
 ## Fonte principal
 

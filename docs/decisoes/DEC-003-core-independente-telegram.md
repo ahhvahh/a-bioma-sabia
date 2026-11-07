@@ -63,4 +63,4 @@ A revisão documental não demonstra implementação, execução de testes ou ap
 
 ## Fonte e rastreabilidade
 
-Documento histórico preservado: [`ADR-0003` original](../adr/arquitetura/core-independente-do-telegram.md). O identificador e a versão original foram mantidos para rastrear a decisão, sem renumerar outros ADRs.
+Documento histórico preservado: [`ADR-0003` original](https://github.com/ahhvahh/a-bioma-sabia/blob/f898239c4519b1c8fd21327adf7a8407a1bbeaf7/docs/adr/arquitetura/core-independente-do-telegram.md). O identificador e a versão original foram mantidos para rastrear a decisão, sem renumerar outros ADRs.

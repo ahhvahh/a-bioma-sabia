@@ -14,10 +14,10 @@ Definir como componentes consultam o PostgreSQL e convertem registros persistido
 
 ## Dependências
 
-- [CTR-0010 — Origem e conversão](../contratos/origem-dados-persistencia.md)
+- [CTR-0010 — Origem e conversão](../../contratos/CONTR-010-origem-dados-persistencia.md)
 - [PST-0100 — Entidades persistentes](../../persistencia/entidades/README.md)
-- [CTR-0003 — Job](../contratos/job.md)
-- [CTR-0007 — Transmissão de mídia](../contratos/transmissao-midia.md)
+- [CTR-0003 — Job](../../contratos/CONTR-003-job.md)
+- [CTR-0007 — Transmissão de mídia](../../contratos/CONTR-007-transmissao-midia.md)
 - [PST-0003 — Claim concorrente de filas persistentes](../../persistencia/concorrencia.md)
 
 ## Princípio

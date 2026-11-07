@@ -14,10 +14,10 @@ Executar verificações periódicas e notificar clientes de alerta apenas quando
 
 ## Dependências
 
-- [DSG-0002 — Componentes do Sabiá Core](../../desenho/componentes-core.md)
-- [ADR-0007 — Scheduler e alertas orientados a estado](../../adr/monitoramento/scheduler-alertas-estado.md)
-- [ADR-0009 — Persistência do estado operacional](../../adr/persistencia/estado-operacional.md)
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
+- [DSG-0002 — Componentes do Sabiá Core](../../arquitetura/ARQ-002-componentes-core.md)
+- [ADR-0007 — Scheduler e alertas orientados a estado](../../decisoes/DEC-007-alertas-estado.md)
+- [ADR-0009 — Persistência do estado operacional](../../decisoes/DEC-009-postgresql-estado-operacional.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
 
 ## Responsabilidades
 
@@ -43,7 +43,7 @@ Nenhuma mensagem quando não houver evento relevante, salvo tarefa configurada p
 
 ## Interfaces e contratos
 
-- [CTR-0002 — Execução de script](../contratos/execucao-script.md)
+- [CTR-0002 — Execução de script](../../contratos/CONTR-002-execucao-script.md)
 
 ## Persistência
 
