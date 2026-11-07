@@ -75,7 +75,7 @@ Prevista para os pacotes internos de jobs, fila e workers. **Não verificada no 
 
 ## Pendências de integração
 
-Estados, recovery e concorrência são especificados por [CTR-0003](../contratos/CONTR-003-job.md) e pela [entidade job](../persistencia/entidades/job.md). Não há testes de execução ou workers verificáveis nesta branch.
+Estados, recovery e concorrência são especificados por [CTR-0003](../contratos/CONTR-003-job.md) e pela [entidade job](../persistencia/entidades/ENT-004-job.md). Não há testes de execução ou workers verificáveis nesta branch.
 
 ## Rastreabilidade
 

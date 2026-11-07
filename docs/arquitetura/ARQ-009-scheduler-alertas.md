@@ -83,7 +83,7 @@ Prevista para os pacotes internos de scheduler e alerts.
 
 ## Pendências e integração
 
-A correlação de alertas do Scheduler em `outbound_message` sem `request_id`, o registro de `last_notified_at` e o schema final dos agendamentos continuam pendentes. Consultar [fluxo de monitoramento](../fluxos/FLUX-003-monitoramento-agendado.md) e [alert_state](../persistencia/entidades/alert-state.md).
+A correlação de alertas do Scheduler em `outbound_message` sem `request_id`, o registro de `last_notified_at` e o schema final dos agendamentos continuam pendentes. Consultar [fluxo de monitoramento](../fluxos/FLUX-003-monitoramento-agendado.md) e [alert_state](../persistencia/entidades/ENT-007-alert-state.md).
 
 ## Rastreabilidade
 

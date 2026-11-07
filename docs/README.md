@@ -42,7 +42,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 - [Visão geral, banco e schema](persistencia/readme.md)
 - [Configuração de banco, UDS, roles e permissões](persistencia/configuracao-banco.md)
 - [Relacionamentos e diagrama ER](persistencia/PERS-001-relacionamentos.md)
-- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas
+- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas. Quinze fichas históricas `PST` foram removidas da árvore ativa, com [originais no histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades); `transport-cursor.md` permanece preservado.
 - [Concorrência das filas](persistencia/concorrencia.md)
 - [PERS-002 — Pendências do modelo físico](persistencia/PERS-002-pendencias-modelo-fisico.md)
 

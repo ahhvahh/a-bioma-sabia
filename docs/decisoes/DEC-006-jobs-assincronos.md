@@ -62,7 +62,7 @@ Mantém o canal responsivo e permite observabilidade de progresso.
 
 ## Limitações da revisão
 
-Uma mesma `request` pode gerar vários jobs; a quantidade máxima de jobs em execução foi definida na origem em função das threads lógicas de CPU no startup. O esquema físico está na [entidade job](../persistencia/entidades/job.md), sem comprovação de testes de concorrência.
+Uma mesma `request` pode gerar vários jobs; a quantidade máxima de jobs em execução foi definida na origem em função das threads lógicas de CPU no startup. O esquema físico está na [entidade job](../persistencia/entidades/ENT-004-job.md), sem comprovação de testes de concorrência.
 
 A revisão documental não demonstra implementação, execução de testes ou aprovação de novas regras.
 

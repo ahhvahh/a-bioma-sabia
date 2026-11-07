@@ -48,4 +48,4 @@ A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações 
 
 ## Rastreabilidade
 
-Fonte histórica integral: [`PST-P05` — `sabia.action_catalog`](action-catalog.md). Nenhum campo do quadro de origem foi removido nesta revisão.
+Fonte histórica integral: [`PST-P05` — `sabia.action_catalog`](https://github.com/ahhvahh/a-bioma-sabia/blob/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades/action-catalog.md). Nenhum campo do quadro de origem foi removido nesta revisão.

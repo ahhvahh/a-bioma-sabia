@@ -58,7 +58,7 @@ Atende ao requisito explícito de não expor porta pública e ao escopo definido
 
 ## Limitações da revisão
 
-O offset deve respeitar a aceitação durável dos updates; consulte [entidade inbound_update](../persistencia/entidades/inbound-update.md). Não há comprovação de teste real de long polling.
+O offset deve respeitar a aceitação durável dos updates; consulte [entidade inbound_update](../persistencia/entidades/ENT-002-inbound-update.md). Não há comprovação de teste real de long polling.
 
 A revisão documental não demonstra implementação, execução de testes ou aprovação de novas regras.
 

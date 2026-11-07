@@ -83,7 +83,7 @@ A política preserva a entrega de respostas sempre que possível, limita o tempo
 
 ## Limitações da revisão
 
-O encerramento descrito é uma política planejada; notificações de shutdown, retries, tempo limite e retomada devem ser confirmados por testes. A relação com jobs e persistência está em [entidade job](../persistencia/entidades/job.md).
+O encerramento descrito é uma política planejada; notificações de shutdown, retries, tempo limite e retomada devem ser confirmados por testes. A relação com jobs e persistência está em [entidade job](../persistencia/entidades/ENT-004-job.md).
 
 A revisão documental não demonstra implementação, execução de testes ou aprovação de novas regras.
 

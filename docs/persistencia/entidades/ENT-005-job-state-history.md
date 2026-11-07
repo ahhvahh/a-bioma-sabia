@@ -72,4 +72,4 @@ Todas as decisões físicas pendentes permanecem registradas em [pendências Pos
 
 ## Rastreabilidade
 
-Fonte imediatamente anterior: [PST-0105 — `sabia.job_state_history`](job-state-history.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no arquivo legado.
+Fonte imediatamente anterior: [PST-0105 — `sabia.job_state_history`](https://github.com/ahhvahh/a-bioma-sabia/blob/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades/job-state-history.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no arquivo legado.

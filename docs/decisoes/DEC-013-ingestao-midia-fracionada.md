@@ -100,7 +100,7 @@ A separação mantém o socket simples previsível, torna arquivos maiores persi
 
 ## Pendências e precedência documental
 
-**Atualização posterior à decisão histórica:** o ADR registra teto de `100000000` bytes para mídia fracionada; o [CTR-0009](../contratos/CONTR-009-ingestao-midia-fracionada.md) e a [ficha de mídia](../persistencia/entidades/media.md) estabelecem **`50000000` bytes (50 MB decimais)**. O limite mais recente substitui a proposta anterior. O conflito de grupo Linux `abioma`/`absabia` permanece indicado em [segurança](../seguranca-acessos.md).
+**Atualização posterior à decisão histórica:** o ADR registra teto de `100000000` bytes para mídia fracionada; o [CTR-0009](../contratos/CONTR-009-ingestao-midia-fracionada.md) e a [ficha de mídia](../persistencia/entidades/ENT-008-media.md) estabelecem **`50000000` bytes (50 MB decimais)**. O limite mais recente substitui a proposta anterior. O conflito de grupo Linux `abioma`/`absabia` permanece indicado em [segurança](../seguranca-acessos.md).
 
 ## Rastreabilidade
 

@@ -98,4 +98,4 @@ Todas as decisões físicas pendentes permanecem registradas em [pendências Pos
 
 ## Rastreabilidade
 
-Fonte imediatamente anterior: [PST-0106 — `sabia.outbound_message`](outbound-message.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no arquivo legado.
+Fonte imediatamente anterior: [PST-0106 — `sabia.outbound_message`](https://github.com/ahhvahh/a-bioma-sabia/blob/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades/outbound-message.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no arquivo legado.

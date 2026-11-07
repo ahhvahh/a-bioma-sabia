@@ -33,11 +33,11 @@ Escolha: _
 
 O administrador escolhe um bot e usa `↑`/`↓` para percorrer as solicitações pendentes. `→` prepara a aprovação; `←` prepara a rejeição/retirada da fila. **Toda decisão exige `Y` para confirmar**; `N` ou `Esc` cancela. A solicitação recusada sai da fila, mas permanece registrada para auditoria.
 
-As telas administrativas de solicitação de acesso ainda não possuem documento recuperado nesta branch. O [modelo de solicitação de acesso](persistencia/entidades/telegram-access-request.md) descreve apenas a persistência proposta, não o comportamento da interface.
+As telas administrativas de solicitação de acesso ainda não possuem documento recuperado nesta branch. O [modelo de solicitação de acesso](persistencia/entidades/ENT-013-telegram-access-request.md) descreve apenas a persistência proposta, não o comportamento da interface.
 
 ## Como cadastrar um script e disponibilizar uma ação no bot
 
-> **Fluxo planejado para o `sabiactl`: as telas, atalhos e confirmações abaixo ainda não são executáveis.** A referência histórica `FLW-007` não está disponível nesta branch; a [entidade proposta de catálogo de ações](persistencia/entidades/action-catalog.md) descreve apenas os vínculos de persistência, não o fluxo completo. A especificação prevê scripts cadastrados e ações persistidas; o **upload com validação prévia e a gestão pelo `sabiactl`** são requisitos novos, cujo contrato administrativo ainda precisa ser implementado.
+> **Fluxo planejado para o `sabiactl`: as telas, atalhos e confirmações abaixo ainda não são executáveis.** A referência histórica `FLW-007` não está disponível nesta branch; a [entidade proposta de catálogo de ações](persistencia/entidades/ENT-016-action-catalog.md) descreve apenas os vínculos de persistência, não o fluxo completo. A especificação prevê scripts cadastrados e ações persistidas; o **upload com validação prévia e a gestão pelo `sabiactl`** são requisitos novos, cujo contrato administrativo ainda precisa ser implementado.
 
 A sequência para o operador será: **selecionar arquivo → verificar → enviar para área de validação → aprovar cadastro do script → escolher bot → cadastrar ação → publicar**. Se o script já tiver sido validado e cadastrado, é possível **pular o envio** e simplesmente selecioná-lo ao criar uma nova ação.
 
@@ -281,6 +281,6 @@ Esses comandos constam do escopo, mas seus argumentos, mensagens de retorno e re
 
 - [Contrato operacional Telegram e exemplos de botões](referencia/REF-004-operacao-telegram.md)
 - [FLUX-001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md) — fluxo disponível; não substitui integralmente o documento histórico `FLW-006`, ausente nesta branch
-- `FLW-007` — referência histórica ausente nesta branch; ver [modelo proposto de ações](persistencia/entidades/action-catalog.md), que não substitui o fluxo administrativo
+- `FLW-007` — referência histórica ausente nesta branch; ver [modelo proposto de ações](persistencia/entidades/ENT-016-action-catalog.md), que não substitui o fluxo administrativo
 - [Escopo do MVP](referencia/REF-002-escopo-primeiro-mvp.md)
 - [Pendências dos contratos operacionais](referencia/REF-006-gate-mvp.md)

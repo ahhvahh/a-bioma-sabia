@@ -45,4 +45,4 @@ A ficha documenta campos, tipos PostgreSQL, nulabilidade, índices e relações 
 
 ## Rastreabilidade
 
-Fonte histórica integral: [`PST-P03` — `sabia.telegram_authorization`](telegram-authorization.md). Nenhum campo do quadro de origem foi removido nesta revisão.
+Fonte histórica integral: [`PST-P03` — `sabia.telegram_authorization`](https://github.com/ahhvahh/a-bioma-sabia/blob/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades/telegram-authorization.md). Nenhum campo do quadro de origem foi removido nesta revisão.

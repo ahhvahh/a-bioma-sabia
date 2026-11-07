@@ -55,7 +55,7 @@ Um usuário Telegram que envia `/start` torna-se contato conhecido, **não autom
 
 O serviço deverá limitar a aprovação por bot e identidade Telegram estável, impor autorização administrativa além da participação em `absabia`, registrar a decisão e impedir aprovações concorrentes contraditórias. Rejeitar retira da lista de pendências, mas preserva histórico. O banco nunca será acessado diretamente pela aplicação de terminal.
 
-Detalhes do fluxo administrativo: a referência histórica `docs/solicitacoes-acesso.md` não está disponível nesta branch. O [modelo de solicitações de acesso](persistencia/entidades/telegram-access-request.md) documenta somente a entidade proposta. A precedência de `allowed_users` no YAML e aprovações dinâmicas permanece indefinida.
+Detalhes do fluxo administrativo: a referência histórica `docs/solicitacoes-acesso.md` não está disponível nesta branch. O [modelo de solicitações de acesso](persistencia/entidades/ENT-013-telegram-access-request.md) documenta somente a entidade proposta. A precedência de `allowed_users` no YAML e aprovações dinâmicas permanece indefinida.
 
 ## Compatibilidade documental
 

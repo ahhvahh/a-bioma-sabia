@@ -57,7 +57,7 @@ No startup/polling, o adaptador lê o cursor e calcula:
 
 ## Verificação de consistência
 
-O identificador lógico `client_id` vem do adaptador configurado, não de uma FK para tabela de bots. A chave `(client_id, transport)` isola os cursores por cliente e transporte; o commit do update e do cursor deve ser atômico. Consulte [entrada recebida](inbound-update.md) e [relacionamentos](../relacionamentos.md).
+O identificador lógico `client_id` vem do adaptador configurado, não de uma FK para tabela de bots. A chave `(client_id, transport)` isola os cursores por cliente e transporte; o commit do update e do cursor deve ser atômico. Consulte [entrada recebida](ENT-002-inbound-update.md) e [relacionamentos](../relacionamentos.md).
 
 ## Chaves, índices e integridade física
 
