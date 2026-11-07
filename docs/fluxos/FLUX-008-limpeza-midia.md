@@ -15,7 +15,7 @@ Remover do PostgreSQL conteúdos binários já entregues sem interferir em trans
 
 - [CONTR-006 (CTR-0006) — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
 - [CONTR-007 (CTR-0007) — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
-- [MOD-0008 — Ingestão e armazenamento de mídia](../especificacao/modulos/ingestao-midia.md)
+- [MOD-0008 — Ingestão e armazenamento de mídia](../arquitetura/ARQ-010-ingestao-midia.md)
 
 ## Gatilhos
 
@@ -142,4 +142,4 @@ Media Store, Media Delivery Queue e estado operacional PostgreSQL.
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0008](../especificacao/fluxos/limpeza-midia.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
+[Fonte histórica FLW-0008](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/limpeza-midia.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.

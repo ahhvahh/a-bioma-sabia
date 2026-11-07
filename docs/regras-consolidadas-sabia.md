@@ -249,7 +249,7 @@ Este documento é **autossuficiente quanto às regras resumidas**. Os caminhos a
 | Telegram e filas | `docs/especificacao/modulos/telegram.md`, `docs/telegram-operacao-2026.md`, `docs/especificacao/persistencia/claim-concorrente-filas.md` |
 | Jobs e shutdown | `docs/contratos/CONTR-003-job.md`, `docs/contratos/CONTR-005-processador-assincrono.md`, `docs/decisoes/DEC-010-encerramento-jobs.md` |
 | Mídia | `docs/contratos/CONTR-008-ingestao-midia-messagepack.md`, `docs/contratos/CONTR-009-ingestao-midia-fracionada.md`, `docs/contratos/CONTR-007-transmissao-midia.md` |
-| Scheduler e assinatura de eventos | `docs/especificacao/fluxos/monitoramento-agendado.md`, `docs/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md` |
+| Scheduler e assinatura de eventos | `docs/fluxos/FLUX-003-monitoramento-agendado.md`, `docs/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md` |
 | Modelo relacional e bloqueios | `docs/especificacao/persistencia/tabelas-estado-operacional.md`, `docs/especificacao/persistencia/relacionamentos-estado-operacional.md`, `docs/pendencias.md` |
 
 ---

@@ -17,7 +17,7 @@ Encerrar o Sabiá de forma controlada, avisando todos os clientes Telegram ativo
 - [DEC-010 (ADR-0010) — Política de encerramento de jobs](../decisoes/DEC-010-encerramento-jobs.md)
 - [DEC-009 (ADR-0009) — Persistência do estado operacional](../decisoes/DEC-009-postgresql-estado-operacional.md)
 - [MOD-0004 — Jobs](../arquitetura/ARQ-005-jobs.md)
-- [MOD-0005 — Scheduler e Alert Manager](../especificacao/modulos/scheduler-alertas.md)
+- [MOD-0005 — Scheduler e Alert Manager](../arquitetura/ARQ-009-scheduler-alertas.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
 - [CONTR-007 (CTR-0007) — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
 
@@ -111,4 +111,4 @@ Processo principal, adaptador Telegram, Job Manager, Scheduler, workers e Postgr
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0004](../especificacao/fluxos/encerramento-servico.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.
+[Fonte histórica FLW-0004](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/encerramento-servico.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.

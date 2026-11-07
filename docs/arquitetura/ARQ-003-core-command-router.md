@@ -72,4 +72,4 @@ O roteador não executa shells nem comandos arbitrários: deve aplicar os contra
 
 ## Rastreabilidade
 
-[MOD-0001 — especificação original](../especificacao/modulos/core-command-router.md). O identificador original permanece válido para documentos históricos.
+[MOD-0001 — especificação original](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos/core-command-router.md). O identificador original permanece válido para documentos históricos.

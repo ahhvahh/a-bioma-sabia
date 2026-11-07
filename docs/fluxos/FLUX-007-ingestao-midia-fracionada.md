@@ -14,7 +14,7 @@ Criar uma mídia lógica a partir dos metadados e receber seu conteúdo em chunk
 ## Dependências
 
 - [DEC-013 (ADR-0013) — Dois canais de ingestão de mídia e upload fracionado](../decisoes/DEC-013-ingestao-midia-fracionada.md)
-- [MOD-0008 — Ingestão e armazenamento de mídia](../especificacao/modulos/ingestao-midia.md)
+- [MOD-0008 — Ingestão e armazenamento de mídia](../arquitetura/ARQ-010-ingestao-midia.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
 - [CONTR-007 (CTR-0007) — Transmissão persistente de mídia](../contratos/CONTR-007-transmissao-midia.md)
 - [CONTR-009 (CTR-0009) — Ingestão fracionada de mídia por Unix socket](../contratos/CONTR-009-ingestao-midia-fracionada.md)
@@ -149,6 +149,6 @@ Media Chunk Ingest, PostgreSQL, Media Store e Media Delivery Queue.
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0007](../especificacao/fluxos/ingestao-midia-fracionada.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
+[Fonte histórica FLW-0007](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/ingestao-midia-fracionada.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
 
 **Precisão de versão:** o limite de 50 MB é posterior à origem `FLW-0007`; não implica que os demais itens em `refinement` estejam aprovados.

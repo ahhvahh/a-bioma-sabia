@@ -93,7 +93,7 @@ Os arquivos `ARQ` concentram os desenhos canônicos; os dois `DSG` originais pod
 
 ### Módulos
 
-As oito especificações históricas `MOD` foram incorporadas aos documentos canônicos em `docs/arquitetura/`; os originais permanecem disponíveis para rastreabilidade.
+As oito especificações `MOD` foram incorporadas a `docs/arquitetura/`. Cinco originais foram excluídos da árvore ativa e estão no [histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos); os outros três continuam preservados no diretório legado.
 
 - [ARQ-003 (MOD-0001) — Core e Command Router](arquitetura/ARQ-003-core-command-router.md) — `refined`
 - [ARQ-008 (MOD-0002) — Adaptador Telegram](arquitetura/ARQ-008-adaptador-telegram.md) — `refinement`

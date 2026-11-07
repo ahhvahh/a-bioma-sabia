@@ -191,4 +191,4 @@ A sequência normativa inicia persistindo **Update JSON integral e recuperável*
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0001](../especificacao/fluxos/comando-telegram.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.
+[Fonte histórica FLW-0001](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/comando-telegram.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.

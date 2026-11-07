@@ -143,4 +143,4 @@ Este fluxo não pode atingir `refined` antes dos pontos BLOCKED de CTR-0010 e da
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0009](../especificacao/fluxos/registro-estado-operacional.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
+[Fonte histórica FLW-0009](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/registro-estado-operacional.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.

@@ -160,4 +160,4 @@ JobManager, JobQueue, Worker, PostgreSQL e adaptador Telegram.
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0002](../especificacao/fluxos/job-assincrono.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.
+[Fonte histórica FLW-0002](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/job-assincrono.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.

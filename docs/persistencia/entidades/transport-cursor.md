@@ -18,7 +18,7 @@ Persistir o cursor confirmado de leitura de cada transporte/cliente, permitindo 
 
 ## Dependências
 
-- [FLW-0001 — Comando Telegram](../../especificacao/fluxos/comando-telegram.md)
+- [FLW-0001 — Comando Telegram](../../fluxos/FLUX-001-comando-telegram.md)
 - [MOD-0002 — Adaptador Telegram](../../especificacao/modulos/telegram.md)
 - [CTR-0010 — Origem e conversão dos dados persistentes](../../contratos/CONTR-010-origem-dados-persistencia.md)
 

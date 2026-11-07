@@ -93,4 +93,4 @@ O grupo `sabia:abioma` no texto histórico conflita com a proposta posterior `ab
 
 ## Rastreabilidade
 
-Documento original preservado: [MOD-0008 — Ingestão e armazenamento de mídia](../especificacao/modulos/ingestao-midia.md).
+Documento original preservado: [MOD-0008 — Ingestão e armazenamento de mídia](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos/ingestao-midia.md).

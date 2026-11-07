@@ -13,7 +13,7 @@ Executar verificações periódicas e enviar alertas apenas quando a avaliação
 
 ## Dependências
 
-- [MOD-0005 — Scheduler e Alert Manager](../especificacao/modulos/scheduler-alertas.md)
+- [MOD-0005 — Scheduler e Alert Manager](../arquitetura/ARQ-009-scheduler-alertas.md)
 - [CONTR-002 (CTR-0002) — Execução de script](../contratos/CONTR-002-execucao-script.md)
 - [DEC-007 (ADR-0007) — Scheduler e alertas orientados a estado](../decisoes/DEC-007-alertas-estado.md)
 - [DEC-009 (ADR-0009) — Persistência do estado operacional](../decisoes/DEC-009-postgresql-estado-operacional.md)
@@ -160,4 +160,4 @@ Scheduler, Script Executor, Alert Manager, PostgreSQL e cliente Alerts.
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0003](../especificacao/fluxos/monitoramento-agendado.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.
+[Fonte histórica FLW-0003](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/monitoramento-agendado.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.

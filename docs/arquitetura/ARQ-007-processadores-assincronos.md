@@ -77,4 +77,4 @@ O MVP prevê somente processadores Bash com `request_id` por stdin e eventos JSO
 
 ## Rastreabilidade
 
-[MOD-0007 — especificação original](../especificacao/modulos/processadores-assincronos.md). O identificador original permanece válido para documentos históricos.
+[MOD-0007 — especificação original](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos/processadores-assincronos.md). O identificador original permanece válido para documentos históricos.

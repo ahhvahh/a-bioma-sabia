@@ -41,7 +41,7 @@ Documentos:
 - [CTR-0010 — Origem e conversão dos dados persistentes](contratos/CONTR-010-origem-dados-persistencia.md)
 - [PST-0108 — media](persistencia/entidades/ENT-008-media.md)
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
-- [FLW-0001 — Comando Telegram](especificacao/fluxos/comando-telegram.md)
+- [FLW-0001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md)
 
 Já estão definidos os caminhos brutos de `update_id`, usuário, chat, mensagem, texto e os `file_id` de foto/vídeo/documento.
 
@@ -74,7 +74,7 @@ Documentos:
 
 Documentos:
 
-- [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
+- [FLW-0003 — Monitoramento agendado](fluxos/FLUX-003-monitoramento-agendado.md)
 - [PST-0106 — outbound_message](persistencia/entidades/ENT-006-outbound-message.md)
 - [PST-0001 — Tabelas do estado operacional](persistencia/readme.md)
 
@@ -87,7 +87,7 @@ Falta decidir o modelo de correlação. A documentação não deve criar request
 Documentos:
 
 - [PST-0107 — alert_state](persistencia/entidades/ENT-007-alert-state.md)
-- [FLW-0003 — Monitoramento agendado](especificacao/fluxos/monitoramento-agendado.md)
+- [FLW-0003 — Monitoramento agendado](fluxos/FLUX-003-monitoramento-agendado.md)
 
 Falta decidir:
 
@@ -109,7 +109,7 @@ PostgreSQL e migração no startup já estão definidos conceitualmente. Falta e
 Documentos:
 
 - [PST-0002 — Relacionamentos](persistencia/relacionamentos.md)
-- [FLW-0009 — Registro do estado operacional](especificacao/fluxos/registro-estado-operacional.md)
+- [FLW-0009 — Registro do estado operacional](fluxos/FLUX-009-registro-estado-operacional.md)
 - [PST-0103 — request](persistencia/entidades/ENT-003-request.md)
 - [PST-0105 — job_state_history](persistencia/entidades/ENT-005-job-state-history.md)
 
@@ -121,7 +121,7 @@ Falta definir quando registros concluídos podem ser removidos e quais históric
 
 Documento:
 
-- [FLW-0010 — Consumo do estado operacional](especificacao/fluxos/consumo-estado-operacional.md)
+- [FLW-0010 — Consumo do estado operacional](fluxos/FLUX-010-consumo-estado-operacional.md)
 
 Falta definir o comportamento quando um valor persistido não pertence mais ao domínio esperado após migração ou inconsistência. O consumidor não pode decidir silenciosamente entre ignorar, corrigir, falhar ou colocar o item em estado de erro.
 
@@ -130,7 +130,7 @@ Falta definir o comportamento quando um valor persistido não pertence mais ao d
 Documentos:
 
 - [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md)
-- [MOD-0001 — Core e Command Router](especificacao/modulos/core-command-router.md)
+- [MOD-0001 — Core e Command Router](arquitetura/ARQ-003-core-command-router.md)
 - [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
 
 O Router genérico está `refined`, mas os comandos do MVP ainda não possuem contratos operacionais suficientes.

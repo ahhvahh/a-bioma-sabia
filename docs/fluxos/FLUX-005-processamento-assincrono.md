@@ -14,7 +14,7 @@ Executar um comando em processador assíncrono registrado, encaminhar progresso 
 ## Dependências
 
 - [MOD-0007 — Processadores assíncronos e transporte](../arquitetura/ARQ-007-processadores-assincronos.md)
-- [MOD-0008 — Ingestão e armazenamento de mídia](../especificacao/modulos/ingestao-midia.md)
+- [MOD-0008 — Ingestão e armazenamento de mídia](../arquitetura/ARQ-010-ingestao-midia.md)
 - [MOD-0004 — Jobs](../arquitetura/ARQ-005-jobs.md)
 - [CONTR-005 (CTR-0005) — Protocolo de processador assíncrono](../contratos/CONTR-005-processador-assincrono.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)
@@ -158,4 +158,4 @@ Processor Registry, Processor Transport, Media Ingest, Job Manager, PostgreSQL e
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0005](../especificacao/fluxos/processamento-assincrono.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.
+[Fonte histórica FLW-0005](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/processamento-assincrono.md). Este diagrama descreve o fluxo **proposto/documentado**; não representa execução observada. Contratos, restrições e fluxos alternativos originais foram preservados na revisão.

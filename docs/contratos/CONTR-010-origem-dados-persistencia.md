@@ -19,7 +19,7 @@ Este contrato é o de-para entre **dado de origem** e **campo persistido**. O de
 - [CONTR-001 (CTR-0001) — Comando interno](CONTR-001-comando-interno.md)
 - [CONTR-008 (CTR-0008) — Ingestão MessagePack](CONTR-008-ingestao-midia-messagepack.md)
 - [CONTR-009 (CTR-0009) — Ingestão fracionada](CONTR-009-ingestao-midia-fracionada.md)
-- [FLW-0001 — Comando Telegram](../especificacao/fluxos/comando-telegram.md)
+- [FLW-0001 — Comando Telegram](../fluxos/FLUX-001-comando-telegram.md)
 
 ## Classes de origem
 

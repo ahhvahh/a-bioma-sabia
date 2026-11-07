@@ -19,7 +19,7 @@ Definir a representação persistente de imagens, vídeos e outros arquivos usad
 - [CONTR-007 (CTR-0007) — Transmissão persistente de mídia](CONTR-007-transmissao-midia.md)
 - [CONTR-008 (CTR-0008) — Ingestão de mídia por Unix socket e MessagePack](CONTR-008-ingestao-midia-messagepack.md)
 - [CONTR-009 (CTR-0009) — Ingestão fracionada de mídia por Unix socket](CONTR-009-ingestao-midia-fracionada.md)
-- [FLW-0008 — Limpeza de payloads de mídia transmitida](../especificacao/fluxos/limpeza-midia.md)
+- [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/FLUX-008-limpeza-midia.md)
 
 ## Tipo
 

@@ -87,4 +87,4 @@ A correlação de alertas do Scheduler em `outbound_message` sem `request_id`, o
 
 ## Rastreabilidade
 
-Documento original preservado: [MOD-0005 — Scheduler e Alert Manager](../especificacao/modulos/scheduler-alertas.md).
+Documento original preservado: [MOD-0005 — Scheduler e Alert Manager](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos/scheduler-alertas.md).

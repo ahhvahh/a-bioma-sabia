@@ -79,4 +79,4 @@ Estados, recovery e concorrência são especificados por [CTR-0003](../contratos
 
 ## Rastreabilidade
 
-[MOD-0004 — especificação original](../especificacao/modulos/jobs.md). O identificador original permanece válido para documentos históricos.
+[MOD-0004 — especificação original](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos/jobs.md). O identificador original permanece válido para documentos históricos.

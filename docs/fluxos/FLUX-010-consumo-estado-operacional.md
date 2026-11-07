@@ -163,4 +163,4 @@ O claim concorrente é definido por PST-0003. Jobs, mensagens de saída e transm
 
 ## Rastreabilidade e limites
 
-[Fonte histórica FLW-0010](../especificacao/fluxos/consumo-estado-operacional.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
+[Fonte histórica FLW-0010](https://github.com/ahhvahh/a-bioma-sabia/blob/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/fluxos/consumo-estado-operacional.md). Este diagrama descreve comportamento **proposto/documentado** e não representa execução observada. Conteúdo técnico e exceções da origem foram mantidos na revisão.
