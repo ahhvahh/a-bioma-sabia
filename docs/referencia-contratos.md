@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-OBSOLETO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Referência de contratos
+
+> **Conteúdo lido e migrado para:** [Índice canônico dos contratos](contratos/README.md). Os vínculos para os dez contratos históricos foram preservados nesse índice. Esta página antiga não é mais ponto de entrada normativo.
 
 O índice canônico e os estados documentais estão em [Contratos técnicos](contratos/README.md).
 

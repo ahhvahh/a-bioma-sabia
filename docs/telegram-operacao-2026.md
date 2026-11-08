@@ -1,4 +1,4 @@
-<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-OBSOLETO -->
 <!-- A-BIOMA-DOC-MIGRADO -->
 
 # Sabiá — Contrato operacional Telegram (2026-10-21)

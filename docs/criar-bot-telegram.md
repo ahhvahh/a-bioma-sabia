@@ -1,4 +1,4 @@
-<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-OBSOLETO -->
 <!-- A-BIOMA-DOC-MIGRADO -->
 
 # Criar um bot do Telegram para o Sabiá

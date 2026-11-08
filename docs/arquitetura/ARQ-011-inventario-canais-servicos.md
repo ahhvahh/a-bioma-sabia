@@ -18,6 +18,51 @@
 
 **Não há interface pública própria REST/HTTP, gRPC, WebSocket, MCP ou listener TCP comprovada/especificada neste lote.** A utilização de HTTPS com Telegram é o consumo de serviço externo, não uma API HTTP oferecida pelo Sabiá.
 
+## Topologia e operação administrativa propostas
+
+Os diagramas abaixo foram absorvidos da [especificação histórica de arquitetura](../arquitetura.md). São **representações documentais**, não evidência de serviços, permissões ou protocolos efetivamente implantados.
+
+### Topologia de comunicação
+
+```mermaid
+flowchart TB
+    OP[Operador - absabia] --> CLI[sabiactl - TUI]
+    CLIENT[Aplicação local - absabia] --> API[API UDS do Sabiá]
+    CLI --> API
+    API --> SERVICE[Serviço sabia - usuário próprio]
+    TG[Telegram Bot API] <--> SERVICE
+    SERVICE --> SCRIPTS[Scripts e arquivos internos]
+    SERVICE --> PGUDS[UDS do banco - abioma_db]
+    PGUDS --> PG[(PostgreSQL)]
+```
+
+A API administrativa UDS é separada do socket PostgreSQL: `sabiactl` solicita ações ao serviço `sabia`; somente o serviço se conecta ao banco, sujeito à configuração de UDS, autenticação SQL e autorização. O grupo `absabia` indica acesso pretendido aos sockets do Sabiá, enquanto `abioma_db` refere-se ao canal PostgreSQL. O conflito de permissão do socket de mídia (`abioma`/`absabia`) permanece em aberto.
+
+### Sequência prevista de administração local
+
+```mermaid
+sequenceDiagram
+    actor O as Operador
+    participant C as sabiactl
+    participant S as Serviço sabia via UDS
+    participant DB as PostgreSQL via UDS
+    O->>C: Seleciona operação no menu
+    C->>S: Solicitação pelo socket autorizado
+    S->>S: Valida identidade e autorização
+    S->>DB: Consulta ou transação
+    DB-->>S: Resultado
+    S-->>C: Resposta estruturada
+    C-->>O: Resultado formatado no terminal
+```
+
+**Limites:** o formato de requisição, o protocolo de resposta, a validação de identidade e as permissões por operação não têm contrato executável aprovado. Consulte [CONTR-011](../contratos/CONTR-011-api-administrativa-uds.md) e [segurança](ARQ-006-seguranca-autorizacao.md).
+
+### Scripts, indicadores e interpretação dos estados
+
+- No fluxo previsto, o `sabiactl` entrega scripts e alterações de configuração ao serviço pela API administrativa, sem acesso direto ao armazenamento interno ou ao PostgreSQL; **upload, validação e ativação são etapas distintas** e dependem de autorização.
+- Indicadores de conexões UDS, sessões administrativas, clientes Telegram configurados, contatos Telegram conhecidos/autorizados e processadores cadastrados devem ser apresentados como categorias separadas. Contato Telegram **não equivale** a sessão ativa do daemon.
+- Nomes finais dos indicadores e contratos de consulta permanecem em `refinement`.
+
 ## Capacidades previstas da API administrativa
 
 | Capacidade | Entrada esperada em alto nível | Saída esperada em alto nível | Situação |

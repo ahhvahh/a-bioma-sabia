@@ -2,6 +2,8 @@
 
 Índice canônico das especificações técnicas conforme o A-Bioma Doc Standard. **Implementação:** não verificada nesta branch.
 
+A antiga [referência de contratos](../referencia-contratos.md) é uma página histórica de navegação: este índice concentra os destinos canônicos, os identificadores `CTR` e seus links de recuperação no Git.
+
 O prefixo `CONTR` identifica o destino revisado; `CTR` identifica a origem histórica. Os dez documentos `CTR` excluídos da árvore atual permanecem recuperáveis nos links de commit fixo desta tabela. O estado de revisão documental não equivale a aprovação de contratos em `refinement`.
 
 | Documento canônico | Identificador histórico | Estado na origem | Fonte histórica (Git) |
@@ -31,4 +33,4 @@ A inclusão no índice não significa contrato técnico aprovado nem implementa�
 - Em `CONTR-006`, a emenda informa redução de 50 MB para 50 MB, uma inconsistência textual. Permanece documentado o teto de `50000000` bytes para o canal fracionado.
 - Em `CONTR-010`, o arquivo citado `docs/telegram-discovery.md` não existe nesta branch e não recebeu substituição presumida.
 
-Os fluxos em `docs/especificacao/fluxos/` ainda podem referenciar os IDs históricos `CTR` e serão tratados no lote seguinte.
+Os dez fluxos históricos `FLW` já foram migrados para [fluxos canônicos](../fluxos/README.md). O índice mantém os identificadores `CTR` e links históricos para os contratos removidos, sem assumir que decisões em `refinement` foram encerradas.

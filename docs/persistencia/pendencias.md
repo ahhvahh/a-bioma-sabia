@@ -1,4 +1,4 @@
-<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-OBSOLETO -->
 <!-- A-BIOMA-DOC-MIGRADO -->
 
 # Pendências do modelo físico de persistência

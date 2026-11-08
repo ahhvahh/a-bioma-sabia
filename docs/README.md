@@ -11,13 +11,17 @@ Os [guias organizados](guias/README.md) descrevem procedimentos planejados, não
 | Instalação e implantação | [Instalação](guias/GUIA-001-preparar-instalacao.md) |
 | Criar bot Telegram | [Criar bot no Telegram](guias/GUIA-002-criar-bot-telegram.md) |
 | Interações do operador e do usuário | [Guia do usuário](guia-usuario.md) |
-| Arquitetura | [Arquitetura](arquitetura.md) |
+| Arquitetura | [Canais e serviços (ARQ-011)](arquitetura/ARQ-011-inventario-canais-servicos.md) · [componentes (ARQ-002)](arquitetura/ARQ-002-componentes-core.md) |
 | Banco de dados — visão geral | [Persistência](persistencia/readme.md) |
 | Interfaces, sockets e serviços | [Interfaces e serviços](arquitetura/ARQ-011-inventario-canais-servicos.md) |
-| Contratos técnicos | [Referência de contratos](referencia-contratos.md) |
+| Contratos técnicos | [Índice canônico de contratos](contratos/README.md) |
 | Segurança e grupos Linux | [Segurança e acessos](arquitetura/ARQ-006-seguranca-autorizacao.md) |
-| Regras consolidadas | [Rastreabilidade das regras](referencia/REF-005-rastreabilidade-regras.md) · [original legado](regras-consolidadas-sabia.md) |
+| Regras consolidadas | [Rastreabilidade das regras](referencia/REF-005-rastreabilidade-regras.md) |
 | Questões e bloqueios | [Pendências](referencia/REF-006-gate-mvp.md) |
+
+## Inventário de origens documentais
+
+O [REF-007 — Inventário de origens documentais consolidadas](referencia/REF-007-inventario-origens-documentais.md) registra 14 arquivos antigos, seus destinos canônicos e o estado `OBSOLETO` + `MIGRADO`. Os originais continuam preservados nesta branch; a organização documental não encerra as pendências técnicas.
 
 ## Absorção das regras consolidadas
 

@@ -74,7 +74,7 @@ O operador selecionará um arquivo no `sabiactl`, que enviará o conteúdo pela 
 | APIs UDS e contratos | [Interfaces e serviços](docs/arquitetura/ARQ-011-inventario-canais-servicos.md) |
 | Contratos técnicos existentes | [Referência de contratos](docs/contratos/README.md) |
 | Contas Linux, grupos e segurança | [Segurança e acessos](docs/arquitetura/ARQ-006-seguranca-autorizacao.md) |
-| Fluxos e componentes | [Arquitetura](docs/arquitetura.md) |
+| Fluxos e componentes | [Arquitetura e canais](docs/arquitetura/ARQ-011-inventario-canais-servicos.md) |
 | Acervo completo | [Documentação técnica](docs/README.md) |
 | Bloqueios atuais | [Pendências](docs/referencia/REF-006-gate-mvp.md) |
 

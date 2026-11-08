@@ -1,4 +1,4 @@
-<!-- A-BIOMA-DOC-LEGADO -->
+<!-- A-BIOMA-DOC-OBSOLETO -->
 <!-- A-BIOMA-DOC-MIGRADO -->
 
 # Segurança e acessos — isolamento do Sabiá

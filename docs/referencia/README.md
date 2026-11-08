@@ -11,6 +11,10 @@
 | [REF-005 — Rastreabilidade das regras](REF-005-rastreabilidade-regras.md) | Consolidação histórica | Cobertura de 14 seções verificada; contratos novos seguem em `refinement` | [Original preservado](../regras-consolidadas-sabia.md) |
 | [REF-006 — Gate do MVP](REF-006-gate-mvp.md) | Pendências documentais | `BLOCKED` histórico; não resolvido pela revisão | [Original](../pendencias.md) |
 
+## Histórico de migração
+
+- [REF-007 — Inventário de origens documentais consolidadas](REF-007-inventario-origens-documentais.md) — mapeamento das 14 fontes preservadas e classificadas `OBSOLETO` + `MIGRADO`, incluindo arquitetura e contratos antes dispersos em arquivos de raiz.
+
 ## Pendências documentais
 
 - O schema YAML de conexão PostgreSQL, os caminhos dos sockets de mídia, a configuração de `schedules`, `logging` e comandos habilitados ainda requerem validação.

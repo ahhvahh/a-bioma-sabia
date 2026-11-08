@@ -1,4 +1,9 @@
+<!-- A-BIOMA-DOC-OBSOLETO -->
+<!-- A-BIOMA-DOC-MIGRADO -->
+
 # Arquitetura — serviço Sabiá e administração local
+
+> **Conteúdo lido e migrado para:** [ARQ-011 — Inventário de canais e serviços](arquitetura/ARQ-011-inventario-canais-servicos.md). Diagramas da topologia e da operação administrativa foram incorporados ao documento canônico. Este original permanece apenas para rastreabilidade histórica.
 
 > **Nova diretriz planejada**, sem implementação em `/src`. Complementa os desenhos e especificações já existentes, que continuam preservados.
 
