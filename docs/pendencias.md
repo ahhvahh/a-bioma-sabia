@@ -40,7 +40,7 @@ Documentos:
 
 - [CTR-0010 — Origem e conversão dos dados persistentes](contratos/CONTR-010-origem-dados-persistencia.md)
 - [PST-0108 — media](persistencia/entidades/ENT-008-media.md)
-- [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](arquitetura/ARQ-008-adaptador-telegram.md)
 - [FLW-0001 — Comando Telegram](fluxos/FLUX-001-comando-telegram.md)
 
 Já estão definidos os caminhos brutos de `update_id`, usuário, chat, mensagem, texto e os `file_id` de foto/vídeo/documento.
@@ -131,7 +131,7 @@ Documentos:
 
 - [REQ-0001 — Escopo do primeiro MVP](especificacao/requisitos/mvp.md)
 - [MOD-0001 — Core e Command Router](arquitetura/ARQ-003-core-command-router.md)
-- [MOD-0002 — Adaptador Telegram](especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](arquitetura/ARQ-008-adaptador-telegram.md)
 
 O Router genérico está `refined`, mas os comandos do MVP ainda não possuem contratos operacionais suficientes.
 

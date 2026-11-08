@@ -14,7 +14,7 @@ Definir a fronteira entre adaptadores de entrada e o Command Router sem transpor
 ## Dependências
 
 - [ARQ-003 (MOD-0001) — Core e Command Router](../arquitetura/ARQ-003-core-command-router.md)
-- [MOD-0002 — Adaptador Telegram](../especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](../arquitetura/ARQ-008-adaptador-telegram.md)
 - [DEC-003 (ADR-0003) — Core independente do Telegram](../decisoes/DEC-003-core-independente-telegram.md)
 - [CONTR-005 (CTR-0005) — Protocolo de processador assíncrono](CONTR-005-processador-assincrono.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](CONTR-006-midia-persistida.md)

@@ -180,4 +180,4 @@ A origem combina um critério genérico `image/*`/`video/*` com a emenda posteri
 
 ## Rastreabilidade
 
-Documento original preservado: [MOD-0002 — Adaptador Telegram](../especificacao/modulos/telegram.md).
+Documento original preservado no histórico Git: [MOD-0002 — Adaptador Telegram](https://github.com/ahhvahh/a-bioma-sabia/blob/33cf31396a9817c023543a0c5fcb3673e0a931c9/docs/especificacao/modulos/telegram.md).

@@ -42,7 +42,7 @@ O projeto adota PostgreSQL relacional, com banco proposto `abioma_sabia` e schem
 - [Visão geral, banco e schema](persistencia/readme.md)
 - [Configuração de banco, UDS, roles e permissões](persistencia/configuracao-banco.md)
 - [Relacionamentos e diagrama ER](persistencia/PERS-001-relacionamentos.md)
-- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas. Quinze fichas históricas `PST` foram removidas da árvore ativa, com [originais no histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/d2fdacd8f48253e465d79127d298a1274d6f1269/docs/persistencia/entidades); `transport-cursor.md` permanece preservado.
+- [Entidades e campos PostgreSQL](persistencia/entidades/README.md) — 16 fichas canônicas `ENT-001` a `ENT-016`; dez operacionais, uma condicional e cinco administrativas propostas. As 16 fichas históricas `PST` foram removidas da árvore ativa, com [originais no histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/33cf31396a9817c023543a0c5fcb3673e0a931c9/docs/persistencia/entidades).
 - [Concorrência das filas](persistencia/concorrencia.md)
 - [PERS-002 — Pendências do modelo físico](persistencia/PERS-002-pendencias-modelo-fisico.md)
 
@@ -93,7 +93,7 @@ Os arquivos `ARQ` concentram os desenhos canônicos; os dois `DSG` originais pod
 
 ### Módulos
 
-As oito especificações `MOD` foram incorporadas a `docs/arquitetura/`. Cinco originais foram excluídos da árvore ativa e estão no [histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/eda1c4c1546c142cfc6967db26e24f1cd0847972/docs/especificacao/modulos); os outros três continuam preservados no diretório legado.
+As oito especificações `MOD` foram incorporadas a `docs/arquitetura/`. Os oito originais foram excluídos da árvore ativa e permanecem no [histórico Git](https://github.com/ahhvahh/a-bioma-sabia/tree/33cf31396a9817c023543a0c5fcb3673e0a931c9/docs/especificacao/modulos).
 
 - [ARQ-003 (MOD-0001) — Core e Command Router](arquitetura/ARQ-003-core-command-router.md) — `refined`
 - [ARQ-008 (MOD-0002) — Adaptador Telegram](arquitetura/ARQ-008-adaptador-telegram.md) — `refinement`

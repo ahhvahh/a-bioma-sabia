@@ -17,7 +17,7 @@ Executar uma operação demorada sem bloquear novos comandos e entregar o result
 - [CONTR-003 (CTR-0003) — Job](../contratos/CONTR-003-job.md)
 - [DEC-009 (ADR-0009) — Persistência do estado operacional](../decisoes/DEC-009-postgresql-estado-operacional.md)
 - [DEC-010 (ADR-0010) — Política de encerramento de jobs](../decisoes/DEC-010-encerramento-jobs.md)
-- [MOD-0002 — Adaptador Telegram](../especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](../arquitetura/ARQ-008-adaptador-telegram.md)
 - [MOD-0007 — Processadores assíncronos e transporte](../arquitetura/ARQ-007-processadores-assincronos.md)
 - [CONTR-005 (CTR-0005) — Protocolo de processador assíncrono](../contratos/CONTR-005-processador-assincrono.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](../contratos/CONTR-006-midia-persistida.md)

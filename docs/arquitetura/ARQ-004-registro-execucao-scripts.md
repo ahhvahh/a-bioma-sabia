@@ -75,4 +75,4 @@ A origem estabelece Script Registry configurado previamente. Existe proposta pos
 
 ## Rastreabilidade
 
-[MOD-0003 — especificação original](../especificacao/modulos/scripts.md). O identificador original permanece válido para documentos históricos.
+[MOD-0003 — especificação original](https://github.com/ahhvahh/a-bioma-sabia/blob/33cf31396a9817c023543a0c5fcb3673e0a931c9/docs/especificacao/modulos/scripts.md). O identificador original permanece válido para documentos históricos.

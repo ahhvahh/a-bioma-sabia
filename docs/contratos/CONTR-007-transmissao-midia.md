@@ -17,7 +17,7 @@ Definir a fila persistente de mídia destinada ao cliente, permitindo retomar tr
 - [DEC-012 (ADR-0012) — Ingestão persistente de mídia por Unix socket](../decisoes/DEC-012-ingestao-midia-socket-messagepack.md)
 - [CONTR-006 (CTR-0006) — Mídia persistida](CONTR-006-midia-persistida.md)
 - [CONTR-009 (CTR-0009) — Ingestão fracionada de mídia por Unix socket](CONTR-009-ingestao-midia-fracionada.md)
-- [MOD-0002 — Adaptador Telegram](../especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](../arquitetura/ARQ-008-adaptador-telegram.md)
 - [FLW-0008 — Limpeza de payloads de mídia transmitida](../fluxos/FLUX-008-limpeza-midia.md)
 
 ## Tipo

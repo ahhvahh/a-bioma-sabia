@@ -51,7 +51,7 @@ O documento original se apresenta como síntese de `docsLegado.md` com 279 docum
 | Contatos e solicitações | `docs/01-Project_Charter/scope/flows/FLW-006-start-registro-de-contato-e-apresentacao-do-menu.md`, `docs/solicitacoes-acesso.md` |
 | Administração e validação de scripts | `docs/guia-usuario.md`, `docs/contratos/CONTR-002-execucao-script.md`, `docs/especificacao/configuracao/modelo-configuracao.md` |
 | Comandos e ações | `docs/contratos/CONTR-001-comando-interno.md`, `docs/01-Project_Charter/scope/flows/FLW-007-cadastro-administrativo-e-execucao-de-acao-persistente.md` |
-| Telegram e filas | `docs/especificacao/modulos/telegram.md`, `docs/telegram-operacao-2026.md`, `docs/especificacao/persistencia/claim-concorrente-filas.md` |
+| Telegram e filas | `docs/arquitetura/ARQ-008-adaptador-telegram.md`, `docs/telegram-operacao-2026.md`, `docs/especificacao/persistencia/claim-concorrente-filas.md` |
 | Jobs e shutdown | `docs/contratos/CONTR-003-job.md`, `docs/contratos/CONTR-005-processador-assincrono.md`, `docs/decisoes/DEC-010-encerramento-jobs.md` |
 | Mídia | `docs/contratos/CONTR-008-ingestao-midia-messagepack.md`, `docs/contratos/CONTR-009-ingestao-midia-fracionada.md`, `docs/contratos/CONTR-007-transmissao-midia.md` |
 | Scheduler e assinatura de eventos | `docs/fluxos/FLUX-003-monitoramento-agendado.md`, `docs/charter/objectives/OBJ-009-assinatura-e-entrega-de-eventos-telegram.md` |

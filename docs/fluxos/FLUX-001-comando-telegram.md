@@ -13,7 +13,7 @@ Processar um comando recebido por um cliente Telegram até sua resposta, preserv
 
 ## Dependências
 
-- [MOD-0002 — Adaptador Telegram](../especificacao/modulos/telegram.md)
+- [MOD-0002 — Adaptador Telegram](../arquitetura/ARQ-008-adaptador-telegram.md)
 - [MOD-0006 — Segurança e autorização](../arquitetura/ARQ-006-seguranca-autorizacao.md)
 - [MOD-0001 — Core e Command Router](../arquitetura/ARQ-003-core-command-router.md)
 - [CONTR-001 (CTR-0001) — Comando interno](../contratos/CONTR-001-comando-interno.md)

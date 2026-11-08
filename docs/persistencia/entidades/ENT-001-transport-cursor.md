@@ -70,4 +70,4 @@ Todas as decisões físicas pendentes permanecem registradas em [pendências Pos
 
 ## Rastreabilidade
 
-Fonte imediatamente anterior: [PST-0101 — `sabia.transport_cursor`](transport-cursor.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no arquivo legado.
+Fonte imediatamente anterior: [PST-0101 — `sabia.transport_cursor`](https://github.com/ahhvahh/a-bioma-sabia/blob/33cf31396a9817c023543a0c5fcb3673e0a931c9/docs/persistencia/entidades/transport-cursor.md). A fonte histórica em `develop`, seus exemplos e os campos originais permanecem rastreáveis no histórico Git.
